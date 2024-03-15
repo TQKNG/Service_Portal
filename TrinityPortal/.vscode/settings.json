@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/2827cc8c-2570-49a1-86fa-f08ba9a8d69b/resourceGroups/rgLearnDifferent/providers/Microsoft.Web/sites/radev",
+    "appService.deploySubpath": "."
+}
