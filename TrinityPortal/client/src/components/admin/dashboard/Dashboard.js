@@ -45,7 +45,8 @@ const Dashboard = ({
 }) => {
   const hist = useHistory();
   const [benchMark, setBenchMark] = useState(-1);
-  const [year, setYear] = useState(new Date().getFullYear());
+  // const [year, setYear] = useState(new Date().getFullYear());
+  const [year, setYear] = useState(-1);
   const [grade, setGrade] = useState(-1);
   const [classroom, setClassroom] = useState(-1);
   const [checked, setChecked] = useState(false);
@@ -248,7 +249,7 @@ const Dashboard = ({
 
             <div className="d-flex w-100 align-items-center justify-content-end ">
               {/* Toogle */}
-              <div
+              {/* <div
                 className="d-flex p-0 mx-2 align-items-center"
                 style={{ minWidth: "200px" }}
               >
@@ -257,7 +258,7 @@ const Dashboard = ({
                   setChecked={setChecked}
                   labels={["Percentile", "Benchmark"]}
                 />
-              </div>
+              </div> */}
               {/* Year Filter */}
               <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
                 <select
@@ -276,24 +277,8 @@ const Dashboard = ({
                 </select>
               </div>
 
-              {/* Benchmark Filter */}
-              <div className="p-0" style={{ maxWidth: "200px" }}>
-                <select
-                  className="form-select form-control bg-primary text-white m-0"
-                  aria-label="Default select example"
-                  value={benchMark}
-                  id="benchMark"
-                  onChange={(e) => setBenchMark(parseInt(e.target.value))}
-                >
-                  <option value={-1}>All Benchmarks</option>
-                  <option value={1}>Benchmark 1 - Fall</option>
-                  <option value={2}>Benchmark 2 - Winter</option>
-                  <option value={3}>Benchmark 3 - Spring</option>
-                </select>
-              </div>
-
               {/* School Filter */}
-              <div className="p-0" style={{ maxWidth: "200px" }}>
+              {/* <div className="p-0" style={{ maxWidth: "200px" }}>
                 <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
                   <select
                     className="form-select form-control bg-primary text-white m-0 text-truncate"
@@ -327,7 +312,7 @@ const Dashboard = ({
                       ))}
                   </select>
                 </div>
-              </div>
+              </div> */}
 
               {/* Grade Filter */}
               <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
@@ -338,25 +323,42 @@ const Dashboard = ({
                   id="grade"
                   onChange={(e) => setGrade(parseInt(e.target.value))}
                 >
-                  <option value={-1}>All Grades</option>
+                  <option value={-1}>All Location</option>
                   {school ? (
                     uniqueGrades
                   ) : (
                     <>
-                      <option value={1}>Grade 1</option>
-                      <option value={2}>Grade 2</option>
-                      <option value={3}>Grade 3</option>
-                      <option value={4}>Grade 4</option>
-                      <option value={5}>Grade 5</option>
-                      <option value={6}>Grade 6</option>
+                      <option value={1}>Room 401</option>
+                      <option value={2}>Room 402</option>
+                      <option value={3}>Room 403</option>
+                      <option value={4}>Room 404</option>
+                      <option value={5}>Room 505</option>
+                      <option value={6}>Room 506</option>
                     </>
                   )}
                   {/* {uniqueGrades} */}
                 </select>
               </div>
 
+              {/* Benchmark Filter */}
+              <div className="p-0" style={{ maxWidth: "200px" }}>
+                <select
+                  className="form-select form-control bg-primary text-white m-0"
+                  aria-label="Default select example"
+                  value={benchMark}
+                  id="benchMark"
+                  onChange={(e) => setBenchMark(parseInt(e.target.value))}
+                >
+                  <option value={-1}>Media Type</option>
+                  <option value={1}>Songs</option>
+                  <option value={2}>Books</option>
+                  <option value={3}>Trivias</option>
+                  <option value={4}>Jokes</option>
+                </select>
+              </div>
+
               {/* Classroom Filter */}
-              <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
+              {/* <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
                 <select
                   className="form-select form-control bg-primary text-white m-0"
                   aria-label="Default select example"
@@ -367,10 +369,27 @@ const Dashboard = ({
                   <option value={-1}>All Sections</option>
                   {uniqueClassroom}
                 </select>
+              </div> */}
+
+              {/* Benchmark Filter */}
+              <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
+                <select
+                  className="form-select form-control bg-primary text-white m-0"
+                  aria-label="Default select example"
+                  value={benchMark}
+                  id="benchMark"
+                  onChange={(e) => setBenchMark(parseInt(e.target.value))}
+                >
+                  <option value={-1}>Robot Name</option>
+                  <option value={1}>Amy Plus 1</option>
+                  <option value={2}>Alice 2</option>
+                  <option value={3}>Aden 4</option>
+                  <option value={4}>Joshua 1</option>
+                </select>
               </div>
 
               {/* Filtered Report Button */}
-              <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
+              {/* <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
                 <a
                   href={process.env.PUBLIC_URL + "/templates/report.xlsx"}
                   download
@@ -389,7 +408,7 @@ const Dashboard = ({
                   </svg>
                   Filtered Report
                 </a>
-              </div>
+              </div> */}
 
               {/* Export Button */}
               <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
@@ -397,7 +416,7 @@ const Dashboard = ({
               </div>
 
               {/* Compare Button */}
-              <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
+              {/* <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
                 <div
                   className="btn button-parent button-primary txt-primary d-flex align-items-center px-3 text-center"
                   onClick={() => {
@@ -407,7 +426,7 @@ const Dashboard = ({
                 >
                   Compare
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
           {reports !== undefined && (

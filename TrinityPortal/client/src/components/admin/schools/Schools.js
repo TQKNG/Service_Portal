@@ -22,13 +22,11 @@ const Schools = ({
   useEffect(() => {
     if (schoolsList.length === 0 && schoolListLoading) {
       if (authUser.UserTypeID === 6) {
-        loadSchoolsList({schoolIds:authUser.schoolIds});
-      }
-      else if(authUser.UserTypeID === 5){
+        loadSchoolsList({ schoolIds: authUser.schoolIds });
+      } else if (authUser.UserTypeID === 5) {
         loadSchoolsList();
-      }
-      else{
-        loadSchoolsList({SchoolID:authUser.SchoolID});
+      } else {
+        loadSchoolsList({ SchoolID: authUser.SchoolID });
       }
     }
   }, [schoolsList, schoolListLoading, loadSchoolsList]);
@@ -39,35 +37,35 @@ const Schools = ({
       <div className="p-sm-5 p-2 w-100 dashboard-margin">
         <div className="mb-3 ">
           <div className="d-flex align-items-center">
-            <h6 className="txt-primary-light mb-0">Admin / Schools</h6>{" "}
+            <h6 className="txt-primary-light mb-0">Admin / Configurations</h6>{" "}
             <div className="rounded-pill bg-primary px-2 py-1 align-self-center mx-2 my-2 caption ">
               {schoolsList.length}
             </div>
           </div>
+          {/* Template */}
           <div className="d-flex w-100 align-items-center justify-content-end">
             {authUser.UserTypeID === 5 && (
-              <div className="d-flex">
-                {/* Template */}
-                <a
-                  href={process.env.PUBLIC_URL + "/templates/schools.xlsx"}
-                  download
-                  className="btn button-parent button-primary d-flex align-items-center px-3 mx-3"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="bi bi-download button-child"
-                    viewBox="0 0 16 16"
+              <>
+                <div className="d-flex">
+                  {/* <a
+                    href={process.env.PUBLIC_URL + "/templates/schools.xlsx"}
+                    download
+                    className="btn button-parent button-primary d-flex align-items-center px-3 mx-3"
                   >
-                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
-                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
-                  </svg>
-                  Template
-                </a>
-                {/* Import Excel */}
-                <div
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-download button-child"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                      <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                    </svg>
+                    Template
+                  </a> */}
+                  {/* <div
                   className="btn button-parent button-primary d-flex align-items-center px-3 mx-3"
                   data-bs-toggle="modal"
                   data-bs-target="#ImportUser"
@@ -91,43 +89,50 @@ const Schools = ({
                     </g>
                   </svg>
                   Import Excel
-                </div>
-                {/* Add school */}
-                <div
-                  className="btn button-parent button-primary d-flex align-items-center px-3"
-                  onClick={() => {
-                    hist.push("/admin/school/add");
-                    clearSchool();
-                  }}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    enableBackground="new 0 0 24 24"
-                    height="18px"
-                    viewBox="0 0 24 24"
-                    width="24px"
-                    fill="#ffffff"
-                    className="button-child"
+                </div> */}
+                  <div
+                    className="btn button-parent button-primary d-flex align-items-center px-3"
+                    onClick={() => {
+                      hist.push("/admin/school/add");
+                      clearSchool();
+                    }}
                   >
-                    <g>
-                      <rect fill="none" height="18" width="18" />
-                    </g>
-                    <g>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      enableBackground="new 0 0 24 24"
+                      height="18px"
+                      viewBox="0 0 24 24"
+                      width="24px"
+                      fill="#ffffff"
+                      className="button-child"
+                    >
                       <g>
-                        <path d="M19,13h-6v6h-2v-6H5v-2h6V5h2v6h6V13z" />
+                        <rect fill="none" height="18" width="18" />
                       </g>
-                    </g>
-                  </svg>
-                  Add School
+                      <g>
+                        <g>
+                          <path d="M19,13h-6v6h-2v-6H5v-2h6V5h2v6h6V13z" />
+                        </g>
+                      </g>
+                    </svg>
+                    Add Configurations
+                  </div>
                 </div>
-              </div>
+              </>
             )}
           </div>
         </div>
         <SchoolList
-          schoolsList={authUser.UserTypeID === 6 
-            ? schoolsList.filter(school => authUser.schoolIds.split(',').map(id => parseInt(id.trim())).includes(school.SchoolID))
-            : schoolsList}
+          schoolsList={
+            authUser.UserTypeID === 6
+              ? schoolsList.filter((school) =>
+                  authUser.schoolIds
+                    .split(",")
+                    .map((id) => parseInt(id.trim()))
+                    .includes(school.SchoolID)
+                )
+              : schoolsList
+          }
           schoolListLoading={schoolListLoading}
         />
       </div>

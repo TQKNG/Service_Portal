@@ -101,7 +101,7 @@ const SchoolsList = ({ schoolsList, schoolListLoading }) => {
         </div>
       </div>
       <div className="admin-users-fields  d-flex align-items-center justify-content-around  rounded  bg-body txt-primary">
-        <div className="admin-schools-field text-truncate ">SchoolID</div>
+        <div className="admin-schools-field text-truncate ">Configuration ID</div>
         <div
           className="admin-schools-field  text-truncate mx-1 "
           onMouseEnter={() => setIsShowIcon("name")}
@@ -137,7 +137,7 @@ const SchoolsList = ({ schoolsList, schoolListLoading }) => {
             }
           }}
         >
-          Name
+          User Name
           <SortIcon icon={name} isShowIcon={isShowIcon === "name"} />
         </div>
         <div className="admin-schools-field text-truncate ml-1">Actions</div>

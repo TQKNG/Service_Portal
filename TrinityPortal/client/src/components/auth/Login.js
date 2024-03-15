@@ -28,7 +28,7 @@ const Login = ({ login }) => {
       <div className="card-body  w-75 mx-auto d-flex align-items-center">
         <div className="">
           <img
-            src={process.env.PUBLIC_URL + `/images/trinityLogo.png`}
+            src={process.env.PUBLIC_URL + `/images/logo.png`}
             alt=""
             className="w-100 mb-5 auth-img"
           />

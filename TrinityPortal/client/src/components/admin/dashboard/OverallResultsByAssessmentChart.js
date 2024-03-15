@@ -108,8 +108,8 @@ const OverallResultsByAssessmentType = ({ chartData, calculationType }) => {
   return (
     <div className="card shadow-lg border-0  py-5 px-4 mb-2 flex-fill">
       <h6>
-        Overall Results By Assessment Types -{" "}
-        {!calculationType ? "Percentile" : "Benchmark Status"}
+        Top 5 Favorite Time Spending
+        {/* {!calculationType ? "Percentile" : "Benchmark Status"} */}
       </h6>
       <div className="d-flex flex-column">
         <div className="">
@@ -120,7 +120,7 @@ const OverallResultsByAssessmentType = ({ chartData, calculationType }) => {
             <b className="">Result</b>
           </div>
           <ResponsiveContainer minHeight={300}>
-            <BarChart
+            {/* <BarChart
               layout="vertical"
               data={chartData}
               margin={{
@@ -160,13 +160,14 @@ const OverallResultsByAssessmentType = ({ chartData, calculationType }) => {
                 verticalAlign="top"
                 wrapperStyle={{ lineHeight: "30px" }}
               />
-            </BarChart>
+            </BarChart> */}
+            <img src={process.env.PUBLIC_URL + `/chartPlaceholder.png`} alt="" />
           </ResponsiveContainer>
           <div
             className="w-100 d-flex justify-content-end"
             style={{ fontSize: "0.7rem" }}
           >
-            <b className="">Number of Students</b>
+            <b className="">hh:mm:ss</b>
           </div>
         </div>
       </div>

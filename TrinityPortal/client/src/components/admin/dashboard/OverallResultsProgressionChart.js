@@ -566,7 +566,7 @@ const OverallResultsProgression = ({ chartData, calculationType }) => {
   const customLabellist = (props) => {
     const { x, y, width, height, value, fill } = props;
     // Width of the bar
-    const MIN_HEIGHT= 20;
+    const MIN_HEIGHT = 20;
     if (height < MIN_HEIGHT) return null;
 
     return (
@@ -616,7 +616,7 @@ const OverallResultsProgression = ({ chartData, calculationType }) => {
             };
             return (
               <p key={p.name} style={{ color: bar ? "black" : "#000" }}>
-                 <span style={circleStyle}></span> {/* Circle for indication */}
+                <span style={circleStyle}></span> {/* Circle for indication */}
                 {`${p.name}: ${p.value} students (${(
                   (p.value / total) *
                   100
@@ -671,8 +671,8 @@ const OverallResultsProgression = ({ chartData, calculationType }) => {
   return (
     <div className="card shadow-lg border-0  py-5 px-4 mb-2 flex-fill">
       <h6>
-        Progression of Overall Results By Assessment Type-{" "}
-        {!calculationType ? "Percentile" : "Benchmark Status"}
+        Progression on Activity Over Time Period
+        {/* {!calculationType ? "Percentile" : "Benchmark Status"} */}
       </h6>
       <div className="d-flex flex-column">
         <div className="">
@@ -683,7 +683,7 @@ const OverallResultsProgression = ({ chartData, calculationType }) => {
             <b className="">Result</b>
           </div>
           <ResponsiveContainer minHeight={400}>
-            <BarChart
+            {/* <BarChart
               layout="horizontal"
               data={formatData(chartData)}
               margin={{
@@ -736,13 +736,17 @@ const OverallResultsProgression = ({ chartData, calculationType }) => {
                 verticalAlign="top"
                 wrapperStyle={{ lineHeight: "30px" }}
               />
-            </BarChart>
+            </BarChart> */}
+            <img
+              src={process.env.PUBLIC_URL + `/chartPlaceholder.png`}
+              alt=""
+            />
           </ResponsiveContainer>
           <div
             className="w-100 d-flex justify-content-end"
             style={{ fontSize: "0.7rem" }}
           >
-            <b className="">Number of Students</b>
+            <b className="">hh:mm:ss</b>
           </div>
         </div>
       </div>
