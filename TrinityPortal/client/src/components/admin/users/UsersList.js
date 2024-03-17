@@ -262,7 +262,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
           onMouseEnter={() => setIsShowIcon('id')}
           onMouseLeave={() => setIsShowIcon(null)}
         >
-          AlternativeID
+          User Type
           <SortIcon icon={id} isShowIcon={isShowIcon==='id'}/>
         </div>
 
@@ -346,7 +346,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
           onMouseEnter={() => setIsShowIcon('school')}
           onMouseLeave={() => setIsShowIcon(null)}
         >
-          School
+          Device ID and Hardware ID
           <SortIcon icon={school} isShowIcon={isShowIcon==='school'}/>
         </div>
 
@@ -390,7 +390,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
         </div>
         <div className="admin-users-field text-truncate ml-1">Actions</div>
       </div>
-      <div className="users-list-body ">
+      {/* <div className="users-list-body ">
         {usersListLoading ? (
           <div className="d-flex justify-content-center align-items-center h-100">
             <div className="spinner-border txt-primary" role="status">
@@ -402,7 +402,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
             .slice(15 * (page - 1), 15 * page)
             .map((user, id) => <UserListItem user={user} key={id} />)
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

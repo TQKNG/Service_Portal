@@ -239,7 +239,7 @@ const ResultsList = ({ user, resultsList, resultListLoading }) => {
           onMouseEnter={() => setIsShowIcon('student')}
           onMouseLeave={() => setIsShowIcon(null)}
         >
-          Student
+          Question
           <SortIcon icon={Student} isShowIcon={isShowIcon ==='student'}/>
         </div>
 
@@ -274,7 +274,7 @@ const ResultsList = ({ user, resultsList, resultListLoading }) => {
           onMouseEnter={() => setIsShowIcon('assessment')}
           onMouseLeave={() => setIsShowIcon(null)}
         >
-          Assessment
+          Category
           <SortIcon icon={Assessment} isShowIcon={isShowIcon ==='assessment'}/>
         </div>
         <div
@@ -305,7 +305,7 @@ const ResultsList = ({ user, resultsList, resultListLoading }) => {
           onMouseEnter={() => setIsShowIcon('benchmark')}
           onMouseLeave={() => setIsShowIcon(null)}
         >
-          Benchmark
+          Answers
           <SortIcon icon={BenchMark} isShowIcon={isShowIcon === 'benchmark'} />
         </div>
         <div
@@ -339,11 +339,11 @@ const ResultsList = ({ user, resultsList, resultListLoading }) => {
           onMouseEnter={() => setIsShowIcon('score')}
           onMouseLeave={() => setIsShowIcon(null)}
         >
-          Grade
+          Correct Answer
           <SortIcon icon={Score} isShowIcon={isShowIcon ==='score'} />
         </div>
 
-        <div
+        {/* <div
           className='admin-users-field text-truncate ml-1'
           onClick={() => {
             if (AccessCode === 0) {
@@ -376,11 +376,11 @@ const ResultsList = ({ user, resultsList, resultListLoading }) => {
         >
           Access Code
           <SortIcon icon={AccessCode} isShowIcon={isShowIcon ==='accesscode'} />
-        </div>
+        </div> */}
 
         <div className='admin-users-field text-truncate ml-1'>Actions</div>
       </div>
-      <div className='users-list-body '>
+      {/* <div className='users-list-body '>
         {resultListLoading ? (
           <div className='d-flex justify-content-center align-items-center h-100'>
             <div class='spinner-border txt-primary' role='status'>
@@ -394,7 +394,7 @@ const ResultsList = ({ user, resultsList, resultListLoading }) => {
               <ResultListItem result={result} key={id} user={user} />
             ))
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -252,10 +252,10 @@ const AssessmentList = ({ assessmentsList, assessmentListLoading, user }) => {
           onMouseEnter={() => setIsShowIcon('type')}
           onMouseLeave={() => setIsShowIcon(null)}
         >
-          Type
+          Genre
           <SortIcon icon={type} isShowIcon={isShowIcon==='type'}  />
         </div>
-        <div
+        {/* <div
           className='admin-assessments-field  text-truncate mx-1 '
           onClick={() => {
             listSearch.forEach((item, id) => {
@@ -298,13 +298,13 @@ const AssessmentList = ({ assessmentsList, assessmentListLoading, user }) => {
         >
           Grade
           <SortIcon icon={grade}  isShowIcon={isShowIcon === 'grade'}/>
-        </div>
+        </div> */}
 
         <div className='admin-assessments-field text-truncate ml-1'>
           Actions
         </div>
       </div>
-      <div className='users-list-body '>
+      {/* <div className='users-list-body '>
         {assessmentListLoading ? (
           <div className='d-flex justify-content-center align-items-center h-100'>
             <div class='spinner-border txt-primary' role='status'>
@@ -322,7 +322,7 @@ const AssessmentList = ({ assessmentsList, assessmentListLoading, user }) => {
               />
             ))
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

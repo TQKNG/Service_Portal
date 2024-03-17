@@ -260,7 +260,7 @@ const Sidebar = ({
         </div>
       )}
 
-      {results && (
+      {schools && (
         <div
           className={`d-flex ${
             selected.results ? "sidebar-item-selected" : ""
@@ -271,7 +271,7 @@ const Sidebar = ({
               schools: false,
               assessments: false,
               dashboard: false,
-              results: true,
+              results: false,
               classrooms: false,
             });
             history.push("/admin/result");
@@ -301,22 +301,20 @@ const Sidebar = ({
         </div>
       )}
 
-      {results && (
         <div
-          className={`d-flex ${
-            selected.results ? "sidebar-item-selected" : ""
+          className={`d-flex  ? "sidebar-item-selected" : ""
           } sidebar-row`}
           onClick={() => {
-            setSelected({
-              users: false,
-              schools: false,
-              assessments: false,
-              dashboard: false,
-              results: true,
-              classrooms: false,
-            });
-            history.push("/admin/result");
-            clearItems();
+            // setSelected({
+            //   users: false,
+            //   schools: false,
+            //   assessments: false,
+            //   dashboard: false,
+            //   results: true,
+            //   classrooms: false,
+            // });
+            // history.push("/admin/result");
+            // clearItems();
           }}
         >
           <div className="sidebar-icon text-center  py-2">
@@ -333,14 +331,13 @@ const Sidebar = ({
           <div
             className={`sidebar-description  ${!open ? "d-none" : " py-2"}`}
             onClick={() => {
-              history.push("/admin/result");
-              clearItems();
+              // history.push("/admin/result");
+              // clearItems();
             }}
           >
             Jokes
           </div>
         </div>
-      )}
     </div>
   );
 };

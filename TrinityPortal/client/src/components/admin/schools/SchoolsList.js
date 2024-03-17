@@ -101,7 +101,10 @@ const SchoolsList = ({ schoolsList, schoolListLoading }) => {
         </div>
       </div>
       <div className="admin-users-fields  d-flex align-items-center justify-content-around  rounded  bg-body txt-primary">
-        <div className="admin-schools-field text-truncate ">Configuration ID</div>
+        <div className="admin-schools-field text-truncate ">
+          Configuration ID
+        </div>
+
         <div
           className="admin-schools-field  text-truncate mx-1 "
           onMouseEnter={() => setIsShowIcon("name")}
@@ -140,9 +143,22 @@ const SchoolsList = ({ schoolsList, schoolListLoading }) => {
           User Name
           <SortIcon icon={name} isShowIcon={isShowIcon === "name"} />
         </div>
+        <div className="admin-schools-field text-truncate ">Volume Min.</div>
+        <div className="admin-schools-field text-truncate ">Volume Max.</div>
+        <div className="admin-schools-field text-truncate ">Volume Min.</div>
+        <div className="admin-schools-field text-truncate ">Language</div>
+        <div className="admin-schools-field text-truncate ">
+          Outbreak Status
+        </div>
+        <div className="admin-schools-field text-truncate ">
+          Outbreak Text 1
+        </div>
+        <div className="admin-schools-field text-truncate ">
+          Outbreak Text 2
+        </div>
         <div className="admin-schools-field text-truncate ml-1">Actions</div>
       </div>
-      <div className="users-list-body ">
+      {/* <div className="users-list-body ">
         {schoolListLoading ? (
           <div className="d-flex justify-content-center align-items-center h-100">
             <div class="spinner-border txt-primary" role="status">
@@ -154,7 +170,7 @@ const SchoolsList = ({ schoolsList, schoolListLoading }) => {
             .slice(15 * (page - 1), 15 * page)
             .map((school, id) => <SchoolListItem school={school} key={id} />)
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

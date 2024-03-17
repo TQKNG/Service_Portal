@@ -24,7 +24,7 @@ const Classrooms = ({
       <div className='mb-3 '>
         <div className='d-flex align-items-center'>
           <h6 className='txt-primary-light mb-0'>
-            {user.UserType} / Classrooms
+            {user.UserType} / Songs
           </h6>{' '}
           <div className='rounded-pill bg-primary px-2 py-1 align-self-center mx-2 my-2 caption '>
             {classroomsList.length}

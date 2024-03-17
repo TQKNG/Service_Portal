@@ -215,7 +215,7 @@ const ClassroomsList = ({ classroomsList, classroomListLoading, user }) => {
           onMouseEnter={() => setIsShowIcon('section')}
           onMouseLeave={() => setIsShowIcon(null)}
         >
-          Section
+         Song Name
           <SortIcon icon={section}isShowIcon={isShowIcon ==='section' } />
         </div>
 
@@ -247,7 +247,7 @@ const ClassroomsList = ({ classroomsList, classroomListLoading, user }) => {
           onMouseEnter={() => setIsShowIcon('grade')}
           onMouseLeave={() => setIsShowIcon(null)}
         >
-          Grade
+          Length
           <SortIcon icon={grade} isShowIcon={isShowIcon ==='grade' } />
         </div>
         <div
@@ -281,11 +281,11 @@ const ClassroomsList = ({ classroomsList, classroomListLoading, user }) => {
           onMouseEnter={() => setIsShowIcon('teacher')}
           onMouseLeave={() => setIsShowIcon(null)}
         >
-          Teacher
+          Last Uploaded Date
           <SortIcon icon={teacher} isShowIcon={isShowIcon==='teacher'} />
         </div>
 
-        {user.UserTypeID === 5 && (
+        {/* {user.UserTypeID === 5 && (
           <div
             className='admin-classrooms-field text-truncate d-md-block d-none mx-1'
             onClick={() => {
@@ -328,9 +328,9 @@ const ClassroomsList = ({ classroomsList, classroomListLoading, user }) => {
             School
             <SortIcon icon={school} isShowIcon={isShowIcon==='school'} />
           </div>
-        )}
+        )} */}
 
-        <div
+        {/* <div
           className='admin-classrooms-field text-truncate ml-1'
           onClick={() => {
             if (year === 0) {
@@ -363,10 +363,10 @@ const ClassroomsList = ({ classroomsList, classroomListLoading, user }) => {
         >
           Year
           <SortIcon icon={year} isShowIcon={isShowIcon ==='year'}/>
-        </div>
+        </div> */}
         <div className='admin-classrooms-field text-truncate ml-1'>Actions</div>
       </div>
-      <div className='users-list-body '>
+      {/* <div className='users-list-body '>
         {classroomListLoading ? (
           <div className='d-flex justify-content-center align-items-center h-100'>
             <div className='spinner-border txt-primary' role='status'>
@@ -380,7 +380,7 @@ const ClassroomsList = ({ classroomsList, classroomListLoading, user }) => {
               <ClassroomsListItem classroom={classroom} user={user} key={id} />
             ))
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
