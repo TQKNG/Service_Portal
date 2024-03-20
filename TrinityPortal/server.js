@@ -77,6 +77,7 @@ const auth = require('./routes/Auth');
 const assessments = require('./routes/Assessment');
 const assessmentresults = require('./routes/AssessmentResult');
 const classrooms = require('./routes/Classroom');
+const receptions = require('./routes/Reception');
 
 //Mount Routes
 app.use('/api/users', user);
@@ -85,6 +86,7 @@ app.use('/api/assessments', assessments);
 app.use('/api/auth', auth);
 app.use('/api/assessmentresults', assessmentresults);
 app.use('/api/classrooms', classrooms);
+app.use('/api/receptions', receptions);
 
 // Serve Static assests Static
 app.use(express.static(__dirname + '/client/build'));
