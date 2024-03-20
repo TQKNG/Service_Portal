@@ -93,6 +93,7 @@ const App = () => {
 
             {/* Reception */}
             <Route exact path="/admin/reception" component={Admin} />
+            <Route exact path="/admin/reception/add" component={Admin}/>
           </Switch>
         </Router>
       </div>

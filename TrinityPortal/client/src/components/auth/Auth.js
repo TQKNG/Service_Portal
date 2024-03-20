@@ -16,6 +16,7 @@ const Auth = ({ match, user }) => {
   if (user !== null && user.UserTypeID === 1) {
     return <Redirect to='/admin/result' />;
   }
+
   return (
     <div
       className='bg-login d-flex align-items-center justify-content-center justify-content-lg-end h-100'

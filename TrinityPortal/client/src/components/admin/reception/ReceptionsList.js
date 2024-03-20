@@ -5,6 +5,8 @@ import Search from "../../layouts/Search";
 import SortIcon from "../../layouts/SortIcon";
 import ReceptionListItem from "./ReceptionListItem";
 import useWebSocket from "../../../services/WebSocketService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
   const [listSearch, setListSearch] = useState(receptionsList);
@@ -17,7 +19,6 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
   const { name } = icons;
 
   // WebSocket Config
-  const [message, setMessage] = useState("");
   const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
     `ws:${window.location.hostname}:5000`
   );
@@ -31,7 +32,27 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
   useEffect(() => {
     const handleIncomingMessage = (data) => {
       console.log("Incoming message:", data);
-      setMessage(data);
+
+      // Set the message to state
+      const newRecord = {};
+      const convertedData = JSON.parse(data).data;
+      newRecord.InOutID = 99;
+      newRecord.FullName = convertedData.FullName;
+
+      if(convertedData.inOut){
+        newRecord.ClockOut = new Date().toISOString();
+        newRecord.Status = 3;
+        toast.error(`${newRecord.FullName} has clocked out`);
+
+      }
+      else{
+        newRecord.ClockIn = new Date().toISOString();
+        newRecord.Status = 1;
+        toast.success(`${newRecord.FullName} has clocked in`);
+      }
+
+      setListSearch([newRecord, ...listSearch]);
+
     };
 
     onMessage(handleIncomingMessage);
@@ -53,10 +74,8 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
 
   return (
     <div className="card w-100 p-2 p-sm-3 p-lg-5 shadow-lg border-0 users-list ">
+      <ToastContainer />
       <Alert />
-      <div>
-        <p>WebSocket Message: {message}</p>
-      </div>
       <div className="d-flex w-100 align-items-center justify-content-between mb-3">
         <div className="">
           {!receptionListLoading && listSearch.length / 15 > 1 && (

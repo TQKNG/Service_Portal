@@ -34,6 +34,7 @@ import IdleTimer from "../layouts/IdleTimer";
 import { logout } from "../../actions/auth";
 import ResultFinalize from "./results/ResultFinalize";
 import Receptions from "./reception/Receptions";
+import ReceptionForm from "./reception/ReceptionForm";
 
 const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
   const location = useLocation();
@@ -148,6 +149,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
 
           {/* Reception */}
           {location.pathname === "/admin/reception" && <Receptions />}
+          {location.pathname === "/admin/reception/add" && <ReceptionForm />}
         </div>
       ) : (
         <div className="d-flex align-items-center h-100 justify-content-center">
