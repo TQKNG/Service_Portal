@@ -23,11 +23,8 @@ const Navbar = ({ isAuth, isAuthenticated, logout, user }) => {
         <Link className='navbar-brand' to='/'>
           {
             <img
-              // src={process.env.PUBLIC_URL + `/images/logo.png`} // Navbrand
+              src={process.env.PUBLIC_URL + `/logo.png`} // Navbrand
               height={40}
-              style={{
-                filter: 'brightness(0) invert(1) grayscale(1)',
-              }}
             />
           }
         </Link>
