@@ -4,7 +4,7 @@
   "description": "website that shifts reading assessments in school from the tradional paper and pen approuch to a modern webapp approuch ",
   "main": "server.js",
   "scripts": {
-    "start:api":"cd ../TrinityVillageAPI && dotnet run",
+    "start:api": "cd ../TrinityVillageAPI && dotnet run",
     "start": "node server",
     "server": "nodemon server",
     "client": "npm start --prefix client",
@@ -34,6 +34,7 @@
     "nodemailer": "^6.6.2",
     "react-html-parser": "^2.0.2",
     "uuid": "^9.0.1",
+    "ws": "^8.16.0",
     "xss": "^1.0.15",
     "xss-clean": "^0.1.1"
   },
