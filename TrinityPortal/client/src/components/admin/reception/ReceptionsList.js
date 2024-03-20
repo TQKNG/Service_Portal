@@ -19,7 +19,7 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
   // WebSocket Config
   const [message, setMessage] = useState("");
   const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
-    "ws://192.168.2.18:5000"
+    `ws:${window.location.hostname}:5000`
   );
 
   useEffect(() => {

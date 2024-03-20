@@ -1,5 +1,7 @@
 const express = require('express');
 const WebSocket = require('ws');
+const http = require('http'); 
+const {initWebSocket} = require('./utils/webSocketUtils');
 
 // Utils
 const colors = require('colors');
@@ -20,6 +22,7 @@ dotenv.config({ path: './config/config.env' });
 
 // Init Express App
 const app = express();
+const server = http.createServer(app);
 
 // Body Parser
 app.use(express.json({ limit: '50mb' }));
@@ -95,31 +98,15 @@ app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
 });
 
-// Create WebSocket Connection
-const wss = new WebSocket.Server({ noServer: true }); //Pass `noServer` option to prevent WebSocket from creating its own HTTP server
-
-// Handle WebSocket connection
-wss.on('connection',(ws)=>{
-  console.log('New WebSocket Connection');
-
-  // Handle messages from client
-  ws.on('message', (message) => {
-    console.log(`Received message => ${message}`);
-
-    // Handle received message
-  });
-})
+// Create a websocket server
+initWebSocket(server);
 
 // Attach WebSocket server to existing HTTP server
-const server = app.listen(process.env.PORT ||5000, () => {
+server.listen(process.env.PORT ||5000, () => {
   console.log(`Server running on port ${server.address().port}`);
 });
 
-// Handle upgrade requests for WebSocket
-server.on('upgrade', function upgrade(request, socket, head) {
-  wss.handleUpgrade(request, socket, head, function done(ws) {
-    wss.emit('connection', ws, request);
-  });
-});
+
+
 
 
