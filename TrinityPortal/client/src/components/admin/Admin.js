@@ -33,6 +33,7 @@ import IdleTimer from "../layouts/IdleTimer";
 
 import { logout } from "../../actions/auth";
 import ResultFinalize from "./results/ResultFinalize";
+import Receptions from "./reception/Receptions";
 
 const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
   const location = useLocation();
@@ -59,6 +60,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               assessments={false}
               results={true}
               classrooms={true}
+              receptions={true}
             />
           )}
 
@@ -71,6 +73,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               assessments={true}
               results={true}
               classrooms={true}
+              receptions={true}
             />
           )}
 
@@ -82,6 +85,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               assessments={true}
               results={true}
               classrooms={true}
+              receptions={true}
             />
           )}
 
@@ -93,6 +97,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               assessments={true}
               results={true}
               classrooms={true}
+              receptions={true}
             />
           )}
 
@@ -140,6 +145,9 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
           )}
           {location.pathname === "/admin/classes" && <p>1</p>}
           {location.pathname === "/admin/grades" && <p>1</p>}
+
+          {/* Reception */}
+          {location.pathname === "/admin/reception" && <Receptions />}
         </div>
       ) : (
         <div className="d-flex align-items-center h-100 justify-content-center">

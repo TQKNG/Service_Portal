@@ -16,6 +16,9 @@ import {
   GET_CLASSROOM,
   GET_CLASSROOMSLIST,
   CLEAR_CLASSROOM,
+  GET_RECEPTION,
+  GET_RECEPTIONSLIST,
+  CLEAR_RECEPTION,
   GET_REPORT,
   CLEAR_REPORT,
   GET_ASSESSMENTSINSTRUCTIONLIST,
@@ -76,6 +79,11 @@ const initialState = {
   classroom: null,
   classroomListLoading: true,
   classroomLoading: true,
+
+  receptionsList: [],
+  reception: null,
+  receptionListLoading: true,
+  receptionLoading: true,
 };
 
 // eslint-disable-next-line
@@ -102,6 +110,13 @@ export default function (state = initialState, action) {
       return { ...state, classroom: payload, classroomLoading: false };
     case CLEAR_CLASSROOM:
       return { ...state, classroom: null, classroomLoading: true };
+
+    case GET_RECEPTIONSLIST:
+      return { ...state, receptionsList: payload, receptionListLoading: false };
+    case GET_RECEPTION:
+      return { ...state, reception: payload, receptionLoading: false };
+    case CLEAR_RECEPTION:
+      return { ...state, reception: null, receptionLoading: true };
 
     case GET_ASSESSMENTSLIST:
       return {
@@ -234,7 +249,12 @@ export default function (state = initialState, action) {
         overallResultsChartProgressionLoading: true,
 
         averageScorePerBenchmarkCategoryChart: [],
-        averageScorePerBenchmarkCategoryChartLoading: true
+        averageScorePerBenchmarkCategoryChartLoading: true,
+
+        receptionsList: [],
+        reception: null,
+        receptionListLoading: true,
+        receptionLoading: true,
       };
     case CLEAR_ITEMS:
       return {
@@ -251,6 +271,9 @@ export default function (state = initialState, action) {
         classroom: null,
         classroomLoading: true,
 
+        reception: null,
+        receptionLoading: true,
+
         reports: [],
         reportsLoading: true,
 
@@ -264,7 +287,7 @@ export default function (state = initialState, action) {
         overallResultsChartProgressionLoading: true,
 
         averageScorePerBenchmarkCategoryChart: [],
-        averageScorePerBenchmarkCategoryChartLoading: true
+        averageScorePerBenchmarkCategoryChartLoading: true,
       };
     default:
       return state;

@@ -10,6 +10,7 @@ const Sidebar = ({
   assessments,
   dashboard,
   results,
+  receptions,
   clearItems,
   classrooms,
 }) => {
@@ -23,6 +24,7 @@ const Sidebar = ({
       dashboard: location.pathname.includes("/admin/dashboard"),
       results: location.pathname.includes("/admin/result"),
       classrooms: location.pathname.includes("/admin/classroom"),
+      receptions: location.pathname.includes("/admin/reception"),
     });
   }, [location.pathname]);
   const [open, setOpen] = useState(false);
@@ -33,6 +35,7 @@ const Sidebar = ({
     dashboard: location.pathname.includes("/admin/dashboard"),
     results: location.pathname.includes("/admin/result"),
     classrooms: location.pathname.includes("/admin/classroom"),
+    receptions: location.pathname.includes("/admin/reception"),
   });
   return (
     <div className=" shadow-lg h-100  sidebar position-fixed bg-white ">
@@ -301,20 +304,62 @@ const Sidebar = ({
         </div>
       )}
 
-        <div
-          className={`d-flex  ? "sidebar-item-selected" : ""
+      <div
+        className={`d-flex  ? "sidebar-item-selected" : ""
           } sidebar-row`}
+        onClick={() => {
+          // setSelected({
+          //   users: false,
+          //   schools: false,
+          //   assessments: false,
+          //   dashboard: false,
+          //   results: true,
+          //   classrooms: false,
+          // });
+          // history.push("/admin/result");
+          // clearItems();
+        }}
+      >
+        <div className="sidebar-icon text-center  py-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="26"
+            viewBox="0 -960 960 960"
+            width="26"
+            fill="currentColor"
+          >
+            <path d="M480-40q-149 0-254.5-42.5T120-200q0-32 20-57.5t56-45.5l65 58q-24 8-42.5 20.5T200-200q0 26 81 53t199 27q118 0 199-27t81-53q0-12-18.5-24.5T699-245l65-58q36 20 56 45.5t20 57.5q0 75-105.5 117.5T480-40Zm0-160q-22 0-42.5-7.5T400-230L148-453q-13-11-20.5-27t-7.5-33v-80q0-17 6.5-33t19.5-27l252-235q17-16 38-24t44-8q23 0 44 8t38 24l252 235q13 11 19.5 27t6.5 33v80q0 17-7.5 33T812-453L560-230q-17 15-37.5 22.5T480-200Zm-4-188q14 0 26.5-4.5T526-407l222-197-240-226q-7-5-14-7.5t-15-2.5q-8 0-15 2.5t-12 7.5L208-600l218 193q11 10 23.5 14.5T476-388ZM360-550q21 0 35.5-14.5T410-600q0-21-14.5-35.5T360-650q-21 0-35.5 14.5T310-600q0 21 14.5 35.5T360-550Zm50 54q43 21 90.5 13.5T584-522q34-29 44.5-73T618-678L410-496Zm70-174q21 0 35.5-14.5T530-720q0-21-14.5-35.5T480-770q-21 0-35.5 14.5T430-720q0 21 14.5 35.5T480-670Zm-2 56Z" />
+          </svg>
+        </div>
+        <div
+          className={`sidebar-description  ${!open ? "d-none" : " py-2"}`}
           onClick={() => {
-            // setSelected({
-            //   users: false,
-            //   schools: false,
-            //   assessments: false,
-            //   dashboard: false,
-            //   results: true,
-            //   classrooms: false,
-            // });
             // history.push("/admin/result");
             // clearItems();
+          }}
+        >
+          Jokes
+        </div>
+      </div>
+
+      {/* Reception */}
+      {receptions && (
+        <div
+          className={`d-flex ${
+            selected.receptions ? "sidebar-item-selected" : ""
+          } sidebar-row`}
+          onClick={() => {
+            setSelected({
+              users: false,
+              schools: false,
+              assessments: false,
+              dashboard: false,
+              results: false,
+              classrooms: false,
+              receptions: true,
+            });
+            history.push("/admin/reception");
+            clearItems();
           }}
         >
           <div className="sidebar-icon text-center  py-2">
@@ -323,9 +368,11 @@ const Sidebar = ({
               height="26"
               viewBox="0 -960 960 960"
               width="26"
-              fill="currentColor"
             >
-              <path d="M480-40q-149 0-254.5-42.5T120-200q0-32 20-57.5t56-45.5l65 58q-24 8-42.5 20.5T200-200q0 26 81 53t199 27q118 0 199-27t81-53q0-12-18.5-24.5T699-245l65-58q36 20 56 45.5t20 57.5q0 75-105.5 117.5T480-40Zm0-160q-22 0-42.5-7.5T400-230L148-453q-13-11-20.5-27t-7.5-33v-80q0-17 6.5-33t19.5-27l252-235q17-16 38-24t44-8q23 0 44 8t38 24l252 235q13 11 19.5 27t6.5 33v80q0 17-7.5 33T812-453L560-230q-17 15-37.5 22.5T480-200Zm-4-188q14 0 26.5-4.5T526-407l222-197-240-226q-7-5-14-7.5t-15-2.5q-8 0-15 2.5t-12 7.5L208-600l218 193q11 10 23.5 14.5T476-388ZM360-550q21 0 35.5-14.5T410-600q0-21-14.5-35.5T360-650q-21 0-35.5 14.5T310-600q0 21 14.5 35.5T360-550Zm50 54q43 21 90.5 13.5T584-522q34-29 44.5-73T618-678L410-496Zm70-174q21 0 35.5-14.5T530-720q0-21-14.5-35.5T480-770q-21 0-35.5 14.5T430-720q0 21 14.5 35.5T480-670Zm-2 56Z" />
+              <path
+                d="M261-200q-51 0-85-34t-34-85q0-51 34-85.5t85-34.5q51 0 85 34t34 85q0 51-34 85.5T261-200ZM153-521v-239h51v239h-51Zm108 275q31 0 51-21t20-53q0-32-19.5-52.5T261-393q-31 0-51 20.5T190-320q0 32 20 53t51 21Zm-11-275v-239h56l90 152-2-38v-114h50v239h-51l-96-161 3 38v123h-50Zm262 321q-42 0-67-27t-25-72v-140h49v143q0 21 12.5 35t30.5 14q18 0 30-14t12-35v-143h49v140q0 45-25 72t-66 27Zm194 0v-192h-64v-47h176v47h-63v192h-49Z"
+                fill="currentColor"
+              />
             </svg>
           </div>
           <div
@@ -335,9 +382,10 @@ const Sidebar = ({
               // clearItems();
             }}
           >
-            Jokes
+            Reception
           </div>
         </div>
+      )}
     </div>
   );
 };

@@ -23,7 +23,10 @@ import {
   GET_OVERALL_RESULTS_CHART,
   GET_OVERALL_RESULTS_BY_ASSESSMENT_CHART,
   GET_OVERALL_RESULTS_PROGRESSION_CHART,
-  GET_AVERAGE_SCORE_BENCHMARK_CATEGORY_CHART
+  GET_AVERAGE_SCORE_BENCHMARK_CATEGORY_CHART,
+  GET_RECEPTION,
+  GET_RECEPTIONSLIST,
+  CLEAR_RECEPTION
 } from "../actions/types";
 import { setAlert } from "./alerts";
 import { clearAssessmentResult } from "./assessment";
@@ -140,6 +143,7 @@ export const deleteUser = (userId) => async (dispatch) => {
       }
   }
 };
+
 export const setSchool = (school) => (dispatch) => {
   dispatch({ type: GET_SCHOOL, payload: school });
 };
@@ -430,6 +434,132 @@ export const getResult = (id) => async (dispatch) => {
   }
 };
 
+
+// Reception
+export const setReception = (reception) => (dispatch) => {
+  dispatch({ type: GET_RECEPTION, payload: reception });
+};
+
+export const getReception = (id) => async (dispatch) => {
+  try {
+    // const res = await api.post("/schools/get", { SchoolID: parseInt(id) });
+
+    // dispatch({ type: GET_SCHOOL, payload: res.data.data[0] });
+  } catch (error) {
+    console.log(error);
+    const errors = error.response.data.errors;
+    if (errors)
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      }
+  }
+};
+
+export const loadReceptionsList = (value={}) => async (dispatch) => {
+  try {
+    // const res = await api.post("/schools/get",value);
+    // dispatch({ type: GET_SCHOOLSLIST, payload: res.data.data });
+    dispatch({type:GET_RECEPTIONSLIST,payload:  [
+      {
+        InOutID: 1,
+        DateTime: "2024-03-16T12:34:56.789Z",
+        FullName: "Ziad Diab",
+        ClockIn: null,
+        ClockOut: null,
+        Status: 0,
+      },
+      {
+        InOutID: 2,
+        DateTime: "2024-03-17T08:20:30.123Z",
+        FullName: "Khanh Nguyen",
+        ClockIn: "2024-03-17T08:21:30.123Z",
+        ClockOut: null,
+        Status: 1,
+      },
+      {
+        InOutID: 3,
+        DateTime: "2024-03-18T10:15:00.456Z",
+        FullName: "Alan Pintor",
+        ClockIn: "2024-03-18T10:16:00.456Z",
+        ClockOut: null,
+        Status: 2,
+      },
+      {
+        InOutID: 4,
+        DateTime: "2024-03-19T11:45:00.789Z",
+        FullName: "Alok Rathava",
+        ClockIn: "2024-03-19T11:46:00.789Z",
+        ClockOut: "2024-03-19T19:15:00.000Z",
+        Status: 3,
+      },
+    ]})
+  } catch (error) {
+    console.log(error);
+    const errors = error.response.data.errors;
+    if (errors)
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      }
+  }
+};
+
+export const updateReception = (schoolId, formData) => async (dispatch) => {
+  try {
+    // const result = await api.put(`/schools/${schoolId}`, formData);
+    // console.log("test result", result)
+    // dispatch(loadSchoolsList());
+    // dispatch(setAlert("School updated Successfully", "success"));
+  } catch (err) {
+    console.log(err);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      } else
+        errors.forEach((error) => dispatch(setAlert(error.message, "danger")));
+    }
+  }
+};
+
+export const addReception = (formData) => async (dispatch) => {
+  try {
+    // await api.post("/schools", formData);
+    // dispatch(loadSchoolsList());
+    // dispatch(setAlert("School Added Successfully", "success"));
+  } catch (err) {
+    console.log(err);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      } else
+        errors.forEach((error) => dispatch(setAlert(error.message, "danger")));
+    }
+  }
+};
+
+export const deleteReception = (schoolId) => async (dispatch) => {
+  try {
+    // await api.delete(`/schools/${schoolId}`);
+    // dispatch(loadSchoolsList());
+    // dispatch(setAlert("School Deleted Successfully", "info"));
+  } catch (error) {
+    console.log(error);
+    const errors = error.response.data.errors;
+    if (errors)
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      }
+  }
+};
+
 export const generateReport =
   ( year, benchmarkID, schoolID, gradeID,sectionID, studentID, teacherID, schoolIds) => async (dispatch) => {
     try {
@@ -698,6 +828,10 @@ export const clearResult = () => (dispatch) => {
 };
 export const clearSchool = () => (dispatch) => {
   dispatch({ type: CLEAR_SCHOOL });
+};
+
+export const clearReception = () => (dispatch) => {
+  dispatch({ type: CLEAR_RECEPTION });
 };
 
 export const clearAssessment = () => (dispatch) => {
