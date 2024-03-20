@@ -4,6 +4,7 @@ import _ from "underscore";
 import Search from "../../layouts/Search";
 import SortIcon from "../../layouts/SortIcon";
 import ReceptionListItem from "./ReceptionListItem";
+import useWebSocket from "../../../services/WebSocketService";
 
 const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
   const [listSearch, setListSearch] = useState(receptionsList);
@@ -14,6 +15,32 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
   const [isShowIcon, setIsShowIcon] = useState(null);
 
   const { name } = icons;
+
+  // WebSocket Config
+  const [message, setMessage] = useState("");
+  const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
+    "ws://192.168.2.18:5000"
+  );
+
+  useEffect(() => {
+    connect();
+
+    disconnect();
+  }, []);
+
+  useEffect(() => {
+    const handleIncomingMessage = (data) => {
+      console.log("Incoming message:", data);
+      setMessage(data);
+    };
+
+    onMessage(handleIncomingMessage);
+
+    return () => {
+      // Clean up subscription
+      onMessage(null);
+    };
+  }, [onMessage]);
 
   useEffect(() => {
     if (!receptionListLoading) {
@@ -27,6 +54,9 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
   return (
     <div className="card w-100 p-2 p-sm-3 p-lg-5 shadow-lg border-0 users-list ">
       <Alert />
+      <div>
+        <p>WebSocket Message: {message}</p>
+      </div>
       <div className="d-flex w-100 align-items-center justify-content-between mb-3">
         <div className="">
           {!receptionListLoading && listSearch.length / 15 > 1 && (
@@ -78,7 +108,9 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
             setListSearch={setListSearch}
             filter={(e) => {
               const list = receptionsList.filter((item) =>
-                item.FullName.toUpperCase().includes(e.target.value.toUpperCase())
+                item.FullName.toUpperCase().includes(
+                  e.target.value.toUpperCase()
+                )
               );
               return list;
             }}
@@ -86,9 +118,7 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
         </div>
       </div>
       <div className="admin-users-fields  d-flex align-items-center justify-content-around  rounded  bg-body txt-primary">
-        <div className="admin-schools-field text-truncate ">
-         In/Out ID
-        </div>
+        <div className="admin-schools-field text-truncate ">In/Out ID</div>
 
         <div
           className="admin-schools-field  text-truncate mx-1 "
@@ -117,7 +147,10 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
                 name: -1,
               });
             } else {
-              const sortedList = _.sortBy(receptionsList, _.property("InOutID"));
+              const sortedList = _.sortBy(
+                receptionsList,
+                _.property("InOutID")
+              );
               setListSearch(sortedList);
               setIcons({
                 name: 0,
@@ -131,9 +164,7 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
         <div className="admin-schools-field text-truncate ">Date </div>
         <div className="admin-schools-field text-truncate ">Clock In Time</div>
         <div className="admin-schools-field text-truncate ">Clock Out Time</div>
-        <div className="admin-schools-field text-truncate ">
-          Status
-        </div>
+        <div className="admin-schools-field text-truncate ">Status</div>
         <div className="admin-schools-field text-truncate ml-1">Actions</div>
       </div>
       <div className="users-list-body ">
@@ -146,7 +177,9 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
         ) : (
           listSearch
             .slice(15 * (page - 1), 15 * page)
-            .map((reception, id) => <ReceptionListItem reception={reception} key={id} />)
+            .map((reception, id) => (
+              <ReceptionListItem reception={reception} key={id} />
+            ))
         )}
       </div>
     </div>
