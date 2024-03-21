@@ -21,19 +21,18 @@ const AnonymousForm = ({ setAlert }) => {
     <>
       <div className="p-sm-5 p-2 w-100  dashboard-margin mx-lg-auto container">
         {/* Header */}
-        <div className="mb-3 ">
-          <h6 className="txt-primary-light">Reception Check-In Form</h6>
-          <div className="d-sm-flex  w-100 align-items-center justify-content-between">
-            <div className="d-flex mb-2 mb-sm-0">
-              <h4 className="m-0">
-                
-              </h4>
-            </div>
-          </div>
+        <div className=" d-flex gap-3 align-items-center bg-primary p-2 p-sm-3 p-lg-4 ">
+          {/* Title */}
+          <h6 className="text-white">Reception Check-In Form</h6>
+          <img
+            src={process.env.PUBLIC_URL + `/qrForm.png`}
+            width="100px"
+            height="100px"
+          />
         </div>
         {/* Form Content */}
         <form
-          className="card w-100 p-2 p-sm-3 p-lg-4 shadow-lg border-0  mb-2 "
+          className=" w-100 p-2 p-sm-3 p-lg-4 shadow-lg  mb-2 "
           onSubmit={(e) => onSubmit(e)}
         >
           <Alert />
@@ -43,8 +42,8 @@ const AnonymousForm = ({ setAlert }) => {
               type="text"
               className="form-control rounded "
               id="AlternativeID"
-              placeholder="Enter an Alternative ID..."
               value={AlternativeID}
+              disabled
               onChange={(e) => onChange(e)}
             />
           </div>
@@ -54,7 +53,7 @@ const AnonymousForm = ({ setAlert }) => {
               type="tel"
               className="form-control rounded "
               id="FirstName"
-              placeholder="Enter First Name..."
+              placeholder="Enter your phone..."
               required
               value={FirstName}
               onChange={(e) => onChange(e)}
@@ -66,7 +65,7 @@ const AnonymousForm = ({ setAlert }) => {
               type="text"
               className="form-control rounded "
               id="LastName"
-              placeholder="Enter Last Name..."
+              placeholder="Enter Full Name..."
               required
               value={LastName}
               onChange={(e) => onChange(e)}
@@ -89,7 +88,28 @@ const AnonymousForm = ({ setAlert }) => {
 
           <div className="d-flex align-items-center justify-content-center gap-2">
             <button type="submit" className="button-primary btn-block btn px-5">
-              Save
+              In
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24"
+                viewBox="0 -960 960 960"
+                width="24"
+                fill="currentColor"
+              >
+                <path d="M480-120v-80h280v-560H480v-80h280q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H480Zm-80-160-55-58 102-102H120v-80h327L345-622l55-58 200 200-200 200Z" />
+              </svg>
+            </button>
+            <button type="submit" className="btn-danger btn-block btn px-5">
+              Out
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24"
+                viewBox="0 -960 960 960"
+                width="24"
+                fill="currentColor"
+              >
+                <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
+              </svg>
             </button>
           </div>
         </form>
