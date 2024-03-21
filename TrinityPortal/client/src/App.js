@@ -19,7 +19,6 @@ import AssessmentCreate from "./components/assessment/AssessmentCreate";
 import ResultFinalize from "./components/admin/results/ResultFinalize";
 import Anonymous from "./components/anonymous/Anonymous";
 
-
 const App = () => {
   return (
     <Provider store={store}>
@@ -67,7 +66,6 @@ const App = () => {
             <Route exact path="/account" component={Auth} />
             <Route exact path="/account/forgot" component={Auth} />
             <Route exact path="/account/reset/:token" component={Auth} />
-        
 
             <Route exact path="/assessment/join" component={AssessmentJoin} />
             <Route exact path="/assessment/add" component={AssessmentCreate} />
@@ -97,11 +95,11 @@ const App = () => {
             {/* Reception */}
             <Route exact path="/admin/reception" component={Admin} />
 
+            {/* Reception */}
+            <Route exact path="/admin/song" component={Admin} />
 
             {/* Public Form */}
             <Route exact path="/anonymousform" component={Anonymous} />
-
-    
           </Switch>
         </Router>
       </div>

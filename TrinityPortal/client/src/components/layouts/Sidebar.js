@@ -11,6 +11,7 @@ const Sidebar = ({
   dashboard,
   results,
   receptions,
+  songs,
   clearItems,
   classrooms,
 }) => {
@@ -25,6 +26,7 @@ const Sidebar = ({
       results: location.pathname.includes("/admin/result"),
       classrooms: location.pathname.includes("/admin/classroom"),
       receptions: location.pathname.includes("/admin/reception"),
+      songs: location.pathname.includes("/admin/song"),
     });
   }, [location.pathname]);
   const [open, setOpen] = useState(false);
@@ -36,6 +38,7 @@ const Sidebar = ({
     results: location.pathname.includes("/admin/result"),
     classrooms: location.pathname.includes("/admin/classroom"),
     receptions: location.pathname.includes("/admin/reception"),
+    songs: location.pathname.includes("/admin/song"),
   });
   return (
     <div className=" shadow-lg h-100  sidebar position-fixed bg-white ">
@@ -181,10 +184,10 @@ const Sidebar = ({
         </div>
       )}
 
-      {classrooms && (
+      {songs && (
         <div
           className={`d-flex ${
-            selected.classrooms ? "sidebar-item-selected" : ""
+            selected.songs ? "sidebar-item-selected" : ""
           } sidebar-row`}
           onClick={() => {
             setSelected({
@@ -193,9 +196,9 @@ const Sidebar = ({
               assessments: false,
               dashboard: false,
               results: false,
-              classrooms: true,
+              songs: true,
             });
-            history.push("/admin/classrooms");
+            history.push("/admin/song");
             clearItems();
           }}
         >
@@ -213,7 +216,7 @@ const Sidebar = ({
           <div
             className={`sidebar-description  ${!open ? "d-none" : " py-2"}`}
             onClick={() => {
-              history.push("/admin/classrooms");
+              history.push("/admin/song");
               clearItems();
             }}
           >

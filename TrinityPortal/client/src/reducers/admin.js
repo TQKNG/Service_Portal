@@ -19,6 +19,9 @@ import {
   GET_RECEPTION,
   GET_RECEPTIONSLIST,
   CLEAR_RECEPTION,
+  GET_SONG,
+  GET_SONGSLIST,
+  CLEAR_SONG,
   GET_REPORT,
   CLEAR_REPORT,
   GET_ASSESSMENTSINSTRUCTIONLIST,
@@ -84,6 +87,11 @@ const initialState = {
   reception: null,
   receptionListLoading: true,
   receptionLoading: true,
+
+  songsList: [],
+  song: null,
+  songListLoading: true,
+  songLoading: true,
 };
 
 // eslint-disable-next-line
@@ -117,6 +125,13 @@ export default function (state = initialState, action) {
       return { ...state, reception: payload, receptionLoading: false };
     case CLEAR_RECEPTION:
       return { ...state, reception: null, receptionLoading: true };
+
+    case GET_SONGSLIST:
+      return { ...state, songsList: payload, songListLoading: false };
+    case GET_SONG:
+      return { ...state, song: payload, songLoading: false };
+    case CLEAR_SONG:
+      return { ...state, song: null, songLoading: true };
 
     case GET_ASSESSMENTSLIST:
       return {
@@ -255,6 +270,11 @@ export default function (state = initialState, action) {
         reception: null,
         receptionListLoading: true,
         receptionLoading: true,
+
+        songsList: [],
+        song: null,
+        songListLoading: true,
+        songLoading: true,
       };
     case CLEAR_ITEMS:
       return {
@@ -273,6 +293,9 @@ export default function (state = initialState, action) {
 
         reception: null,
         receptionLoading: true,
+
+       song: null,
+       songLoading: true,
 
         reports: [],
         reportsLoading: true,

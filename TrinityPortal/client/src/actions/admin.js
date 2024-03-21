@@ -26,7 +26,9 @@ import {
   GET_AVERAGE_SCORE_BENCHMARK_CATEGORY_CHART,
   GET_RECEPTION,
   GET_RECEPTIONSLIST,
-  CLEAR_RECEPTION
+  CLEAR_RECEPTION,
+  CLEAR_SONG,
+  GET_SONGSLIST
 } from "../actions/types";
 import { setAlert } from "./alerts";
 import { clearAssessmentResult } from "./assessment";
@@ -560,6 +562,115 @@ export const deleteReception = (schoolId) => async (dispatch) => {
   }
 };
 
+
+// Song
+export const setSong = (song) => (dispatch) => {
+  dispatch({ type: GET_RECEPTION, payload: song });
+};
+
+export const getSong = (id) => async (dispatch) => {
+  try {
+    // const res = await api.post("/schools/get", { SchoolID: parseInt(id) });
+
+    // dispatch({ type: GET_SCHOOL, payload: res.data.data[0] });
+  } catch (error) {
+    console.log(error);
+    const errors = error.response.data.errors;
+    if (errors)
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      }
+  }
+};
+export const loadSongsList = (value={}) => async (dispatch) => {
+  try {
+    // const res = await api.post("/schools/get",value);
+    // dispatch({ type: GET_SCHOOLSLIST, payload: res.data.data });
+    dispatch({type:GET_SONGSLIST,payload:  [
+      {
+        SongID: 1,
+        Name: "Midnight Serenade",
+      },
+      {
+        SongID: 2,
+        Name: "Echoes of Tomorrow",
+      },
+      {
+        SongID: 3,
+        Name: "Whispers in the Wind",
+      },
+      {
+        SongID: 4,
+        Name: "Starlit Melodies",
+      },
+    ]})
+  } catch (error) {
+    console.log(error);
+    const errors = error.response.data.errors;
+    if (errors)
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      }
+  }
+};
+
+export const updateSong = (schoolId, formData) => async (dispatch) => {
+  try {
+    // const result = await api.put(`/schools/${schoolId}`, formData);
+    // console.log("test result", result)
+    // dispatch(loadSchoolsList());
+    // dispatch(setAlert("School updated Successfully", "success"));
+  } catch (err) {
+    console.log(err);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      } else
+        errors.forEach((error) => dispatch(setAlert(error.message, "danger")));
+    }
+  }
+};
+
+export const addSong = (formData) => async (dispatch) => {
+  try {
+    await api.post("/songs", { SongID: 19, Name: "New song Test" });
+    // dispatch(loadSchoolsList());
+    dispatch(setAlert("Song Added Successfully", "success"));
+  } catch (err) {
+    console.log(err);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      } else
+        errors.forEach((error) => dispatch(setAlert(error.message, "danger")));
+    }
+  }
+};
+
+export const deleteSong = (schoolId) => async (dispatch) => {
+  try {
+    // await api.delete(`/schools/${schoolId}`);
+    // dispatch(loadSchoolsList());
+    // dispatch(setAlert("School Deleted Successfully", "info"));
+  } catch (error) {
+    console.log(error);
+    const errors = error.response.data.errors;
+    if (errors)
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      }
+  }
+};
+
 export const generateReport =
   ( year, benchmarkID, schoolID, gradeID,sectionID, studentID, teacherID, schoolIds) => async (dispatch) => {
     try {
@@ -832,6 +943,10 @@ export const clearSchool = () => (dispatch) => {
 
 export const clearReception = () => (dispatch) => {
   dispatch({ type: CLEAR_RECEPTION });
+};
+
+export const clearSong = () => (dispatch) => {
+  dispatch({ type: CLEAR_SONG });
 };
 
 export const clearAssessment = () => (dispatch) => {

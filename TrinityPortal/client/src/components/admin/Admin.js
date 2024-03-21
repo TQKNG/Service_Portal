@@ -35,6 +35,7 @@ import { logout } from "../../actions/auth";
 import ResultFinalize from "./results/ResultFinalize";
 import Receptions from "./reception/Receptions";
 import ReceptionForm from "../anonymous/AnonymousForm";
+import Songs from "./song/Songs";
 
 const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
   const location = useLocation();
@@ -62,6 +63,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               results={true}
               classrooms={true}
               receptions={true}
+              songs={true}
             />
           )}
 
@@ -75,6 +77,8 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               results={true}
               classrooms={true}
               receptions={true}
+              songs={true}
+
             />
           )}
 
@@ -87,6 +91,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               results={true}
               classrooms={true}
               receptions={true}
+              songs={true}
             />
           )}
 
@@ -99,6 +104,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               results={true}
               classrooms={true}
               receptions={true}
+              songs={true}
             />
           )}
 
@@ -149,6 +155,10 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
 
           {/* Reception */}
           {location.pathname === "/admin/reception" && <Receptions />}
+
+          
+          {/* Reception */}
+          {location.pathname === "/admin/song" && <Songs />}
          
         </div>
       ) : (
