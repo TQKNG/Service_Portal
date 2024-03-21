@@ -31,15 +31,17 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
 
   useEffect(() => {
     const handleIncomingMessage = (data) => {
-      console.log("Incoming message:", data);
 
       // Set the message to state
       const newRecord = {};
       const convertedData = JSON.parse(data).data;
+
+      console.log("Test converted Data", data);
+
       newRecord.InOutID = 99;
       newRecord.FullName = convertedData.FullName;
 
-      if(convertedData.inOut){
+      if(convertedData.InOut){
         newRecord.ClockOut = new Date().toISOString();
         newRecord.Status = 3;
         toast.error(`${newRecord.FullName} has clocked out`);

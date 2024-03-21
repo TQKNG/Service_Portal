@@ -6,16 +6,45 @@ import PropTypes from "prop-types";
 
 const AnonymousForm = ({ setAlert, device }) => {
   const [formData, setFormData] = useState({
-    FirstName: "",
-    LastName: "",
+    PhoneNumber: "",
+    FullName: "",
     AlternativeID: "",
     Email: "",
+    InOut: false,
   });
-  const { FirstName, LastName, Email, AlternativeID } = formData;
+  const { PhoneNumber, FullName, Email, AlternativeID } = formData;
 
-  const onChange = (e) => {};
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
 
-  const onSubmit = (e) => {};
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    console.log("Test Form", formData);
+
+    // Fetch API to server
+    fetch(`https://rj4442tq-3000.use.devtunnels.ms/api/receptions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Handle the API response
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("There was an error!", error);
+      });
+  };
 
   return (
     <>
@@ -83,22 +112,22 @@ const AnonymousForm = ({ setAlert, device }) => {
             <input
               type="tel"
               className="form-control rounded "
-              id="FirstName"
+              id="PhoneNumber"
               placeholder="Enter your phone..."
               required
-              value={FirstName}
+              value={PhoneNumber}
               onChange={(e) => onChange(e)}
             />
           </div>
           <div className="mb-3">
-            <div className="txt-primary">FullName</div>
+            <div className="txt-primary">Full Name</div>
             <input
               type="text"
               className="form-control rounded "
-              id="LastName"
+              id="FullName"
               placeholder="Enter Full Name..."
               required
-              value={LastName}
+              value={FullName}
               onChange={(e) => onChange(e)}
             />
           </div>

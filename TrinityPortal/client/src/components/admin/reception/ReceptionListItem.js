@@ -23,7 +23,7 @@ const ReceptionsListItem = ({ reception, setReception }) => {
         }}
         title={FullName}
       >
-        {FullName}
+        {FullName?FullName:"N/A"}
       </div>
       <div className="admin-schools-field text-truncate mr-1">{moment(DateTime).format("MMM Do YYYY")}</div>
       <div className="admin-schools-field text-truncate mr-1">{ClockIn&&moment(ClockIn).format("HH:mm:ss")}</div>

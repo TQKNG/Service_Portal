@@ -52,13 +52,14 @@ app.use(
 );
 
 // Enable CORS
-app.use(
-  cors({
-    origin: 'https://ra2.azurewebsites.net',
-    // origin: 'https://radev.azurewebsites.net', // Old one
-    credentials: true,
-  }),
-);
+// app.use(
+//   cors({
+//     origin: 'https://ra2.azurewebsites.net',
+//     // origin: 'https://radev.azurewebsites.net', // Old one
+//     credentials: true,
+//   }),
+// );
+app.use(cors());
 
 // no cache
 app.use((req, res, next) => {
