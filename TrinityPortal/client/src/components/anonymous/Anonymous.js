@@ -30,7 +30,7 @@ const Anonymous = () => {
   useEffect(() => {
     const userAgent = navigator.userAgent;
     const device = detectDevice(userAgent);
-    setDetectDevice(device);
+    setDetectDevice(userAgent);
 
   }, [location]);
 
