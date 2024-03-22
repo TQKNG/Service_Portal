@@ -2,33 +2,33 @@ import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import {
-  loadSongsList,
-  addSong,
-  clearSong,
+  loadBooksList,
+  addBook,
+  clearBook,
 } from "../../../actions/admin";
-import SongsList from "./SongsList";
+import BooksList from "./BooksList";
 
-const Songs = ({
+const Books = ({
   authUser,
-  songsList,
-  loadSongsList,
-  songListLoading,
-  clearSong,
-  addSong
+  booksList,
+  loadBooksList,
+  bookListLoading,
+  clearBook,
+  addBook
 }) => {
   useEffect(() => {
-    if (songsList.length === 0 && songListLoading) {
-      loadSongsList();
+    if (booksList.length === 0 && bookListLoading) {
+      loadBooksList();
     }
-  }, [songsList, songListLoading, loadSongsList]);
+  }, [booksList, bookListLoading, loadBooksList]);
   return (
     <Fragment>
       <div className="p-sm-5 p-2 w-100 dashboard-margin">
         <div className="mb-3 ">
           <div className="d-flex align-items-center">
-            <h6 className="txt-primary-light mb-0">Admin / Songs</h6>{" "}
+            <h6 className="txt-primary-light mb-0">Admin / Books</h6>{" "}
             <div className="rounded-pill bg-primary px-2 py-1 align-self-center mx-2 my-2 caption ">
-              {songsList.length}
+              {booksList.length}
             </div>
           </div>
           {/* Template */}
@@ -40,7 +40,7 @@ const Songs = ({
                     className="btn button-parent button-primary d-flex align-items-center px-3"
                     onClick={() => {
                       // hist.push("/admin/school/add");
-                      addSong();
+                      addBook();
                       // clearSchool();
                     }}
                   >
@@ -62,40 +62,40 @@ const Songs = ({
                         </g>
                       </g>
                     </svg>
-                    Add New Song
+                    Add New Book
                   </div>
                 </div>
               </>
             )}
           </div>
         </div>
-        <SongsList
-          songsList={
-             songsList
+        <BooksList
+          booksList={
+             booksList
           }
-          songListLoading={songListLoading}
+          bookListLoading={bookListLoading}
         />
       </div>
     </Fragment>
   );
 };
 
-Songs.propTypes = {
-  songsList: PropTypes.array,
+Books.propTypes = {
+  booksList: PropTypes.array,
   authUser: PropTypes.object,
-  loadSongsList: PropTypes.func.isRequired,
-  songListLoading: PropTypes.bool,
-  clearSong: PropTypes.func.isRequired,
-  addSong: PropTypes.func.isRequired,
+  loadBooksList: PropTypes.func.isRequired,
+  bookListLoading: PropTypes.bool,
+  clearBook: PropTypes.func.isRequired,
+  addBook: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
-  songsList: state.admin.songsList,
-  songListLoading: state.admin.songListLoading,
+  booksList: state.admin.booksList,
+  bookListLoading: state.admin.bookListLoading,
   authUser: state.auth.user,
 });
 
 export default connect(mapStateToProps, {
-  loadSongsList,
-  addSong,
-  clearSong,
-})(Songs);
+  loadBooksList,
+  addBook,
+  clearBook,
+})(Books);

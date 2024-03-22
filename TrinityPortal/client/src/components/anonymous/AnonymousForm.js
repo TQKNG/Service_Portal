@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 
 const AnonymousForm = ({ setAlert, device }) => {
   const hist = useHistory();
+  const [clientInfo, setClientInfo] = useState('');
   const [formData, setFormData] = useState({
     PhoneNumber: "",
     FullName: "",
@@ -17,6 +18,8 @@ const AnonymousForm = ({ setAlert, device }) => {
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { PhoneNumber, FullName, Email, AlternativeID } = formData;
+
+  // Check if the user is already logged in
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
