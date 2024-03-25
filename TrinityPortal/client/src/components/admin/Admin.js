@@ -36,6 +36,7 @@ import ResultFinalize from "./results/ResultFinalize";
 import Receptions from "./reception/Receptions";
 import ReceptionForm from "../anonymous/AnonymousForm";
 import Songs from "./song/Songs";
+import Setting from "./settings/Setting";
 
 const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
   const location = useLocation();
@@ -64,6 +65,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               classrooms={true}
               receptions={true}
               songs={true}
+              setting={true}
             />
           )}
 
@@ -78,7 +80,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               classrooms={true}
               receptions={true}
               songs={true}
-
+              setting={true}
             />
           )}
 
@@ -92,6 +94,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               classrooms={true}
               receptions={true}
               songs={true}
+              setting={true}
             />
           )}
 
@@ -105,6 +108,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               classrooms={true}
               receptions={true}
               songs={true}
+              setting={true}
             />
           )}
 
@@ -156,10 +160,11 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
           {/* Reception */}
           {location.pathname === "/admin/reception" && <Receptions />}
 
-          
-          {/* Reception */}
+          {/* Setting */}
+          {location.pathname === "/admin/setting" && <Setting />}
+
+          {/* Song */}
           {location.pathname === "/admin/song" && <Songs />}
-         
         </div>
       ) : (
         <div className="d-flex align-items-center h-100 justify-content-center">
