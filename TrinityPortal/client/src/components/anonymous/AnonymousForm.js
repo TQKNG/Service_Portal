@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Alert from "../layouts/Alert";
 import { setAlert } from "../../actions/alerts";
 import { connect } from "react-redux";
@@ -6,8 +6,6 @@ import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
 const AnonymousForm = ({ setAlert, device }) => {
-  const hist = useHistory();
-  const [clientInfo, setClientInfo] = useState('');
   const [formData, setFormData] = useState({
     PhoneNumber: "",
     FullName: "",
@@ -18,22 +16,24 @@ const AnonymousForm = ({ setAlert, device }) => {
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { PhoneNumber, FullName, Email, AlternativeID } = formData;
+  const [isRobot, setIsRobot] = useState(false);
 
   // Check if the user is already logged in
-
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
+
+    const updatedFormData = { ...formData, isRobot };
     // Fetch API to server
     fetch(`https://b9dk2wds-3000.use.devtunnels.ms/api/receptions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(updatedFormData),
     })
       .then((response) => {
         if (!response.ok) {
@@ -43,7 +43,7 @@ const AnonymousForm = ({ setAlert, device }) => {
       })
       .then((data) => {
         // Handle the API response
-        console.log(data);
+        console.log("Test AlternativeID", data);
         setIsSubmitted(true);
         setFormData({
           PhoneNumber: "",
@@ -53,13 +53,21 @@ const AnonymousForm = ({ setAlert, device }) => {
           InOut: false,
         });
         setTimeout(() => {
-          window.location.reload();
+          if (!device.includes("sl3288")) {
+            window.location.reload();
+          }
         }, 3000);
       })
       .catch((error) => {
         console.error("There was an error!", error);
       });
   };
+
+  useEffect(()=>{
+    if(device.includes("sl3288")){
+      setIsRobot(true);
+    }
+  },[device]);
 
   return (
     <>
