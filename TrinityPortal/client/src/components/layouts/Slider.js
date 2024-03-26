@@ -10,6 +10,14 @@ const VolumeController = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const handleBlur = () => {
+    if (value < 0) {
+      setValue(0);
+    } else if (value > 100) {
+      setValue(100);
+    }
+  };
   return (
     <>
       <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">

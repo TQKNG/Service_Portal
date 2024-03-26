@@ -71,16 +71,16 @@ const AnonymousForm = ({ setAlert, device }) => {
 
   return (
     <>
-      <div className="p-sm-5 p-2 w-100  dashboard-margin mx-auto container">
+      <div className="w-100 h-100 mx-auto">
         {/* Header */}
         <div className=" d-flex gap-3 align-items-center bg-primary p-2 p-sm-3 p-lg-4 ">
           {/* Title */}
           <h6 className="text-white">Reception Check-In Form</h6>
-          <img
+          {/* <img
             src={process.env.PUBLIC_URL + `/qrForm.png`}
             width="100px"
             height="100px"
-          />
+          /> */}
         </div>
         {/* Form Content */}
         <form
