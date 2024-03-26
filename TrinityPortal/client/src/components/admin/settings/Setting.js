@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import VolumeController from "../../layouts/Slider";
 
 const Setting = () => {
   return (
@@ -10,7 +11,7 @@ const Setting = () => {
           </div>
         </div>
         <div className="card w-100 p-2 p-sm-3 p-lg-5 shadow-lg border-0 users-list">
-          <div className="row">
+          <div className="row ">
             <div className="col-4 d-flex flex-column">
               <h6>General Settings</h6>
               {/* Form Content */}
@@ -22,52 +23,27 @@ const Setting = () => {
                 {/* Fields */}
                 <>
                   <div className="mb-3">
-                    <div className="txt-primary">Volume {""}</div>
-                    <input
-                      type="text"
-                      className="form-control rounded "
-                      id="AlternativeID"
-                      // value={device}
-                      disabled
-                      // onChange={(e) => onChange(e)}
-                    />
+                    <div className="txt-primary">Volume Max {""}</div>
+                    <VolumeController />
+                  </div>
+                  <div className="mb-3">
+                    <div className="txt-primary">Volume Min</div>
+                    <VolumeController />
                   </div>
                   <div className="mb-3">
                     <div className="txt-primary">Language</div>
-                    <input
-                      type="tel"
-                      className="form-control rounded "
-                      id="PhoneNumber"
-                      placeholder="Enter your phone..."
-                      required
-                      // value={PhoneNumber}
-                      // onChange={(e) => onChange(e)}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <div className="txt-primary">Others</div>
-                    <input
-                      type="text"
-                      className="form-control rounded "
-                      id="FullName"
-                      placeholder="Enter Full Name..."
-                      required
-                      // value={FullName}
-                      // onChange={(e) => onChange(e)}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <div className="txt-primary">Email</div>
-                    <input
-                      type="Email"
-                      className="form-control rounded "
-                      id="Email"
-                      placeholder="Enter Email..."
-                      required
-                      // value={Email}
-                      pattern="(?![_.-])((?![_.-][_.-])[a-zA-Z\d_.-]){0,63}[a-zA-Z\d]@((?!-)((?!--)[a-zA-Z\d-]){0,63}[a-zA-Z\d]\.){1,2}([a-zA-Z]{2,14}\.)?[a-zA-Z]{2,14}"
-                      // onChange={(e) => onChange(e)}
-                    />
+                    <select
+                      className="form-select form-control bg-white text-main m-0"
+                      aria-label="Default select example"
+                      // value={year}
+                      id="language"
+                      // onChange={(e) => setYear(parseInt(e.target.value))}
+                    >
+                      <option value={1}>English</option>
+                      <option value={2}>French</option>
+                      <option value={3}>German</option>
+                      <option value={4}>Chinese</option>
+                    </select>
                   </div>
                 </>
 
@@ -79,8 +55,8 @@ const Setting = () => {
                       type="submit"
                       className="button-primary btn-block btn px-5"
                     >
-                      In
-                      <svg
+                      Save
+                      {/* <svg
                         xmlns="http://www.w3.org/2000/svg"
                         height="24"
                         viewBox="0 -960 960 960"
@@ -88,15 +64,12 @@ const Setting = () => {
                         fill="currentColor"
                       >
                         <path d="M480-120v-80h280v-560H480v-80h280q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H480Zm-80-160-55-58 102-102H120v-80h327L345-622l55-58 200 200-200 200Z" />
-                      </svg>
+                      </svg> */}
                     </button>
                     {/* Out */}
                   </>
                 </div>
               </form>
-            </div>
-            <div className="col-8">
-              <h6>Schedule a Visit</h6>
             </div>
           </div>
         </div>
