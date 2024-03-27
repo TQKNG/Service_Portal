@@ -751,7 +751,7 @@ export const updateBook = (schoolId, formData) => async (dispatch) => {
 
 export const addBook = (formData) => async (dispatch) => {
   try {
-    await api.post("/songs", { BookID: 19, Name: "New song Test" });
+    await api.post("/songs", { BookID: 19, Name: "New Book Test" });
     // dispatch(loadSchoolsList());
     dispatch(setAlert("Book Added Successfully", "success"));
   } catch (err) {

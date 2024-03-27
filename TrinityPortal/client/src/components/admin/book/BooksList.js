@@ -117,7 +117,7 @@ const BooksList = ({ booksList, bookListLoading }) => {
             setListSearch={setListSearch}
             filter={(e) => {
               const list = booksList.filter((item) =>
-                item.FullName.toUpperCase().includes(
+                item.Name.toUpperCase().includes(
                   e.target.value.toUpperCase()
                 )
               );

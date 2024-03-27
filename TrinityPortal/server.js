@@ -81,7 +81,8 @@ const assessments = require('./routes/Assessment');
 const assessmentresults = require('./routes/AssessmentResult');
 const classrooms = require('./routes/Classroom');
 const receptions = require('./routes/Reception');
-const songs = require('./routes/Reception');
+const songs = require('./routes/Song');
+const books = require('./routes/Book');
 
 //Mount Routes
 app.use('/api/users', user);
@@ -92,6 +93,7 @@ app.use('/api/assessmentresults', assessmentresults);
 app.use('/api/classrooms', classrooms);
 app.use('/api/receptions', receptions);
 app.use('/api/songs', songs);
+app.use('/api/books', books);
 
 // Serve Static assests Static
 app.use(express.static(__dirname + '/client/build'));
