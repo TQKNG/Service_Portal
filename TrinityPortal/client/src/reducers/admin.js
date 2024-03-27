@@ -22,6 +22,9 @@ import {
   GET_SONG,
   GET_SONGSLIST,
   CLEAR_SONG,
+  GET_BOOK,
+  GET_BOOKSLIST,
+  CLEAR_BOOK,
   GET_REPORT,
   CLEAR_REPORT,
   GET_ASSESSMENTSINSTRUCTIONLIST,
@@ -92,6 +95,11 @@ const initialState = {
   song: null,
   songListLoading: true,
   songLoading: true,
+
+  booksList: [],
+  book: null,
+  bookListLoading: true,
+  bookLoading: true,
 };
 
 // eslint-disable-next-line
@@ -132,6 +140,13 @@ export default function (state = initialState, action) {
       return { ...state, song: payload, songLoading: false };
     case CLEAR_SONG:
       return { ...state, song: null, songLoading: true };
+
+    case GET_BOOKSLIST:
+      return { ...state, booksList: payload, bookListLoading: false };
+    case GET_BOOK:
+      return { ...state, book: payload, bookLoading: false };
+    case CLEAR_BOOK:
+      return { ...state, book: null, bookLoading: true };
 
     case GET_ASSESSMENTSLIST:
       return {
@@ -275,6 +290,11 @@ export default function (state = initialState, action) {
         song: null,
         songListLoading: true,
         songLoading: true,
+
+        booksList: [],
+        book: null,
+        bookListLoading: true,
+        bookLoading: true,
       };
     case CLEAR_ITEMS:
       return {
@@ -294,8 +314,11 @@ export default function (state = initialState, action) {
         reception: null,
         receptionLoading: true,
 
-       song: null,
-       songLoading: true,
+        song: null,
+        songLoading: true,
+
+        book: null,
+        bookLoading: true,
 
         reports: [],
         reportsLoading: true,

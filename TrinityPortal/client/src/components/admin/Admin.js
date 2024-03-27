@@ -34,8 +34,8 @@ import IdleTimer from "../layouts/IdleTimer";
 import { logout } from "../../actions/auth";
 import ResultFinalize from "./results/ResultFinalize";
 import Receptions from "./reception/Receptions";
-import ReceptionForm from "../anonymous/AnonymousForm";
 import Songs from "./song/Songs";
+import Books from "./book/Books";
 import Setting from "./settings/Setting";
 
 const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
@@ -65,6 +65,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               classrooms={true}
               receptions={true}
               songs={true}
+              books={true}
               setting={true}
             />
           )}
@@ -80,6 +81,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               classrooms={true}
               receptions={true}
               songs={true}
+              books={true}
               setting={true}
             />
           )}
@@ -94,6 +96,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               classrooms={true}
               receptions={true}
               songs={true}
+              books={true}
               setting={true}
             />
           )}
@@ -108,6 +111,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               classrooms={true}
               receptions={true}
               songs={true}
+              books={true}
               setting={true}
             />
           )}
@@ -165,6 +169,9 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
 
           {/* Song */}
           {location.pathname === "/admin/song" && <Songs />}
+
+          {/* Book */}
+          {location.pathname === "/admin/book" && <Books />}
         </div>
       ) : (
         <div className="d-flex align-items-center h-100 justify-content-center">

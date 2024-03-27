@@ -3,22 +3,22 @@ import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Badge from "react-bootstrap/Badge";
-import { setSong } from "../../../actions/admin";
+import { setBook } from "../../../actions/admin";
 import ToolTipComp from "../../layouts/ToolTip";
 import moment from 'moment';
 
-const SongsListItem = ({ song, setSong }) => {
+const BooksListItem = ({ book, setBook }) => {
   const [edit, setEdit] = useState(false);
   const [show, setShow] = useState(false);
-  const { SongID, Name } = song;
+  const { BookID, Name } = book;
   const hist = useHistory();
   return (
     <div className="admin-users-fields  d-flex align-items-center justify-content-around   p-2 border-bottom">
-      <div className="admin-schools-field text-truncate mr-1">{SongID}</div>
+      <div className="admin-schools-field text-truncate mr-1">{BookID}</div>
       <div
         className="admin-schools-field  text-truncate "
         onClick={() => {
-          setSong(song);
+          setBook(book);
           //   hist.push(`/admin/school/schoolId=${SchoolID}`);
         }}
         title={Name}
@@ -51,7 +51,7 @@ const SongsListItem = ({ song, setSong }) => {
             </svg>
           }
           type="Edit"
-          module="Song"
+          module="Book"
         />
 
         <ToolTipComp
@@ -71,7 +71,7 @@ const SongsListItem = ({ song, setSong }) => {
                 setShow(false);
               }}
               onClick={() => {
-                setSong(song);
+                setBook(book);
                 //   hist.push(`/admin/school/schoolId=${SchoolID}`);
               }}
             >
@@ -86,16 +86,16 @@ const SongsListItem = ({ song, setSong }) => {
             </svg>
           }
           type="Show"
-          module="Song"
+          module="Book"
         />
       </div>
     </div>
   );
 };
 
-SongsListItem.propTypes = {
-  song: PropTypes.object.isRequired,
-  setSong: PropTypes.func.isRequired,
+BooksListItem.propTypes = {
+  book: PropTypes.object.isRequired,
+  setBook: PropTypes.func.isRequired,
 };
 
-export default connect(null, { setSong })(SongsListItem);
+export default connect(null, { setBook })(BooksListItem);

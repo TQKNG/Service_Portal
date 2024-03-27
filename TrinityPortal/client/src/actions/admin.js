@@ -28,7 +28,11 @@ import {
   GET_RECEPTIONSLIST,
   CLEAR_RECEPTION,
   CLEAR_SONG,
-  GET_SONGSLIST
+  CLEAR_BOOK,
+  GET_SONG,
+  GET_SONGSLIST,
+  GET_BOOK,
+  GET_BOOKSLIST
 } from "../actions/types";
 import { setAlert } from "./alerts";
 import { clearAssessmentResult } from "./assessment";
@@ -458,6 +462,7 @@ export const getReception = (id) => async (dispatch) => {
   }
 };
 
+// Reception
 export const loadReceptionsList = (value={}) => async (dispatch) => {
   try {
     // const res = await api.post("/schools/get",value);
@@ -670,6 +675,116 @@ export const deleteSong = (schoolId) => async (dispatch) => {
       }
   }
 };
+
+// Book
+export const setBook = (book) => (dispatch) => {
+  dispatch({ type: GET_BOOK, payload: book });
+};
+
+export const getBook = (id) => async (dispatch) => {
+  try {
+    // const res = await api.post("/schools/get", { SchoolID: parseInt(id) });
+
+    // dispatch({ type: GET_SCHOOL, payload: res.data.data[0] });
+  } catch (error) {
+    console.log(error);
+    const errors = error.response.data.errors;
+    if (errors)
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      }
+  }
+};
+export const loadBooksList = (value={}) => async (dispatch) => {
+  try {
+    // const res = await api.post("/schools/get",value);
+    // dispatch({ type: GET_SCHOOLSLIST, payload: res.data.data });
+    dispatch({type:GET_BOOKSLIST,payload:  [
+      {
+        BookID: 1,
+        Name: "The Magic Tree",
+      },
+      {
+        BookID: 2,
+        Name: "Winter Fairy",
+      },
+      {
+        BookID: 3,
+        Name: "The Enchanted Ones",
+      },
+      {
+        BookID: 4,
+        Name: "Starlit Melodies",
+      },
+    ]})
+  } catch (error) {
+    console.log(error);
+    const errors = error.response.data.errors;
+    if (errors)
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      }
+  }
+};
+
+export const updateBook = (schoolId, formData) => async (dispatch) => {
+  try {
+    // const result = await api.put(`/schools/${schoolId}`, formData);
+    // console.log("test result", result)
+    // dispatch(loadSchoolsList());
+    // dispatch(setAlert("School updated Successfully", "success"));
+  } catch (err) {
+    console.log(err);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      } else
+        errors.forEach((error) => dispatch(setAlert(error.message, "danger")));
+    }
+  }
+};
+
+export const addBook = (formData) => async (dispatch) => {
+  try {
+    await api.post("/songs", { BookID: 19, Name: "New song Test" });
+    // dispatch(loadSchoolsList());
+    dispatch(setAlert("Book Added Successfully", "success"));
+  } catch (err) {
+    console.log(err);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      } else
+        errors.forEach((error) => dispatch(setAlert(error.message, "danger")));
+    }
+  }
+};
+
+export const deleteBook = (schoolId) => async (dispatch) => {
+  try {
+    // await api.delete(`/schools/${schoolId}`);
+    // dispatch(loadSchoolsList());
+    // dispatch(setAlert("School Deleted Successfully", "info"));
+  } catch (error) {
+    console.log(error);
+    const errors = error.response.data.errors;
+    if (errors)
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      }
+  }
+};
+
+
 
 export const generateReport =
   ( year, benchmarkID, schoolID, gradeID,sectionID, studentID, teacherID, schoolIds) => async (dispatch) => {
@@ -947,6 +1062,10 @@ export const clearReception = () => (dispatch) => {
 
 export const clearSong = () => (dispatch) => {
   dispatch({ type: CLEAR_SONG });
+};
+
+export const clearBook = () => (dispatch) => {
+  dispatch({ type: CLEAR_BOOK });
 };
 
 export const clearAssessment = () => (dispatch) => {

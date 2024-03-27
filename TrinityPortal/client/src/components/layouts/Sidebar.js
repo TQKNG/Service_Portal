@@ -15,6 +15,7 @@ const Sidebar = ({
   setting,
   clearItems,
   classrooms,
+  books
 }) => {
   const history = useHistory();
   const location = useLocation();
@@ -28,6 +29,7 @@ const Sidebar = ({
       classrooms: location.pathname.includes("/admin/classroom"),
       receptions: location.pathname.includes("/admin/reception"),
       songs: location.pathname.includes("/admin/song"),
+      books: location.pathname.includes("/admin/book"),
       setting: location.pathname.includes("/admin/setting"),
     });
   }, [location.pathname]);
@@ -41,6 +43,7 @@ const Sidebar = ({
     classrooms: location.pathname.includes("/admin/classroom"),
     receptions: location.pathname.includes("/admin/reception"),
     songs: location.pathname.includes("/admin/song"),
+    books: location.pathname.includes("/admin/book"),
     setting: location.pathname.includes("/admin/setting"),
   });
   return (
@@ -195,21 +198,22 @@ const Sidebar = ({
         </div>
       )}
 
-      {assessments && (
+      {books && (
         <div
           className={`d-flex ${
-            selected.assessments ? "sidebar-item-selected" : ""
+            selected.books ? "sidebar-item-selected" : ""
           } sidebar-row`}
           onClick={() => {
             setSelected({
               users: false,
               schools: false,
-              assessments: true,
+              assessments: false,
               dashboard: false,
               results: false,
               classrooms: false,
+              books: true,
             });
-            history.push("/admin/assessments");
+            history.push("/admin/book");
             clearItems();
           }}
         >
@@ -227,7 +231,7 @@ const Sidebar = ({
           <div
             className={`sidebar-description  ${!open ? "d-none" : " py-2"}`}
             onClick={() => {
-              history.push("/admin/assessments");
+              history.push("/admin/book");
               clearItems();
             }}
           >

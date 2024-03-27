@@ -98,6 +98,9 @@ const App = () => {
             {/* Song */}
             <Route exact path="/admin/song" component={Admin} />
 
+            {/* Book */}
+            <Route exact path="/admin/book" component={Admin} />
+
             {/* Setting */}
             <Route exact path="/admin/setting" component={Admin} />
 

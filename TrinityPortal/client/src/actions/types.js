@@ -53,6 +53,12 @@ export const GET_SONGSLIST = 'GET_SONGSLIST';
 export const GET_SONG = 'GET_SONG';
 export const CLEAR_SONG = 'CLEAR_SONG';
 
+
+// Song actions
+export const GET_BOOKSLIST = 'GET_BOOKSLIST';
+export const GET_BOOK = 'GET_BOOK';
+export const CLEAR_BOOK = 'CLEAR_BOOK';
+
 // Chart actions
 export const GET_OVERALL_RESULTS_CHART = 'GET_OVERALL_RESULTS_CHART';
 export const CLEAR_OVERALL_RESULTS_CHART = 'CLEAR_OVERALL_RESULTS_CHART';
