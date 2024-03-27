@@ -1,7 +1,9 @@
-import React, { Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import VolumeController from "../../layouts/Slider";
+import Toogle from "../../layouts/Toogle";
 
 const Setting = () => {
+  const [checked, setChecked] = useState(false);
   return (
     <Fragment>
       <div className="p-sm-5 p-2 w-100 dashboard-margin">
@@ -10,8 +12,9 @@ const Setting = () => {
             <h6 className="txt-primary-light mb-0">Admin / Setting</h6>{" "}
           </div>
         </div>
-        <div className="card w-100 p-2 p-sm-3 p-lg-5 shadow-lg border-0 users-list">
-          <div className="row ">
+        <div className="card w-100 p-2 p-sm-3 p-lg-5 shadow-lg border-0 users-list d-flex justify-content-between">
+          <div className="row">
+            {/* General Settings */}
             <div className="col-4 d-flex flex-column">
               <h6>General Settings</h6>
               {/* Form Content */}
@@ -46,17 +49,73 @@ const Setting = () => {
                     </select>
                   </div>
                 </>
+              </form>
+            </div>
 
-                {/* Buttons */}
-                <div className="d-flex align-items-center justify-content-center gap-2">
-                  <>
-                    {/* In */}
-                    <button
-                      type="submit"
-                      className="button-primary btn-block btn px-5"
+            {/* Outbreak Settings */}
+            <div className="col-8 d-flex flex-column">
+              <h6>Outbreak Settings</h6>
+              {/* Form Content */}
+              <form
+                className="w-100 p-2 p-sm-3 p-lg-4 shadow-lg  mb-2 overflow-auto d-flex flex-column gap-2 justify-content-around"
+                style={{ minHeight: "400px" }}
+                // onSubmit={(e) => onSubmit(e)}
+              >
+                {/* Fields */}
+                <>
+                  <div className="mb-3">
+                    <div className="txt-primary">Outbreak Status {""}</div>
+                    {/* Toogle */}
+                    <div
+                      className="d-flex p-0 align-items-center"
+                      style={{ maxWidth: "100px" }}
                     >
-                      Save
-                      {/* <svg
+                      <Toogle
+                        checked={checked}
+                        setChecked={setChecked}
+                        labels={["Yes", "No"]}
+                      />
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <div className="txt-primary">Outbreak Message 1</div>
+                    <input
+                      type="text"
+                      className="form-control rounded "
+                      id="message1"
+                      placeholder="Enter outbreak message 1"
+                      required
+                      // value={Name}
+                      // onChange={(e) => onChange(e)}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <div className="txt-primary">Outbreak message 2</div>
+                    <input
+                      type="text"
+                      className="form-control rounded "
+                      id="message1"
+                      placeholder="Enter outbreak message 2"
+                      required
+                      // value={Name}
+                      // onChange={(e) => onChange(e)}
+                    />
+                  </div>
+                </>
+              </form>
+            </div>
+          </div>
+          <div className="row">
+            {/* Buttons */}
+            <div className="d-flex align-items-center justify-content-center gap-2">
+              <>
+                {/* Save */}
+                <button
+                  type="submit"
+                  className="button-primary btn-block btn px-5"
+                >
+                  Save
+                  {/* <svg
                         xmlns="http://www.w3.org/2000/svg"
                         height="24"
                         viewBox="0 -960 960 960"
@@ -65,11 +124,8 @@ const Setting = () => {
                       >
                         <path d="M480-120v-80h280v-560H480v-80h280q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H480Zm-80-160-55-58 102-102H120v-80h327L345-622l55-58 200 200-200 200Z" />
                       </svg> */}
-                    </button>
-                    {/* Out */}
-                  </>
-                </div>
-              </form>
+                </button>
+              </>
             </div>
           </div>
         </div>
