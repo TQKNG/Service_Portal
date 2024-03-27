@@ -54,10 +54,21 @@ export const GET_SONG = 'GET_SONG';
 export const CLEAR_SONG = 'CLEAR_SONG';
 
 
-// Song actions
+// Book actions
 export const GET_BOOKSLIST = 'GET_BOOKSLIST';
 export const GET_BOOK = 'GET_BOOK';
 export const CLEAR_BOOK = 'CLEAR_BOOK';
+
+// Joke actions
+export const GET_JOKESLIST = 'GET_JOKESLIST';
+export const GET_JOKE = 'GET_JOKE';
+export const CLEAR_JOKE = 'CLEAR_JOKE';
+
+// Trivia actions
+export const GET_TRIVIASLIST = 'GET_TRIVIASLIST';
+export const GET_TRIVIA = 'GET_TRIVIA';
+export const CLEAR_TRIVIA = 'CLEAR_TRIVIA';
+
 
 // Chart actions
 export const GET_OVERALL_RESULTS_CHART = 'GET_OVERALL_RESULTS_CHART';

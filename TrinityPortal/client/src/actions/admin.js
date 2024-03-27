@@ -32,7 +32,13 @@ import {
   GET_SONG,
   GET_SONGSLIST,
   GET_BOOK,
-  GET_BOOKSLIST
+  GET_BOOKSLIST,
+  GET_JOKE,
+  GET_JOKESLIST,
+  CLEAR_JOKE,
+  GET_TRIVIA,
+  GET_TRIVIASLIST,
+  CLEAR_TRIVIA
 } from "../actions/types";
 import { setAlert } from "./alerts";
 import { clearAssessmentResult } from "./assessment";
@@ -570,7 +576,7 @@ export const deleteReception = (schoolId) => async (dispatch) => {
 
 // Song
 export const setSong = (song) => (dispatch) => {
-  dispatch({ type: GET_RECEPTION, payload: song });
+  dispatch({ type: GET_SONG, payload: song });
 };
 
 export const getSong = (id) => async (dispatch) => {
@@ -784,6 +790,222 @@ export const deleteBook = (schoolId) => async (dispatch) => {
   }
 };
 
+
+// Joke
+export const setJoke = (book) => (dispatch) => {
+  dispatch({ type: GET_JOKE, payload: book });
+};
+
+export const getJoke = (id) => async (dispatch) => {
+  try {
+    // const res = await api.post("/schools/get", { SchoolID: parseInt(id) });
+
+    // dispatch({ type: GET_SCHOOL, payload: res.data.data[0] });
+  } catch (error) {
+    console.log(error);
+    const errors = error.response.data.errors;
+    if (errors)
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      }
+  }
+};
+export const loadJokesList = (value={}) => async (dispatch) => {
+  try {
+    // const res = await api.post("/schools/get",value);
+    // dispatch({ type: GET_SCHOOLSLIST, payload: res.data.data });
+    dispatch({type:GET_JOKESLIST,payload:  [
+      {
+        JokeID: 1,
+        Name: "Breakfast Joke",
+      },
+      {
+        JokeID: 2,
+        Name: "Lunch Joke",
+      },
+      {
+        JokeID: 3,
+        Name: "Dinner Joke",
+      },
+      {
+        JokeID: 4,
+        Name: "Supper Joke",
+      },
+    ]})
+  } catch (error) {
+    console.log(error);
+    const errors = error.response.data.errors;
+    if (errors)
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      }
+  }
+};
+
+export const updateJoke = (schoolId, formData) => async (dispatch) => {
+  try {
+    // const result = await api.put(`/schools/${schoolId}`, formData);
+    // console.log("test result", result)
+    // dispatch(loadSchoolsList());
+    // dispatch(setAlert("School updated Successfully", "success"));
+  } catch (err) {
+    console.log(err);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      } else
+        errors.forEach((error) => dispatch(setAlert(error.message, "danger")));
+    }
+  }
+};
+
+export const addJoke = (formData) => async (dispatch) => {
+  try {
+    await api.post("/jokes", { JokeID: 19, Name: "New Joke Test" });
+    // dispatch(loadSchoolsList());
+    dispatch(setAlert("Joke Added Successfully", "success"));
+  } catch (err) {
+    console.log(err);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      } else
+        errors.forEach((error) => dispatch(setAlert(error.message, "danger")));
+    }
+  }
+};
+
+export const deleteJoke = (schoolId) => async (dispatch) => {
+  try {
+    // await api.delete(`/schools/${schoolId}`);
+    // dispatch(loadSchoolsList());
+    // dispatch(setAlert("School Deleted Successfully", "info"));
+  } catch (error) {
+    console.log(error);
+    const errors = error.response.data.errors;
+    if (errors)
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      }
+  }
+};
+
+// Trivia
+export const setTrivia = (trivia) => (dispatch) => {
+  dispatch({ type: GET_TRIVIA, payload: trivia });
+};
+
+export const getTrivia = (id) => async (dispatch) => {
+  try {
+    // const res = await api.post("/schools/get", { SchoolID: parseInt(id) });
+
+    // dispatch({ type: GET_SCHOOL, payload: res.data.data[0] });
+  } catch (error) {
+    console.log(error);
+    const errors = error.response.data.errors;
+    if (errors)
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      }
+  }
+};
+export const loadTriviasList = (value={}) => async (dispatch) => {
+  try {
+    // const res = await api.post("/schools/get",value);
+    // dispatch({ type: GET_SCHOOLSLIST, payload: res.data.data });
+    dispatch({type:GET_TRIVIASLIST,payload:  [
+      {
+        TriviaID: 1,
+        Name: "Breakfast Trivia",
+      },
+      {
+        TriviaID: 2,
+        Name: "Lunch Trivia",
+      },
+      {
+        TriviaID: 3,
+        Name: "Dinner Trivia",
+      },
+      {
+        TriviaID: 4,
+        Name: "Supper Trivia",
+      },
+    ]})
+  } catch (error) {
+    console.log(error);
+    const errors = error.response.data.errors;
+    if (errors)
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      }
+  }
+};
+
+export const updateTrivia = (schoolId, formData) => async (dispatch) => {
+  try {
+    // const result = await api.put(`/schools/${schoolId}`, formData);
+    // console.log("test result", result)
+    // dispatch(loadSchoolsList());
+    // dispatch(setAlert("School updated Successfully", "success"));
+  } catch (err) {
+    console.log(err);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      } else
+        errors.forEach((error) => dispatch(setAlert(error.message, "danger")));
+    }
+  }
+};
+
+export const addTrivia = (formData) => async (dispatch) => {
+  try {
+    await api.post("/trivias", { TriviaID: 19, Name: "New Trivia Test" });
+    // dispatch(loadSchoolsList());
+    dispatch(setAlert("Trivia Added Successfully", "success"));
+  } catch (err) {
+    console.log(err);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      } else
+        errors.forEach((error) => dispatch(setAlert(error.message, "danger")));
+    }
+  }
+};
+
+export const deleteTrivia = (schoolId) => async (dispatch) => {
+  try {
+    // await api.delete(`/schools/${schoolId}`);
+    // dispatch(loadSchoolsList());
+    // dispatch(setAlert("School Deleted Successfully", "info"));
+  } catch (error) {
+    console.log(error);
+    const errors = error.response.data.errors;
+    if (errors)
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      }
+  }
+};
 
 
 export const generateReport =
@@ -1067,6 +1289,15 @@ export const clearSong = () => (dispatch) => {
 export const clearBook = () => (dispatch) => {
   dispatch({ type: CLEAR_BOOK });
 };
+
+export const clearJoke = () => (dispatch) => {
+  dispatch({ type: CLEAR_JOKE });
+};
+
+export const clearTrivia = () => (dispatch) => {
+  dispatch({ type: CLEAR_TRIVIA });
+};
+
 
 export const clearAssessment = () => (dispatch) => {
   dispatch({ type: CLEAR_ASSESSMENT });

@@ -25,6 +25,12 @@ import {
   GET_BOOK,
   GET_BOOKSLIST,
   CLEAR_BOOK,
+  GET_JOKE,
+  GET_JOKESLIST,
+  CLEAR_JOKE,
+  GET_TRIVIA,
+  GET_TRIVIASLIST,
+  CLEAR_TRIVIA,
   GET_REPORT,
   CLEAR_REPORT,
   GET_ASSESSMENTSINSTRUCTIONLIST,
@@ -100,6 +106,16 @@ const initialState = {
   book: null,
   bookListLoading: true,
   bookLoading: true,
+
+  jokesList: [],
+  joke: null,
+  jokeListLoading: true,
+  jokeLoading: true,
+
+  triviasList: [],
+  trivia: null,
+  triviaListLoading: true,
+  triviaLoading: true,
 };
 
 // eslint-disable-next-line
@@ -147,6 +163,20 @@ export default function (state = initialState, action) {
       return { ...state, book: payload, bookLoading: false };
     case CLEAR_BOOK:
       return { ...state, book: null, bookLoading: true };
+
+    case GET_JOKESLIST:
+      return { ...state, jokesList: payload, jokeListLoading: false };
+    case GET_JOKE:
+      return { ...state, joke: payload, jokeLoading: false };
+    case CLEAR_JOKE:
+      return { ...state, joke: null, jokeLoading: true };
+
+    case GET_TRIVIASLIST:
+      return { ...state, triviasList: payload, triviaListLoading: false };
+    case GET_TRIVIA:
+      return { ...state, trivia: payload, triviaLoading: false };
+    case CLEAR_TRIVIA:
+      return { ...state, trivia: null, triviaLoading: true };
 
     case GET_ASSESSMENTSLIST:
       return {
@@ -295,6 +325,16 @@ export default function (state = initialState, action) {
         book: null,
         bookListLoading: true,
         bookLoading: true,
+
+        jokesList: [],
+        joke: null,
+        jokeListLoading: true,
+        jokeLoading: true,
+
+        triviasList: [],
+        trivia: null,
+        triviaListLoading: true,
+        triviaLoading: true,
       };
     case CLEAR_ITEMS:
       return {
@@ -319,6 +359,12 @@ export default function (state = initialState, action) {
 
         book: null,
         bookLoading: true,
+
+        joke: null,
+        jokeLoading: true,
+
+        trivia: null,
+        triviaLoading: true,
 
         reports: [],
         reportsLoading: true,

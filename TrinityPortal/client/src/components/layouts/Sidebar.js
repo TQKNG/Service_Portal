@@ -15,7 +15,9 @@ const Sidebar = ({
   setting,
   clearItems,
   classrooms,
-  books
+  books,
+  jokes,
+  trivias,
 }) => {
   const history = useHistory();
   const location = useLocation();
@@ -30,6 +32,8 @@ const Sidebar = ({
       receptions: location.pathname.includes("/admin/reception"),
       songs: location.pathname.includes("/admin/song"),
       books: location.pathname.includes("/admin/book"),
+      jokes: location.pathname.includes("/admin/joke"),
+      trivias: location.pathname.includes("/admin/trivia"),
       setting: location.pathname.includes("/admin/setting"),
     });
   }, [location.pathname]);
@@ -44,10 +48,13 @@ const Sidebar = ({
     receptions: location.pathname.includes("/admin/reception"),
     songs: location.pathname.includes("/admin/song"),
     books: location.pathname.includes("/admin/book"),
+    jokes: location.pathname.includes("/admin/joke"),
+    trivias: location.pathname.includes("/admin/trivia"),
     setting: location.pathname.includes("/admin/setting"),
   });
   return (
     <div className=" shadow-lg h-100  sidebar position-fixed bg-white ">
+      {/* Collapse Icon */}
       <div
         className="back"
         onClick={() => {
@@ -81,6 +88,8 @@ const Sidebar = ({
           )}
         </div>
       </div>
+
+      {/* Dashboard */}
       {dashboard && (
         <div
           className={`d-flex ${
@@ -122,6 +131,7 @@ const Sidebar = ({
         </div>
       )}
 
+      {/* User */}
       {users && (
         <div
           className={`d-flex ${
@@ -157,6 +167,7 @@ const Sidebar = ({
         </div>
       )}
 
+      {/* Song */}
       {songs && (
         <div
           className={`d-flex ${
@@ -198,6 +209,7 @@ const Sidebar = ({
         </div>
       )}
 
+      {/* Books */}
       {books && (
         <div
           className={`d-flex ${
@@ -240,10 +252,56 @@ const Sidebar = ({
         </div>
       )}
 
-      {schools && (
+      {/* Joke */}
+      {jokes && (
+        <>
+          <div
+            className={`d-flex ${
+              selected.jokes ? "sidebar-item-selected" : ""
+            } sidebar-row`}
+            onClick={() => {
+              setSelected({
+                users: false,
+                schools: false,
+                assessments: false,
+                dashboard: false,
+                results: false,
+                classrooms: false,
+                jokes: true,
+              });
+              history.push("/admin/joke");
+              clearItems();
+            }}
+          >
+            <div className="sidebar-icon text-center  py-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="26"
+                viewBox="0 -960 960 960"
+                width="26"
+                fill="currentColor"
+              >
+                <path d="M480-40q-149 0-254.5-42.5T120-200q0-32 20-57.5t56-45.5l65 58q-24 8-42.5 20.5T200-200q0 26 81 53t199 27q118 0 199-27t81-53q0-12-18.5-24.5T699-245l65-58q36 20 56 45.5t20 57.5q0 75-105.5 117.5T480-40Zm0-160q-22 0-42.5-7.5T400-230L148-453q-13-11-20.5-27t-7.5-33v-80q0-17 6.5-33t19.5-27l252-235q17-16 38-24t44-8q23 0 44 8t38 24l252 235q13 11 19.5 27t6.5 33v80q0 17-7.5 33T812-453L560-230q-17 15-37.5 22.5T480-200Zm-4-188q14 0 26.5-4.5T526-407l222-197-240-226q-7-5-14-7.5t-15-2.5q-8 0-15 2.5t-12 7.5L208-600l218 193q11 10 23.5 14.5T476-388ZM360-550q21 0 35.5-14.5T410-600q0-21-14.5-35.5T360-650q-21 0-35.5 14.5T310-600q0 21 14.5 35.5T360-550Zm50 54q43 21 90.5 13.5T584-522q34-29 44.5-73T618-678L410-496Zm70-174q21 0 35.5-14.5T530-720q0-21-14.5-35.5T480-770q-21 0-35.5 14.5T430-720q0 21 14.5 35.5T480-670Zm-2 56Z" />
+              </svg>
+            </div>
+            <div
+              className={`sidebar-description  ${!open ? "d-none" : " py-2"}`}
+              onClick={() => {
+                history.push("/admin/joke");
+                clearItems();
+              }}
+            >
+              Jokes
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Trivia */}
+      {trivias && (
         <div
           className={`d-flex ${
-            selected.results ? "sidebar-item-selected" : ""
+            selected.trivias ? "sidebar-item-selected" : ""
           } sidebar-row`}
           onClick={() => {
             setSelected({
@@ -253,8 +311,9 @@ const Sidebar = ({
               dashboard: false,
               results: false,
               classrooms: false,
+              trivias:true
             });
-            history.push("/admin/result");
+            history.push("/admin/trivia");
             clearItems();
           }}
         >
@@ -272,7 +331,7 @@ const Sidebar = ({
           <div
             className={`sidebar-description  ${!open ? "d-none" : " py-2"}`}
             onClick={() => {
-              history.push("/admin/result");
+              history.push("/admin/trivia");
               clearItems();
             }}
           >
@@ -280,44 +339,6 @@ const Sidebar = ({
           </div>
         </div>
       )}
-
-      <div
-        className={`d-flex  ? "sidebar-item-selected" : ""
-          } sidebar-row`}
-        onClick={() => {
-          // setSelected({
-          //   users: false,
-          //   schools: false,
-          //   assessments: false,
-          //   dashboard: false,
-          //   results: true,
-          //   classrooms: false,
-          // });
-          // history.push("/admin/result");
-          // clearItems();
-        }}
-      >
-        <div className="sidebar-icon text-center  py-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="26"
-            viewBox="0 -960 960 960"
-            width="26"
-            fill="currentColor"
-          >
-            <path d="M480-40q-149 0-254.5-42.5T120-200q0-32 20-57.5t56-45.5l65 58q-24 8-42.5 20.5T200-200q0 26 81 53t199 27q118 0 199-27t81-53q0-12-18.5-24.5T699-245l65-58q36 20 56 45.5t20 57.5q0 75-105.5 117.5T480-40Zm0-160q-22 0-42.5-7.5T400-230L148-453q-13-11-20.5-27t-7.5-33v-80q0-17 6.5-33t19.5-27l252-235q17-16 38-24t44-8q23 0 44 8t38 24l252 235q13 11 19.5 27t6.5 33v80q0 17-7.5 33T812-453L560-230q-17 15-37.5 22.5T480-200Zm-4-188q14 0 26.5-4.5T526-407l222-197-240-226q-7-5-14-7.5t-15-2.5q-8 0-15 2.5t-12 7.5L208-600l218 193q11 10 23.5 14.5T476-388ZM360-550q21 0 35.5-14.5T410-600q0-21-14.5-35.5T360-650q-21 0-35.5 14.5T310-600q0 21 14.5 35.5T360-550Zm50 54q43 21 90.5 13.5T584-522q34-29 44.5-73T618-678L410-496Zm70-174q21 0 35.5-14.5T530-720q0-21-14.5-35.5T480-770q-21 0-35.5 14.5T430-720q0 21 14.5 35.5T480-670Zm-2 56Z" />
-          </svg>
-        </div>
-        <div
-          className={`sidebar-description  ${!open ? "d-none" : " py-2"}`}
-          onClick={() => {
-            // history.push("/admin/result");
-            // clearItems();
-          }}
-        >
-          Jokes
-        </div>
-      </div>
 
       {/* Reception */}
       {receptions && (
@@ -363,6 +384,8 @@ const Sidebar = ({
           </div>
         </div>
       )}
+
+      {/* Setting */}
       {setting && (
         <div
           className={`d-flex ${

@@ -36,6 +36,8 @@ import ResultFinalize from "./results/ResultFinalize";
 import Receptions from "./reception/Receptions";
 import Songs from "./song/Songs";
 import Books from "./book/Books";
+import Jokes from "./joke/Jokes";
+import Trivias from "./trivia/Trivias";
 import Setting from "./settings/Setting";
 
 const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
@@ -66,6 +68,8 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               receptions={true}
               songs={true}
               books={true}
+              jokes={true}
+              trivias={true}
               setting={true}
             />
           )}
@@ -82,6 +86,8 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               receptions={true}
               songs={true}
               books={true}
+              jokes={true}
+              trivias={true}
               setting={true}
             />
           )}
@@ -97,6 +103,8 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               receptions={true}
               songs={true}
               books={true}
+              jokes={true}
+              trivias={true}
               setting={true}
             />
           )}
@@ -112,6 +120,8 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               receptions={true}
               songs={true}
               books={true}
+              jokes={true}
+              trivias={true}
               setting={true}
             />
           )}
@@ -172,6 +182,12 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
 
           {/* Book */}
           {location.pathname === "/admin/book" && <Books />}
+
+          {/* Joke */}
+          {location.pathname === "/admin/joke" && <Jokes />}
+
+          {/* Trivia */}
+          {location.pathname === "/admin/trivia" && <Trivias />}
         </div>
       ) : (
         <div className="d-flex align-items-center h-100 justify-content-center">

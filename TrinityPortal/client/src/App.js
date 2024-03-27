@@ -101,6 +101,12 @@ const App = () => {
             {/* Book */}
             <Route exact path="/admin/book" component={Admin} />
 
+            {/* Joke */}
+            <Route exact path="/admin/joke" component={Admin} />
+
+            {/* Trivia */}
+            <Route exact path="/admin/trivia" component={Admin} />
+
             {/* Setting */}
             <Route exact path="/admin/setting" component={Admin} />
 
