@@ -83,6 +83,8 @@ const classrooms = require('./routes/Classroom');
 const receptions = require('./routes/Reception');
 const songs = require('./routes/Song');
 const books = require('./routes/Book');
+const jokes = require('./routes/Joke');
+const trivias = require('./routes/Trivia');
 
 //Mount Routes
 app.use('/api/users', user);
@@ -94,6 +96,8 @@ app.use('/api/classrooms', classrooms);
 app.use('/api/receptions', receptions);
 app.use('/api/songs', songs);
 app.use('/api/books', books);
+app.use('/api/jokes', jokes);
+app.use('/api/trivias', trivias);
 
 // Serve Static assests Static
 app.use(express.static(__dirname + '/client/build'));
