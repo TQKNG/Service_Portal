@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Badge from "react-bootstrap/Badge";
 import { setSong } from "../../../actions/admin";
 import ToolTipComp from "../../layouts/ToolTip";
-import moment from 'moment';
 
 const SongsListItem = ({ song, setSong }) => {
   const [edit, setEdit] = useState(false);
@@ -17,13 +15,10 @@ const SongsListItem = ({ song, setSong }) => {
       <div className="admin-schools-field text-truncate mr-1">{SongID}</div>
       <div
         className="admin-schools-field  text-truncate "
-        onClick={() => {
-          setSong(song);
-          //   hist.push(`/admin/school/schoolId=${SchoolID}`);
-        }}
+        onClick={() => {}}
         title={Name}
       >
-        {Name?Name:"N/A"}
+        {Name ? Name : "N/A"}
       </div>
       <div className="admin-schools-field  text-truncate">
         <ToolTipComp
@@ -42,8 +37,8 @@ const SongsListItem = ({ song, setSong }) => {
               }}
               className="cursor-pointer"
               onClick={() => {
-                //   setSchool(school);
-                //   hist.push('/admin/school/edit');
+                setSong(song);
+                hist.push(`/admin/song/edit`);
               }}
             >
               <path d="M0 0h24v24H0V0z" fill="none" />

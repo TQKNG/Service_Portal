@@ -46,6 +46,7 @@ const Setting = () => {
               >
                 {/* Fields */}
                 <>
+                  {/* Volume Max */}
                   <div className="mb-3">
                     <div className="txt-primary">Volume Max {""}</div>
                     <div className="d-flex gap-3">
@@ -67,11 +68,12 @@ const Setting = () => {
                       </div>
                     </div>
                   </div>
+                  {/* Volume Min */}
                   <div className="mb-3">
                     <div className="txt-primary">Volume Min {""}</div>
                     <div className="d-flex gap-3">
                       <div className="col-9">
-                        <VolumeController volume={volumeMin} setFormData type={"Min"}  />
+                        <VolumeController volume={volumeMin} setFormData={setFormData} type={"Min"}  />
                       </div>
                       <div className="w-100">
                         <input
