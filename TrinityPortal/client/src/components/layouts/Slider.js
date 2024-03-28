@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Stack from "@mui/material/Stack";
 import Slider from "@mui/material/Slider";
 // import VolumeDown from "@mui/icons-material/VolumeDown";
 // import VolumeUp from "@mui/icons-material/VolumeUp";
 
-const VolumeController = () => {
-  const [value, setValue] = React.useState(30);
+const VolumeController = ({ volume, setFormData, type }) => {
+  const [value, setValue] = React.useState(volume);
+
+  useEffect(() => {
+    setValue(volume);
+  }, [volume]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    if (type === "Max") {
+      setFormData({ ...setFormData, volumeMax: newValue });
+    } else {
+      setFormData({ ...setFormData, volumeMin: newValue });
+    }
   };
 
   const handleBlur = () => {
@@ -36,7 +45,6 @@ const VolumeController = () => {
             },
           }}
         />
-        {/* <VolumeUp /> */}
       </Stack>
     </>
   );

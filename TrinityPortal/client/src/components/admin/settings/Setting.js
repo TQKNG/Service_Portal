@@ -4,6 +4,27 @@ import Toogle from "../../layouts/Toogle";
 
 const Setting = () => {
   const [checked, setChecked] = useState(false);
+  const [formData, setFormData] = useState({
+    volumeMax: null,
+    volumeMin: null,
+    language: "",
+    outbreakStatus: "",
+    outbreakMessage1: "",
+    outbreakMessage2: "",
+  });
+
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const {
+    volumeMax,
+    volumeMin,
+    language,
+    outbreakStatus,
+    outbreakMessage1,
+    outbreakMessage2,
+  } = formData;
   return (
     <Fragment>
       <div className="p-sm-5 p-2 w-100 dashboard-margin">
@@ -12,10 +33,10 @@ const Setting = () => {
             <h6 className="txt-primary-light mb-0">Admin / Setting</h6>{" "}
           </div>
         </div>
-        <div className="card w-100 p-2 p-sm-3 p-lg-5 shadow-lg border-0 users-list d-flex justify-content-between">
+        <div className="card w-100 p-2 p-sm-3 p-lg-5 shadow-lg border-0 users-list d-flex justify-content-between overflow-y-auto overflow-x-hidden">
           <div className="row">
             {/* General Settings */}
-            <div className="col-4 d-flex flex-column">
+            <div className="col-12 col-md-4 d-flex flex-column">
               <h6>General Settings</h6>
               {/* Form Content */}
               <form
@@ -27,11 +48,45 @@ const Setting = () => {
                 <>
                   <div className="mb-3">
                     <div className="txt-primary">Volume Max {""}</div>
-                    <VolumeController />
+                    <div className="d-flex gap-3">
+                      <div className="col-9">
+                        <VolumeController volume={volumeMax} setFormData={setFormData} type={"Max"}/>
+                      </div>
+                      <div className="w-100">
+                        <input
+                          id="volumeMax"
+                          className="w-100 form-control rounded "
+                          value={volumeMax}
+                          min={0}
+                          max={100}
+                          type="number"
+                          placeholder="Max."
+                          required
+                          onChange={onChange}
+                        />
+                      </div>
+                    </div>
                   </div>
                   <div className="mb-3">
-                    <div className="txt-primary">Volume Min</div>
-                    <VolumeController />
+                    <div className="txt-primary">Volume Min {""}</div>
+                    <div className="d-flex gap-3">
+                      <div className="col-9">
+                        <VolumeController volume={volumeMin} setFormData type={"Min"}  />
+                      </div>
+                      <div className="w-100">
+                        <input
+                          id="volumeMin"
+                          className="w-100 form-control rounded "
+                          value={volumeMin}
+                          min={0}
+                          max={100}
+                          type="number"
+                          placeholder="Min."
+                          required
+                          onChange={onChange}
+                        />
+                      </div>
+                    </div>
                   </div>
                   <div className="mb-3">
                     <div className="txt-primary">Language</div>
@@ -53,7 +108,7 @@ const Setting = () => {
             </div>
 
             {/* Outbreak Settings */}
-            <div className="col-8 d-flex flex-column">
+            <div className="col-12 col-md-8 d-flex flex-column">
               <h6>Outbreak Settings</h6>
               {/* Form Content */}
               <form
