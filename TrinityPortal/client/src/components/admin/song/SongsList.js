@@ -118,7 +118,7 @@ const SongsList = ({ songsList, songListLoading }) => {
             setListSearch={setListSearch}
             filter={(e) => {
               const list = songsList.filter((item) =>
-                item.FullName.toUpperCase().includes(
+                item.Name.toUpperCase().includes(
                   e.target.value.toUpperCase()
                 )
               );
