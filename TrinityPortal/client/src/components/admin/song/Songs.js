@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import {
   loadSongsList,
   addSong,
@@ -16,6 +17,8 @@ const Songs = ({
   clearSong,
   addSong
 }) => {
+
+  const hist = useHistory();
   useEffect(() => {
     if (songsList.length === 0 && songListLoading) {
       loadSongsList();
@@ -31,7 +34,6 @@ const Songs = ({
               {songsList.length}
             </div>
           </div>
-          {/* Template */}
           <div className="d-flex w-100 align-items-center justify-content-end">
             {authUser.UserTypeID === 5 && (
               <>
@@ -39,9 +41,8 @@ const Songs = ({
                   <div
                     className="btn button-parent button-primary d-flex align-items-center px-3"
                     onClick={() => {
-                      // hist.push("/admin/school/add");
-                      addSong();
-                      // clearSchool();
+                      clearSong();
+                      hist.push('/admin/song/add');
                     }}
                   >
                     <svg

@@ -49,7 +49,7 @@ const SongsListItem = ({ song, setSong }) => {
           module="Song"
         />
 
-        <ToolTipComp
+        {/* <ToolTipComp
           myButton={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +82,7 @@ const SongsListItem = ({ song, setSong }) => {
           }
           type="Show"
           module="Song"
-        />
+        /> */}
       </div>
     </div>
   );

@@ -65,6 +65,7 @@ const FileUpload = ({ instructionText, imgSrc }) => {
           alt=""
           srcset=""
         /> */}
+
       </div>
     </>
   );

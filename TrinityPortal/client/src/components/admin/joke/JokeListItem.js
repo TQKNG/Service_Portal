@@ -54,7 +54,7 @@ const JokesListItem = ({ joke, setJoke }) => {
           module="Joke"
         />
 
-        <ToolTipComp
+        {/* <ToolTipComp
           myButton={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +87,7 @@ const JokesListItem = ({ joke, setJoke }) => {
           }
           type="Show"
           module="Joke"
-        />
+        /> */}
       </div>
     </div>
   );

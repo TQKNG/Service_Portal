@@ -54,7 +54,7 @@ const BooksListItem = ({ book, setBook }) => {
           module="Book"
         />
 
-        <ToolTipComp
+        {/* <ToolTipComp
           myButton={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +87,7 @@ const BooksListItem = ({ book, setBook }) => {
           }
           type="Show"
           module="Book"
-        />
+        /> */}
       </div>
     </div>
   );

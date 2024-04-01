@@ -49,6 +49,8 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
     hist.push("/");
   }
 
+
+
   return (
     <Fragment>
       {user !== null && isAuthenticated ? (
@@ -181,6 +183,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
           {/* Song */}
           {location.pathname === "/admin/song" && <Songs />}
           {location.pathname === "/admin/song/edit" && <SongForm />}
+          {location.pathname === "/admin/song/add" && <SongForm />}
 
           {/* Book */}
           {location.pathname === "/admin/book" && <Books />}
