@@ -68,10 +68,34 @@ export const loadUsersList =
   (formData = {}) =>
   async (dispatch) => {
     try {
-      console.log("test formData",formData) 
-      const res = await api.post("/users/get", formData);
-      console.log("test resdatata",res.data.data);
-      dispatch({ type: GET_USERSLIST, payload: res.data.data });
+      // const res = await api.post("/users/get", formData);
+      // console.log("test resdatata",res.data.data);
+      // dispatch({ type: GET_USERSLIST, payload: res.data.data });
+
+      dispatch({type:GET_USERSLIST,payload:  [
+        {
+          UserID: 1,
+          FirstName: "Ziad",
+          LastName:"Diab",
+          Email: "ziad.diab@globaldws.com",
+          UserName: "ziad.diab",
+          Role: 1,
+          DeviceID: "",
+          HarewareID: null,
+          ConnectionString: null
+        },
+        {
+          UserID: 2,
+          FirstName: "Robot",
+          LastName:"1",
+          Email: null,
+          UserName:null,
+          Role: 2,
+          DeviceID: "KAZY45672",
+          HardwareID: "NBK4436788",
+          ConnectionString: "xyahskelwjqkla"
+        },
+      ]})
     } catch (error) {
       console.log(error);
       const errors = error.response.data.errors;

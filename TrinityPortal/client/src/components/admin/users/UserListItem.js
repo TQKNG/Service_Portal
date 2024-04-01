@@ -5,13 +5,18 @@ import PropTypes from "prop-types";
 import { clearReport, setUser } from "../../../actions/admin";
 import ToolTipComp from "../../layouts/ToolTip";
 
-const UsersListItem = ({ user, setUser, clearReport, authUser}) => {
+const UsersListItem = ({ user, setUser, clearReport, authUser }) => {
   const [edit, setEdit] = useState(false);
   const [show, setShow] = useState(false);
   const {
     FirstName,
     LastName,
     Email,
+    Role,
+    DeviceID,
+    HardwareID,
+    ConnectionString,
+    UserName,
     SchoolName,
     UserType,
     UserTypeID,
@@ -19,42 +24,55 @@ const UsersListItem = ({ user, setUser, clearReport, authUser}) => {
   } = user;
   const hist = useHistory();
   return (
-    <div className="admin-users-fields  d-flex align-items-center justify-content-around   p-2 border-bottom">
+    <div className="admin-users-fields  d-flex align-items-center p-2 border-bottom justify-space-between">
+      {/* Full Name Field */}
       <div
-        className="admin-users-field text-truncate mr-1"
+        className="admin-users-field text-truncate"
         onClick={() => {
           setUser(user);
           hist.push(`/admin/user/userId=${user.UserID}`);
         }}
         title={FirstName + " " + LastName}
       >
-        {FirstName} {LastName} {AlternativeID ? ` ${AlternativeID}` : ""}
+        {FirstName} {LastName}
       </div>
+
+      {/* Email Field */}
       <div
-        className="admin-users-field  text-truncate d-md-block d-none mx-1 mx-1"
-        title={AlternativeID}
-      >
-        {AlternativeID}
-      </div>
-      <div
-        className="admin-users-field  text-truncate d-md-block d-none mx-1 mx-1"
+        className="admin-users-field text-truncate"
         title={Email}
       >
         {parseInt(UserTypeID) === 2 ? "" : Email}
-      </div>
+      </div> 
 
+      {/* Username Field */}
       <div
-        className={`admin-users-field d-md-block d-none mx-1 ${
-          parseInt(UserTypeID) === 6 ? "overflow-y-auto:" : "text-truncate"
-        }`}
-        title={SchoolName}
+        className="admin-users-field text-truncate"
+        title={FirstName + " " + LastName}
       >
-        {SchoolName}
+        {UserName}
       </div>
 
-      <div className="admin-users-field text-truncate ml-1" title={UserType}>
-        {UserType}
+      {/* Role Field */}
+      <div className="admin-users-field text-truncate" title={UserType}>
+        {Role === 1 ? "Administrator" : "Receptionist"}
       </div>
+
+      {/* Device ID Field*/}
+      <div className="admin-users-field text-truncate" title={UserType}>
+        {DeviceID}
+      </div>
+
+      {/* Hardware ID Field*/}
+      <div className="admin-users-field text-truncate" title={UserType}>
+        {HardwareID}
+      </div>
+
+      {/* Connection String Field*/}
+      {/* <div className="admin-users-field text-truncate" title={UserType}>
+        {ConnectionString}
+      </div> */}
+
       <div className="admin-users-field  text-truncate  mx-1 d-flex">
         {authUser.UserTypeID >= 5 && (
           <ToolTipComp
@@ -137,4 +155,6 @@ const mapStateToProps = (state) => ({
   authUser: state.auth.user,
 });
 
-export default connect(mapStateToProps, { setUser, clearReport })(UsersListItem);
+export default connect(mapStateToProps, { setUser, clearReport })(
+  UsersListItem
+);

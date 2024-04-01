@@ -14,9 +14,12 @@ const UsersList = ({ usersList, usersListLoading }) => {
   const [formData, setFormData] = useState({
     FirstName: "",
     LastName: "",
-    SchoolID: "",
-    UserTypeID: "",
+    UserName: "",
     Email: "",
+    Role:null,
+    DeviceID:"",
+    HardwareID:null,
+    ConnectionString:"",
   });
 
   const [page, setPage] = useState(1);
@@ -188,10 +191,10 @@ const UsersList = ({ usersList, usersListLoading }) => {
           />
         </div>
       </div>
-      <div className="admin-users-fields  d-flex align-items-center justify-content-around  rounded  bg-body txt-primary">
+      <div className="admin-users-fields  d-flex align-items-center justify-space-between rounded  bg-body txt-primary">
         {/* First Name Header */}
         <div
-          className="admin-users-field text-truncate mr-1"
+          className="admin-users-field text-truncate "
           onClick={() => {
             /*
             1. Set array of sortKeys where
@@ -225,53 +228,13 @@ const UsersList = ({ usersList, usersListLoading }) => {
           onMouseEnter={() => setIsShowIcon("name")}
           onMouseLeave={() => setIsShowIcon(null)}
         >
-          First Name
-          <SortIcon icon={name} isShowIcon={isShowIcon === "name"} />
-        </div>
-
-        {/* Last Name Header */}
-        <div
-          className="admin-users-field text-truncate mr-1"
-          onClick={() => {
-            /*
-            1. Set array of sortKeys where
-            [{key: 'FirstName', order: 'asc'}, ....]
-
-            2. Set array icons where
-            {
-              id: 0,
-              name: 1,
-              email: 0,
-              school: 0,
-              role: 0,
-             }
-            */
-            if (name === 0) {
-              setSortKeys([...sortKeys, { key: "FirstName", order: "asc" }]);
-              setIcons({ ...icons, name: 1 });
-            } else if (name === 1) {
-              setSortKeys(
-                sortKeys.map((a) => {
-                  if (a.key === "FirstName") return { ...a, order: "desc" };
-                  return a;
-                })
-              );
-              setIcons({ ...icons, name: -1 });
-            } else {
-              setSortKeys(sortKeys.filter((a) => a.key !== "FirstName"));
-              setIcons({ ...icons, name: 0 });
-            }
-          }}
-          onMouseEnter={() => setIsShowIcon("name")}
-          onMouseLeave={() => setIsShowIcon(null)}
-        >
-          Last Name
+         Full Name
           <SortIcon icon={name} isShowIcon={isShowIcon === "name"} />
         </div>
 
         {/* Email Header */}
         <div
-          className="admin-users-field  text-truncate d-md-block d-none mx-1"
+          className="admin-users-field  text-truncate d-md-block d-none "
           onClick={() => {
             if (email === 0) {
               setSortKeys([...sortKeys, { key: "Email", order: "asc" }]);
@@ -310,7 +273,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
 
         {/* User Name Header */}
         <div
-          className="admin-users-field text-truncate ml-1"
+          className="admin-users-field text-truncate"
           onClick={() => {
             if (role === 0) {
               setSortKeys([...sortKeys, { key: "UserType", order: "asc" }]);
@@ -350,7 +313,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
 
         {/* Role Header */}
         <div
-          className="admin-users-field text-truncate mr-1"
+          className="admin-users-field text-truncate "
           onClick={() => {
             if (id === 0) {
               setSortKeys([
@@ -390,7 +353,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
 
         {/* Device ID Header*/}
         <div
-          className="admin-users-field text-truncate d-md-block d-none mx-1"
+          className="admin-users-field text-truncate d-md-block d-none"
           onClick={() => {
             listSearch.forEach((item, id) => {
               let l = listSearch;
@@ -437,7 +400,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
 
         {/* Hardware ID Header*/}
         <div
-          className="admin-users-field text-truncate d-md-block d-none mx-1"
+          className="admin-users-field text-truncate d-md-block d-none"
           onClick={() => {
             listSearch.forEach((item, id) => {
               let l = listSearch;
@@ -483,8 +446,8 @@ const UsersList = ({ usersList, usersListLoading }) => {
         </div>
 
         {/* Connection String Header */}
-        <div
-          className="admin-users-field text-truncate ml-1"
+        {/* <div
+          className="admin-users-field text-truncate"
           onClick={() => {
             if (role === 0) {
               setSortKeys([...sortKeys, { key: "UserType", order: "asc" }]);
@@ -520,11 +483,11 @@ const UsersList = ({ usersList, usersListLoading }) => {
         >
           Connection String
           <SortIcon icon={role} isShowIcon={isShowIcon === "role"} />
-        </div>
+        </div> */}
 
         <div className="admin-users-field text-truncate ml-1">Actions</div>
       </div>
-      {/* <div className="users-list-body ">
+      <div className="users-list-body ">
         {usersListLoading ? (
           <div className="d-flex justify-content-center align-items-center h-100">
             <div className="spinner-border txt-primary" role="status">
@@ -536,7 +499,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
             .slice(15 * (page - 1), 15 * page)
             .map((user, id) => <UserListItem user={user} key={id} />)
         )}
-      </div> */}
+      </div>
     </div>
   );
 };
