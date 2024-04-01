@@ -105,7 +105,7 @@ const UsersListItem = ({ user, setUser, clearReport, authUser }) => {
         )}
 
         {/* Button with tooltip */}
-        <ToolTipComp
+        {/* <ToolTipComp
           myButton={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -139,7 +139,7 @@ const UsersListItem = ({ user, setUser, clearReport, authUser }) => {
           }
           type="View"
           module="User"
-        />
+        /> */}
       </div>
     </div>
   );

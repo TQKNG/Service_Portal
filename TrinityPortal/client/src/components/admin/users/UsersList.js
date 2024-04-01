@@ -487,7 +487,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
 
         <div className="admin-users-field text-truncate ml-1">Actions</div>
       </div>
-      <div className="users-list-body ">
+      <div className="users-list-body">
         {usersListLoading ? (
           <div className="d-flex justify-content-center align-items-center h-100">
             <div className="spinner-border txt-primary" role="status">
