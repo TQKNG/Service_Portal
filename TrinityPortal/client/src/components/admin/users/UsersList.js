@@ -189,6 +189,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
         </div>
       </div>
       <div className="admin-users-fields  d-flex align-items-center justify-content-around  rounded  bg-body txt-primary">
+        {/* First Name Header */}
         <div
           className="admin-users-field text-truncate mr-1"
           onClick={() => {
@@ -221,12 +222,133 @@ const UsersList = ({ usersList, usersListLoading }) => {
               setIcons({ ...icons, name: 0 });
             }
           }}
-          onMouseEnter={() => setIsShowIcon('name')}
+          onMouseEnter={() => setIsShowIcon("name")}
           onMouseLeave={() => setIsShowIcon(null)}
         >
-          Full Name
-          <SortIcon icon={name} isShowIcon={isShowIcon === 'name'}/>
+          First Name
+          <SortIcon icon={name} isShowIcon={isShowIcon === "name"} />
         </div>
+
+        {/* Last Name Header */}
+        <div
+          className="admin-users-field text-truncate mr-1"
+          onClick={() => {
+            /*
+            1. Set array of sortKeys where
+            [{key: 'FirstName', order: 'asc'}, ....]
+
+            2. Set array icons where
+            {
+              id: 0,
+              name: 1,
+              email: 0,
+              school: 0,
+              role: 0,
+             }
+            */
+            if (name === 0) {
+              setSortKeys([...sortKeys, { key: "FirstName", order: "asc" }]);
+              setIcons({ ...icons, name: 1 });
+            } else if (name === 1) {
+              setSortKeys(
+                sortKeys.map((a) => {
+                  if (a.key === "FirstName") return { ...a, order: "desc" };
+                  return a;
+                })
+              );
+              setIcons({ ...icons, name: -1 });
+            } else {
+              setSortKeys(sortKeys.filter((a) => a.key !== "FirstName"));
+              setIcons({ ...icons, name: 0 });
+            }
+          }}
+          onMouseEnter={() => setIsShowIcon("name")}
+          onMouseLeave={() => setIsShowIcon(null)}
+        >
+          Last Name
+          <SortIcon icon={name} isShowIcon={isShowIcon === "name"} />
+        </div>
+
+        {/* Email Header */}
+        <div
+          className="admin-users-field  text-truncate d-md-block d-none mx-1"
+          onClick={() => {
+            if (email === 0) {
+              setSortKeys([...sortKeys, { key: "Email", order: "asc" }]);
+
+              setIcons({
+                ...icons,
+                email: 1,
+              });
+            } else if (email === 1) {
+              setSortKeys(
+                sortKeys.map((a) => {
+                  if (a.key === "Email") return { ...a, order: "desc" };
+                  return a;
+                })
+              );
+
+              setIcons({
+                ...icons,
+                email: -1,
+              });
+            } else {
+              setSortKeys(sortKeys.filter((a) => a.key !== "Email"));
+
+              setIcons({
+                ...icons,
+                email: 0,
+              });
+            }
+          }}
+          onMouseEnter={() => setIsShowIcon("email")}
+          onMouseLeave={() => setIsShowIcon(null)}
+        >
+          Email
+          <SortIcon icon={email} isShowIcon={isShowIcon === "email"} />
+        </div>
+
+        {/* User Name Header */}
+        <div
+          className="admin-users-field text-truncate ml-1"
+          onClick={() => {
+            if (role === 0) {
+              setSortKeys([...sortKeys, { key: "UserType", order: "asc" }]);
+
+              setIcons({
+                ...icons,
+                school: 0,
+                role: 1,
+              });
+            } else if (role === 1) {
+              setSortKeys(
+                sortKeys.map((a) => {
+                  if (a.key === "UserType") return { ...a, order: "desc" };
+                  return a;
+                })
+              );
+
+              setIcons({
+                ...icons,
+                role: -1,
+              });
+            } else {
+              setSortKeys(sortKeys.filter((a) => a.key !== "UserType"));
+
+              setIcons({
+                ...icons,
+                role: 0,
+              });
+            }
+          }}
+          onMouseEnter={() => setIsShowIcon("role")}
+          onMouseLeave={() => setIsShowIcon("role")}
+        >
+          User Name
+          <SortIcon icon={role} isShowIcon={isShowIcon === "role"} />
+        </div>
+
+        {/* Role Header */}
         <div
           className="admin-users-field text-truncate mr-1"
           onClick={() => {
@@ -259,51 +381,14 @@ const UsersList = ({ usersList, usersListLoading }) => {
               });
             }
           }}
-          onMouseEnter={() => setIsShowIcon('id')}
+          onMouseEnter={() => setIsShowIcon("id")}
           onMouseLeave={() => setIsShowIcon(null)}
         >
-          User Type
-          <SortIcon icon={id} isShowIcon={isShowIcon==='id'}/>
+          Role
+          <SortIcon icon={id} isShowIcon={isShowIcon === "id"} />
         </div>
 
-        <div
-          className="admin-users-field  text-truncate d-md-block d-none mx-1"
-          onClick={() => {
-            if (email === 0) {
-              setSortKeys([...sortKeys, { key: "Email", order: "asc" }]);
-
-              setIcons({
-                ...icons,
-                email: 1,
-              });
-            } else if (email === 1) {
-              setSortKeys(
-                sortKeys.map((a) => {
-                  if (a.key === "Email") return { ...a, order: "desc" };
-                  return a;
-                })
-              );
-
-              setIcons({
-                ...icons,
-                email: -1,
-              });
-            } else {
-              setSortKeys(sortKeys.filter((a) => a.key !== "Email"));
-
-              setIcons({
-                ...icons,
-                email: 0,
-              });
-            }
-          }}
-          onMouseEnter={() => setIsShowIcon('email')}
-          onMouseLeave={() => setIsShowIcon(null)}
-        >
-          Email
-          <SortIcon icon={email} isShowIcon={isShowIcon==='email'}/>
-        </div>
-
+        {/* Device ID Header*/}
         <div
           className="admin-users-field text-truncate d-md-block d-none mx-1"
           onClick={() => {
@@ -343,13 +428,61 @@ const UsersList = ({ usersList, usersListLoading }) => {
               });
             }
           }}
-          onMouseEnter={() => setIsShowIcon('school')}
+          onMouseEnter={() => setIsShowIcon("school")}
           onMouseLeave={() => setIsShowIcon(null)}
         >
-          Device ID and Hardware ID
-          <SortIcon icon={school} isShowIcon={isShowIcon==='school'}/>
+          Device ID
+          <SortIcon icon={school} isShowIcon={isShowIcon === "school"} />
         </div>
 
+        {/* Hardware ID Header*/}
+        <div
+          className="admin-users-field text-truncate d-md-block d-none mx-1"
+          onClick={() => {
+            listSearch.forEach((item, id) => {
+              let l = listSearch;
+              if (item.SchoolName === null) {
+                l[id].SchoolName = "";
+              }
+              setListSearch(l);
+            });
+
+            if (school === 0) {
+              setSortKeys([...sortKeys, { key: "SchoolName", order: "asc" }]);
+
+              setIcons({
+                ...icons,
+                school: 1,
+              });
+            } else if (school === 1) {
+              setSortKeys(
+                sortKeys.map((a) => {
+                  if (a.key === "SchoolName") return { ...a, order: "desc" };
+                  return a;
+                })
+              );
+
+              setIcons({
+                ...icons,
+                school: -1,
+              });
+            } else {
+              setSortKeys(sortKeys.filter((a) => a.key !== "SchoolName"));
+
+              setIcons({
+                ...icons,
+                school: 0,
+              });
+            }
+          }}
+          onMouseEnter={() => setIsShowIcon("school")}
+          onMouseLeave={() => setIsShowIcon(null)}
+        >
+          Hardware ID
+          <SortIcon icon={school} isShowIcon={isShowIcon === "school"} />
+        </div>
+
+        {/* Connection String Header */}
         <div
           className="admin-users-field text-truncate ml-1"
           onClick={() => {
@@ -382,12 +515,13 @@ const UsersList = ({ usersList, usersListLoading }) => {
               });
             }
           }}
-          onMouseEnter={() => setIsShowIcon('role')}
-          onMouseLeave={() => setIsShowIcon('role')}
+          onMouseEnter={() => setIsShowIcon("role")}
+          onMouseLeave={() => setIsShowIcon("role")}
         >
-          Role
-          <SortIcon icon={role} isShowIcon={isShowIcon==='role'}/>
+          Connection String
+          <SortIcon icon={role} isShowIcon={isShowIcon === "role"} />
         </div>
+
         <div className="admin-users-field text-truncate ml-1">Actions</div>
       </div>
       {/* <div className="users-list-body ">

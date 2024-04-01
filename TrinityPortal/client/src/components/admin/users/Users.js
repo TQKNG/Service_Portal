@@ -58,67 +58,11 @@ const Users = ({
           <div className="d-flex w-100 align-items-center justify-content-end">
             {parseInt(user.UserTypeID) !== 1 && (
               <div className="d-flex">
-                <a
-                  href={process.env.PUBLIC_URL + "/templates/users.xlsx"}
-                  download
-                  className="btn button-parent button-primary d-flex align-items-center px-3 mx-3"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="bi bi-download button-child"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
-                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
-                  </svg>
-                  Template
-                </a>
-
-                <div
-                  className="btn button-parent button-primary d-flex align-items-center px-3 mx-3"
-                  data-bs-toggle="modal"
-                  data-bs-target="#ImportUser"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    enableBackground="new 0 0 24 24"
-                    height="18px"
-                    viewBox="0 0 24 24"
-                    width="24px"
-                    fill="#ffffff"
-                    className="button-child"
-                  >
-                    <g>
-                      <rect fill="none" height="18" width="18" />
-                    </g>
-                    <g>
-                      <g>
-                        <path d="M19,13h-6v6h-2v-6H5v-2h6V5h2v6h6V13z" />
-                      </g>
-                    </g>
-                  </svg>
-                  Import Excel
-                </div>
+                
                 <div
                   className="btn button-parent button-primary d-flex align-items-center px-3"
                   onClick={() => {
                     clearUser();
-                    // if (user.UserTypeID === 6) {
-                    //   loadSchoolsList().then(() =>
-                    //     hist.push("/admin/user/add")
-                    //   );
-                    // } else if (user.UserTypeID === 5) {
-                    //   loadSchoolsList().then(() =>
-                    //     hist.push("/admin/user/add")
-                    //   );
-                    // } else {
-                    //   loadSchoolsList({ SchoolID: user.SchoolID }).then(() =>
-                    //     hist.push("/admin/user/add")
-                    //   );
-                    // }
                     loadSchoolsList().then(() => hist.push("/admin/user/add"));
                   }}
                 >
