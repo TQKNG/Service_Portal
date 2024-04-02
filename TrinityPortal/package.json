@@ -1,18 +1,17 @@
 {
-  "name": "learn_different",
+  "name": "trinity_village",
   "version": "1.0.0",
-  "description": "website that shifts reading assessments in school from the tradional paper and pen approuch to a modern webapp approuch ",
+  "description": "Trinity Village portal aims to provide a platform to manage the resources and services for robot services",
   "main": "server.js",
   "scripts": {
-    "start:api": "cd ../TrinityVillageAPI && dotnet run",
     "start": "node server",
     "server": "nodemon server",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\"  \"npm run client\" \"npm run start:api\"",
+    "dev": "concurrently \"npm run server\"  \"npm run client\"",
     "azure": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build",
     "build": " npm run build --prefix client"
   },
-  "author": "Ibrahim Tarhini",
+  "author": "Khanh Nguyen",
   "license": "MIT",
   "dependencies": {
     "@azure/core-rest-pipeline": "^1.12.2",
