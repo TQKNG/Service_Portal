@@ -1,6 +1,6 @@
 const sql = require("mssql");
 const { poolPromise } = require("../config/db");
-const { storeImage, retrieveImage } = require("../utils/ImageStorage");
+const { storeImage, retrieveImage } = require("../utils/storage")
 
 // @route   POST /api/assessments
 // @desc    Add User

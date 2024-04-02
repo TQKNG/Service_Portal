@@ -11,6 +11,42 @@ const {
 // @route   POST /api/auth/login
 // @desc    Login User
 // @access  public
+
+/**
+ * @openapi
+ * /api/auth/login:
+ *   post:
+ *     summary: Login to API service
+ *     description: Login to get access token.
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Successfully Login.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 token:
+ *                   type: string
+ *     security:
+ *       - apiKeyAuth: []
+ */
+
 exports.login = async (req, res) => {
   try {
     const pool = await poolPromise;
@@ -199,6 +235,6 @@ const sendTokenResponse = (user, statusCode, res) => {
 
   res
     .status(statusCode)
-    .cookie('token', token, options)
-    .json({ succes: true, token });
+    // .cookie('token', token, options)
+    .json({ success: true, token });
 };

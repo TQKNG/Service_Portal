@@ -1,3 +1,5 @@
+const { storeImage, retrieveImage } = require("../utils/storage")
+
 /**
  * @openapi
  * /api/robotservices/map:
@@ -34,7 +36,23 @@
 
 exports.addMap = async (req, res) => {
   try {
-    // console.log("test my request body", req.body);
+    console.log("Test Map req body", req.body);
+
+    // Construct a new map
+    const newMap = {
+        mapName: req.body.mapName,
+        mapData: req.body.mapData
+    }
+
+    // Save the map to file server
+     // if there is new instruction image, add to the server filesystem
+     if (req.body.mapData !== null) {
+        // Where/sublocation to store the file
+        let subloc = "Map";
+        await storeImage(subloc, newMap, req.body.mapName);
+      }
+
+
     // sendWebSocketMessage({ type: "dataReceived", data: req.body });
 
     res.status(200).json({ success: true });
