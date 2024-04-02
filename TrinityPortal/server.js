@@ -27,8 +27,30 @@ const server = http.createServer(app);
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// ---------- Utils ----------
+// API Documentation
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
 
+const options = {
+  failOnErrors: true, // Whether or not to throw when parsing errors. Defaults to false.
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Trinity Portal API',
+      version: '1.0.0',
+      description: 'API for Robot Services',
+    },
+  },
+  apis: ['./controllers/*.js'],
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: "Trinity API Documentation",
+  customfavIcon: "/assets/logo.png",
+};
+
+
+const openapiSpecification = swaggerJsdoc(options);
+
+// ---------- Utils ----------
 // Use Morgan to log reqs
 
 app.use(morgan('dev'));
@@ -98,6 +120,14 @@ app.use('/api/songs', songs);
 app.use('/api/books', books);
 app.use('/api/jokes', jokes);
 app.use('/api/trivias', trivias);
+
+
+// Serve API Docs
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification, options));
+app.get('/swagger.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(openapiSpecification);
+});
 
 // Serve Static assests Static
 app.use(express.static(__dirname + '/client/build'));
