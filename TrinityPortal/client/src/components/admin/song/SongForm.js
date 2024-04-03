@@ -26,10 +26,10 @@ const SongForm = ({
     SongID: song === null ? "" : song.SongID !== undefined ? song.SongID : "",
     Name: song === null ? "" : song.Name !== undefined ? song.Name : "",
     Lyrics: song === null ? "" : song.Lyrics !== undefined ? song.Lyrics : "",
-    SongPath:
-      song === null ? "" : song.SongPath !== undefined ? song.SongPath : "",
-    ImagePath:
-      song === null ? "" : song.ImagePath !== undefined ? song.ImagePath : "",
+    SongData:
+      song === null ? "" : song.SongPath !== undefined ? song.SongData : "",
+    SongLogo:
+      song === null ? "" : song.SongLogo !== undefined ? song.SongLogo : "",
   });
 
   const onChange = (e) => {
@@ -142,6 +142,7 @@ const SongForm = ({
               </svg>
             }
             setFormData={setFormData}
+            fieldType={"audio"}
           />
         </div>
 
@@ -163,6 +164,7 @@ const SongForm = ({
               </svg>
             }
             setFormData={setFormData}
+            fieldType={"image"}
           />
         </div>
 

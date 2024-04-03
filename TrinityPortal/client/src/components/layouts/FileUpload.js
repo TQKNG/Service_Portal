@@ -1,28 +1,78 @@
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
-const FileUpload = ({ instructionText, imgSrc,setFormData }) => {
+const FileUpload = ({ instructionText, imgSrc, setFormData, fieldType }) => {
   const [fileName, setFileName] = React.useState("");
+  const [errorMessage, setErrorMessage] = React.useState("");
 
-  const onDrop = useCallback((acceptedFiles, event) => {
-    if (acceptedFiles.length > 0) {
-      setFileName(acceptedFiles[0].name);
+  // On drop handler
+  const onDrop = useCallback(
+    (acceptedFiles, rejectedFiles, event) => {
+      if (rejectedFiles.length > 0) {
+        setErrorMessage("Invalid file format or size");
+      }
 
-      //   // Read file data
+      if (acceptedFiles.length > 0) {
+        setFileName(acceptedFiles[0].name);
+        //   // Read file data
+
+        // Validate file type
+        if (
+          !acceptedFiles[0].type.includes("image") &&
+          !acceptedFiles[0].type.includes("audio")
+        ) {
+          setErrorMessage("Unsupported file type");
+          return;
+        } else if (
+          !acceptedFiles[0].type.includes("image") &&
+          fieldType === "image"
+        ) {
+          setErrorMessage("Should be image");
+          return;
+        } else if (
+          !acceptedFiles[0].type.includes("audio") &&
+          fieldType === "audio"
+        ) {
+          setErrorMessage("Should be audio");
+          return;
+        }
+
+        // Validate file size
+        const maxSizeInBytes = 10 * 1024 * 1024; // 10 MB
+        if (acceptedFiles[0].size > maxSizeInBytes) {
+          setErrorMessage("File size exceeds 10MB limit");
+          return;
+        }
+
+        // Pass validation set null error message
+        setErrorMessage("");
+
+        // Add content to form data
         const reader = new FileReader();
         reader.onload = () => {
-          // Update image file in state
-          setFormData((prevFormData) => ({
-            ...prevFormData,
-            fileData: reader.result,
-            fileName: acceptedFiles[0].name,
-          }));
+          if (acceptedFiles[0].type.includes("image")) {
+            setFormData((prevFormData) => ({
+              ...prevFormData,
+              SongLogo: reader.result,
+            }));
+          } else {
+            setFormData((prevFormData) => ({
+              ...prevFormData,
+              SongData: reader.result,
+            }));
+          }
         };
         reader.readAsDataURL(acceptedFiles[0]);
-    }
-  }, []);
+      }
+    },
+    [setFormData]
+  );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  // Package functions
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: ["audio/mpeg", "image/png"],
+    onDrop,
+  });
 
   return (
     <>
@@ -39,8 +89,7 @@ const FileUpload = ({ instructionText, imgSrc,setFormData }) => {
           >
             <input {...getInputProps()} />
             <div className="d-flex flex-column align-items-center gap-2">
-         
-                {imgSrc}
+              {imgSrc}
               {fileName ? (
                 <>
                   <div>{fileName}</div>
@@ -50,9 +99,7 @@ const FileUpload = ({ instructionText, imgSrc,setFormData }) => {
                   {isDragActive ? (
                     <div>Drop your song here ...</div>
                   ) : (
-                    <div>
-                     {instructionText}
-                    </div>
+                    <div>{instructionText}</div>
                   )}
                 </>
               )}
@@ -65,7 +112,9 @@ const FileUpload = ({ instructionText, imgSrc,setFormData }) => {
           alt=""
           srcset=""
         /> */}
-
+        <div>
+          {errorMessage && <div className="text-danger">{errorMessage}</div>}
+        </div>
       </div>
     </>
   );
