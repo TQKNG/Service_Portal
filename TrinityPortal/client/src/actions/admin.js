@@ -673,7 +673,7 @@ export const updateSong = (schoolId, formData) => async (dispatch) => {
 
 export const addSong = (formData) => async (dispatch) => {
   try {
-    await api.post("/songs", { SongID: 19, Name: "New song Test" });
+    await api.post("/songs", formData);
     // dispatch(loadSchoolsList());
     dispatch(setAlert("Song Added Successfully", "success"));
   } catch (err) {

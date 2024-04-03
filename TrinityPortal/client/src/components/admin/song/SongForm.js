@@ -44,9 +44,9 @@ const SongForm = ({
 
       console.log("Test formData", formData);
 
-      // addSong(formData).then(() => {
-      //   setFormData({ SongID: "", Name: "" });
-      // });
+      addSong(formData).then(() => {
+        setFormData({ SongID: "", Name: "", Lyrics:"", SongData:"", SongLogo:"" });
+      });
     } else if (location.pathname.includes("edit")) {
       console.log("edit");
       updateSong(SongID, formData);

@@ -1,4 +1,5 @@
 const { sendWebSocketMessage } = require("../utils/webSocketUtils");
+const {storeImage, storeAudio} = require("../utils/storage")
 
 // /**
 //  * @openapi
@@ -35,7 +36,15 @@ const { sendWebSocketMessage } = require("../utils/webSocketUtils");
 
 exports.addSong = async (req, res) => {
   try {
-    console.log("test my request body", req.body);
+    if(req.body){
+      const {Name, Lyrics, SongData, SongLogo} = req.body
+      // Create new song on Database
+
+      // Save the song data and song logo to server file system
+      await storeImage("SongLogo", SongLogo, Name);
+      await storeAudio("SongAudio", SongData, Name);
+
+    }
     sendWebSocketMessage({ type: "dataReceived", data: req.body });
 
     res.status(200).json({ success: true });
