@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
-const FileUpload = ({ instructionText, imgSrc }) => {
+const FileUpload = ({ instructionText, imgSrc,setFormData }) => {
   const [fileName, setFileName] = React.useState("");
 
   const onDrop = useCallback((acceptedFiles, event) => {
@@ -9,16 +9,16 @@ const FileUpload = ({ instructionText, imgSrc }) => {
       setFileName(acceptedFiles[0].name);
 
       //   // Read file data
-      //   const reader = new FileReader();
-      //   reader.onload = () => {
-      //     // Update image file in state
-      //     setFormData((prevFormData) => ({
-      //       ...prevFormData,
-      //       instructionImg: reader.result,
-      //       imgFileName: acceptedFiles[0].name,
-      //     }));
-      //   };
-      //   reader.readAsDataURL(acceptedFiles[0]);
+        const reader = new FileReader();
+        reader.onload = () => {
+          // Update image file in state
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            fileData: reader.result,
+            fileName: acceptedFiles[0].name,
+          }));
+        };
+        reader.readAsDataURL(acceptedFiles[0]);
     }
   }, []);
 
