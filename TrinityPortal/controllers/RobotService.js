@@ -1,4 +1,9 @@
-const { storeImage, storeJson,retrieveImage } = require("../utils/storage")
+const {
+  storeImage,
+  storeJson,
+  retrieveImage,
+  retrieveJson,
+} = require("../utils/storage");
 
 /**
  * @openapi
@@ -36,22 +41,19 @@ const { storeImage, storeJson,retrieveImage } = require("../utils/storage")
 
 exports.addMap = async (req, res) => {
   try {
-    console.log("Test Map req body", req.body);
-
     // Construct a new map
     const newMap = {
-        mapName: req.body.mapName,
-        mapData: req.body.mapData
-    }
+      mapName: req.body.mapName,
+      mapData: req.body.mapData,
+    };
 
     // Save the map to file server
-     // if there is new instruction image, add to the server filesystem
-     if (req.body.mapData !== null) {
-        // Where/sublocation to store the file
-        let subloc = "Map";
-        await storeJson(subloc, newMap, req.body.mapName);
-      }
-
+    // if there is new instruction image, add to the server filesystem
+    if (req.body.mapData !== null) {
+      // Where/sublocation to store the file
+      let subloc = "Map";
+      await storeJson(subloc, newMap, req.body.mapName);
+    }
 
     // sendWebSocketMessage({ type: "dataReceived", data: req.body });
 
@@ -64,16 +66,23 @@ exports.addMap = async (req, res) => {
 
 /**
  * @openapi
- * /api/robotservices/map:
+ * /api/robotservices/map/{id}:
  *   get:
- *     summary: Get all maps
- *     description: Retrieves a list of all maps path available in the portal.
+ *     summary: Get a map based on id
+ *     description: Retrieves a map by match its id and the filename
  *     tags:
  *       - Robot Services
  *          - Map
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         type: string
+ *         required: true
+ *         description: The name of the map.
+ *
  *     responses:
  *       '200':
- *         description: A list of maps.
+ *         description: the map data
  *         content:
  *           application/json:
  *             schema:
@@ -82,17 +91,11 @@ exports.addMap = async (req, res) => {
  *                 success:
  *                   type: boolean
  *                 data:
- *                   type: array
- *                   items:
  *                     type: object
  *                     properties:
- *                       mapID:
- *                         type: integer
- *                       userID:
- *                         type: string
  *                       mapName:
  *                         type: string
- *                       mapPath:
+ *                       mapData:
  *                         type: string
  *
  *     security:
@@ -101,57 +104,9 @@ exports.addMap = async (req, res) => {
 
 exports.getMaps = async (req, res) => {
   try {
-    // console.log("Test req body", req.body);
-    // const role = req.user.UserTypeID;
-    // const pool = await poolPromise;
-    // let results;
+    let retrieveData = await retrieveJson("Map", req.params.id);
 
-    // if (role === 6) {
-    //   results = await pool
-    //     .request()
-    //     .input("SchoolIds", sql.VarChar(250), req.body.schoolIds)
-    //     .execute("Shared.Schools_Load");
-    // } else {
-    //   results = await pool
-    //     .request()
-    //     .input("SchoolID", sql.Int, req.body.SchoolID)
-    //     .input("Name", sql.VarChar(250), req.body.Name)
-    //     .execute("Shared.Schools_Load");
-    // }
-
-    res.status(200).json({
-      success: true,
-      data: [
-        {
-          mapID: 1,
-          userID: 1,
-          mapName: "Test Map 1",
-          mapPath:
-            "https://example.blobstorage.com/images/midnight_serenade.jpg",
-        },
-        {
-          mapID: 2,
-          userID: 1,
-          mapName: "Test Map 2",
-          mapPath:
-            "https://example.blobstorage.com/images/midnight_serenade.jpg",
-        },
-        {
-          mapID: 3,
-          userID: 1,
-          mapName: "Test Map 3",
-          mapPath:
-            "https://example.blobstorage.com/images/midnight_serenade.jpg",
-        },
-        {
-          mapID: 4,
-          userID: 1,
-          mapName: "Test Map 4",
-          mapPath:
-            "https://example.blobstorage.com/images/midnight_serenade.jpg",
-        },
-      ],
-    });
+    res.status(200).json({ success: true, data: retrieveData });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Server Error" });

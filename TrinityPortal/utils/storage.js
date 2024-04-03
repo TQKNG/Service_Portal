@@ -30,7 +30,7 @@ async function storeJson(subloc, data, fileName) {
   fs.mkdirSync(uploadDir, { recursive: true });
 
   // Define the path for the new image
-  const dataPath = path.join(uploadDir, fileName);
+  const dataPath = path.join(uploadDir, `${fileName}.json`);
 
   fs.writeFile(dataPath, JSON.stringify(data, null, 2), function (err) {
     if (err) {
@@ -43,7 +43,7 @@ async function storeJson(subloc, data, fileName) {
 
 async function retrieveImage(subloc, categoryID) {
   // Define the directory for uploaded images
-  const uploadDir = path.join(process.cwd(), "/assets/instructionImg");
+  const uploadDir = path.join(process.cwd(), `/assets/instructionImg`);
   // Ensure the directory exists
   fs.mkdirSync(uploadDir, { recursive: true });
 
@@ -56,4 +56,25 @@ async function retrieveImage(subloc, categoryID) {
   return img;
 }
 
-module.exports = { storeImage, retrieveImage, storeJson };
+async function retrieveJson(subloc, id) {
+  // Define the directory for uploaded images
+  const uploadDir = path.join(process.cwd(), `/assets/${subloc}`);
+  // Ensure the directory exists
+  fs.mkdirSync(uploadDir, { recursive: true });
+
+  const fileName = id;
+
+
+  const jsonPath = path.join(uploadDir,`${fileName}.json`);
+
+
+
+  // Read JSON file synchronously
+  let data = fs.readFileSync(jsonPath);
+
+  let jsonData = await JSON.parse(data);
+
+  return jsonData;
+}
+
+module.exports = { storeImage, retrieveImage, storeJson, retrieveJson };
