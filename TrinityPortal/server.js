@@ -16,6 +16,8 @@ const helmet = require('helmet');
 const hpp = require('hpp');
 const xss = require('xss-clean');
 
+const passport = require('passport');
+
 // ENVIROMENT VARIABLES
 dotenv.config({ path: './config/config.env' });
 
@@ -135,6 +137,8 @@ app.get('/swagger.json', (req, res) => {
 
 // Serve Static assests Static
 app.use(express.static(__dirname + '/client/build'));
+
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
