@@ -1,4 +1,4 @@
-const { storeImage, retrieveImage } = require("../utils/storage")
+const { storeImage, storeJson,retrieveImage } = require("../utils/storage")
 
 /**
  * @openapi
@@ -49,7 +49,7 @@ exports.addMap = async (req, res) => {
      if (req.body.mapData !== null) {
         // Where/sublocation to store the file
         let subloc = "Map";
-        await storeImage(subloc, newMap, req.body.mapName);
+        await storeJson(subloc, newMap, req.body.mapName);
       }
 
 
