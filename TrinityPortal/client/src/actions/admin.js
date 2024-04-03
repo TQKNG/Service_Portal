@@ -620,26 +620,10 @@ export const getSong = (id) => async (dispatch) => {
 };
 export const loadSongsList = (value={}) => async (dispatch) => {
   try {
-    // const res = await api.post("/schools/get",value);
-    // dispatch({ type: GET_SCHOOLSLIST, payload: res.data.data });
-    dispatch({type:GET_SONGSLIST,payload:  [
-      {
-        SongID: 1,
-        Name: "Midnight Serenade",
-      },
-      {
-        SongID: 2,
-        Name: "Echoes of Tomorrow",
-      },
-      {
-        SongID: 3,
-        Name: "Whispers in the Wind",
-      },
-      {
-        SongID: 4,
-        Name: "Starlit Melodies",
-      },
-    ]})
+    // const res = await api.post("/songs/get",value);
+    const res = await api.get("/songs");
+    dispatch({ type: GET_SONGSLIST, payload: res.data.data });
+   
   } catch (error) {
     console.log(error);
     const errors = error.response.data.errors;

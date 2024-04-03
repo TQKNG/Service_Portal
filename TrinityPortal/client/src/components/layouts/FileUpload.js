@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
-const FileUpload = ({ instructionText, imgSrc, setFormData, fieldType }) => {
+const FileUpload = ({ instructionText, imgSrc, setFormData, formData, fieldType }) => {
   const [fileName, setFileName] = React.useState("");
   const [errorMessage, setErrorMessage] = React.useState("");
 
@@ -106,12 +106,10 @@ const FileUpload = ({ instructionText, imgSrc, setFormData, fieldType }) => {
             </div>
           </div>
         </div>
-        {/* <img
-          //src={process.env.PUBLIC_URL + `/images/${CategoryID}.png`} // Old logic: Use static img from public folder cant dynamically change
-          src={`data:image/png;base64,${instructionImg}`}
-          alt=""
-          srcset=""
-        /> */}
+
+
+       
+
         <div>
           {errorMessage && <div className="text-danger">{errorMessage}</div>}
         </div>

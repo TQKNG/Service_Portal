@@ -10,6 +10,9 @@
   --royal-blue: #6c4ded;
   --light-green: #21d59b;
   --light: #f7f7f7;
+  --dark-sea-green: #1b884d;
+  --dark-green:#0e5930;
+  --pale-yellow:#ffdb77;
 
   --border-primary: #18a587;
   --border-light: #b5b5b5;
@@ -43,6 +46,18 @@
 
 .bg-light-green {
   background-color: var(--light-green);
+}
+
+.bg-dark-sea-green{
+  background-color: var(--dark-sea-green);
+}
+
+.bg-dark-green{
+  background-color: var(--dark-green);
+}
+
+.bg-pale-yellow{
+  background-color: var(--pale-yellow);
 }
 
 * {
@@ -97,7 +112,7 @@ h6 {
   font-weight: 600;
 }
 
-
+/* Width scale */
 .w-80 {
   width: 80%;
 }
@@ -117,6 +132,28 @@ h6 {
 .w-30 {
   width: 30%;
 }
+
+/* Height scale */
+.h-80 {
+  height: 80vh;
+}
+
+.h-70 {
+  height: 70vh;
+}
+
+.h-10 {
+  height: 10vh;
+}
+
+.h-20 {
+  height: 20vh;
+}
+
+.h-30 {
+  height: 30vh;
+}
+
 
 .subtitle-1 {
   font-size: 16px;

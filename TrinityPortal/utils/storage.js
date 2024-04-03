@@ -62,19 +62,34 @@ async function storeJson(subloc, data, fileName) {
   });
 }
 
-async function retrieveImage(subloc, categoryID) {
+async function retrieveImage(subloc, id) {
   // Define the directory for uploaded images
-  const uploadDir = path.join(process.cwd(), `/assets/instructionImg`);
+  const uploadDir = path.join(process.cwd(), `/assets/${subloc}`);
   // Ensure the directory exists
   fs.mkdirSync(uploadDir, { recursive: true });
 
-  const fileName = categoryID + ".png";
+  const fileName = id + ".png";
 
   const imagePath = path.join(uploadDir, fileName);
 
   let img = fs.readFileSync(imagePath, { encoding: "base64" });
 
   return img;
+}
+
+async function retrieveAudio(subloc, id) {
+  // Define the directory for uploaded images
+  const uploadDir = path.join(process.cwd(), `/assets/${subloc}`);
+  // Ensure the directory exists
+  fs.mkdirSync(uploadDir, { recursive: true });
+
+  const fileName = id + ".mp3";
+
+  const audioPath = path.join(uploadDir, fileName);
+
+  let audio = fs.readFileSync(audioPath, { encoding: "base64" });
+
+  return audio;
 }
 
 async function retrieveJson(subloc, id) {
@@ -95,4 +110,4 @@ async function retrieveJson(subloc, id) {
   return jsonData;
 }
 
-module.exports = { storeImage, retrieveImage, storeJson, retrieveJson, storeAudio };
+module.exports = { storeImage, retrieveImage, storeJson, retrieveJson, storeAudio, retrieveAudio };

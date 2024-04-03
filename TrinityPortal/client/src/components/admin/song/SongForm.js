@@ -45,7 +45,13 @@ const SongForm = ({
       console.log("Test formData", formData);
 
       addSong(formData).then(() => {
-        setFormData({ SongID: "", Name: "", Lyrics:"", SongData:"", SongLogo:"" });
+        setFormData({
+          SongID: "",
+          Name: "",
+          Lyrics: "",
+          SongData: "",
+          SongLogo: "",
+        });
       });
     } else if (location.pathname.includes("edit")) {
       console.log("edit");
@@ -125,7 +131,20 @@ const SongForm = ({
           />
         </div>
         <div className="mb-3">
-          <div className="txt-primary">Song File</div>
+          <div className="d-flex align-items-center gap-2">
+            <div className="txt-primary">Song File</div>
+            {/* Display of the audio */}
+            {formData.SongData !== "" && (
+              <audio controls >
+                <source
+                  src={`data:audio/mpeg;base64,${formData.SongData}`}
+                  type="audio/mpeg"
+                />
+                Your browser does not support the audio element.
+              </audio>
+            )}
+          </div>
+
           <FileUpload
             instructionText={
               "Drag and drop song file here, or click to browse song"
@@ -142,12 +161,25 @@ const SongForm = ({
               </svg>
             }
             setFormData={setFormData}
+            formData={formData}
             fieldType={"audio"}
           />
         </div>
 
         <div className="mb-3">
-          <div className="txt-primary">Image File</div>
+          <div className="d-flex align-items-center gap-2">
+            <div className="txt-primary">Image File</div>
+            {/* Display of the image */}
+            {formData.SongLogo !== "" && (
+              <img
+                src={`data:image/png;base64,${formData.SongLogo}`}
+                alt=""
+                srcset=""
+                width="50px"
+                height="50px"
+              />
+            )}
+          </div>
           <FileUpload
             instructionText={
               "Drag and drop song image file here, or click to browse song image"
@@ -164,6 +196,7 @@ const SongForm = ({
               </svg>
             }
             setFormData={setFormData}
+            formData={formData}
             fieldType={"image"}
           />
         </div>
