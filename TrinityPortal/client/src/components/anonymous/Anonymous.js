@@ -4,7 +4,7 @@ import { useLocation, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 
 // Components
-import AnonymousForm from "./AnonymousForm";
+import AnonymousLogin from "./AnonymousLogin";
 
 const Anonymous = () => {
   const location = useLocation();
@@ -54,7 +54,7 @@ const Anonymous = () => {
           </div>
 
           {/* Welcome Panel */}
-          <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4 my-4">
+          <div className={`w-100 d-flex flex-column gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4 my-4`}>
             <h1 className="responsive-heading">Welcome to</h1>
             <img
               src={process.env.PUBLIC_URL + `/images/logo.png`}
@@ -164,16 +164,16 @@ const Anonymous = () => {
           </div>
 
           {/* Welcome Panel */}
-          <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4 my-4">
-            <h1 className="responsive-heading">SIGN IN</h1>
+          <div className="w-100 d-flex flex-row gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4 my-4">
+            <h1 className="w-80 responsive-heading">SIGN IN</h1>
             <img
               src={process.env.PUBLIC_URL + `/images/logo.png`}
               alt="trinity-logo"
               className="m-0"
-              style={{ maxWidth: "100%", height: "auto", objectFit: "cover" }}
+              style={{ maxWidth: "50%", height: "auto", objectFit: "cover" }}
             />
           </div>
-          <AnonymousForm device={device} />
+          <AnonymousLogin device={device} />
         </>
       )}
     </div>
