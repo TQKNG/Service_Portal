@@ -63,7 +63,7 @@ const Anonymous = () => {
       {/* Sign In Sign Out Buttons */}
       <div className="w-100 d-flex gap-4 align-items-center justify-content-center p-2 p-sm-3 p-lg-4">
         {/* In */}
-        <button type="submit" className="bg-dark-green text-white btn-lg btn-block btn px-5" style={{minHeight:"100px", width:"300px"}}>
+        <button type="submit" className="bg-dark-green text-white btn-lg btn-block btn custom-btn px-5" style={{minHeight:"100px", width:"300px"}}>
         <span className="h2">Sign In</span>
           {/* <svg
             xmlns="http://www.w3.org/2000/svg"

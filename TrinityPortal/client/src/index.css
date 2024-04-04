@@ -54,10 +54,19 @@
 
 .bg-dark-green{
   background-color: var(--dark-green);
+ 
+}
+
+.bg-dark-green:hover{
+  background-color: var(--dark-sea-green);
 }
 
 .bg-pale-yellow{
   background-color: var(--pale-yellow);
+}
+
+.bg-pale-yellow:hover{
+  background-color: var(--yellow);
 }
 
 * {
@@ -181,6 +190,7 @@ h6 {
   text-transform: uppercase;
 }
 
+
 .caption {
   font-size: 12px;
   font-weight: 400;
@@ -290,8 +300,6 @@ h6 {
 #18a587;
   color: #fff;
 }
-
-
 
 .bg-login {
   height: 100%;
