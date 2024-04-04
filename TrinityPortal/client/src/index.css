@@ -218,6 +218,24 @@ h6 {
   color: var(--text-secondary);
 }
 
+.responsive-text {
+  font-size: clamp(1.5rem, 3vw, 2.5rem); 
+}
+
+.responsive-sub-text {
+  font-size: clamp(0.8rem, 2vw, 2rem);
+}
+
+.responsive-heading {
+  font-weight: 600;
+  font-size: clamp(2rem, 6vw, 3rem); 
+}
+
+.responsive-btn-text {
+  font-size: clamp(0.5rem, 3.3vw, 1.5rem); /* Adjust the values as needed */
+}
+
+
 .focus-none:focus {
   box-shadow: none;
 }

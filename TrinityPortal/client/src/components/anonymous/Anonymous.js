@@ -36,35 +36,36 @@ const Anonymous = () => {
   return (
     <div className="w-100 h-100 d-flex flex-column align-items-center justify-content-start">
       {/* Header */}
-      <div className="w-100  d-flex align-items-center justify-content-center bg-dark-sea-green p-2 p-sm-3 p-lg-4">
+      <div className="w-100 d-flex align-items-center justify-content-center bg-dark-sea-green p-2 p-sm-3 p-lg-4">
         {/* Title */}
-        <h6 className="text-white">
+        <span className="responsive-text text-white text-center">
           There are currently no active outbreaks in the homes
-        </h6>
+        </span>
       </div>
 
       {/* Welcome Panel */}
-      <div className="w-100  d-flex flex-column gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4">
-        <h1 className="">Welcome to</h1>
+      <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4">
+        <h1 className="responsive-heading">Welcome to</h1>
         <img
           src={process.env.PUBLIC_URL + `/images/logo.png`}
           alt="trinity-logo"
           className="m-0"
+          style={{ maxWidth: "100%", height: "auto",objectFit: "cover" }} 
         />
       </div>
 
       {/* Warning text */}
       <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4">
-        <h5>Please sanitize your hands</h5>
-        <h5>Marks are recommended</h5>
-        <h5>but not mandatory</h5>
+        <h5 className="responsive-sub-text">Please sanitize your hands</h5>
+        <h5 className="responsive-sub-text">Marks are recommended</h5>
+        <h5 className="responsive-sub-text">but not mandatory</h5>
       </div>
 
       {/* Sign In Sign Out Buttons */}
-      <div className="w-100 d-flex gap-4 align-items-center justify-content-center p-2 p-sm-3 p-lg-4">
+      <div className="w-100 d-flex gap-4 align-items-center justify-content-center p-2 p-sm-3 p-lg-4 gap-5">
         {/* In */}
-        <button type="submit" className="bg-dark-green text-white btn-lg btn-block btn custom-btn px-5" style={{minHeight:"100px", width:"300px"}}>
-        <span className="h2">Sign In</span>
+        <button type="submit" className="w-30 bg-dark-green text-white btn-lg btn-block btn custom-btn p-5 d-flex align-items-center justify-content-center" >
+        <span className="responsive-btn-text">Sign In</span>
           {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24"
@@ -76,8 +77,8 @@ const Anonymous = () => {
           </svg> */}
         </button>
         {/* Out */}
-        <button type="submit" className="bg-pale-yellow btn-lg btn-block btn px-5" style={{minHeight:"100px",width:"300px"}} >
-        <span className="h2">Sign Out</span>
+        <button type="submit" className="w-30 bg-pale-yellow btn-lg btn-block btn p-5 d-flex align-items-center justify-content-center" >
+        <span className="responsive-btn-text">Sign Out</span>
           {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24"
@@ -91,7 +92,7 @@ const Anonymous = () => {
       </div>
 
       {/* QR */}
-      <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-start p-2 p-sm-3 p-lg-4">
+      <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-start p-2 p-sm-3 p-lg-4 ">
         <img
           src={process.env.PUBLIC_URL + `/qrForm.png`}
           alt="QR Code"
@@ -100,11 +101,12 @@ const Anonymous = () => {
       </div>
 
       {/* Hero cover */}
-      <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-end flex-grow-1">
+      <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-end flex-grow-1"
+      >
         <img
           src={process.env.PUBLIC_URL + `images/Login-Hero.jpg`}
           alt="hero cover"
-          style={{ maxWidth: "100%", height: "auto",objectFit: "contain" }} 
+          style={{ maxWidth: "100%", objectFit: "cover" }} 
         />
       </div>
       {/* Form */}
