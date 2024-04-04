@@ -39,13 +39,12 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
       console.log("Test converted Data", data);
 
       newRecord.InOutID = 99;
-      newRecord.FullName = convertedData.FullName;
+      newRecord.FullName = convertedData.FirstName + convertedData.LastName;
 
       if(convertedData.InOut){
         newRecord.ClockOut = new Date().toISOString();
         newRecord.Status = 3;
         toast.error(`${newRecord.FullName} has clocked out`);
-
       }
       else{
         newRecord.ClockIn = new Date().toISOString();

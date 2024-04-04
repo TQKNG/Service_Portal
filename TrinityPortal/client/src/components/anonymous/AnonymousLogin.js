@@ -8,27 +8,59 @@ import AnonymousConfirm from "./AnonymousConfirm";
 
 const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
   const [formData, setFormData] = useState({
+    FirstName: "",
+    LastName: "",
     PhoneNumber: "",
-    FullName: "",
-    AlternativeID: "",
-    Email: "",
-    InOut: false,
+    InOut: null,
+    HomeAreas: [],
+    ScheduledVisit: null,
+    Purpose: "",
+    ResidentName: "",
+    FirstVisit: null,
+    SicknessSymptom: null,
+    Acknowledgement: null,
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { PhoneNumber, FullName, Email, AlternativeID } = formData;
+  const {
+    FirstName,
+    LastName,
+    PhoneNumber,
+    InOut,
+    HomeAreas,
+    ScheduledVisit,
+    Purpose,
+    ResidentName,
+    FirstVisit,
+    SicknessSymptom,
+    Acknowledgement,
+  } = formData;
   const [isRobot, setIsRobot] = useState(false);
 
   // Check if the user is already logged in
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
+
+    // Select multi-select areas checkbox
+    if (e.target.id === "HomeAreas") {
+      if (HomeAreas.includes(e.target.value)) {
+        setFormData({
+          ...formData,
+          HomeAreas: HomeAreas.filter((area) => area !== e.target.value),
+        });
+      } else {
+        setFormData({ ...formData, HomeAreas: [...HomeAreas, e.target.value] });
+      }
+    }
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    window.scrollTo(0, 0);
-    const updatedFormData = { ...formData, isRobot };
+    setIsSubmitted(true);
+    const updatedFormData = { ...formData, isRobot, isSignedIn,InOut:true };
+
+    console.log("Updated Form Data", updatedFormData);
     // Fetch API to server
     fetch(`https://b9dk2wds-3000.use.devtunnels.ms/api/receptions`, {
       method: "POST",
@@ -45,19 +77,21 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
       })
       .then((data) => {
         // Handle the API response
-        console.log("Test AlternativeID", data);
-        setIsSubmitted(true);
         setFormData({
+          FirstName: "",
+          LastName: "",
           PhoneNumber: "",
-          FullName: "",
-          AlternativeID: "",
-          Email: "",
-          InOut: false,
+          InOut: null,
+          HomeAreas: [],
+          ScheduledVisit: null,
+          Purpose: "",
+          ResidentName: "",
+          FirstVisit: null,
+          SicknessSymptom: null,
+          Acknowledgement: null,
         });
         setTimeout(() => {
-          if (!device.includes("sl3288")) {
-            window.location.reload();
-          }
+          window.location.reload();
         }, 3000);
       })
       .catch((error) => {
@@ -138,10 +172,9 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                   <input
                     type="text"
                     className="form-control rounded responsive-input-text"
-                    id="FullName"
+                    id="FirstName"
                     placeholder="Enter First Name..."
-                    
-                    // value={FullName}
+                    value={FirstName}
                     onChange={(e) => onChange(e)}
                   />
                 </div>
@@ -154,10 +187,9 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                   <input
                     type="text"
                     className="form-control rounded responsive-input-text "
-                    id="FullName"
+                    id="LastName"
                     placeholder="Enter Last Name..."
-                    
-                    // value={FullName}
+                    value={LastName}
                     onChange={(e) => onChange(e)}
                   />
                 </div>
@@ -173,8 +205,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                   className="form-control rounded responsive-input-text"
                   id="PhoneNumber"
                   placeholder="Enter your phone..."
-                  
-                  // value={PhoneNumber}
+                  value={PhoneNumber}
                   onChange={(e) => onChange(e)}
                 />
               </div>
@@ -188,10 +219,12 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                   <div class="row">
                     <div class="col-md-4 d-flex gap-3 align-items-center">
                       <input
+                        id="HomeAreas"
                         type="checkbox"
-                        name="options"
-                        value="option1"
+                        name="Oak Ridge Orchard"
+                        value="Oak Ridge Orchard"
                         className="form-check-input"
+                        onChange={(e) => onChange(e)}
                       />
                       <label className="responsive-input-text">
                         Oak Ridge Orchard
@@ -199,10 +232,12 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                     </div>
                     <div class="col-md-4 d-flex gap-3 align-items-center">
                       <input
+                        id="HomeAreas"
                         type="checkbox"
-                        name="options"
-                        value="option1"
+                        name="Maple Ridge"
+                        value="Maple Ridge"
                         className="form-check-input"
+                        onChange={(e) => onChange(e)}
                       />
                       <label className="responsive-input-text">
                         Maple Ridge
@@ -210,9 +245,11 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                     </div>
                     <div class="col-md-4 d-flex gap-3 align-items-center">
                       <input
+                        id="HomeAreas"
                         type="checkbox"
-                        name="options"
-                        value="option1"
+                        name="Pine Woods"
+                        value="Pine Woods"
+                        onChange={(e) => onChange(e)}
                         className="form-check-input"
                       />
                       <label className="responsive-input-text">
@@ -223,9 +260,11 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                   <div class="row">
                     <div class="col-md-4 d-flex gap-3 align-items-center">
                       <input
+                        id="HomeAreas"
                         type="checkbox"
-                        name="options"
-                        value="option1"
+                        name="Walnut Groves"
+                        value="Walnut Groves"
+                        onChange={(e) => onChange(e)}
                         className="form-check-input"
                       />
                       <label className="responsive-input-text">
@@ -234,9 +273,11 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                     </div>
                     <div class="col-md-4 d-flex gap-3 align-items-center">
                       <input
+                        id="HomeAreas"
                         type="checkbox"
-                        name="options"
-                        value="option1"
+                        name="Admin Offices"
+                        value="Admin Offices"
+                        onChange={(e) => onChange(e)}
                         className="form-check-input"
                       />
                       <label className="responsive-input-text">
@@ -245,9 +286,11 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                     </div>
                     <div class="col-md-4 d-flex gap-3 align-items-center">
                       <input
+                        id="HomeAreas"
                         type="checkbox"
-                        name="options"
-                        value="option1"
+                        name="Other"
+                        value="Other"
+                        onChange={(e) => onChange(e)}
                         className="form-check-input"
                       />
                       <label className="responsive-input-text">Other</label>
@@ -265,18 +308,22 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                   <div class="w-70 row">
                     <div class="col-md-4 d-flex gap-3 align-items-center">
                       <input
+                        id="ScheduledVisit"
                         type="radio"
                         name="options"
-                        value="option1"
+                        value={true}
+                        onChange={(e) => onChange(e)}
                         className="form-check-input"
                       />
                       <label className="responsive-input-text">Scheduled</label>
                     </div>
                     <div class="col-md-4 d-flex gap-3 align-items-center">
                       <input
+                        id="ScheduledVisit"
                         type="radio"
                         name="options"
-                        value="option1"
+                        value={false}
+                        onChange={(e) => onChange(e)}
                         className="form-check-input"
                       />
                       <label className="responsive-input-text">
@@ -289,63 +336,75 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
 
               {/* Q4: What is the purpose of your visit? */}
               <div className="mb-5 d-flex gap-2">
-                <div className="txt-primary w-50 responsive-label-text" style={{whiteSpace:"nowrap"}}>
+                <div
+                  className="txt-primary w-50 responsive-label-text"
+                  style={{ whiteSpace: "nowrap" }}
+                >
                   What is the purpose of your visit?
                 </div>
                 <select
                   className="form-select responsive-input-text"
                   aria-label="Default select example"
-                  id="Role"
-                  // value={Role}
+                  id="Purpose"
+                  value={Purpose}
                   onChange={(e) => onChange(e)}
                 >
                   <option value={-1}>Please Select One</option>
-                  <option value={1}>Office 1</option>
-                  <option value={2}>Office 2</option>
-                  <option value={3}>Office 3</option>
-                  <option value={4}>Office 4</option>
-                  <option value={5}>Office 5</option>
+                  <option value={"Office 1"}>Office 1</option>
+                  <option value={"Office 2"}>Office 2</option>
+                  <option value={"Office 3"}>Office 3</option>
+                  <option value={"Office 4"}>Office 4</option>
+                  <option value={"Office 5"}>Office 5</option>
                 </select>
               </div>
 
               {/* Q3: What is the name of the resident you are visiting? */}
               <div className="mb-5 d-flex gap-2">
-                <div className="txt-primary w-60 responsive-label-text" style={{whiteSpace:"nowrap"}}>
+                <div
+                  className="txt-primary w-60 responsive-label-text"
+                  style={{ whiteSpace: "nowrap" }}
+                >
                   What is the name of the resident you are visiting?
                 </div>
                 <input
                   type="text"
                   className="form-control rounded responsive-input-text"
-                  id="FullName"
+                  id="ResidentName"
                   placeholder=""
-                  
-                  // value={FullName}
+                  value={ResidentName}
                   onChange={(e) => onChange(e)}
                 />
               </div>
 
               {/* Q4: Is this your first visit to Trinity Village Care Center */}
               <div className="mb-5 d-flex gap-5">
-                <div className="txt-primary w-60 responsive-label-text" style={{whiteSpace:"nowrap"}}>
+                <div
+                  className="txt-primary w-60 responsive-label-text"
+                  style={{ whiteSpace: "nowrap" }}
+                >
                   Is this your first visit to Trinity Village Care Center?
                 </div>
                 <div class="container-fluid">
                   <div class="w-70 row">
                     <div class="col-md-3 d-flex gap-3 align-items-center">
                       <input
+                        id="FirstVisit"
                         type="radio"
-                        name="options"
-                        value="option1"
+                        name="FirstVisit"
+                        value={true}
                         className="form-check-input"
+                        onChange={(e) => onChange(e)}
                       />
                       <label className="responsive-input-text ">Yes</label>
                     </div>
                     <div class="col-md-3 d-flex gap-3 align-items-center">
                       <input
+                        id="FirstVisit"
                         type="radio"
-                        name="options"
-                        value="option1"
+                        name="FirstVisit"
+                        value={false}
                         className="form-check-input"
+                        onChange={(e) => onChange(e)}
                       />
                       <label className="responsive-input-text ">No</label>
                     </div>
@@ -362,11 +421,25 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                 <div class="container-fluid">
                   <div class="w-70 row">
                     <div class="col-md-3 d-flex gap-3 align-items-center">
-                      <input type="radio" name="options" value="option1" className="form-check-input" />
+                      <input
+                        id="SicknessSymptom"
+                        type="radio"
+                        name="SicknessSymptom"
+                        value={true}
+                        className="form-check-input"
+                        onChange={(e) => onChange(e)}
+                      />
                       <label className="responsive-input-text">Yes</label>
                     </div>
                     <div class="col-md-3 d-flex gap-3 align-items-center">
-                      <input type="radio" name="options" value="option1" className="form-check-input" />
+                      <input
+                        id="SicknessSymptom"
+                        type="radio"
+                        name="SicknessSymptom"
+                        value={false}
+                        className="form-check-input"
+                        onChange={(e) => onChange(e)}
+                      />
                       <label className="responsive-input-text">No</label>
                     </div>
                   </div>
@@ -376,10 +449,13 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
               {/* Checkbox: Please tick this box to acknowledge that you will follow all staff directions during your visit*/}
               <div className="mb-5 d-flex align-items-center justify-content-center gap-2">
                 <input
+                  id="Acknowledgement"
                   type="checkbox"
-                  name="options"
-                  value="option1"
+                  name="Acknowledgement"
+                  value={true}
                   className="form-check-input"
+                  onChange={(e) => onChange(e)}
+                  required
                 />
                 <div className="txt-primary w-100 responsive-label-text">
                   Please tick this box to acknowledge that you will follow all
@@ -392,7 +468,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
           {/* Confirmation screen */}
           {isSubmitted && (
             <>
-            <AnonymousConfirm isSignedIn={isSignedIn}/>
+              <AnonymousConfirm isSignedIn={isSignedIn} />
             </>
           )}
 
@@ -402,8 +478,8 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
               <>
                 {/* Submit*/}
                 <button
+                  type="submit"
                   className="w-30 bg-dark-green text-white btn-lg btn-block btn custom-btn p-5 d-flex align-items-center justify-content-center"
-                  onClick={() => setIsSubmitted(true)}
                 >
                   <span className="responsive-btn-text">Submit</span>
                 </button>
