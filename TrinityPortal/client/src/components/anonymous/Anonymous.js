@@ -5,12 +5,14 @@ import PropTypes from "prop-types";
 
 // Components
 import AnonymousLogin from "./AnonymousLogin";
+import AnonymousLogout from "./AnonymousLogout";
 
 const Anonymous = () => {
   const location = useLocation();
   const [device, setDetectDevice] = useState("Unknown");
   const [isOutbreak, setIsOutbreak] = useState(false);
-  const [isSignedIn, setIsSignedIn] = useState(true);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [isSignedOut, setIsSignedOut] = useState(false);
 
   function detectDevice(userAgent) {
     if (userAgent.match(/Android/i)) {
@@ -37,7 +39,7 @@ const Anonymous = () => {
 
   return (
     <div className="w-100 h-100 d-flex flex-column align-items-center justify-content-start">
-      {!isSignedIn ? (
+      {!isSignedIn &&!isSignedOut ? (
         <>
           {/* Header */}
           <div
@@ -78,7 +80,7 @@ const Anonymous = () => {
               className="w-30 bg-dark-green text-white btn-lg btn-block btn custom-btn p-5 d-flex align-items-center justify-content-center"
               onClick={() => setIsSignedIn(true)}
             >
-              <span className="responsive-btn-text">Sign In</span>
+              <span className="responsive-btn-text text-center">Sign In</span>
               {/* <svg
           xmlns="http://www.w3.org/2000/svg"
           height="24"
@@ -90,7 +92,9 @@ const Anonymous = () => {
         </svg> */}
             </button>
             {/* Out */}
-            <button className="w-30 bg-pale-yellow btn-lg btn-block btn p-5 d-flex align-items-center justify-content-center">
+            <button className="w-30 bg-pale-yellow btn-lg btn-block btn p-5 d-flex align-items-center justify-content-center"
+            onClick={() => setIsSignedOut(true)}
+            >
               <span className="responsive-btn-text">Sign Out</span>
               {/* <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -132,9 +136,9 @@ const Anonymous = () => {
               </>
             ) : (
               <img
-                src={process.env.PUBLIC_URL + `images/Login-Hero.jpg`}
+                src={process.env.PUBLIC_URL + `images/Welcome-Hero.png`}
                 alt="hero cover"
-                style={{ maxWidth: "100%", objectFit: "cover" }}
+                style={{ maxWidth: "100%", height:"auto", objectFit: "cover" }}
               />
             )}
           </div>
@@ -148,7 +152,10 @@ const Anonymous = () => {
           >
             {/* Back Button */}
             <div className="bg-pale-yellow rounded-circle text-center d-flex align-items-center justify-content-center admin-assessments-type"
-              onClick={() => setIsSignedIn(false)}
+              onClick={() => {
+                setIsSignedIn(false)
+                setIsSignedOut(false)
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -165,7 +172,7 @@ const Anonymous = () => {
 
           {/* Welcome Panel */}
           <div className="w-100 d-flex flex-row gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4 my-4">
-            <h1 className="w-80 responsive-heading">SIGN IN</h1>
+            <h1 className="w-80 responsive-heading text-center">{isSignedIn?"SIGN IN":isSignedOut&&"SIGNOUT"}</h1>
             <img
               src={process.env.PUBLIC_URL + `/images/logo.png`}
               alt="trinity-logo"
@@ -173,7 +180,8 @@ const Anonymous = () => {
               style={{ maxWidth: "50%", height: "auto", objectFit: "cover" }}
             />
           </div>
-          <AnonymousLogin device={device} />
+          {isSignedIn && <AnonymousLogin device={device} isSignedIn={isSignedIn} />}
+          {isSignedOut && <AnonymousLogout device={device} isSignedOut={isSignedOut} />}
         </>
       )}
     </div>

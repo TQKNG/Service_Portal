@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import AnonymousConfirm from "./AnonymousConfirm";
 
-const AnonymousLogin = ({ setAlert, device }) => {
+const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
   const [formData, setFormData] = useState({
     PhoneNumber: "",
     FullName: "",
@@ -27,6 +27,7 @@ const AnonymousLogin = ({ setAlert, device }) => {
   const onSubmit = (e) => {
     e.preventDefault();
 
+    window.scrollTo(0, 0);
     const updatedFormData = { ...formData, isRobot };
     // Fetch API to server
     fetch(`https://b9dk2wds-3000.use.devtunnels.ms/api/receptions`, {
@@ -308,8 +309,8 @@ const AnonymousLogin = ({ setAlert, device }) => {
               </div>
 
               {/* Q3: What is the name of the resident you are visiting? */}
-              <div className="mb-5 d-flex gap-5">
-                <div className="txt-primary w-50 responsive-label-text" style={{whiteSpace:"nowrap"}}>
+              <div className="mb-5 d-flex gap-2">
+                <div className="txt-primary w-60 responsive-label-text" style={{whiteSpace:"nowrap"}}>
                   What is the name of the resident you are visiting?
                 </div>
                 <input
@@ -325,7 +326,7 @@ const AnonymousLogin = ({ setAlert, device }) => {
 
               {/* Q4: Is this your first visit to Trinity Village Care Center */}
               <div className="mb-5 d-flex gap-5">
-                <div className="txt-primary w-50 responsive-label-text" style={{whiteSpace:"nowrap"}}>
+                <div className="txt-primary w-60 responsive-label-text" style={{whiteSpace:"nowrap"}}>
                   Is this your first visit to Trinity Village Care Center?
                 </div>
                 <div class="container-fluid">
@@ -391,7 +392,7 @@ const AnonymousLogin = ({ setAlert, device }) => {
           {/* Confirmation screen */}
           {isSubmitted && (
             <>
-            <AnonymousConfirm/>
+            <AnonymousConfirm isSignedIn={isSignedIn}/>
             </>
           )}
 
