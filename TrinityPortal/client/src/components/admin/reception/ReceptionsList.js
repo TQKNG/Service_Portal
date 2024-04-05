@@ -42,14 +42,14 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
       newRecord.FullName = convertedData.FirstName + convertedData.LastName;
 
       if(convertedData.InOut){
-        newRecord.ClockOut = new Date().toISOString();
-        newRecord.Status = 3;
-        toast.error(`${newRecord.FullName} has clocked out`);
-      }
-      else{
         newRecord.ClockIn = new Date().toISOString();
         newRecord.Status = 1;
         toast.success(`${newRecord.FullName} has clocked in`);
+      }
+      else{
+        newRecord.ClockOut = new Date().toISOString();
+        newRecord.Status = 3;
+        toast.error(`${newRecord.FullName} has clocked out`);
       }
 
       setListSearch([newRecord, ...listSearch]);
