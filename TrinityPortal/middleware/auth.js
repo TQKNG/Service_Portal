@@ -105,6 +105,45 @@ exports.protect = asyncHandler(async (req, res, next) => {
   }
 });
 
+
+// Protect Google OAuth routes
+exports.OauthProtect = asyncHandler(async (req, res, next) => {
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1];
+  } //Check cookies using cookie-parser middleware
+  else if (req.cookies.token) {
+    token = req.cookies.token;
+  }
+  // Make sure token exists
+  if (!token) {
+    return res
+      .status(401)
+      .json({ errors: [{ msg: 'Not authorized to access this route' }] });
+  }
+
+  try{
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    next();
+  }catch(error){
+    if (error.name === 'TokenExpiredError') {
+      res.cookie('token', '', {
+        expires: new Date(Date.now() + 10 * 1000),
+        httpOnly: true,
+      });
+      return res.status(401).json({ errors: [{ msg: 'Session Expired' }] });
+    } else {
+      return res
+        .status(401)
+        .json({ errors: [{ msg: 'Not authorized to access this route' }] });
+    }
+  }
+
+});
+
 // Grant access to specific roles
 exports.authorize = (...roles) => {
   return (req, res, next) => {

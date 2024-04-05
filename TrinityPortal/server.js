@@ -1,6 +1,8 @@
 const express = require('express');
 const http = require('http'); 
 const {initWebSocket} = require('./utils/webSocketUtils');
+require('./utils/googleAuth');
+const passport = require('passport');
 
 // Utils
 const colors = require('colors');
@@ -16,7 +18,6 @@ const helmet = require('helmet');
 const hpp = require('hpp');
 const xss = require('xss-clean');
 
-const passport = require('passport');
 
 // ENVIROMENT VARIABLES
 dotenv.config({ path: './config/config.env' });
@@ -129,12 +130,13 @@ app.use('/api/robotservices',robotservice);
 
 
 // Serve API Docs
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification, options));
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification, options));
 app.get('/swagger.json', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(openapiSpecification);
 });
 
+//Testing 
 
 app.use('/assets/SongLogo', express.static(path.join(__dirname, 'assets/SongLogo')));
 
@@ -143,7 +145,13 @@ app.use('/assets/SongAudio', express.static(path.join(__dirname, 'assets/SongAud
 // Serve Static assests Static
 app.use(express.static(__dirname + '/client/build'));
 
+app.get('/api-docs', (req, res) => {
+  passport.authenticate('google', { scope: ['email','profile'] });
+});
 
+app.get('/google/callback', passport.authenticate('google', { 
+  successRedirect:'/api-docs',
+  failureRedirect: '/login' }))
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));

@@ -1,7 +1,6 @@
 const dotenv = require('dotenv');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const jwt = require('jsonwebtoken');
 const generateSignedJWT = require('./auth').generateSignedJWT;
 
 dotenv.config({ path: './config/config.env' });
@@ -12,7 +11,8 @@ passport.use(
         {
             clientID: process.env.OAUTH_CLIENT_ID,
             clientSecret: process.env.OAUTH_CLIENT_SECRET,
-            callbackURL: 'http://localhost:5000/auth/google/callback',
+            callbackURL: 'http://localhost:5000/google/callback',
+            passReqToCallback: true
         },
 
         function(accessToken, refreshToken, profile, done) {
@@ -27,3 +27,11 @@ passport.use(
           }
     )
 )
+
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
