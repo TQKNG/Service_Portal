@@ -137,7 +137,7 @@ const SongForm = ({
             {formData.SongData !== "" && (
               <audio controls >
                 <source
-                  src={`data:audio/mpeg;base64,${formData.SongData}`}
+                  src={formData.SongData}
                   type="audio/mpeg"
                 />
                 Your browser does not support the audio element.
@@ -172,7 +172,7 @@ const SongForm = ({
             {/* Display of the image */}
             {formData.SongLogo !== "" && (
               <img
-                src={`data:image/png;base64,${formData.SongLogo}`}
+                src={formData.SongLogo}
                 alt=""
                 srcset=""
                 width="50px"
