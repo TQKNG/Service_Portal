@@ -72,9 +72,11 @@ async function retrieveImage(subloc, id) {
 
   const imagePath = path.join(uploadDir, fileName);
 
+  const url = `https://b9dk2wds-5000.use.devtunnels.ms/assets/SongLogo/${fileName}`
+
   let img = fs.readFileSync(imagePath, { encoding: "base64" });
 
-  return img;
+  return url;
 }
 
 async function retrieveAudio(subloc, id) {
@@ -87,9 +89,11 @@ async function retrieveAudio(subloc, id) {
 
   const audioPath = path.join(uploadDir, fileName);
 
+  const url = `https://b9dk2wds-5000.use.devtunnels.ms/assets/SongAudio/${fileName}`
+
   let audio = fs.readFileSync(audioPath, { encoding: "base64" });
 
-  return audio;
+  return url;
 }
 
 async function retrieveJson(subloc, id) {
