@@ -7,16 +7,16 @@ import { useHistory } from "react-router-dom";
 import AnonymousConfirm from "./AnonymousConfirm";
 
 const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
+  const history = useHistory();
   const [formData, setFormData] = useState({
+    FirstName: "",
+    LastName: "",
     PhoneNumber: "",
-    FullName: "",
-    AlternativeID: "",
-    Email: "",
-    InOut: false,
+    InOut: null,
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { PhoneNumber, FullName, Email, AlternativeID } = formData;
+  const { PhoneNumber, FirstName, LastName, InOut } = formData;
   const [isRobot, setIsRobot] = useState(false);
 
   // Check if the user is already logged in
@@ -27,8 +27,8 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    window.scrollTo(0, 0);
-    const updatedFormData = { ...formData, isRobot };
+    setIsSubmitted(true);
+    const updatedFormData = { ...formData, isRobot, isSignedOut, InOut: false };
     // Fetch API to server
     fetch(`https://b9dk2wds-3000.use.devtunnels.ms/api/receptions`, {
       method: "POST",
@@ -38,6 +38,10 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
       body: JSON.stringify(updatedFormData),
     })
       .then((response) => {
+        console.log("Fecth oke", response);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -55,10 +59,8 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
           InOut: false,
         });
         setTimeout(() => {
-          if (!device.includes("sl3288")) {
-            window.location.reload();
-          }
-        }, 3000);
+          window.location.reload();
+        }, 2000);
       })
       .catch((error) => {
         console.error("There was an error!", error);
@@ -140,7 +142,6 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
                     className="form-control rounded responsive-input-text"
                     id="FullName"
                     placeholder="Enter First Name..."
-                    
                     // value={FullName}
                     onChange={(e) => onChange(e)}
                   />
@@ -156,7 +157,6 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
                     className="form-control rounded responsive-input-text "
                     id="FullName"
                     placeholder="Enter Last Name..."
-                    
                     // value={FullName}
                     onChange={(e) => onChange(e)}
                   />
@@ -173,7 +173,6 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
                   className="form-control rounded responsive-input-text"
                   id="PhoneNumber"
                   placeholder="Enter your phone..."
-                  
                   // value={PhoneNumber}
                   onChange={(e) => onChange(e)}
                 />
@@ -184,7 +183,7 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
           {/* Confirmation screen */}
           {isSubmitted && (
             <>
-            <AnonymousConfirm isSignedOut={isSignedOut}/>
+              <AnonymousConfirm isSignedOut={isSignedOut} />
             </>
           )}
 
@@ -193,10 +192,7 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
             {!isSubmitted && (
               <>
                 {/* Submit*/}
-                <button
-                  className="w-30 bg-dark-green text-white btn-lg btn-block btn custom-btn p-5 d-flex align-items-center justify-content-center"
-                  onClick={() => setIsSubmitted(true)}
-                >
+                <button className="w-30 bg-dark-green text-white btn-lg btn-block btn custom-btn p-5 d-flex align-items-center justify-content-center">
                   <span className="responsive-btn-text">Submit</span>
                 </button>
               </>
