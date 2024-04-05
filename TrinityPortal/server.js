@@ -135,6 +135,11 @@ app.get('/swagger.json', (req, res) => {
   res.send(openapiSpecification);
 });
 
+
+app.use('/assets/SongLogo', express.static(path.join(__dirname, 'assets/SongLogo')));
+
+app.use('/assets/SongAudio', express.static(path.join(__dirname, 'assets/SongAudio')));
+
 // Serve Static assests Static
 app.use(express.static(__dirname + '/client/build'));
 
