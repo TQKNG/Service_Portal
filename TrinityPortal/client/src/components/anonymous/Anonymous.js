@@ -138,7 +138,7 @@ const Anonymous = () => {
               <img
                 src={process.env.PUBLIC_URL + `images/Welcome-Hero.png`}
                 alt="hero cover"
-                style={{ maxWidth: "100%", height:"auto", objectFit: "cover" }}
+                style={{ width: "100%", objectFit: "cover" }}
               />
             )}
           </div>
