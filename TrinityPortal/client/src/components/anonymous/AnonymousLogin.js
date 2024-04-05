@@ -60,7 +60,6 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
     setIsSubmitted(true);
     const updatedFormData = { ...formData, isRobot, isSignedIn,InOut:true };
 
-    console.log("Updated Form Data", updatedFormData);
     // Fetch API to server
     fetch(`https://b9dk2wds-3000.use.devtunnels.ms/api/receptions`, {
       method: "POST",
@@ -92,7 +91,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
         });
         setTimeout(() => {
           window.location.reload();
-        }, 3000);
+        }, 2000);
       })
       .catch((error) => {
         console.error("There was an error!", error);
