@@ -1,7 +1,7 @@
 const express = require('express');
 const http = require('http'); 
 const {initWebSocket} = require('./utils/webSocketUtils');
-require('./utils/googleAuth');
+const googleAuth = require('./utils/googleAuth');
 const passport = require('passport');
 
 // Utils
@@ -24,6 +24,7 @@ dotenv.config({ path: './config/config.env' });
 
 // Init Express App
 const app = express();
+const session = require('express-session');
 const server = http.createServer(app);
 
 // Body Parser
@@ -98,6 +99,13 @@ app.disable('x-powered-by');
 // initialize cookieParser middleware
 app.use(cookieParser());
 
+// Session Management
+app.use(session({
+  secret: 'abc123',
+  resave: false,
+  saveUninitialized: false,
+}));
+
 //Routes
 const user = require('./routes/User');
 const school = require('./routes/School');
@@ -112,7 +120,8 @@ const jokes = require('./routes/Joke');
 const trivias = require('./routes/Trivia');
 
 //Routes for other robot services
-const robotservice = require('./routes/RobotService')
+const robotservice = require('./routes/RobotService');
+const { OauthProtect } = require('./middleware/auth');
 
 //Mount Routes
 app.use('/api/users', user);
@@ -130,14 +139,15 @@ app.use('/api/robotservices',robotservice);
 
 
 // Serve API Docs
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification, options));
+app.use('/api-docs', OauthProtect, swaggerUi.serve, swaggerUi.setup(openapiSpecification, options));
+
 app.get('/swagger.json', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(openapiSpecification);
 });
 
-//Testing 
 
+// Direct route to access Song Logo and Song Audio
 app.use('/assets/SongLogo', express.static(path.join(__dirname, 'assets/SongLogo')));
 
 app.use('/assets/SongAudio', express.static(path.join(__dirname, 'assets/SongAudio')));
@@ -145,13 +155,23 @@ app.use('/assets/SongAudio', express.static(path.join(__dirname, 'assets/SongAud
 // Serve Static assests Static
 app.use(express.static(__dirname + '/client/build'));
 
-app.get('/api-docs', (req, res) => {
-  passport.authenticate('google', { scope: ['email','profile'] });
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('/', (req, res) => {
+  res.redirect('/robotAuth');
 });
 
-app.get('/google/callback', passport.authenticate('google', { 
-  successRedirect:'/api-docs',
-  failureRedirect: '/login' }))
+app.get('/robotAuth', passport.authenticate('google', { scope: ['email','profile'] }));
+
+app.get('/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    req.session.save((err) => {
+      // After saving the session, redirect to /api-docs
+      res.redirect('/api-docs');
+    });
+  });
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));

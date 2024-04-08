@@ -1,15 +1,15 @@
-const asyncHandler = require('./async');
-const sql = require('mssql');
-const jwt = require('jsonwebtoken');
+const asyncHandler = require("./async");
+const sql = require("mssql");
+const jwt = require("jsonwebtoken");
 
 // Protect routes
 exports.protect = asyncHandler(async (req, res, next) => {
   let token;
   if (
     req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
+    req.headers.authorization.startsWith("Bearer")
   ) {
-    token = req.headers.authorization.split(' ')[1];
+    token = req.headers.authorization.split(" ")[1];
   } //Check cookies using cookie-parser middleware
   else if (req.cookies.token) {
     token = req.cookies.token;
@@ -18,7 +18,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
   if (!token) {
     return res
       .status(401)
-      .json({ errors: [{ msg: 'Not authorized to access this route' }] });
+      .json({ errors: [{ msg: "Not authorized to access this route" }] });
   }
 
   try {
@@ -38,12 +38,12 @@ exports.protect = asyncHandler(async (req, res, next) => {
     let pool = await sql.connect(config);
     let user = await pool
       .request()
-      .input('UserID', sql.Int, decoded.userId)
-      .input('schoolID', sql.Int, -1)
-      .input('UserTypeID', sql.Int, -1)
-      .input('Email', sql.VarChar(250), -1)
-      .input('schoolIds',sql.VarChar(sql.Max),-1)
-      .execute('Main.Users_Load');
+      .input("UserID", sql.Int, decoded.userId)
+      .input("schoolID", sql.Int, -1)
+      .input("UserTypeID", sql.Int, -1)
+      .input("Email", sql.VarChar(250), -1)
+      .input("schoolIds", sql.VarChar(sql.Max), -1)
+      .execute("Main.Users_Load");
 
     user = user.recordset[0];
 
@@ -51,14 +51,14 @@ exports.protect = asyncHandler(async (req, res, next) => {
       let classrooms = await pool
         .request()
         .input(
-          'ClassroomID',
+          "ClassroomID",
           sql.Int,
-          req.body.ClassroomID !== undefined ? req.body.ClassroomID : -1,
+          req.body.ClassroomID !== undefined ? req.body.ClassroomID : -1
         )
-        .execute('Main.Classrooms_Load');
+        .execute("Main.Classrooms_Load");
 
       classrooms = classrooms.recordset.filter(
-        (item) => item.TeacherID === user.UserID,
+        (item) => item.TeacherID === user.UserID
       );
       console.log(classrooms);
       let students = [];
@@ -66,9 +66,9 @@ exports.protect = asyncHandler(async (req, res, next) => {
         console.log(classrooms[i].GradeID);
         let s = await pool
           .request()
-          .input('ClassroomID', sql.Int, classrooms[i].ClassroomID)
-          .input('StudentID', sql.Int, -1)
-          .execute('Main.ClassroomStudents_Load');
+          .input("ClassroomID", sql.Int, classrooms[i].ClassroomID)
+          .input("StudentID", sql.Int, -1)
+          .execute("Main.ClassroomStudents_Load");
 
         for (let j = 0; j < s.recordset.length; j++) {
           s.recordset[j] = {
@@ -91,57 +91,55 @@ exports.protect = asyncHandler(async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    if (error.name === 'TokenExpiredError') {
-      res.cookie('token', '', {
+    if (error.name === "TokenExpiredError") {
+      res.cookie("token", "", {
         expires: new Date(Date.now() + 10 * 1000),
         httpOnly: true,
       });
-      return res.status(401).json({ errors: [{ msg: 'Session Expired' }] });
+      return res.status(401).json({ errors: [{ msg: "Session Expired" }] });
     } else {
       return res
         .status(401)
-        .json({ errors: [{ msg: 'Not authorized to access this route' }] });
+        .json({ errors: [{ msg: "Not authorized to access this route" }] });
     }
   }
 });
 
-
 // Protect Google OAuth routes
 exports.OauthProtect = asyncHandler(async (req, res, next) => {
-  let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    token = req.headers.authorization.split(' ')[1];
-  } //Check cookies using cookie-parser middleware
-  else if (req.cookies.token) {
-    token = req.cookies.token;
-  }
-  // Make sure token exists
-  if (!token) {
-    return res
-      .status(401)
-      .json({ errors: [{ msg: 'Not authorized to access this route' }] });
-  }
-
   try{
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    next();
-  }catch(error){
-    if (error.name === 'TokenExpiredError') {
-      res.cookie('token', '', {
+    if (req.cookies['connect.sid']) {
+      // If there's a session ID, look up the session
+      const sessionId = req.cookies['connect.sid'];
+      req.sessionStore.get(sessionId, (error, session) => {
+        if (error || !session) {
+          return res
+            .status(401)
+            .json({ errors: [{ msg: "Not authorized to access this route" }] })
+        } else {
+          // If the session is valid, consider the user as authenticated
+          // You might want to add additional checks here depending on how you're storing the user's information in the session
+          next();
+        }
+      });
+   }
+   else{
+    res.status(401).redirect('/');
+   }
+  }
+   catch(error){
+    if (error.name === "TokenExpiredError") {
+      res.cookie("token", "", {
         expires: new Date(Date.now() + 10 * 1000),
         httpOnly: true,
       });
-      return res.status(401).json({ errors: [{ msg: 'Session Expired' }] });
+      return res.status(401).json({ errors: [{ msg: "Session Expired" }] });
     } else {
       return res
         .status(401)
-        .json({ errors: [{ msg: 'Not authorized to access this route' }] });
+        .json({ errors: [{ msg: "Not authorized to access this route" }] });
     }
-  }
-
+   }
 });
 
 // Grant access to specific roles
