@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "trinityvillage",
+  "private_key_id": "942dc8d92cc04b957d5e5bc18467155254ed18bc",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQChvI3KsH4KTvlG\nEl+1NAupFT359zJOT0uKLSsRzZYQA0H/f3rHSXagKBc6otzqo5Nl010nKlc6BJZy\noYWKci9pe6YhNtB+zdosjbc40aQa3qqSijr94C2iaxiJTHqnN4OA+hSZ1a08ecUf\nVXJBacde0tWtD89PusuYwZQIHD9m0XajrEynLxDNCYc7UUDOMpVgjL1jy6i9VCp8\nI97M4hgXvHL8EcZuI40820Ji3Q9mtzusufyeJ2hILLhGSw/OIE8QLOvRxZ3pQfII\nVupttDw38/pAfQooptZVSmTAsnZT27ABAzuCphTExh7JFGM5ESh+Cx+Wx8aYI2YC\nxNlLANKVAgMBAAECggEAAo2R5Wmsy6fcenUuypL0PiqGLGxxAFhzFk7JN8I5hK4w\nfAJ8oymvNC790uCgQRns6TYRad1avCE3aL7Q91L/GZiokiyl1OKV948THdP9Vak/\nIwoIjVpdDgvHut8YrowLSN1pttXvIp2/dVOpdovfaElGszElMhp+PT6NAiXEAHD2\nkY0ws8pywiwfo80hdcvZtlwdbXdfEoQmisee0s6LeosG5qKeAoaSjKAdjxmW6uVN\npjySp6KHEIDppK6y+KmszJc0T+y8PMo6RENK1h58RxpTdhAMHIF0gMe93GEDDfTb\nlBu0ctGEHm2oA3Q9aE7Oe3V2qM60+oagEx+abv+TQQKBgQDX2+lCpHvnEIxhr3hc\n2egtxx9EfqQrBaxWkLuDhcgF/IEA5bqdmDmN/OXPtXVv+u8/ealFiqCpNLQ/Y9yS\nZ8GYcugkgE7tPloryQFa+aZLxOYnz5Vvi/ghHmTBdSW4VaqO9LXUFir31o+faJ4c\n5qsR2ybIuhjaXDLZs1EnPWX4dQKBgQC/0ByOx2UzO9ZnRCPOkRrjxgN8tfBMIQT7\np5AMeptMnAj6JsrP9hBV0BCfidtuTajq3gHFQQOqZ7y8S2UMV/see5zmOBZDaBlg\naz6Fk6Zm1qHJ7l25aHOP6cB7y4T2q2/51WtVOr/sUWCUoZsOoYipUN8dAzJg2uia\nubFsXgctoQKBgEOzsp53TnEzbIQ678pXgg3RlUn7Wmwv9FSWQmnG7OyLvL5WT0ic\ndPjGqCGUbUf48U78To4EI83OPPZg0M6OglbZO1wvbhHU650uByHMiU7ca79yyRDa\nWrGwgbN3laQSIlOCBwGFDmb7QcKiomy4IFGSZcCxNZhPMJe9OSfQhwn9AoGAeIEx\nf83rWU2tfEEF0d+9qf2b8TyIU/ummseBqyVX7cBVr3qxjgdD6fWGjARa1Ch8B9oj\n+J3IxMTZgN5JBIE9pb/5KXVxHzYGQ1n89IR3VUJgcHGNdk8V0wMCx4Nr7GB2P9oB\nzZDURI43hAknVgDLz7ucACki/FBrM9GXksJb9iECgYEA1AoboOTBqmTKm0UQsy7+\nBiH1E4tSY1dN5urHi/e2L4hMr8yRIHMhWYdpWwQZ/Y72Gh3pmpkdTkDMIkN3IDMa\nkNz+AHVRPlXmbylKKcPctIGrYjBfx49KMmlwqQLMHgVq/gVZMxoStJwaRft0A0o1\nBS2/Qoltm98hfneo8GBUq9Q=\n-----END PRIVATE KEY-----\n",
+  "client_email": "testaccount@trinityvillage.iam.gserviceaccount.com",
+  "client_id": "103234893535789449064",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/testaccount%40trinityvillage.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

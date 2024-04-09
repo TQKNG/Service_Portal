@@ -7,13 +7,13 @@ const {
 //   addMultipleSchools,
 } = require('../controllers/Song');
 
-const { protect, OauthProtect,authorize } = require('../middleware/auth');
+const { protect, OauthProtect,GoogleAuthProtect,authorize } = require('../middleware/auth');
 
 const router = express.Router();
 
 router.post('/', addSong);
 // router.post('/import', protect, authorize(5), addMultipleSchools);
-router.get('/', getSongs);
+router.get('/',GoogleAuthProtect, getSongs);
 // router.put('/:schoolId', protect, authorize(3, 4, 5,6), updateSchool);
 // router.delete('/:schoolId', protect, authorize(5), deleteSchool);
 

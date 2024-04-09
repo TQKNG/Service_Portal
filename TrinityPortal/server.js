@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http'); 
 const {initWebSocket} = require('./utils/webSocketUtils');
 const googleAuth = require('./utils/googleAuth');
+const { GoogleAuth } = require('google-auth-library');
 const passport = require('passport');
 
 // Utils
@@ -146,7 +147,6 @@ app.get('/swagger.json', (req, res) => {
   res.send(openapiSpecification);
 });
 
-
 // Direct route to access Song Logo and Song Audio
 app.use('/assets/SongLogo', express.static(path.join(__dirname, 'assets/SongLogo')));
 
@@ -162,7 +162,36 @@ app.get('/', (req, res) => {
   res.redirect('/robotAuth');
 });
 
+// Define a custom middleware to authenticate the robot
+const authenticateRobot = async (req, res, next) => {
+  const keyFilePath = path.join(__dirname, 'assets', 'trinityvillage-942dc8d92cc0.json');
+
+  const auth = new GoogleAuth({
+    keyFile: keyFilePath,
+    scopes: ['https://www.googleapis.com/auth/cloud-platform']
+  });
+
+  try {
+    const client = await auth.getClient();
+    console.log("trest client",client);
+    const token = await client.getAccessToken(); // get a JWT
+
+    console.log("trest token",token);
+    req.authToken = token.token; // attach the JWT to the request
+    next(); // proceed to the next middleware function or route handler
+  } catch (err) {
+    console.log("Test error",err);
+    res.status(401).json({ message: 'Authentication failed for the robot' });
+  }
+};
+  
+
 app.get('/robotAuth', passport.authenticate('google', { scope: ['email','profile'] }));
+
+
+app.get('/robotAuth2', authenticateRobot,(req, res) => {
+   res.json({ message: 'Authentication successful for the robot', token:req.authToken });
+})
 
 app.get('/google/callback', 
   passport.authenticate('google', { failureRedirect: '/login' }),

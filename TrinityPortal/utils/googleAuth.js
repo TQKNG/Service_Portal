@@ -11,7 +11,7 @@ passport.use(
         {
             clientID: process.env.OAUTH_CLIENT_ID,
             clientSecret: process.env.OAUTH_CLIENT_SECRET,
-            callbackURL: 'http://localhost:5000/google/callback',
+            callbackURL: 'https://b9dk2wds-5000.use.devtunnels.ms/google/callback',
         },
 
         function(accessToken, refreshToken, profile, done) {

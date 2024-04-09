@@ -1,6 +1,9 @@
 const asyncHandler = require("./async");
 const sql = require("mssql");
 const jwt = require("jsonwebtoken");
+const { GoogleAuth, OAuth2Client } = require("google-auth-library");
+const path = require("path");
+const axios = require("axios");
 
 // Protect routes
 exports.protect = asyncHandler(async (req, res, next) => {
@@ -110,18 +113,18 @@ exports.OauthProtect = asyncHandler(async (req, res, next) => {
   try {
     // For web browser, authenticate using session ID
     if (req.sessionID) {
-      console.log("OauthProtect", req.sessionID)
+      console.log("OauthProtect", req.sessionID);
 
       // Get the session associated with the session ID
-      req.sessionStore.get(req.sessionID, function(error, session) {
+      req.sessionStore.get(req.sessionID, function (error, session) {
         if (error) {
           // Handle error
-          console.log('Error getting session:', error);
-          res.status(500).send('Server error');
+          console.log("Error getting session:", error);
+          res.status(500).send("Server error");
         } else {
           // Check if the session exists
           if (session) {
-            console.log('Session found:', session);
+            console.log("Session found:", session);
 
             // Check if the session meets your validation criteria
             if (session.passport && session.passport.user) {
@@ -129,21 +132,21 @@ exports.OauthProtect = asyncHandler(async (req, res, next) => {
               next();
             } else {
               // If the session is not valid, don't call next()
-              console.log('Session user not found');
-              res.status(401).send('Unauthorized');
+              console.log("Session user not found");
+              res.status(401).send("Unauthorized");
             }
           } else {
-            console.log('Session not found');
+            console.log("Session not found");
             res.status(401).redirect("/");
           }
         }
       });
-    }
-    else if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
-      console.log("test")
-    }
-    
-    else {
+    } else if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
+      console.log("test");
+    } else {
       res.status(401).redirect("/");
     }
   } catch (error) {
@@ -158,6 +161,29 @@ exports.OauthProtect = asyncHandler(async (req, res, next) => {
         .status(401)
         .json({ errors: [{ msg: "Not authorized to access this route" }] });
     }
+  }
+});
+
+// Protect: Only robot registered can access the route
+exports.GoogleAuthProtect = asyncHandler(async (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1];
+  if (!token) {
+    return res.status(403).json({ error: "No token provided" });
+  }
+
+  try {
+    const response = await axios.get(`https://oauth2.googleapis.com/tokeninfo?access_token=${token}`);
+
+    // Check if the token is valid and intended for your client
+    const aud = response.data.aud;
+    if (aud !== "103234893535789449064") {
+      return res.status(403).json({ error: "Invalid token" });
+    }
+
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(403).json({ error: "Failed to authenticate token" });
   }
 });
 
