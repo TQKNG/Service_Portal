@@ -42,8 +42,8 @@ const BooksListItem = ({ book, setBook }) => {
               }}
               className="cursor-pointer"
               onClick={() => {
-                //   setSchool(school);
-                //   hist.push('/admin/school/edit');
+                  setBook(book);
+                  hist.push('/admin/book/edit');
               }}
             >
               <path d="M0 0h24v24H0V0z" fill="none" />

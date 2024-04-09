@@ -43,23 +43,23 @@ const BookForm = ({
 
       console.log("Test formData", formData);
 
-      addBook(formData).then(() => {
-        setFormData({
-          BookID: "",
-          Name: "",
-          BookData: "",
-          // BookLogo: "",
-        });
-      });
+      // addBook(formData).then(() => {
+      //   setFormData({
+      //     BookID: "",
+      //     Name: "",
+      //     BookData: "",
+      //     // BookLogo: "",
+      //   });
+      // });
     } else if (location.pathname.includes("edit")) {
-      console.log("edit");
-      updateBook(BookID, formData);
-      hist.push("/admin/books");
-      clearBook();
+      // console.log("edit");
+      // updateBook(BookID, formData);
+      // hist.push("/admin/books");
+      // clearBook();
     }
   };
 
-  const { Name, Lyrics, BookID } = formData;
+  const { Name, BookID, BookData } = formData;
 
   if (book == null && location.pathname.includes("edit")) {
     hist.push("/admin/books");
@@ -117,8 +117,8 @@ const BookForm = ({
         <div className="mb-3">
           <div className="d-flex align-items-center gap-2">
             <div className="txt-primary">Book File</div>
-            {/* Display of the audio */}
-            {formData.BookData !== "" && (
+            {/*
+              {formData.BookData !== "" && (
               <audio controls >
                 <source
                   src={formData.BookData}
@@ -127,6 +127,8 @@ const BookForm = ({
                 Your browser does not support the audio element.
               </audio>
             )}
+              
+              */}
           </div>
 
           <FileUpload
@@ -141,47 +143,12 @@ const BookForm = ({
                 width="50"
                 fill="#1ba587"
               >
-                <path d="M400-240q50 0 85-35t35-85v-280h120v-80H460v256q-14-8-29-12t-31-4q-50 0-85 35t-35 85q0 50 35 85t85 35Zm80 160q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
+                <path d="M480-160q-48-38-104-59t-116-21q-42 0-82.5 11T100-198q-21 11-40.5-1T40-234v-482q0-11 5.5-21T62-752q46-24 96-36t102-12q58 0 113.5 15T480-740v484q51-32 107-48t113-16q36 0 70.5 6t69.5 18v-480q15 5 29.5 10.5T898-752q11 5 16.5 15t5.5 21v482q0 23-19.5 35t-40.5 1q-37-20-77.5-31T700-240q-60 0-116 21t-104 59Zm80-200v-380l200-200v400L560-360Zm-160 65v-396q-33-14-68.5-21.5T260-720q-37 0-72 7t-68 21v397q35-13 69.5-19t70.5-6q36 0 70.5 6t69.5 19Zm0 0v-396 396Z" />
               </svg>
             }
             setFormData={setFormData}
             formData={formData}
-            fieldType={"audio"}
-          />
-        </div>
-
-        <div className="mb-3">
-          <div className="d-flex align-items-center gap-2">
-            <div className="txt-primary">Image File</div>
-            {/* Display of the image */}
-            {formData.BookLogo !== "" && (
-              <img
-                src={formData.BookLogo}
-                alt=""
-                srcset=""
-                width="50px"
-                height="50px"
-              />
-            )}
-          </div>
-          <FileUpload
-            instructionText={
-              "Drag and drop book image file here, or click to browse book image"
-            }
-            imgSrc={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="50"
-                viewBox="0 -960 960 960"
-                width="50"
-                fill="#1ba587"
-              >
-                <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h360v80H200v560h560v-360h80v360q0 33-23.5 56.5T760-120H200Zm480-480v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80ZM240-280h480L570-480 450-320l-90-120-120 160Zm-40-480v560-560Z" />
-              </svg>
-            }
-            setFormData={setFormData}
-            formData={formData}
-            fieldType={"image"}
+            fieldType={"pdf"}
           />
         </div>
 
@@ -193,7 +160,7 @@ const BookForm = ({
               type="text"
               className="form-control rounded "
               id="BookID"
-              placeholder="Enterbook ID..."
+              placeholder="Enter book ID..."
               value={BookID}
             />
           </div>
@@ -226,13 +193,13 @@ const BookForm = ({
                   ></button>
                 </div>
                 <div className="modal-body">
-                  Are you sure you want to deletebook?
+                  Are you sure you want to delete book?
                   <br />
                   <br />
                   <b>
                     <span className="text-danger text-center">
                       Warning Deleting abook will result in deleting everything
-                      related to it such a users and assessments
+                      related to it
                     </span>
                   </b>
                 </div>

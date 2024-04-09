@@ -19,7 +19,8 @@ const FileUpload = ({ instructionText, imgSrc, setFormData, formData, fieldType 
         // Validate file type
         if (
           !acceptedFiles[0].type.includes("image") &&
-          !acceptedFiles[0].type.includes("audio")
+          !acceptedFiles[0].type.includes("audio") &&
+          !acceptedFiles[0].type.includes("pdf")
         ) {
           setErrorMessage("Unsupported file type");
           return;
@@ -34,6 +35,10 @@ const FileUpload = ({ instructionText, imgSrc, setFormData, formData, fieldType 
           fieldType === "audio"
         ) {
           setErrorMessage("Should be audio");
+          return;
+        }
+        else if(!acceptedFiles[0].type.includes("pdf") && fieldType === "pdf"){
+          setErrorMessage("Should be pdf");
           return;
         }
 
@@ -55,10 +60,16 @@ const FileUpload = ({ instructionText, imgSrc, setFormData, formData, fieldType 
               ...prevFormData,
               SongLogo: reader.result,
             }));
-          } else {
+          } else if(acceptedFiles[0].type.includes("audio")) {
             setFormData((prevFormData) => ({
               ...prevFormData,
               SongData: reader.result,
+            }));
+          }
+          else if(acceptedFiles[0].type.includes("pdf")){
+            setFormData((prevFormData) => ({
+              ...prevFormData,
+              BookData: reader.result,
             }));
           }
         };
@@ -70,7 +81,7 @@ const FileUpload = ({ instructionText, imgSrc, setFormData, formData, fieldType 
 
   // Package functions
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: ["audio/mpeg", "image/png"],
+    accept: ["audio/mpeg", "image/png","application/pdf"],
     onDrop,
   });
 
@@ -97,7 +108,7 @@ const FileUpload = ({ instructionText, imgSrc, setFormData, formData, fieldType 
               ) : (
                 <>
                   {isDragActive ? (
-                    <div>Drop your song here ...</div>
+                    <div>Drop your file here ...</div>
                   ) : (
                     <div>{instructionText}</div>
                   )}

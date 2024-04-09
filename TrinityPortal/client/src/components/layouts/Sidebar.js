@@ -229,7 +229,7 @@ const Sidebar = ({
             clearItems();
           }}
         >
-          <div className="sidebar-icon text-center  py-2">
+          <div className="sidebar-icon text-center py-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="26"

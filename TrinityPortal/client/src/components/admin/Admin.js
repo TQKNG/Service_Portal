@@ -40,6 +40,7 @@ import Jokes from "./joke/Jokes";
 import Trivias from "./trivia/Trivias";
 import Setting from "./settings/Setting";
 import SongForm from "./song/SongForm";
+import BookForm from "./book/BookForm";
 
 const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
   const location = useLocation();
@@ -187,6 +188,8 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
 
           {/* Book */}
           {location.pathname === "/admin/book" && <Books />}
+          {location.pathname === "/admin/book/edit" && <BookForm />}
+          {location.pathname === "/admin/book/add" && <BookForm />}
 
           {/* Joke */}
           {location.pathname === "/admin/joke" && <Jokes />}

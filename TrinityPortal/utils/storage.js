@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const ebookConverter = require("node-ebook-converter");
 
 async function storeImage(subloc, data, fileName) {
   // Define the directory for uploaded images
@@ -72,7 +73,7 @@ async function retrieveImage(subloc, id) {
 
   const imagePath = path.join(uploadDir, fileName);
 
-  const url = `https://b9dk2wds-5000.use.devtunnels.ms/assets/SongLogo/${fileName}`
+  const url = `https://b9dk2wds-5000.use.devtunnels.ms/assets/SongLogo/${fileName}`;
 
   let img = fs.readFileSync(imagePath, { encoding: "base64" });
 
@@ -89,7 +90,7 @@ async function retrieveAudio(subloc, id) {
 
   const audioPath = path.join(uploadDir, fileName);
 
-  const url = `https://b9dk2wds-5000.use.devtunnels.ms/assets/SongAudio/${fileName}`
+  const url = `https://b9dk2wds-5000.use.devtunnels.ms/assets/SongAudio/${fileName}`;
 
   let audio = fs.readFileSync(audioPath, { encoding: "base64" });
 
@@ -104,7 +105,7 @@ async function retrieveJson(subloc, id) {
 
   const fileName = id;
 
-  const jsonPath = path.join(uploadDir,`${fileName}.json`);
+  const jsonPath = path.join(uploadDir, `${fileName}.json`);
 
   // Read JSON file synchronously
   let data = fs.readFileSync(jsonPath);
@@ -114,4 +115,47 @@ async function retrieveJson(subloc, id) {
   return jsonData;
 }
 
-module.exports = { storeImage, retrieveImage, storeJson, retrieveJson, storeAudio, retrieveAudio };
+async function storeEPUB(subloc, data, fileName) {
+  // Define the directory for uploaded images
+  const uploadDir = path.join(process.cwd(), `/assets/${subloc}`);
+
+  // Ensure the directory exists
+  fs.mkdirSync(uploadDir, { recursive: true });
+
+  // Define the path for the new image
+  const dataPath = path.join(uploadDir, `${fileName}.epub`);
+
+  // Convert pdf to epub
+  const convertedData = await convertPDFtoEPUB(data, dataPath);
+
+}
+
+async function retrieveEPUB(subloc, id) {}
+
+async function convertPDFtoEPUB(data, dataPath) {
+  return new Promise((resolve, reject) => {
+    ebookConverter
+      .convert({
+        input: `./input/${data}.pdf`,
+        output: `${dataPath}`,
+        authors: "Test content",
+      })
+      .then((response) => resolve(response))
+      .catch((error) => reject(error));
+  });
+}
+
+async function convertEPUBtoPDF(data) {}
+
+module.exports = {
+  storeImage,
+  retrieveImage,
+  storeJson,
+  retrieveJson,
+  storeAudio,
+  retrieveAudio,
+  storeEPUB,
+  retrieveEPUB,
+  convertPDFtoEPUB,
+  convertEPUBtoPDF,
+};

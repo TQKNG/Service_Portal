@@ -106,6 +106,12 @@ const App = () => {
 
             {/* Book */}
             <Route exact path="/admin/book" component={Admin} />
+            <Route
+              exact
+              path="/admin/book/edit"
+              component={Admin}
+            />
+             <Route exact path="/admin/book/add" component={Admin} />
 
             {/* Joke */}
             <Route exact path="/admin/joke" component={Admin} />
