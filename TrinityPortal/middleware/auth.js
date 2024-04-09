@@ -107,27 +107,40 @@ exports.protect = asyncHandler(async (req, res, next) => {
 
 // Protect Google OAuth routes
 exports.OauthProtect = asyncHandler(async (req, res, next) => {
-  try{
-    if (req.cookies['connect.sid']) {
-      // If there's a session ID, look up the session
-      const sessionId = req.cookies['connect.sid'];
-      req.sessionStore.get(sessionId, (error, session) => {
-        if (error || !session) {
-          return res
-            .status(401)
-            .json({ errors: [{ msg: "Not authorized to access this route" }] })
+  try {
+    if (req.sessionID) {
+      console.log("OauthProtect", req.sessionID)
+
+      // Get the session associated with the session ID
+      req.sessionStore.get(req.sessionID, function(error, session) {
+        if (error) {
+          // Handle error
+          console.log('Error getting session:', error);
+          res.status(500).send('Server error');
         } else {
-          // If the session is valid, consider the user as authenticated
-          // You might want to add additional checks here depending on how you're storing the user's information in the session
-          next();
+          // Check if the session exists
+          if (session) {
+            console.log('Session found:', session);
+
+            // Check if the session meets your validation criteria
+            if (session.passport && session.passport.user) {
+              // If the session is valid, call next()
+              next();
+            } else {
+              // If the session is not valid, don't call next()
+              console.log('Session user not found');
+              res.status(401).send('Unauthorized');
+            }
+          } else {
+            console.log('Session not found');
+            res.status(401).send('Unauthorized');
+          }
         }
       });
-   }
-   else{
-    res.status(401).redirect('/');
-   }
-  }
-   catch(error){
+    } else {
+      res.status(401).redirect("/");
+    }
+  } catch (error) {
     if (error.name === "TokenExpiredError") {
       res.cookie("token", "", {
         expires: new Date(Date.now() + 10 * 1000),
@@ -139,7 +152,7 @@ exports.OauthProtect = asyncHandler(async (req, res, next) => {
         .status(401)
         .json({ errors: [{ msg: "Not authorized to access this route" }] });
     }
-   }
+  }
 });
 
 // Grant access to specific roles
