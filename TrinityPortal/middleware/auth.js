@@ -108,6 +108,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
 // Protect Google OAuth routes
 exports.OauthProtect = asyncHandler(async (req, res, next) => {
   try {
+    // For web browser, authenticate using session ID
     if (req.sessionID) {
       console.log("OauthProtect", req.sessionID)
 
@@ -133,11 +134,16 @@ exports.OauthProtect = asyncHandler(async (req, res, next) => {
             }
           } else {
             console.log('Session not found');
-            res.status(401).send('Unauthorized');
+            res.status(401).redirect("/");
           }
         }
       });
-    } else {
+    }
+    else if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+      console.log("test")
+    }
+    
+    else {
       res.status(401).redirect("/");
     }
   } catch (error) {

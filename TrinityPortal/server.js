@@ -104,9 +104,6 @@ app.use(session({
   secret: 'abc123',
   resave: false,
   saveUninitialized: false,
-  cookie: {
-    maxAge: 60 * 60 * 1000 // 1 hour
-  }
 }));
 
 //Routes
@@ -141,6 +138,15 @@ app.use('/api/trivias', trivias);
 app.use('/api/robotservices',robotservice);
 
 
+// Serve API Docs
+app.use('/api-docs', OauthProtect, swaggerUi.serve, swaggerUi.setup(openapiSpecification, options));
+
+app.get('/swagger.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(openapiSpecification);
+});
+
+
 // Direct route to access Song Logo and Song Audio
 app.use('/assets/SongLogo', express.static(path.join(__dirname, 'assets/SongLogo')));
 
@@ -166,15 +172,6 @@ app.get('/google/callback',
       res.redirect('/api-docs');
     });
   });
-
-// Serve API Docs
-app.use('/api-docs', OauthProtect, swaggerUi.serve, swaggerUi.setup(openapiSpecification, options));
-
-app.get('/swagger.json', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.send(openapiSpecification);
-});
-
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));

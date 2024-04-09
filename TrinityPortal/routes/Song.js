@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.post('/', addSong);
 // router.post('/import', protect, authorize(5), addMultipleSchools);
-router.get('/', OauthProtect, getSongs);
+router.get('/', getSongs);
 // router.put('/:schoolId', protect, authorize(3, 4, 5,6), updateSchool);
 // router.delete('/:schoolId', protect, authorize(5), deleteSchool);
 
