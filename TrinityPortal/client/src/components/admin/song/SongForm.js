@@ -27,7 +27,7 @@ const SongForm = ({
     Name: song === null ? "" : song.Name !== undefined ? song.Name : "",
     Lyrics: song === null ? "" : song.Lyrics !== undefined ? song.Lyrics : "",
     SongData:
-      song === null ? "" : song.SongPath !== undefined ? song.SongData : "",
+      song === null ? "" : song.SongData !== undefined ? song.SongData : "",
     SongLogo:
       song === null ? "" : song.SongLogo !== undefined ? song.SongLogo : "",
   });
