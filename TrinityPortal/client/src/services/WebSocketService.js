@@ -28,7 +28,8 @@ const useWebSocket = (url) => {
   const onMessage = (callback) => {
     if (ws) {
       ws.onmessage = (event) => {
-        callback(event.data);
+        const message = JSON.parse(event.data);
+        console.log("Test Callback", callback)
       };
     }
   };
