@@ -42,9 +42,8 @@ const Books = ({
                   <div
                     className="btn button-parent button-primary d-flex align-items-center px-3"
                     onClick={() => {
-                      hist.push("/admin/book/add");
-                      addBook();
                       clearBook();
+                      hist.push("/admin/book/add");
                     }}
                   >
                     <svg

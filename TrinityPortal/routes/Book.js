@@ -1,7 +1,7 @@
 const express = require('express');
 const {
   addBook,
-//   getSchools,
+  getBooks,
 //   updateSchool,
 //   deleteSchool,
 //   addMultipleSchools,
@@ -12,6 +12,7 @@ const {
 const router = express.Router();
 
 router.post('/', addBook);
+router.get('/', getBooks);
 // router.post('/import', protect, authorize(5), addMultipleSchools);
 // router.post('/get', protect, getSchools);
 // router.put('/:schoolId', protect, authorize(3, 4, 5,6), updateSchool);

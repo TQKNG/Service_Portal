@@ -43,14 +43,14 @@ const BookForm = ({
 
       console.log("Test formData", formData);
 
-      // addBook(formData).then(() => {
-      //   setFormData({
-      //     BookID: "",
-      //     Name: "",
-      //     BookData: "",
-      //     // BookLogo: "",
-      //   });
-      // });
+      addBook(formData).then(() => {
+        setFormData({
+          BookID: "",
+          Name: "",
+          BookData: "",
+          // BookLogo: "",
+        });
+      });
     } else if (location.pathname.includes("edit")) {
       // console.log("edit");
       // updateBook(BookID, formData);

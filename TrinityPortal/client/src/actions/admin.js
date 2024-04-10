@@ -38,7 +38,7 @@ import {
   CLEAR_JOKE,
   GET_TRIVIA,
   GET_TRIVIASLIST,
-  CLEAR_TRIVIA
+  CLEAR_TRIVIA,
 } from "../actions/types";
 import { setAlert } from "./alerts";
 import { clearAssessmentResult } from "./assessment";
@@ -72,30 +72,33 @@ export const loadUsersList =
       // console.log("test resdatata",res.data.data);
       // dispatch({ type: GET_USERSLIST, payload: res.data.data });
 
-      dispatch({type:GET_USERSLIST,payload:  [
-        {
-          UserID: 1,
-          FirstName: "Ziad",
-          LastName:"Diab",
-          Email: "ziad.diab@globaldws.com",
-          UserName: "ziad.diab",
-          Role: 1,
-          DeviceID: "",
-          HarewareID: null,
-          ConnectionString: null
-        },
-        {
-          UserID: 2,
-          FirstName: "Robot",
-          LastName:"1",
-          Email: null,
-          UserName:null,
-          Role: 2,
-          DeviceID: "KAZY45672",
-          HardwareID: "NBK4436788",
-          ConnectionString: "xyahskelwjqkla"
-        },
-      ]})
+      dispatch({
+        type: GET_USERSLIST,
+        payload: [
+          {
+            UserID: 1,
+            FirstName: "Ziad",
+            LastName: "Diab",
+            Email: "ziad.diab@globaldws.com",
+            UserName: "ziad.diab",
+            Role: 1,
+            DeviceID: "",
+            HarewareID: null,
+            ConnectionString: null,
+          },
+          {
+            UserID: 2,
+            FirstName: "Robot",
+            LastName: "1",
+            Email: null,
+            UserName: null,
+            Role: 2,
+            DeviceID: "KAZY45672",
+            HardwareID: "NBK4436788",
+            ConnectionString: "xyahskelwjqkla",
+          },
+        ],
+      });
     } catch (error) {
       console.log(error);
       const errors = error.response.data.errors;
@@ -200,25 +203,27 @@ export const getSchool = (id) => async (dispatch) => {
   }
 };
 
-export const loadSchoolsList = (value={}) => async (dispatch) => {
-  try {
-    const res = await api.post("/schools/get",value);
-    dispatch({ type: GET_SCHOOLSLIST, payload: res.data.data });
-  } catch (error) {
-    console.log(error);
-    const errors = error.response.data.errors;
-    if (errors)
-      if (errors[0].msg === "Session Expired") {
-        dispatch({ type: LOGOUT });
-        dispatch(clearAll());
-      }
-  }
-};
+export const loadSchoolsList =
+  (value = {}) =>
+  async (dispatch) => {
+    try {
+      const res = await api.post("/schools/get", value);
+      dispatch({ type: GET_SCHOOLSLIST, payload: res.data.data });
+    } catch (error) {
+      console.log(error);
+      const errors = error.response.data.errors;
+      if (errors)
+        if (errors[0].msg === "Session Expired") {
+          dispatch({ type: LOGOUT });
+          dispatch(clearAll());
+        }
+    }
+  };
 
 export const updateSchool = (schoolId, formData) => async (dispatch) => {
   try {
     const result = await api.put(`/schools/${schoolId}`, formData);
-    console.log("test result", result)
+    console.log("test result", result);
     dispatch(loadSchoolsList());
     dispatch(setAlert("School updated Successfully", "success"));
   } catch (err) {
@@ -287,22 +292,24 @@ export const deleteSchool = (schoolId) => async (dispatch) => {
   }
 };
 
-export const loadAssessmentsList = (school = {}) => async (dispatch) => {
-  console.log("school TEststt", school)
-  try {
-    const res = await api.get(`/assessments/${school.schoolIds}`);
-    console.log(res.data.data);
-    dispatch({ type: GET_ASSESSMENTSLIST, payload: res.data.data });
-  } catch (error) {
-    console.log(error);
-    const errors = error.response.data.errors;
-    if (errors)
-      if (errors[0].msg === "Session Expired") {
-        dispatch({ type: LOGOUT });
-        dispatch(clearAll());
-      }
-  }
-};
+export const loadAssessmentsList =
+  (school = {}) =>
+  async (dispatch) => {
+    console.log("school TEststt", school);
+    try {
+      const res = await api.get(`/assessments/${school.schoolIds}`);
+      console.log(res.data.data);
+      dispatch({ type: GET_ASSESSMENTSLIST, payload: res.data.data });
+    } catch (error) {
+      console.log(error);
+      const errors = error.response.data.errors;
+      if (errors)
+        if (errors[0].msg === "Session Expired") {
+          dispatch({ type: LOGOUT });
+          dispatch(clearAll());
+        }
+    }
+  };
 
 export const getAssessment = (id, CategoryID) => async (dispatch) => {
   try {
@@ -470,7 +477,6 @@ export const getResult = (id) => async (dispatch) => {
   }
 };
 
-
 // Reception
 export const setReception = (reception) => (dispatch) => {
   dispatch({ type: GET_RECEPTION, payload: reception });
@@ -479,7 +485,6 @@ export const setReception = (reception) => (dispatch) => {
 export const getReception = (id) => async (dispatch) => {
   try {
     // const res = await api.post("/schools/get", { SchoolID: parseInt(id) });
-
     // dispatch({ type: GET_SCHOOL, payload: res.data.data[0] });
   } catch (error) {
     console.log(error);
@@ -493,54 +498,59 @@ export const getReception = (id) => async (dispatch) => {
 };
 
 // Reception
-export const loadReceptionsList = (value={}) => async (dispatch) => {
-  try {
-    // const res = await api.post("/schools/get",value);
-    // dispatch({ type: GET_SCHOOLSLIST, payload: res.data.data });
-    dispatch({type:GET_RECEPTIONSLIST,payload:  [
-      {
-        InOutID: 1,
-        DateTime: "2024-03-16T12:34:56.789Z",
-        FullName: "Ziad Diab",
-        ClockIn: null,
-        ClockOut: null,
-        Status: 0,
-      },
-      {
-        InOutID: 2,
-        DateTime: "2024-03-17T08:20:30.123Z",
-        FullName: "Khanh Nguyen",
-        ClockIn: "2024-03-17T08:21:30.123Z",
-        ClockOut: null,
-        Status: 1,
-      },
-      {
-        InOutID: 3,
-        DateTime: "2024-03-18T10:15:00.456Z",
-        FullName: "Alan Pintor",
-        ClockIn: "2024-03-18T10:16:00.456Z",
-        ClockOut: null,
-        Status: 2,
-      },
-      {
-        InOutID: 4,
-        DateTime: "2024-03-19T11:45:00.789Z",
-        FullName: "Alok Rathava",
-        ClockIn: "2024-03-19T11:46:00.789Z",
-        ClockOut: "2024-03-19T19:15:00.000Z",
-        Status: 3,
-      },
-    ]})
-  } catch (error) {
-    console.log(error);
-    const errors = error.response.data.errors;
-    if (errors)
-      if (errors[0].msg === "Session Expired") {
-        dispatch({ type: LOGOUT });
-        dispatch(clearAll());
-      }
-  }
-};
+export const loadReceptionsList =
+  (value = {}) =>
+  async (dispatch) => {
+    try {
+      // const res = await api.post("/schools/get",value);
+      // dispatch({ type: GET_SCHOOLSLIST, payload: res.data.data });
+      dispatch({
+        type: GET_RECEPTIONSLIST,
+        payload: [
+          {
+            InOutID: 1,
+            DateTime: "2024-03-16T12:34:56.789Z",
+            FullName: "Ziad Diab",
+            ClockIn: null,
+            ClockOut: null,
+            Status: 0,
+          },
+          {
+            InOutID: 2,
+            DateTime: "2024-03-17T08:20:30.123Z",
+            FullName: "Khanh Nguyen",
+            ClockIn: "2024-03-17T08:21:30.123Z",
+            ClockOut: null,
+            Status: 1,
+          },
+          {
+            InOutID: 3,
+            DateTime: "2024-03-18T10:15:00.456Z",
+            FullName: "Alan Pintor",
+            ClockIn: "2024-03-18T10:16:00.456Z",
+            ClockOut: null,
+            Status: 2,
+          },
+          {
+            InOutID: 4,
+            DateTime: "2024-03-19T11:45:00.789Z",
+            FullName: "Alok Rathava",
+            ClockIn: "2024-03-19T11:46:00.789Z",
+            ClockOut: "2024-03-19T19:15:00.000Z",
+            Status: 3,
+          },
+        ],
+      });
+    } catch (error) {
+      console.log(error);
+      const errors = error.response.data.errors;
+      if (errors)
+        if (errors[0].msg === "Session Expired") {
+          dispatch({ type: LOGOUT });
+          dispatch(clearAll());
+        }
+    }
+  };
 
 export const updateReception = (schoolId, formData) => async (dispatch) => {
   try {
@@ -597,7 +607,6 @@ export const deleteReception = (schoolId) => async (dispatch) => {
   }
 };
 
-
 // Song
 export const setSong = (song) => (dispatch) => {
   dispatch({ type: GET_SONG, payload: song });
@@ -606,7 +615,6 @@ export const setSong = (song) => (dispatch) => {
 export const getSong = (id) => async (dispatch) => {
   try {
     // const res = await api.post("/schools/get", { SchoolID: parseInt(id) });
-
     // dispatch({ type: GET_SCHOOL, payload: res.data.data[0] });
   } catch (error) {
     console.log(error);
@@ -618,22 +626,23 @@ export const getSong = (id) => async (dispatch) => {
       }
   }
 };
-export const loadSongsList = (value={}) => async (dispatch) => {
-  try {
-    // const res = await api.post("/songs/get",value);
-    const res = await api.get("/songs");
-    dispatch({ type: GET_SONGSLIST, payload: res.data.data });
-   
-  } catch (error) {
-    console.log(error);
-    const errors = error.response.data.errors;
-    if (errors)
-      if (errors[0].msg === "Session Expired") {
-        dispatch({ type: LOGOUT });
-        dispatch(clearAll());
-      }
-  }
-};
+export const loadSongsList =
+  (value = {}) =>
+  async (dispatch) => {
+    try {
+      // const res = await api.post("/songs/get",value);
+      const res = await api.get("/songs");
+      dispatch({ type: GET_SONGSLIST, payload: res.data.data });
+    } catch (error) {
+      console.log(error);
+      const errors = error.response.data.errors;
+      if (errors)
+        if (errors[0].msg === "Session Expired") {
+          dispatch({ type: LOGOUT });
+          dispatch(clearAll());
+        }
+    }
+  };
 
 export const updateSong = (schoolId, formData) => async (dispatch) => {
   try {
@@ -698,7 +707,6 @@ export const setBook = (book) => (dispatch) => {
 export const getBook = (id) => async (dispatch) => {
   try {
     // const res = await api.post("/schools/get", { SchoolID: parseInt(id) });
-
     // dispatch({ type: GET_SCHOOL, payload: res.data.data[0] });
   } catch (error) {
     console.log(error);
@@ -710,38 +718,22 @@ export const getBook = (id) => async (dispatch) => {
       }
   }
 };
-export const loadBooksList = (value={}) => async (dispatch) => {
-  try {
-    // const res = await api.post("/schools/get",value);
-    // dispatch({ type: GET_SCHOOLSLIST, payload: res.data.data });
-    dispatch({type:GET_BOOKSLIST,payload:  [
-      {
-        BookID: 1,
-        Name: "The Magic Tree",
-      },
-      {
-        BookID: 2,
-        Name: "Winter Fairy",
-      },
-      {
-        BookID: 3,
-        Name: "The Enchanted Ones",
-      },
-      {
-        BookID: 4,
-        Name: "Starlit Melodies",
-      },
-    ]})
-  } catch (error) {
-    console.log(error);
-    const errors = error.response.data.errors;
-    if (errors)
-      if (errors[0].msg === "Session Expired") {
-        dispatch({ type: LOGOUT });
-        dispatch(clearAll());
-      }
-  }
-};
+export const loadBooksList =
+  (value = {}) =>
+  async (dispatch) => {
+    try {
+      const res = await api.get("/books");
+      dispatch({ type: GET_BOOKSLIST, payload: res.data.data });
+    } catch (error) {
+      console.log(error);
+      const errors = error.response.data.errors;
+      if (errors)
+        if (errors[0].msg === "Session Expired") {
+          dispatch({ type: LOGOUT });
+          dispatch(clearAll());
+        }
+    }
+  };
 
 export const updateBook = (schoolId, formData) => async (dispatch) => {
   try {
@@ -765,7 +757,7 @@ export const updateBook = (schoolId, formData) => async (dispatch) => {
 
 export const addBook = (formData) => async (dispatch) => {
   try {
-    await api.post("/books", {formData});
+    await api.post("/books", formData);
     // dispatch(loadSchoolsList());
     dispatch(setAlert("Book Added Successfully", "success"));
   } catch (err) {
@@ -798,7 +790,6 @@ export const deleteBook = (schoolId) => async (dispatch) => {
   }
 };
 
-
 // Joke
 export const setJoke = (book) => (dispatch) => {
   dispatch({ type: GET_JOKE, payload: book });
@@ -807,7 +798,6 @@ export const setJoke = (book) => (dispatch) => {
 export const getJoke = (id) => async (dispatch) => {
   try {
     // const res = await api.post("/schools/get", { SchoolID: parseInt(id) });
-
     // dispatch({ type: GET_SCHOOL, payload: res.data.data[0] });
   } catch (error) {
     console.log(error);
@@ -819,38 +809,43 @@ export const getJoke = (id) => async (dispatch) => {
       }
   }
 };
-export const loadJokesList = (value={}) => async (dispatch) => {
-  try {
-    // const res = await api.post("/schools/get",value);
-    // dispatch({ type: GET_SCHOOLSLIST, payload: res.data.data });
-    dispatch({type:GET_JOKESLIST,payload:  [
-      {
-        JokeID: 1,
-        Name: "Breakfast Joke",
-      },
-      {
-        JokeID: 2,
-        Name: "Lunch Joke",
-      },
-      {
-        JokeID: 3,
-        Name: "Dinner Joke",
-      },
-      {
-        JokeID: 4,
-        Name: "Supper Joke",
-      },
-    ]})
-  } catch (error) {
-    console.log(error);
-    const errors = error.response.data.errors;
-    if (errors)
-      if (errors[0].msg === "Session Expired") {
-        dispatch({ type: LOGOUT });
-        dispatch(clearAll());
-      }
-  }
-};
+export const loadJokesList =
+  (value = {}) =>
+  async (dispatch) => {
+    try {
+      // const res = await api.post("/schools/get",value);
+      // dispatch({ type: GET_SCHOOLSLIST, payload: res.data.data });
+      dispatch({
+        type: GET_JOKESLIST,
+        payload: [
+          {
+            JokeID: 1,
+            Name: "Breakfast Joke",
+          },
+          {
+            JokeID: 2,
+            Name: "Lunch Joke",
+          },
+          {
+            JokeID: 3,
+            Name: "Dinner Joke",
+          },
+          {
+            JokeID: 4,
+            Name: "Supper Joke",
+          },
+        ],
+      });
+    } catch (error) {
+      console.log(error);
+      const errors = error.response.data.errors;
+      if (errors)
+        if (errors[0].msg === "Session Expired") {
+          dispatch({ type: LOGOUT });
+          dispatch(clearAll());
+        }
+    }
+  };
 
 export const updateJoke = (schoolId, formData) => async (dispatch) => {
   try {
@@ -915,7 +910,6 @@ export const setTrivia = (trivia) => (dispatch) => {
 export const getTrivia = (id) => async (dispatch) => {
   try {
     // const res = await api.post("/schools/get", { SchoolID: parseInt(id) });
-
     // dispatch({ type: GET_SCHOOL, payload: res.data.data[0] });
   } catch (error) {
     console.log(error);
@@ -927,38 +921,43 @@ export const getTrivia = (id) => async (dispatch) => {
       }
   }
 };
-export const loadTriviasList = (value={}) => async (dispatch) => {
-  try {
-    // const res = await api.post("/schools/get",value);
-    // dispatch({ type: GET_SCHOOLSLIST, payload: res.data.data });
-    dispatch({type:GET_TRIVIASLIST,payload:  [
-      {
-        TriviaID: 1,
-        Name: "Breakfast Trivia",
-      },
-      {
-        TriviaID: 2,
-        Name: "Lunch Trivia",
-      },
-      {
-        TriviaID: 3,
-        Name: "Dinner Trivia",
-      },
-      {
-        TriviaID: 4,
-        Name: "Supper Trivia",
-      },
-    ]})
-  } catch (error) {
-    console.log(error);
-    const errors = error.response.data.errors;
-    if (errors)
-      if (errors[0].msg === "Session Expired") {
-        dispatch({ type: LOGOUT });
-        dispatch(clearAll());
-      }
-  }
-};
+export const loadTriviasList =
+  (value = {}) =>
+  async (dispatch) => {
+    try {
+      // const res = await api.post("/schools/get",value);
+      // dispatch({ type: GET_SCHOOLSLIST, payload: res.data.data });
+      dispatch({
+        type: GET_TRIVIASLIST,
+        payload: [
+          {
+            TriviaID: 1,
+            Name: "Breakfast Trivia",
+          },
+          {
+            TriviaID: 2,
+            Name: "Lunch Trivia",
+          },
+          {
+            TriviaID: 3,
+            Name: "Dinner Trivia",
+          },
+          {
+            TriviaID: 4,
+            Name: "Supper Trivia",
+          },
+        ],
+      });
+    } catch (error) {
+      console.log(error);
+      const errors = error.response.data.errors;
+      if (errors)
+        if (errors[0].msg === "Session Expired") {
+          dispatch({ type: LOGOUT });
+          dispatch(clearAll());
+        }
+    }
+  };
 
 export const updateTrivia = (schoolId, formData) => async (dispatch) => {
   try {
@@ -1015,9 +1014,18 @@ export const deleteTrivia = (schoolId) => async (dispatch) => {
   }
 };
 
-
 export const generateReport =
-  ( year, benchmarkID, schoolID, gradeID,sectionID, studentID, teacherID, schoolIds) => async (dispatch) => {
+  (
+    year,
+    benchmarkID,
+    schoolID,
+    gradeID,
+    sectionID,
+    studentID,
+    teacherID,
+    schoolIds
+  ) =>
+  async (dispatch) => {
     try {
       const res = await api.get(
         `/assessmentresults/reports/${year}/${benchmarkID}/${schoolID}/${gradeID}/${sectionID}/${studentID}/${teacherID}/${schoolIds}`
@@ -1035,65 +1043,126 @@ export const generateReport =
     }
   };
 
-export const getChartOverallResults = (year, benchmarkID, schoolID, gradeID,sectionID, studentID, teacherID, schoolIds) => async (dispatch) => {
-  try {
-    const res = await api.get(`/assessmentresults/chart1/${year}/${benchmarkID}/${schoolID}/${gradeID}/${sectionID}/${studentID}/${teacherID}/${schoolIds}`);
-    dispatch({ type: GET_OVERALL_RESULTS_CHART, payload: res.data.data });
-  } catch (error) {
-    console.log(error);
-    const errors = error.response.data.errors;
-    if (errors)
-      if (errors[0].msg === "Session Expired") {
-        dispatch({ type: LOGOUT });
-        dispatch(clearAll());
-      }
-  }
-};
+export const getChartOverallResults =
+  (
+    year,
+    benchmarkID,
+    schoolID,
+    gradeID,
+    sectionID,
+    studentID,
+    teacherID,
+    schoolIds
+  ) =>
+  async (dispatch) => {
+    try {
+      const res = await api.get(
+        `/assessmentresults/chart1/${year}/${benchmarkID}/${schoolID}/${gradeID}/${sectionID}/${studentID}/${teacherID}/${schoolIds}`
+      );
+      dispatch({ type: GET_OVERALL_RESULTS_CHART, payload: res.data.data });
+    } catch (error) {
+      console.log(error);
+      const errors = error.response.data.errors;
+      if (errors)
+        if (errors[0].msg === "Session Expired") {
+          dispatch({ type: LOGOUT });
+          dispatch(clearAll());
+        }
+    }
+  };
 
-export const getChartOverallByAssessmentResults = (year, benchmarkID, schoolID, gradeID,sectionID, studentID, teacherID, schoolIds) => async (dispatch) => {
-  try {
-    const res = await api.get(`/assessmentresults/chart2/${year}/${benchmarkID}/${schoolID}/${gradeID}/${sectionID}/${studentID}/${teacherID}/${schoolIds}`);
-    dispatch({ type: GET_OVERALL_RESULTS_BY_ASSESSMENT_CHART, payload: res.data.data });
-  } catch (error) {
-    console.log(error);
-    const errors = error.response.data.errors;
-    if (errors)
-      if (errors[0].msg === "Session Expired") {
-        dispatch({ type: LOGOUT });
-        dispatch(clearAll());
-      }
-  }
-};
+export const getChartOverallByAssessmentResults =
+  (
+    year,
+    benchmarkID,
+    schoolID,
+    gradeID,
+    sectionID,
+    studentID,
+    teacherID,
+    schoolIds
+  ) =>
+  async (dispatch) => {
+    try {
+      const res = await api.get(
+        `/assessmentresults/chart2/${year}/${benchmarkID}/${schoolID}/${gradeID}/${sectionID}/${studentID}/${teacherID}/${schoolIds}`
+      );
+      dispatch({
+        type: GET_OVERALL_RESULTS_BY_ASSESSMENT_CHART,
+        payload: res.data.data,
+      });
+    } catch (error) {
+      console.log(error);
+      const errors = error.response.data.errors;
+      if (errors)
+        if (errors[0].msg === "Session Expired") {
+          dispatch({ type: LOGOUT });
+          dispatch(clearAll());
+        }
+    }
+  };
 
-export const getChartOverallProgression = (year, benchmarkID, schoolID, gradeID,sectionID, studentID, teacherID, schoolIds) => async (dispatch) => {
-  try {
-    const res = await api.get(`/assessmentresults/chart3/${year}/${benchmarkID}/${schoolID}/${gradeID}/${sectionID}/${studentID}/${teacherID}/${schoolIds}`);
-    dispatch({ type: GET_OVERALL_RESULTS_PROGRESSION_CHART, payload: res.data.data });
-  } catch (error) {
-    console.log(error);
-    const errors = error.response.data.errors;
-    if (errors)
-      if (errors[0].msg === "Session Expired") {
-        dispatch({ type: LOGOUT });
-        dispatch(clearAll());
-      }
-  }
-};
+export const getChartOverallProgression =
+  (
+    year,
+    benchmarkID,
+    schoolID,
+    gradeID,
+    sectionID,
+    studentID,
+    teacherID,
+    schoolIds
+  ) =>
+  async (dispatch) => {
+    try {
+      const res = await api.get(
+        `/assessmentresults/chart3/${year}/${benchmarkID}/${schoolID}/${gradeID}/${sectionID}/${studentID}/${teacherID}/${schoolIds}`
+      );
+      dispatch({
+        type: GET_OVERALL_RESULTS_PROGRESSION_CHART,
+        payload: res.data.data,
+      });
+    } catch (error) {
+      console.log(error);
+      const errors = error.response.data.errors;
+      if (errors)
+        if (errors[0].msg === "Session Expired") {
+          dispatch({ type: LOGOUT });
+          dispatch(clearAll());
+        }
+    }
+  };
 
-export const getChartAverageScorePerBenchmarkCategory = (year, benchmarkID, schoolID, gradeID,sectionID, studentID, teacherID, schoolIds) => async (dispatch) => {
-  try {
-    const res = await api.get(`/assessmentresults/chart4/${year}/${benchmarkID}/${schoolID}/${gradeID}/${sectionID}/${studentID}/${teacherID}`);
-    dispatch({ type: GET_AVERAGE_SCORE_BENCHMARK_CATEGORY_CHART, payload: res.data.data });
-  } catch (error) {
-    console.log(error);
-    const errors = error.response.data.errors;
-    if (errors)
-      if (errors[0].msg === "Session Expired") {
-        dispatch({ type: LOGOUT });
-        dispatch(clearAll());
-      }
-  }
-};
+export const getChartAverageScorePerBenchmarkCategory =
+  (
+    year,
+    benchmarkID,
+    schoolID,
+    gradeID,
+    sectionID,
+    studentID,
+    teacherID,
+    schoolIds
+  ) =>
+  async (dispatch) => {
+    try {
+      const res = await api.get(
+        `/assessmentresults/chart4/${year}/${benchmarkID}/${schoolID}/${gradeID}/${sectionID}/${studentID}/${teacherID}`
+      );
+      dispatch({
+        type: GET_AVERAGE_SCORE_BENCHMARK_CATEGORY_CHART,
+        payload: res.data.data,
+      });
+    } catch (error) {
+      console.log(error);
+      const errors = error.response.data.errors;
+      if (errors)
+        if (errors[0].msg === "Session Expired") {
+          dispatch({ type: LOGOUT });
+          dispatch(clearAll());
+        }
+    }
+  };
 
 export const loadResultsList = (schoolID) => async (dispatch) => {
   try {
@@ -1112,7 +1181,7 @@ export const loadResultsList = (schoolID) => async (dispatch) => {
 
 export const deleteResult = (resultId, schoolID) => async (dispatch) => {
   try {
-    console.log("test resultId", resultId, schoolID)
+    console.log("test resultId", resultId, schoolID);
     await api.delete(`/assessmentresults/${resultId}`);
     dispatch(loadResultsList(schoolID));
     dispatch(setAlert("Result Deleted Successfully", "info"));
@@ -1237,7 +1306,7 @@ export const addClassroom = (formData) => async (dispatch) => {
 
 export const finalizeAssessment = (formData) => async (dispatch) => {
   try {
-    console.log("test formData", formData)
+    console.log("test formData", formData);
     await api.post("/assessmentresults/finalize", formData);
     dispatch(loadClassroomsList());
     dispatch(setAlert("Assessment Finalized", "success"));
@@ -1305,7 +1374,6 @@ export const clearJoke = () => (dispatch) => {
 export const clearTrivia = () => (dispatch) => {
   dispatch({ type: CLEAR_TRIVIA });
 };
-
 
 export const clearAssessment = () => (dispatch) => {
   dispatch({ type: CLEAR_ASSESSMENT });

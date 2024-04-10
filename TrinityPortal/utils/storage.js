@@ -1,4 +1,6 @@
 const fs = require("fs");
+const { exec } = require('child_process');
+const os = require("os");
 const path = require("path");
 const ebookConverter = require("node-ebook-converter");
 
@@ -116,6 +118,7 @@ async function retrieveJson(subloc, id) {
 }
 
 async function storeEPUB(subloc, data, fileName) {
+
   // Define the directory for uploaded images
   const uploadDir = path.join(process.cwd(), `/assets/${subloc}`);
 
@@ -125,23 +128,56 @@ async function storeEPUB(subloc, data, fileName) {
   // Define the path for the new image
   const dataPath = path.join(uploadDir, `${fileName}.epub`);
 
+   //Convert to base 64
+   let base64Data = data.split(";base64,").pop();
+
   // Convert pdf to epub
-  const convertedData = await convertPDFtoEPUB(data, dataPath);
+  const convertedData = await convertPDFtoEPUB(base64Data, dataPath);
+
+  return convertedData;
+}
+
+async function retrieveEPUB(subloc, id) {
+  // Define the directory for uploaded images
+  const uploadDir = path.join(process.cwd(), `/assets/${subloc}`);
+  // Ensure the directory exists
+  fs.mkdirSync(uploadDir, { recursive: true });
+
+  const fileName = id + ".epub";
+
+  const bookPath = path.join(uploadDir, fileName);
+
+  const url = `https://b9dk2wds-5000.use.devtunnels.ms/assets/BookData/${fileName}`;
+
+  let book = fs.readFileSync(bookPath, { encoding: "base64" });
+
+  return url;
 
 }
 
-async function retrieveEPUB(subloc, id) {}
+async function convertPDFtoEPUB(base64Data, dataPath) {
 
-async function convertPDFtoEPUB(data, dataPath) {
+  // Create a temporary file
+  const tempFilePath = path.join(os.tmpdir(), "temp.pdf");
+
+  // Decode the base64 data
+  const data = Buffer.from(base64Data, 'base64');
+
+  // Write the decoded data to the temporary file
+  await fs.promises.writeFile(tempFilePath, data);
+
   return new Promise((resolve, reject) => {
-    ebookConverter
-      .convert({
-        input: `./input/${data}.pdf`,
-        output: `${dataPath}`,
-        authors: "Test content",
-      })
-      .then((response) => resolve(response))
-      .catch((error) => reject(error));
+    exec(`ebook-convert "${tempFilePath}" "${dataPath}"`, (error) => {
+      // Delete the temporary file
+      fs.unlinkSync(tempFilePath);
+
+      if (error) {
+        console.error(`ebook-convert error: ${error}`);
+        reject(error);
+      } else {
+        resolve(dataPath);
+      }
+    });
   });
 }
 
