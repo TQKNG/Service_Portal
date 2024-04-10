@@ -931,22 +931,46 @@ export const loadTriviasList =
         type: GET_TRIVIASLIST,
         payload: [
           {
-            TriviaID: 1,
-            Name: "Breakfast Trivia",
+            QuestionID: 1,
+            QuestionText: "What is the capital of France?",
+            Answers: [
+              { AnswerID: 1, AnswerText: "Paris", isCorrect: true},
+              { AnswerID: 2, AnswerText: "London", isCorrect: false},
+              { AnswerID: 3, AnswerText: "Berlin", isCorrect: false},
+              { AnswerID: 4, AnswerText: "Madrid", isCorrect: false}
+            ],
           },
           {
-            TriviaID: 2,
-            Name: "Lunch Trivia",
+            QuestionID: 2,
+            QuestionText: "Who wrote 'To Kill a Mockingbird'?",
+            Answers: [
+              { AnswerID: 1, AnswerText: "Harper Lee", isCorrect: false},
+              { AnswerID: 2, AnswerText: "George Orwell", isCorrect: false},
+              { AnswerID: 3, AnswerText: "J.K. Rowling", isCorrect: false},
+              { AnswerID: 4, AnswerText: "Ernest Hemingway", isCorrect: true}
+            ],
           },
           {
-            TriviaID: 3,
-            Name: "Dinner Trivia",
+            QuestionID: 3,
+            QuestionText: "What is the square root of 81?",
+            Answers: [
+              { AnswerID: 1, AnswerText: "7", isCorrect: false},
+              { AnswerID: 2, AnswerText: "8", isCorrect: false},
+              { AnswerID: 3, AnswerText: "9", isCorrect: true},
+              { AnswerID: 4, AnswerText: "10", isCorrect: false}
+            ],
           },
           {
-            TriviaID: 4,
-            Name: "Supper Trivia",
-          },
-        ],
+            QuestionID: 4,
+            QuestionText: "Which planet is known as the Red Planet?",
+            Answers: [
+              { AnswerID: 1, AnswerText: "Mars", isCorrect: true},
+              { AnswerID: 2, AnswerText: "Venus", isCorrect: false},
+              { AnswerID: 3, AnswerText: "Jupiter", isCorrect: false },
+              { AnswerID: 4, AnswerText: "Saturn",  isCorrect: false}
+            ],
+          }
+        ]
       });
     } catch (error) {
       console.log(error);
@@ -981,7 +1005,7 @@ export const updateTrivia = (schoolId, formData) => async (dispatch) => {
 
 export const addTrivia = (formData) => async (dispatch) => {
   try {
-    await api.post("/trivias", { TriviaID: 19, Name: "New Trivia Test" });
+    await api.post("/trivias", formData);
     // dispatch(loadSchoolsList());
     dispatch(setAlert("Trivia Added Successfully", "success"));
   } catch (err) {

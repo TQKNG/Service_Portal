@@ -5,25 +5,53 @@ import PropTypes from "prop-types";
 import Badge from "react-bootstrap/Badge";
 import { setTrivia } from "../../../actions/admin";
 import ToolTipComp from "../../layouts/ToolTip";
-import moment from 'moment';
+import moment from "moment";
 
 const TriviasListItem = ({ trivia, setTrivia }) => {
   const [edit, setEdit] = useState(false);
   const [show, setShow] = useState(false);
-  const { TriviaID, Name } = trivia;
+  const { QuestionID, QuestionText, Answers} = trivia;
   const hist = useHistory();
   return (
-    <div className="admin-users-fields  d-flex align-items-center justify-content-around   p-2 border-bottom">
-      <div className="admin-schools-field text-truncate mr-1">{TriviaID}</div>
+    <div className="admin-users-fields  d-flex align-items-center justify-content-around p-2 border-bottom">
+      <div className="admin-schools-field text-truncate ">{QuestionID}</div>
       <div
-        className="admin-schools-field  text-truncate "
+        className="admin-schools-field text-truncate "
         onClick={() => {
           setTrivia(trivia);
-          //   hist.push(`/admin/school/schoolId=${SchoolID}`);
         }}
-        title={Name}
+        title={QuestionText}
       >
-        {Name?Name:"N/A"}
+        {QuestionText ? QuestionText : "N/A"}
+      </div>
+      <div
+        className="admin-schools-field text-truncate  p-3"
+        onClick={() => {
+          setTrivia(trivia);
+          hist.push('/admin/trivia/edit');
+        }}
+        title={Answers}
+      >
+        {Answers
+          ? Answers.map((item) => {
+              return (
+                <div className="d-flex align-items-center gap-2">
+                  <div>{item.AnswerText}</div>
+                  {item.isCorrect && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="24"
+                      width="24"
+                      viewBox="0 -960 960 960"
+                      fill="#1ba587"
+                    >
+                      <path d="m424-296 282-282-56-56-226 226-114-114-56 56 170 170Zm56 216q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
+                    </svg>
+                  )}
+                </div>
+              );
+            })
+          : "N/A"}
       </div>
       <div className="admin-schools-field  text-truncate">
         <ToolTipComp
@@ -42,8 +70,8 @@ const TriviasListItem = ({ trivia, setTrivia }) => {
               }}
               className="cursor-pointer"
               onClick={() => {
-                //   setSchool(school);
-                //   hist.push('/admin/school/edit');
+                  setTrivia(trivia);
+                  hist.push('/admin/trivia/edit');
               }}
             >
               <path d="M0 0h24v24H0V0z" fill="none" />

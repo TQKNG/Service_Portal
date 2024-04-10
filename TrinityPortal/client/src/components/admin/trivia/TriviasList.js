@@ -55,8 +55,8 @@ const TriviasList = ({ triviasList, triviaListLoading }) => {
 
   useEffect(() => {
     if (!triviaListLoading) {
-      // on initial load, sort by InOutID ASC - default
-      const sortedList = _.sortBy(triviasList, _.property("InOutID"));
+      // on initial load, sort by TriviaID ASC - default
+      const sortedList = _.sortBy(triviasList, _.property("QuestionID"));
 
       setListSearch(sortedList);
     }
@@ -117,7 +117,7 @@ const TriviasList = ({ triviasList, triviaListLoading }) => {
             setListSearch={setListSearch}
             filter={(e) => {
               const list = triviasList.filter((item) =>
-                item.Name.toUpperCase().includes(
+                item.QuestionText.toUpperCase().includes(
                   e.target.value.toUpperCase()
                 )
               );
@@ -127,16 +127,15 @@ const TriviasList = ({ triviasList, triviaListLoading }) => {
         </div>
       </div>
       <div className="admin-users-fields  d-flex align-items-center justify-content-around  rounded  bg-body txt-primary">
-        <div className="admin-schools-field text-truncate ">Trivia ID</div>
-
+        <div className="admin-schools-field text-truncate ">Question ID</div>
         <div
-          className="admin-schools-field  text-truncate mx-1 "
+          className="admin-schools-field  text-truncate"
           onMouseEnter={() => setIsShowIcon("name")}
           onMouseLeave={() => setIsShowIcon(null)}
           onClick={() => {
             if (name === 0 && triviasList.length) {
               const sortedList = _.sortBy(triviasList, (trivia) => {
-                const name = trivia.Name;
+                const name = trivia.QuestionText;
                 if (/^\d/.test(name)) {
                   return 0; // Numbers should come first
                 } else {
@@ -149,7 +148,7 @@ const TriviasList = ({ triviasList, triviaListLoading }) => {
               });
             } else if (name === 1) {
               const sortedList = _.sortBy(listSearch, [
-                (trivia) => trivia.Name.toLowerCase(),
+                (trivia) => trivia.QuestionText.toLowerCase(),
               ]).reverse();
               setListSearch(sortedList);
               setIcons({
@@ -158,7 +157,7 @@ const TriviasList = ({ triviasList, triviaListLoading }) => {
             } else {
               const sortedList = _.sortBy(
                 triviasList,
-                _.property("TriviaID")
+                _.property("QuestionID")
               );
               setListSearch(sortedList);
               setIcons({
@@ -167,10 +166,11 @@ const TriviasList = ({ triviasList, triviaListLoading }) => {
             }
           }}
         >
-          Name
+          Question Text
           <SortIcon icon={name} isShowIcon={isShowIcon === "name"} />
         </div>
-        <div className="admin-schools-field text-truncate ml-1">Actions</div>
+        <div className="admin-schools-field text-truncate">Answer Options</div>
+        <div className="admin-schools-field text-truncate">Actions</div>
       </div>
       <div className="users-list-body ">
         {triviaListLoading ? (

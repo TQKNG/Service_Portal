@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import {
@@ -16,6 +17,8 @@ const Trivias = ({
   clearTrivia,
   addTrivia
 }) => {
+  const hist = useHistory();
+
   useEffect(() => {
     if (triviasList.length === 0 && triviaListLoading) {
       loadTriviasList();
@@ -39,9 +42,8 @@ const Trivias = ({
                   <div
                     className="btn button-parent button-primary d-flex align-items-center px-3"
                     onClick={() => {
-                      // hist.push("/admin/school/add");
-                      addTrivia();
-                      // clearSchool();
+                      clearTrivia();
+                      hist.push("/admin/trivia/add");
                     }}
                   >
                     <svg
@@ -62,7 +64,7 @@ const Trivias = ({
                         </g>
                       </g>
                     </svg>
-                    Add New Trivia
+                    Add New Question
                   </div>
                 </div>
               </>

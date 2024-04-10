@@ -41,6 +41,7 @@ import Trivias from "./trivia/Trivias";
 import Setting from "./settings/Setting";
 import SongForm from "./song/SongForm";
 import BookForm from "./book/BookForm";
+import TriviaForm from "./trivia/TriviaForm";
 
 const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
   const location = useLocation();
@@ -49,8 +50,6 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
   if (!isAuthenticated && !loading) {
     hist.push("/");
   }
-
-
 
   return (
     <Fragment>
@@ -196,6 +195,8 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
 
           {/* Trivia */}
           {location.pathname === "/admin/trivia" && <Trivias />}
+          {location.pathname === "/admin/trivia/edit" && <TriviaForm/>}
+          {location.pathname === "/admin/trivia/add" && <TriviaForm />}
         </div>
       ) : (
         <div className="d-flex align-items-center h-100 justify-content-center">
