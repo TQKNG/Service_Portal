@@ -7,7 +7,7 @@ const {
 //   addMultipleSchools,
 } = require('../controllers/Book');
 
-// const { protect, authorize } = require('../middleware/auth');
+const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
 
