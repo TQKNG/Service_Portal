@@ -1,7 +1,14 @@
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
-const FileUpload = ({ instructionText, imgSrc, setFormData, formData, fieldType }) => {
+const FileUpload = ({
+  instructionText,
+  imgSrc,
+  setFormData,
+  formData,
+  fieldType,
+  module,
+}) => {
   const [fileName, setFileName] = React.useState("");
   const [errorMessage, setErrorMessage] = React.useState("");
 
@@ -36,8 +43,10 @@ const FileUpload = ({ instructionText, imgSrc, setFormData, formData, fieldType 
         ) {
           setErrorMessage("Should be audio");
           return;
-        }
-        else if(!acceptedFiles[0].type.includes("pdf") && fieldType === "pdf"){
+        } else if (
+          !acceptedFiles[0].type.includes("pdf") &&
+          fieldType === "pdf"
+        ) {
           setErrorMessage("Should be pdf");
           return;
         }
@@ -55,18 +64,31 @@ const FileUpload = ({ instructionText, imgSrc, setFormData, formData, fieldType 
         // Add content to form data
         const reader = new FileReader();
         reader.onload = () => {
-          if (acceptedFiles[0].type.includes("image")) {
+          if (acceptedFiles[0].type.includes("image") && module === "song") {
             setFormData((prevFormData) => ({
               ...prevFormData,
               SongLogo: reader.result,
             }));
-          } else if(acceptedFiles[0].type.includes("audio")) {
+          } else if (
+            acceptedFiles[0].type.includes("image") &&
+            module === "joke"
+          ) {
+            setFormData((prevFormData) => ({
+              ...prevFormData,
+              JokeData: reader.result,
+            }));
+          } else if (
+            acceptedFiles[0].type.includes("audio") &&
+            module === "song"
+          ) {
             setFormData((prevFormData) => ({
               ...prevFormData,
               SongData: reader.result,
             }));
-          }
-          else if(acceptedFiles[0].type.includes("pdf")){
+          } else if (
+            acceptedFiles[0].type.includes("pdf") &&
+            module === "book"
+          ) {
             setFormData((prevFormData) => ({
               ...prevFormData,
               BookData: reader.result,
@@ -81,7 +103,7 @@ const FileUpload = ({ instructionText, imgSrc, setFormData, formData, fieldType 
 
   // Package functions
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: ["audio/mpeg", "image/png","application/pdf"],
+    accept: ["audio/mpeg", "image/png", "image/jpeg", "application/pdf"],
     onDrop,
   });
 
@@ -117,9 +139,6 @@ const FileUpload = ({ instructionText, imgSrc, setFormData, formData, fieldType 
             </div>
           </div>
         </div>
-
-
-       
 
         <div>
           {errorMessage && <div className="text-danger">{errorMessage}</div>}

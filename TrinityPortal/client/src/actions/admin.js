@@ -813,29 +813,8 @@ export const loadJokesList =
   (value = {}) =>
   async (dispatch) => {
     try {
-      // const res = await api.post("/schools/get",value);
-      // dispatch({ type: GET_SCHOOLSLIST, payload: res.data.data });
-      dispatch({
-        type: GET_JOKESLIST,
-        payload: [
-          {
-            JokeID: 1,
-            Name: "Breakfast Joke",
-          },
-          {
-            JokeID: 2,
-            Name: "Lunch Joke",
-          },
-          {
-            JokeID: 3,
-            Name: "Dinner Joke",
-          },
-          {
-            JokeID: 4,
-            Name: "Supper Joke",
-          },
-        ],
-      });
+      const res = await api.get("/jokes",value);
+      dispatch({ type: GET_JOKESLIST, payload: res.data.data });
     } catch (error) {
       console.log(error);
       const errors = error.response.data.errors;
@@ -869,7 +848,7 @@ export const updateJoke = (schoolId, formData) => async (dispatch) => {
 
 export const addJoke = (formData) => async (dispatch) => {
   try {
-    await api.post("/jokes", { JokeID: 19, Name: "New Joke Test" });
+    await api.post("/jokes", formData);
     // dispatch(loadSchoolsList());
     dispatch(setAlert("Joke Added Successfully", "success"));
   } catch (err) {

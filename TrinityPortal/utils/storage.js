@@ -2,7 +2,6 @@ const fs = require("fs");
 const { exec } = require('child_process');
 const os = require("os");
 const path = require("path");
-const ebookConverter = require("node-ebook-converter");
 
 async function storeImage(subloc, data, fileName) {
   // Define the directory for uploaded images
@@ -75,7 +74,7 @@ async function retrieveImage(subloc, id) {
 
   const imagePath = path.join(uploadDir, fileName);
 
-  const url = `https://b9dk2wds-5000.use.devtunnels.ms/assets/SongLogo/${fileName}`;
+  const url = `https://b9dk2wds-5000.use.devtunnels.ms/assets/${subloc}/${fileName}`;
 
   let img = fs.readFileSync(imagePath, { encoding: "base64" });
 

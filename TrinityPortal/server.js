@@ -154,6 +154,8 @@ app.use('/assets/SongAudio', express.static(path.join(__dirname, 'assets/SongAud
 
 app.use('/assets/BookData', express.static(path.join(__dirname, 'assets/BookData')));
 
+app.use('/assets/JokeData', express.static(path.join(__dirname, 'assets/JokeData')));
+
 // Serve Static assests Static
 app.use(express.static(__dirname + '/client/build'));
 

@@ -25,11 +25,10 @@ const JokeForm = ({
   const [formData, setFormData] = useState({
     JokeID: joke === null ? "" : joke.JokeID !== undefined ? joke.JokeID : "",
     Name: joke === null ? "" : joke.Name !== undefined ? joke.Name : "",
-    Lyrics: joke === null ? "" : joke.Lyrics !== undefined ? joke.Lyrics : "",
+    JokeText:
+      joke === null ? "" : joke.JokeText !== undefined ? joke.JokeText : "",
     JokeData:
       joke === null ? "" : joke.JokeData !== undefined ? joke.JokeData : "",
-    JokeLogo:
-      joke === null ? "" : joke.JokeLogo !== undefined ? joke.JokeLogo : "",
   });
 
   const onChange = (e) => {
@@ -49,7 +48,7 @@ const JokeForm = ({
           JokeID: "",
           Name: "",
           JokeText: "",
-          JokePath: "",
+          JokeData: "",
         });
       });
     } else if (location.pathname.includes("edit")) {
@@ -60,7 +59,7 @@ const JokeForm = ({
     }
   };
 
-  const {JokeID, Name, JokePath, JokeText } = formData;
+  const { JokeID, Name, JJokeData, JokeText } = formData;
 
   if (joke == null && location.pathname.includes("edit")) {
     hist.push("/admin/jokes");
@@ -122,25 +121,25 @@ const JokeForm = ({
             className="form-control rounded"
             rows="4"
             cols="50"
-            id="Lyrics"
-            placeholder="Enter Lyrics..."
+            id="JokeText"
+            placeholder="Enter Joke Text..."
             required
             value={JokeText}
             onChange={(e) => onChange(e)}
           />
         </div>
         <div className="mb-3">
-          <div className="d-flex align-items-center gap-2">
+          <div className="d-flex flex-column gap-2 mb-2">
             <div className="txt-primary">Joke File</div>
             {/* Display of the audio */}
+            {/* Display of the image */}
             {formData.JokeData !== "" && (
-              <audio controls >
-                <source
-                  src={formData.JokeData}
-                  type="audio/mpeg"
-                />
-                Your browser does not support the audio element.
-              </audio>
+              <img
+                src={formData.JokeData}
+                alt=""
+                srcset=""
+                width="200px"
+              />
             )}
           </div>
 
@@ -151,20 +150,20 @@ const JokeForm = ({
             imgSrc={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 -960 960 960"
                 height="50"
+                viewBox="0 -960 960 960"
                 width="50"
                 fill="#1ba587"
               >
-                <path d="M400-240q50 0 85-35t35-85v-280h120v-80H460v256q-14-8-29-12t-31-4q-50 0-85 35t-35 85q0 50 35 85t85 35Zm80 160q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
+                <path d="M480-40q-149 0-254.5-42.5T120-200q0-32 20-57.5t56-45.5l65 58q-24 8-42.5 20.5T200-200q0 26 81 53t199 27q118 0 199-27t81-53q0-12-18.5-24.5T699-245l65-58q36 20 56 45.5t20 57.5q0 75-105.5 117.5T480-40Zm0-160q-22 0-42.5-7.5T400-230L148-453q-13-11-20.5-27t-7.5-33v-80q0-17 6.5-33t19.5-27l252-235q17-16 38-24t44-8q23 0 44 8t38 24l252 235q13 11 19.5 27t6.5 33v80q0 17-7.5 33T812-453L560-230q-17 15-37.5 22.5T480-200Zm-4-188q14 0 26.5-4.5T526-407l222-197-240-226q-7-5-14-7.5t-15-2.5q-8 0-15 2.5t-12 7.5L208-600l218 193q11 10 23.5 14.5T476-388ZM360-550q21 0 35.5-14.5T410-600q0-21-14.5-35.5T360-650q-21 0-35.5 14.5T310-600q0 21 14.5 35.5T360-550Zm50 54q43 21 90.5 13.5T584-522q34-29 44.5-73T618-678L410-496Zm70-174q21 0 35.5-14.5T530-720q0-21-14.5-35.5T480-770q-21 0-35.5 14.5T430-720q0 21 14.5 35.5T480-670Zm-2 56Z" />
               </svg>
             }
+            module={"joke"}
             setFormData={setFormData}
             formData={formData}
-            fieldType={"audio"}
+            fieldType={"image"}
           />
         </div>
-
 
         {location.pathname.includes("edit") && (
           <div className="mb-3">
