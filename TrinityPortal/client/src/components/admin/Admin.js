@@ -37,6 +37,7 @@ import Receptions from "./reception/Receptions";
 import Songs from "./song/Songs";
 import Books from "./book/Books";
 import Jokes from "./joke/Jokes";
+import JokeForm from "./joke/JokeForm";
 import Trivias from "./trivia/Trivias";
 import Setting from "./settings/Setting";
 import SongForm from "./song/SongForm";
@@ -192,6 +193,8 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
 
           {/* Joke */}
           {location.pathname === "/admin/joke" && <Jokes />}
+          {location.pathname === "/admin/joke/edit" && <JokeForm/>}
+          {location.pathname === "/admin/joke/add" && <JokeForm />}
 
           {/* Trivia */}
           {location.pathname === "/admin/trivia" && <Trivias />}

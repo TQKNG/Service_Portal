@@ -42,8 +42,8 @@ const JokesListItem = ({ joke, setJoke }) => {
               }}
               className="cursor-pointer"
               onClick={() => {
-                //   setSchool(school);
-                //   hist.push('/admin/school/edit');
+                  setJoke(joke);
+                  hist.push('/admin/joke/edit');
               }}
             >
               <path d="M0 0h24v24H0V0z" fill="none" />

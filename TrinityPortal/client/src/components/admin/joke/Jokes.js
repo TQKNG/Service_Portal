@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import {
   loadJokesList,
@@ -16,6 +17,7 @@ const Jokes = ({
   clearJoke,
   addJoke
 }) => {
+  const hist = useHistory();
   useEffect(() => {
     if (jokesList.length === 0 && jokeListLoading) {
       loadJokesList();
@@ -39,9 +41,8 @@ const Jokes = ({
                   <div
                     className="btn button-parent button-primary d-flex align-items-center px-3"
                     onClick={() => {
-                      // hist.push("/admin/school/add");
-                      addJoke();
-                      // clearSchool();
+                      hist.push("/admin/joke/add");
+                      clearJoke();
                     }}
                   >
                     <svg
