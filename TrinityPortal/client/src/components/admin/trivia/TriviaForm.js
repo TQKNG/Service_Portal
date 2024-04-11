@@ -40,16 +40,14 @@ const TriviaForm = ({
         ? [
             { AnswerID: 1, AnswerText: "", isCorrect: false },
             { AnswerID: 2, AnswerText: "", isCorrect: false },
-            { AnswerID: 3, AnswerText: "", isCorrect: false },
-            { AnswerID: 4, AnswerText: "", isCorrect: false },
+            { AnswerID: 3, AnswerText: "", isCorrect: false }
         ]
         : trivia.Answers !== undefined
         ? trivia.Answers.map((item) => item)
         : [
           { AnswerID: 1, AnswerText: "", isCorrect: false },
           { AnswerID: 2, AnswerText: "", isCorrect: false },
-          { AnswerID: 3, AnswerText: "", isCorrect: false },
-          { AnswerID: 4, AnswerText: "", isCorrect: false },
+          { AnswerID: 3, AnswerText: "", isCorrect: false }
       ],
   });
 

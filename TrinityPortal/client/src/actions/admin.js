@@ -937,7 +937,6 @@ export const loadTriviasList =
               { AnswerID: 1, AnswerText: "Paris", isCorrect: true},
               { AnswerID: 2, AnswerText: "London", isCorrect: false},
               { AnswerID: 3, AnswerText: "Berlin", isCorrect: false},
-              { AnswerID: 4, AnswerText: "Madrid", isCorrect: false}
             ],
           },
           {
@@ -946,8 +945,7 @@ export const loadTriviasList =
             Answers: [
               { AnswerID: 1, AnswerText: "Harper Lee", isCorrect: false},
               { AnswerID: 2, AnswerText: "George Orwell", isCorrect: false},
-              { AnswerID: 3, AnswerText: "J.K. Rowling", isCorrect: false},
-              { AnswerID: 4, AnswerText: "Ernest Hemingway", isCorrect: true}
+              { AnswerID: 3, AnswerText: "Ernest Hemingway", isCorrect: true}
             ],
           },
           {
@@ -957,7 +955,6 @@ export const loadTriviasList =
               { AnswerID: 1, AnswerText: "7", isCorrect: false},
               { AnswerID: 2, AnswerText: "8", isCorrect: false},
               { AnswerID: 3, AnswerText: "9", isCorrect: true},
-              { AnswerID: 4, AnswerText: "10", isCorrect: false}
             ],
           },
           {
@@ -967,7 +964,6 @@ export const loadTriviasList =
               { AnswerID: 1, AnswerText: "Mars", isCorrect: true},
               { AnswerID: 2, AnswerText: "Venus", isCorrect: false},
               { AnswerID: 3, AnswerText: "Jupiter", isCorrect: false },
-              { AnswerID: 4, AnswerText: "Saturn",  isCorrect: false}
             ],
           }
         ]
