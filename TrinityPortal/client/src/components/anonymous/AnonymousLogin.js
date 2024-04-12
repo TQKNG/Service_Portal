@@ -429,12 +429,6 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                 </select>
               </div>
 
-      
-
-
-              
-            
-
               {/* Q3: What is the name of the resident you are visiting? */}
               <div className="mb-5 d-flex gap-2">
                 <div
