@@ -123,7 +123,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
           <div className='modal-content'>
             <div className='modal-header'>
               <h5 className='modal-title' id='showPopupLabel' style={{fontSize:"2rem"}}>
-               Wait !
+               Wait!
               </h5>
               <button
                 type='button'

@@ -140,7 +140,7 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
                     type="text"
                     className="form-control rounded responsive-input-text"
                     id="FirstName"
-                    placeholder="Enter First Name"
+                    placeholder=""
                     value={FirstName}
                     onChange={(e) => onChange(e)}
                   />
@@ -155,7 +155,7 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
                     type="text"
                     className="form-control rounded responsive-input-text "
                     id="LastName"
-                    placeholder="Enter Last Name"
+                    placeholder=""
                     value={LastName}
                     onChange={(e) => onChange(e)}
                   />
@@ -171,7 +171,7 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
                   type="tel"
                   className="form-control rounded responsive-input-text w-50"
                   id="PhoneNumber"
-                  placeholder="Enter your phone"
+                  placeholder=""
                   value={PhoneNumber}
                   onChange={(e) => onChange(e)}
                 />

@@ -39,7 +39,7 @@ const Anonymous = () => {
 
   return (
     <div className="w-100 h-100 d-flex flex-column align-items-center justify-content-start">
-      {!isSignedIn &&!isSignedOut ? (
+      {!isSignedIn && !isSignedOut ? (
         <>
           {/* Header */}
           <div
@@ -56,7 +56,9 @@ const Anonymous = () => {
           </div>
 
           {/* Welcome Panel */}
-          <div className={`w-100 d-flex flex-column gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4 mb-5`}>
+          <div
+            className={`w-100 d-flex flex-column gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4 mb-5`}
+          >
             <h1 className="responsive-heading">Welcome to</h1>
             <img
               src={process.env.PUBLIC_URL + `/images/logo.png`}
@@ -92,8 +94,9 @@ const Anonymous = () => {
         </svg> */}
             </button>
             {/* Out */}
-            <button className="w-30 bg-pale-yellow btn-lg btn-block btn p-5 d-flex align-items-center justify-content-center"
-            onClick={() => setIsSignedOut(true)}
+            <button
+              className="w-30 bg-pale-yellow btn-lg btn-block btn p-5 d-flex align-items-center justify-content-center"
+              onClick={() => setIsSignedOut(true)}
             >
               <span className="responsive-btn-text">Sign Out</span>
               {/* <svg
@@ -151,10 +154,11 @@ const Anonymous = () => {
               p-2 p-sm-3 p-lg-4 gap-4`}
           >
             {/* Back Button */}
-            <div className="bg-pale-yellow rounded-circle text-center d-flex align-items-center justify-content-center admin-assessments-type"
+            <div
+              className="bg-pale-yellow rounded-circle text-center d-flex align-items-center justify-content-center admin-assessments-type"
               onClick={() => {
-                setIsSignedIn(false)
-                setIsSignedOut(false)
+                setIsSignedIn(false);
+                setIsSignedOut(false);
               }}
             >
               <svg
@@ -172,7 +176,16 @@ const Anonymous = () => {
 
           {/* Welcome Panel */}
           <div className="w-100 d-flex flex-row gap-0 align-items-center  p-2 p-sm-3 p-lg-4 my-4 gap-4">
-            <h1 className="w-30 text-center" style={{fontSize:"50px", fontWeight:"800" ,marginRight:"15rem"}}>{isSignedIn?"SIGN IN":isSignedOut&&"SIGN OUT"}</h1>
+            <h1
+              className="w-30 text-center"
+              style={{
+                fontSize: "50px",
+                fontWeight: "800",
+                marginRight: "15rem",
+              }}
+            >
+              {isSignedIn ? "SIGN IN" : isSignedOut && "SIGN OUT"}
+            </h1>
             <img
               src={process.env.PUBLIC_URL + `/images/logo.png`}
               alt="trinity-logo"
@@ -180,8 +193,19 @@ const Anonymous = () => {
               style={{ maxWidth: "50%", height: "auto", objectFit: "cover" }}
             />
           </div>
-          {isSignedIn && <AnonymousLogin device={device} isSignedIn={isSignedIn} />}
-          {isSignedOut && <AnonymousLogout device={device} isSignedOut={isSignedOut} />}
+          {isSignedIn && (
+            <AnonymousLogin device={device} isSignedIn={isSignedIn} />
+          )}
+          {isSignedOut && (
+            <AnonymousLogout device={device} isSignedOut={isSignedOut} />
+          )}
+          <div className="w-100">
+            <img
+              src={process.env.PUBLIC_URL + `images/Welcome-Hero.png`}
+              alt="hero cover"
+              style={{ width: "100%", objectFit: "cover" }}
+            />
+          </div>
         </>
       )}
     </div>
