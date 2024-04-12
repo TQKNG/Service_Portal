@@ -53,9 +53,8 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
         setIsSubmitted(true);
         setFormData({
           PhoneNumber: "",
-          FullName: "",
-          AlternativeID: "",
-          Email: "",
+          FirstName: "",
+          LastName: "",
           InOut: false,
         });
         setTimeout(() => {
@@ -140,9 +139,9 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
                   <input
                     type="text"
                     className="form-control rounded responsive-input-text"
-                    id="FullName"
-                    placeholder="Enter First Name..."
-                    // value={FullName}
+                    id="FirstName"
+                    placeholder="Enter First Name"
+                    value={FirstName}
                     onChange={(e) => onChange(e)}
                   />
                 </div>
@@ -155,25 +154,25 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
                   <input
                     type="text"
                     className="form-control rounded responsive-input-text "
-                    id="FullName"
-                    placeholder="Enter Last Name..."
-                    // value={FullName}
+                    id="LastName"
+                    placeholder="Enter Last Name"
+                    value={LastName}
                     onChange={(e) => onChange(e)}
                   />
                 </div>
               </div>
 
               {/* Phone Number */}
-              <div className="mb-5">
+              <div className="mb-5 gap-4 d-flex">
                 <div className="txt-primary responsive-label-text">
-                  Phone Number {`(in case if emergency)`}
+                  Phone Number
                 </div>
                 <input
                   type="tel"
-                  className="form-control rounded responsive-input-text"
+                  className="form-control rounded responsive-input-text w-50"
                   id="PhoneNumber"
-                  placeholder="Enter your phone..."
-                  // value={PhoneNumber}
+                  placeholder="Enter your phone"
+                  value={PhoneNumber}
                   onChange={(e) => onChange(e)}
                 />
               </div>

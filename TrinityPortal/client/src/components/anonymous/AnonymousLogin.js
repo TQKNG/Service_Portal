@@ -36,6 +36,8 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
     Acknowledgement,
   } = formData;
   const [isRobot, setIsRobot] = useState(false);
+  const [isAdminOfficeClick, setIsAdminOfficeClick] = useState(false);
+  const [isSicknessSymptom, setIsSicknessSymptom] = useState(false);
 
   // Check if the user is already logged in
   const onChange = (e) => {
@@ -51,6 +53,10 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
       } else {
         setFormData({ ...formData, HomeAreas: [...HomeAreas, e.target.value] });
       }
+    }
+
+    if(e.target.id === "AdminOffices"){
+      setIsAdminOfficeClick(prevState => !prevState);
     }
   };
 
@@ -106,6 +112,45 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
 
   return (
     <>
+    {/* Popup */}
+     <div
+        className='modal fade'
+        id='showPopup'
+        aria-labelledby='showPopupLabel'
+        aria-hidden='true'
+      >
+        <div className='modal-dialog modal-dialog-centered'>
+          <div className='modal-content'>
+            <div className='modal-header'>
+              <h5 className='modal-title' id='showPopupLabel' style={{fontSize:"2rem"}}>
+               Wait !
+              </h5>
+              <button
+                type='button'
+                className='btn-close'
+                data-bs-dismiss='modal'
+                aria-label='Close'
+              ></button>
+            </div>
+            <div className='modal-body' style={{fontSize:"2rem"}}>
+             Please do not enter the building until your symptoms have resolved
+            </div>
+            <div className='modal-footer'>
+              <button
+                type='button'
+                className='btn button-primary'
+                onClick={() => {
+                
+                }}
+                data-bs-dismiss='modal'
+              >
+              Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="w-100 h-100 mx-auto">
         {/* Form Content */}
         <form
@@ -172,7 +217,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                     type="text"
                     className="form-control rounded responsive-input-text"
                     id="FirstName"
-                    placeholder="Enter First Name..."
+                    placeholder=""
                     value={FirstName}
                     onChange={(e) => onChange(e)}
                   />
@@ -187,7 +232,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                     type="text"
                     className="form-control rounded responsive-input-text "
                     id="LastName"
-                    placeholder="Enter Last Name..."
+                    placeholder=""
                     value={LastName}
                     onChange={(e) => onChange(e)}
                   />
@@ -195,15 +240,15 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
               </div>
 
               {/* Phone Number */}
-              <div className="mb-5">
+              <div className="mb-5 d-flex gap-4">
                 <div className="txt-primary responsive-label-text">
-                  Phone Number {`(in case if emergency)`}
+                  Phone Number 
                 </div>
                 <input
                   type="tel"
-                  className="form-control rounded responsive-input-text"
+                  className="form-control rounded responsive-input-text w-50"
                   id="PhoneNumber"
-                  placeholder="Enter your phone..."
+                  placeholder=""
                   value={PhoneNumber}
                   onChange={(e) => onChange(e)}
                 />
@@ -226,7 +271,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                         onChange={(e) => onChange(e)}
                       />
                       <label className="responsive-input-text">
-                        Oak Ridge Orchard
+                      Oak Ridge
                       </label>
                     </div>
                     <div class="col-md-4 d-flex gap-3 align-items-center">
@@ -239,7 +284,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                         onChange={(e) => onChange(e)}
                       />
                       <label className="responsive-input-text">
-                        Maple Ridge
+                      Maple Bush
                       </label>
                     </div>
                     <div class="col-md-4 d-flex gap-3 align-items-center">
@@ -252,7 +297,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                         className="form-check-input"
                       />
                       <label className="responsive-input-text">
-                        Pine Woods
+                      Pine Woods
                       </label>
                     </div>
                   </div>
@@ -267,7 +312,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                         className="form-check-input"
                       />
                       <label className="responsive-input-text">
-                        Walnut Groves
+                      Walnut Grove
                       </label>
                     </div>
                     <div class="col-md-4 d-flex gap-3 align-items-center">
@@ -280,23 +325,49 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                         className="form-check-input"
                       />
                       <label className="responsive-input-text">
-                        Admin Offices
+                      Cherry Orchard
                       </label>
                     </div>
                     <div class="col-md-4 d-flex gap-3 align-items-center">
                       <input
-                        id="HomeAreas"
+                        id="AdminOffices"
                         type="checkbox"
                         name="Other"
                         value="Other"
                         onChange={(e) => onChange(e)}
                         className="form-check-input"
                       />
-                      <label className="responsive-input-text">Other</label>
+                      <label className="responsive-input-text">Admin Offices</label>
                     </div>
+                 
                   </div>
                 </div>
               </div>
+
+                      {/* Q4: What is the purpose of your visit? */}
+                      {
+                isAdminOfficeClick && (  <div className="mb-5 d-flex gap-2">
+                <div
+                  className="txt-primary w-50 responsive-label-text"
+                  style={{ whiteSpace: "nowrap"}}
+                >
+                  Which department are you visiting?
+                </div>
+                <select
+                  className="form-select responsive-input-text"
+                  aria-label="Default select example"
+                  id="Purpose"
+                  value={Purpose}
+                  onChange={(e) => onChange(e)}
+                >
+                  <option value={"1"}>Administration </option>
+                  <option value={" 3"}>Finance </option>
+                  <option value={" 2"}>Human Resources </option>
+                  <option value={" 5"}>Maintenance </option>
+                  <option value={" 4"}>Resident Services </option>
+                </select>
+              </div>)
+              }
 
               {/* Q2: Is your visit Scheduled or Unscheduled? */}
               <div className="mb-5 d-flex">
@@ -333,7 +404,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                 </div>
               </div>
 
-              {/* Q4: What is the purpose of your visit? */}
+
               <div className="mb-5 d-flex gap-2">
                 <div
                   className="txt-primary w-50 responsive-label-text"
@@ -348,14 +419,21 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                   value={Purpose}
                   onChange={(e) => onChange(e)}
                 >
-                  <option value={-1}>Please Select One</option>
-                  <option value={"Office 1"}>Office 1</option>
-                  <option value={"Office 2"}>Office 2</option>
-                  <option value={"Office 3"}>Office 3</option>
-                  <option value={"Office 4"}>Office 4</option>
-                  <option value={"Office 5"}>Office 5</option>
+                  <option value={"1"}>Caregiver </option>
+                  <option value={" 3"}>Contractor/Supplier </option>
+                  <option value={" 5"}>Funeral Assistance </option>
+                  <option value={" 2"}>General Visitor </option>
+                  <option value={" 4"}>Student </option>
+                  <option value={" 2"}>Transportation </option>
+                  <option value={" 4"}>Volunteer </option>
                 </select>
               </div>
+
+      
+
+
+              
+            
 
               {/* Q3: What is the name of the resident you are visiting? */}
               <div className="mb-5 d-flex gap-2">
@@ -384,7 +462,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                   Is this your first visit to Trinity Village Care Center?
                 </div>
                 <div class="container-fluid">
-                  <div class="w-70 row">
+                  <div class="w-90 row">
                     <div class="col-md-3 d-flex gap-3 align-items-center">
                       <input
                         id="FirstVisit"
@@ -405,7 +483,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                         className="form-check-input"
                         onChange={(e) => onChange(e)}
                       />
-                      <label className="responsive-input-text ">No</label>
+                      <label className="responsive-input-text">No</label>
                     </div>
                   </div>
                 </div>
@@ -419,7 +497,8 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                 </div>
                 <div class="container-fluid">
                   <div class="w-70 row">
-                    <div class="col-md-3 d-flex gap-3 align-items-center">
+                    <div class="col-md-3 d-flex gap-3 align-items-center"  data-bs-toggle='modal'
+                  data-bs-target='#showPopup'>
                       <input
                         id="SicknessSymptom"
                         type="radio"

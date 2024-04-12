@@ -56,7 +56,7 @@ const Anonymous = () => {
           </div>
 
           {/* Welcome Panel */}
-          <div className={`w-100 d-flex flex-column gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4 my-4`}>
+          <div className={`w-100 d-flex flex-column gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4 mb-5`}>
             <h1 className="responsive-heading">Welcome to</h1>
             <img
               src={process.env.PUBLIC_URL + `/images/logo.png`}
@@ -67,14 +67,14 @@ const Anonymous = () => {
           </div>
 
           {/* Warning text */}
-          <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4">
-            <h5 className="responsive-sub-text">Please sanitize your hands</h5>
+          <div className="w-80 d-flex flex-column mb-5">
+            <h5 className="responsive-sub-text">Please sanitize your hands.</h5>
             <h5 className="responsive-sub-text">Masks are recommended</h5>
-            <h5 className="responsive-sub-text">but not mandatory</h5>
+            <h5 className="responsive-sub-text">but not mandatory.</h5>
           </div>
 
           {/* Sign In Sign Out Buttons */}
-          <div className="w-100 d-flex gap-4 align-items-center justify-content-center p-2 p-sm-3 p-lg-4 gap-5">
+          <div className="w-100 d-flex gap-0 justify-content-around mb-5">
             {/* In */}
             <button
               className="w-30 bg-dark-green text-white btn-lg btn-block btn custom-btn p-5 d-flex align-items-center justify-content-center"
@@ -109,11 +109,11 @@ const Anonymous = () => {
           </div>
 
           {/* QR */}
-          <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-start p-2 p-sm-3 p-lg-4 m-0">
+          <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-start p-2 p-sm-3 p-lg-4 my-5">
             <img
               src={process.env.PUBLIC_URL + `/qrForm.png`}
               alt="QR Code"
-              style={{ maxWidth: "20%", height: "auto" }}
+              style={{ maxWidth: "30%", height: "auto" }}
             />
           </div>
 
@@ -171,8 +171,8 @@ const Anonymous = () => {
           </div>
 
           {/* Welcome Panel */}
-          <div className="w-100 d-flex flex-row gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4 my-4">
-            <h1 className="w-80 responsive-heading text-center">{isSignedIn?"SIGN IN":isSignedOut&&"SIGNOUT"}</h1>
+          <div className="w-100 d-flex flex-row gap-0 align-items-center  p-2 p-sm-3 p-lg-4 my-4 gap-4">
+            <h1 className="w-30 text-center" style={{fontSize:"50px", fontWeight:"800" ,marginRight:"15rem"}}>{isSignedIn?"SIGN IN":isSignedOut&&"SIGN OUT"}</h1>
             <img
               src={process.env.PUBLIC_URL + `/images/logo.png`}
               alt="trinity-logo"

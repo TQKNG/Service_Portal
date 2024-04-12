@@ -123,25 +123,25 @@ exports.getJokes = async (req, res) => {
       {
         JokeID: 1,
         Name: "Why_do_beets_always_win",
-        JokeText: "They are un-beet-able.",
+        JokeText: "Why do beets always win? They are un-beet-able.",
         JokeData: "",
       },
       {
         JokeID: 2,
         Name: "Why_did_the_slice_of_bread_get_sent_home_from_school",
-        JokeText: "It was feeling crumpy.",
+        JokeText: "Why did the slice of bread get sent home from school? It was feeling crumpy.",
         JokeData: "",
       },
       {
         JokeID: 3,
         Name: "What_do_you_call_a_magic_dog",
-        JokeText: "A labracadabrador!",
+        JokeText: "What do you call a magic dog? A labracadabrador!",
         JokeData: "",
       },
       {
         JokeID: 4,
         Name: "Why_did_the_robber_jump_in_the_shower",
-        JokeText: "He wanted to make a clean getaway!",
+        JokeText: "Why did the robber jump in the shower? He wanted to make a clean getaway!",
         JokeData: "",
       },
     ];
