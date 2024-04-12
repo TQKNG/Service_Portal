@@ -69,7 +69,7 @@ const Anonymous = () => {
           {/* Warning text */}
           <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4">
             <h5 className="responsive-sub-text">Please sanitize your hands</h5>
-            <h5 className="responsive-sub-text">Marks are recommended</h5>
+            <h5 className="responsive-sub-text">Masks are recommended</h5>
             <h5 className="responsive-sub-text">but not mandatory</h5>
           </div>
 
