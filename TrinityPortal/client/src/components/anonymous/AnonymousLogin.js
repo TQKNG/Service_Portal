@@ -258,11 +258,11 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               </div> */}
 
               {/* Full Name */}
-              <div className="w-100 d-flex mb-5 gap-4">
+              <div className="w-100 d-flex mb-3 mb-md-5 gap-4 flex-column flex-md-row justify-content-between">
                 {/* First Name */}
-                <div className="w-50">
+                <div className="w-100 d-flex justify-content-between gap-3" style={{whiteSpace:"nowrap"}}>
                   <div className="txt-primary responsive-label-text">
-                    First Name
+                    First Name:
                   </div>
                   <input
                     type="text"
@@ -275,9 +275,9 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                 </div>
 
                 {/* Last Name */}
-                <div className="w-50">
-                  <div className="txt-primary responsive-label-text">
-                    Last Name
+                <div className="w-100 d-flex justify-content-between gap-3">
+                  <div className="txt-primary responsive-label-text" style={{whiteSpace:"nowrap"}}>
+                    Last Name:
                   </div>
                   <input
                     type="text"
@@ -291,9 +291,9 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               </div>
 
               {/* Phone Number */}
-              <div className="mb-5 d-flex gap-4">
+              <div className="mb-3 mb-md-5 d-flex gap-4">
                 <div className="txt-primary responsive-label-text">
-                  Phone Number
+                  Phone Number:
                 </div>
                 <input
                   type="tel"
@@ -306,11 +306,11 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               </div>
 
               {/* Q1: Which home area(s) will you visit today? */}
-              <div className="mb-5">
+              <div className="d-flex flex-column mb-3 mb-md-5 gap-2">
                 <div className="txt-primary responsive-label-text">
                   Which home area(s) will you visit today?
                 </div>
-                <div class="container-fluid">
+                <div class="">
                   <div class="row">
                     <div class="col-md-4 d-flex gap-3 align-items-center">
                       <input
@@ -321,7 +321,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                         className="form-check-input"
                         onChange={(e) => onChange(e)}
                       />
-                      <label className="responsive-input-text">Oak Ridge</label>
+                      <label className="responsive-input-text" style={{whiteSpace:"nowrap"}}>Oak Ridge</label>
                     </div>
                     <div class="col-md-4 d-flex gap-3 align-items-center">
                       <input
@@ -332,7 +332,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                         className="form-check-input"
                         onChange={(e) => onChange(e)}
                       />
-                      <label className="responsive-input-text">
+                      <label className="responsive-input-text" style={{whiteSpace:"nowrap"}}>
                         Maple Bush
                       </label>
                     </div>
@@ -345,7 +345,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                         onChange={(e) => onChange(e)}
                         className="form-check-input"
                       />
-                      <label className="responsive-input-text">
+                      <label className="responsive-input-text" style={{whiteSpace:"nowrap"}}>
                         Pine Woods
                       </label>
                     </div>
@@ -360,7 +360,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                         onChange={(e) => onChange(e)}
                         className="form-check-input"
                       />
-                      <label className="responsive-input-text">
+                      <label className="responsive-input-text" style={{whiteSpace:"nowrap"}}>
                         Walnut Grove
                       </label>
                     </div>
@@ -373,7 +373,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                         onChange={(e) => onChange(e)}
                         className="form-check-input"
                       />
-                      <label className="responsive-input-text">
+                      <label className="responsive-input-text" style={{whiteSpace:"nowrap"}}>
                         Cherry Orchard
                       </label>
                     </div>
@@ -386,7 +386,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                         onChange={(e) => onChange(e)}
                         className="form-check-input"
                       />
-                      <label className="responsive-input-text">
+                      <label className="responsive-input-text" style={{whiteSpace:"nowrap"}}>
                         Admin Offices
                       </label>
                     </div>
@@ -396,9 +396,9 @@ There is some mandatory training that you must undertake (~10 minutes)`}
 
               {/* Q4: What is the purpose of your visit? */}
               {isAdminOfficeClick && (
-                <div className="mb-5 d-flex gap-2">
+                <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row justify-content-between  gap-2">
                   <div
-                    className="txt-primary w-50 responsive-label-text"
+                    className="txt-primary responsive-label-text"
                     style={{ whiteSpace: "nowrap" }}
                   >
                     Which department are you visiting?
@@ -420,11 +420,11 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               )}
 
               {/* Q2: Is your visit Scheduled or Unscheduled? */}
-              <div className="mb-5 d-flex">
-                <div className="txt-primary w-20 responsive-label-text">
+              <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row gap-2">
+                <div className="txt-primary w-20 responsive-label-text" style={{whiteSpace:"nowrap"}}>
                   Is your visit?
                 </div>
-                <div class="container-fluid">
+                <div class="w-100">
                   <div class="w-70 row">
                     <div class="col-md-4 d-flex gap-3 align-items-center">
                       <input
@@ -453,8 +453,9 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                   </div>
                 </div>
               </div>
-
-              <div className="mb-5 d-flex gap-2">
+              
+              {/* Q3: What is the purpose of your visit? */}
+              <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row  gap-2">
                 <div
                   className="txt-primary w-50 responsive-label-text"
                   style={{ whiteSpace: "nowrap" }}
@@ -479,7 +480,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               </div>
 
               {/* Q3: What is the name of the resident you are visiting? */}
-              <div className="mb-5 d-flex gap-2">
+              <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row  gap-2">
                 <div
                   className="txt-primary w-60 responsive-label-text"
                   style={{ whiteSpace: "nowrap" }}
@@ -497,17 +498,17 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               </div>
 
               {/* Q4: Is this your first visit to Trinity Village Care Center */}
-              <div className="mb-5 d-flex gap-5">
+              <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row  gap-2">
                 <div
-                  className="txt-primary w-60 responsive-label-text"
+                  className="txt-primary responsive-label-text"
                   style={{ whiteSpace: "nowrap" }}
                 >
                   Is this your first visit to Trinity Village Care Center?
                 </div>
-                <div class="container-fluid">
-                  <div class="w-90 row">
+                <div class="w-100">
+                  <div class="w-50 row">
                     <div
-                      class="col-md-3 d-flex gap-3 align-items-center"
+                      class="col-md-6 d-flex gap-3 align-items-center"
                       data-bs-toggle="modal"
                       data-bs-target="#popupFirstVisit"
                     >
@@ -521,7 +522,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                       />
                       <label className="responsive-input-text ">Yes</label>
                     </div>
-                    <div class="col-md-3 d-flex gap-3 align-items-center">
+                    <div class="col-md-6 d-flex gap-3 align-items-center">
                       <input
                         id="FirstVisit"
                         type="radio"
@@ -537,12 +538,12 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               </div>
 
               {/* Q5: Do you have any new or worsening respiratory or gastrointestinal symptoms */}
-              <div className="mb-5 d-flex flex-column">
+              <div className="mb-3 mb-md-5  d-flex flex-column gap-2">
                 <div className="txt-primary w-100 responsive-label-text">
                   Do you have any new or worsening respiratory or
                   gastrointestinal symptoms?
                 </div>
-                <div class="container-fluid">
+                <div class="">
                   <div class="w-70 row">
                     <div
                       class="col-md-3 d-flex gap-3 align-items-center"
@@ -575,7 +576,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               </div>
 
               {/* Checkbox: Please tick this box to acknowledge that you will follow all staff directions during your visit*/}
-              <div className="mb-5 d-flex align-items-center justify-content-center gap-2">
+              <div className="mb-3 mb-md-5 d-flex align-items-center justify-content-center gap-3">
                 <input
                   id="Acknowledgement"
                   type="checkbox"
@@ -607,7 +608,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                 {/* Submit*/}
                 <button
                   type="submit"
-                  className="w-30 bg-dark-green text-white btn-lg btn-block btn custom-btn p-5 d-flex align-items-center justify-content-center"
+                  className="w-30 bg-dark-green text-white btn-lg btn-block btn custom-btn p-4 p-md-5 d-flex align-items-center justify-content-center"
                 >
                   <span className="responsive-btn-text">Submit</span>
                 </button>

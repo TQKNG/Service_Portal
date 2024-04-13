@@ -81,16 +81,15 @@ const Anonymous = () => {
             <button
               className="w-30 bg-dark-green text-white btn-block btn custom-btn p-4 p-md-5 d-flex align-items-center justify-content-center"
               onClick={() => setIsSignedIn(true)}
-              style={{ whiteSpace: 'nowrap' }}
+              style={{ whiteSpace: "nowrap" }}
             >
               <span className="responsive-btn-text text-center">Sign In</span>
-
             </button>
             {/* Out */}
             <button
               className="w-30 bg-pale-yellow  btn-block btn p-4 p-md-5 d-flex align-items-center justify-content-center"
               onClick={() => setIsSignedOut(true)}
-              style={{ whiteSpace: 'nowrap' }}
+              style={{ whiteSpace: "nowrap" }}
             >
               <span className="responsive-btn-text ">Sign Out</span>
             </button>
@@ -160,23 +159,23 @@ const Anonymous = () => {
           </div>
 
           {/* Welcome Panel */}
-          <div className="w-100 d-flex flex-row gap-0 align-items-center  p-2 p-sm-3 p-lg-4 my-4 gap-4">
+          <div className="w-100 d-flex flex-row align-items-center justify-content-between p-3 p-md-5">
             <h1
-              className="w-30 text-center"
+              className="w-100 text-left responsive-signinout-text"
               style={{
-                fontSize: "50px",
-                fontWeight: "800",
-                marginRight: "15rem",
+                whiteSpace: "nowrap",
               }}
             >
               {isSignedIn ? "SIGN IN" : isSignedOut && "SIGN OUT"}
             </h1>
-            <img
-              src={process.env.PUBLIC_URL + `/images/logo.png`}
-              alt="trinity-logo"
-              className="m-0"
-              style={{ maxWidth: "50%", height: "auto", objectFit: "cover" }}
-            />
+            <div className="w-100 d-flex justify-content-end">
+              <img
+                src={process.env.PUBLIC_URL + `/images/logo.png`}
+                alt="trinity-logo"
+                className="img-fluid m-0"
+                style={{ maxWidth: "95%", height: "auto", objectFit: "cover" }}
+              />
+            </div>
           </div>
           {isSignedIn && (
             <AnonymousLogin device={device} isSignedIn={isSignedIn} />
@@ -184,13 +183,6 @@ const Anonymous = () => {
           {isSignedOut && (
             <AnonymousLogout device={device} isSignedOut={isSignedOut} />
           )}
-          <div className="w-100">
-            <img
-              src={process.env.PUBLIC_URL + `images/Welcome-Hero.png`}
-              alt="hero cover"
-              style={{ width: "100%", objectFit: "cover" }}
-            />
-          </div>
         </>
       )}
     </div>
