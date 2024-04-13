@@ -55,8 +55,8 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
       }
     }
 
-    if(e.target.id === "AdminOffices"){
-      setIsAdminOfficeClick(prevState => !prevState);
+    if (e.target.id === "AdminOffices") {
+      setIsAdminOfficeClick((prevState) => !prevState);
     }
   };
 
@@ -64,7 +64,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
     e.preventDefault();
 
     setIsSubmitted(true);
-    const updatedFormData = { ...formData, isRobot, isSignedIn,InOut:true };
+    const updatedFormData = { ...formData, isRobot, isSignedIn, InOut: true };
 
     // Fetch API to server
     fetch(`https://b9dk2wds-3000.use.devtunnels.ms/api/receptions`, {
@@ -112,39 +112,90 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
 
   return (
     <>
-    {/* Popup */}
-     <div
-        className='modal fade'
-        id='showPopup'
-        aria-labelledby='showPopupLabel'
-        aria-hidden='true'
+      {/* Popup - Symptom */}
+      <div
+        className="modal fade"
+        id="popupSymtomp"
+        aria-labelledby="popupSymtompLabel"
+        aria-hidden="true"
       >
-        <div className='modal-dialog modal-dialog-centered'>
-          <div className='modal-content'>
-            <div className='modal-header'>
-              <h5 className='modal-title' id='showPopupLabel' style={{fontSize:"2rem"}}>
-               Wait!
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5
+                className="modal-title"
+                id="popupSymtompLabel"
+                style={{ fontSize: "2rem" }}
+              >
+                Wait!
               </h5>
               <button
-                type='button'
-                className='btn-close'
-                data-bs-dismiss='modal'
-                aria-label='Close'
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
               ></button>
             </div>
-            <div className='modal-body text-center' style={{fontSize:"2rem"}}>
-             Please do not enter the building until your symptoms have resolved.
+            <div
+              className="modal-body text-center"
+              style={{ fontSize: "2rem" }}
+            >
+              Please do not enter the building until your symptoms have
+              resolved.
             </div>
-            <div className='modal-footer mx-auto'>
+            <div className="modal-footer mx-auto">
               <button
-                type='button'
-                className='w-100 bg-dark-green text-white btn-lg btn-block btn custom-btn p-5 d-flex align-items-center justify-content-center'
-                onClick={() => {
-                
-                }}
-                data-bs-dismiss='modal'
+                type="button"
+                className="w-100 bg-dark-green text-white btn-lg btn-block btn custom-btn p-5 d-flex align-items-center justify-content-center"
+                onClick={() => {}}
+                data-bs-dismiss="modal"
               >
-              <span className="responsive-btn-text">Close</span>
+                <span className="responsive-btn-text">Close</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Popup - First Visit */}
+      <div
+        className="modal fade"
+        id="popupFirstVisit"
+        aria-labelledby="popupFirstVisitLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5
+                className="modal-title"
+                id="popupFirstVisitLabel"
+                style={{ fontSize: "2rem" }}
+              >
+                Wait!
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div
+              className="modal-body text-center"
+              style={{ fontSize: "2rem" }}
+            >
+              {`Since this is your first visit to our home, PLEASE see the receptionist before you enter.
+There is some mandatory training that you must undertake (~10 minutes)`}
+            </div>
+            <div className="modal-footer mx-auto">
+              <button
+                type="button"
+                className="w-100 bg-dark-green text-white btn-lg btn-block btn custom-btn p-5 d-flex align-items-center justify-content-center"
+                onClick={() => {}}
+                data-bs-dismiss="modal"
+              >
+                <span className="responsive-btn-text">Close</span>
               </button>
             </div>
           </div>
@@ -242,7 +293,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
               {/* Phone Number */}
               <div className="mb-5 d-flex gap-4">
                 <div className="txt-primary responsive-label-text">
-                  Phone Number 
+                  Phone Number
                 </div>
                 <input
                   type="tel"
@@ -270,9 +321,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                         className="form-check-input"
                         onChange={(e) => onChange(e)}
                       />
-                      <label className="responsive-input-text">
-                      Oak Ridge
-                      </label>
+                      <label className="responsive-input-text">Oak Ridge</label>
                     </div>
                     <div class="col-md-4 d-flex gap-3 align-items-center">
                       <input
@@ -284,7 +333,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                         onChange={(e) => onChange(e)}
                       />
                       <label className="responsive-input-text">
-                      Maple Bush
+                        Maple Bush
                       </label>
                     </div>
                     <div class="col-md-4 d-flex gap-3 align-items-center">
@@ -297,7 +346,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                         className="form-check-input"
                       />
                       <label className="responsive-input-text">
-                      Pine Woods
+                        Pine Woods
                       </label>
                     </div>
                   </div>
@@ -312,7 +361,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                         className="form-check-input"
                       />
                       <label className="responsive-input-text">
-                      Walnut Grove
+                        Walnut Grove
                       </label>
                     </div>
                     <div class="col-md-4 d-flex gap-3 align-items-center">
@@ -325,7 +374,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                         className="form-check-input"
                       />
                       <label className="responsive-input-text">
-                      Cherry Orchard
+                        Cherry Orchard
                       </label>
                     </div>
                     <div class="col-md-4 d-flex gap-3 align-items-center">
@@ -337,37 +386,38 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                         onChange={(e) => onChange(e)}
                         className="form-check-input"
                       />
-                      <label className="responsive-input-text">Admin Offices</label>
+                      <label className="responsive-input-text">
+                        Admin Offices
+                      </label>
                     </div>
-                 
                   </div>
                 </div>
               </div>
 
-                      {/* Q4: What is the purpose of your visit? */}
-                      {
-                isAdminOfficeClick && (  <div className="mb-5 d-flex gap-2">
-                <div
-                  className="txt-primary w-50 responsive-label-text"
-                  style={{ whiteSpace: "nowrap"}}
-                >
-                  Which department are you visiting?
+              {/* Q4: What is the purpose of your visit? */}
+              {isAdminOfficeClick && (
+                <div className="mb-5 d-flex gap-2">
+                  <div
+                    className="txt-primary w-50 responsive-label-text"
+                    style={{ whiteSpace: "nowrap" }}
+                  >
+                    Which department are you visiting?
+                  </div>
+                  <select
+                    className="form-select responsive-input-text"
+                    aria-label="Default select example"
+                    id="Purpose"
+                    value={Purpose}
+                    onChange={(e) => onChange(e)}
+                  >
+                    <option value={"1"}>Administration </option>
+                    <option value={" 3"}>Finance </option>
+                    <option value={" 2"}>Human Resources </option>
+                    <option value={" 5"}>Maintenance </option>
+                    <option value={" 4"}>Resident Services </option>
+                  </select>
                 </div>
-                <select
-                  className="form-select responsive-input-text"
-                  aria-label="Default select example"
-                  id="Purpose"
-                  value={Purpose}
-                  onChange={(e) => onChange(e)}
-                >
-                  <option value={"1"}>Administration </option>
-                  <option value={" 3"}>Finance </option>
-                  <option value={" 2"}>Human Resources </option>
-                  <option value={" 5"}>Maintenance </option>
-                  <option value={" 4"}>Resident Services </option>
-                </select>
-              </div>)
-              }
+              )}
 
               {/* Q2: Is your visit Scheduled or Unscheduled? */}
               <div className="mb-5 d-flex">
@@ -403,7 +453,6 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                   </div>
                 </div>
               </div>
-
 
               <div className="mb-5 d-flex gap-2">
                 <div
@@ -457,7 +506,11 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                 </div>
                 <div class="container-fluid">
                   <div class="w-90 row">
-                    <div class="col-md-3 d-flex gap-3 align-items-center">
+                    <div
+                      class="col-md-3 d-flex gap-3 align-items-center"
+                      data-bs-toggle="modal"
+                      data-bs-target="#popupFirstVisit"
+                    >
                       <input
                         id="FirstVisit"
                         type="radio"
@@ -491,8 +544,11 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                 </div>
                 <div class="container-fluid">
                   <div class="w-70 row">
-                    <div class="col-md-3 d-flex gap-3 align-items-center"  data-bs-toggle='modal'
-                  data-bs-target='#showPopup'>
+                    <div
+                      class="col-md-3 d-flex gap-3 align-items-center"
+                      data-bs-toggle="modal"
+                      data-bs-target="#popupSymtomp"
+                    >
                       <input
                         id="SicknessSymptom"
                         type="radio"
