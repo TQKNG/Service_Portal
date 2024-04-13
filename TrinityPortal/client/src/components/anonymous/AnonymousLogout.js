@@ -78,7 +78,7 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
         {/* Form Content */}
         <form
           className="w-100 p-2 p-sm-3 p-lg-4 mb-2 overflow-auto d-flex flex-column gap-2 justify-content-around"
-          style={{ minHeight: "400px" }}
+          style={{ minHeight: "200px" }}
           onSubmit={(e) => onSubmit(e)}
         >
           <Alert />
@@ -130,11 +130,14 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
               </div> */}
 
               {/* Full Name */}
-              <div className="w-100 d-flex mb-5 gap-4">
+              <div className="w-100 d-flex mb-3 mb-md-5 gap-4 flex-column flex-md-row justify-content-between">
                 {/* First Name */}
-                <div className="w-50">
+                <div
+                  className="w-100 d-flex justify-content-between gap-3"
+                  style={{ whiteSpace: "nowrap" }}
+                >
                   <div className="txt-primary responsive-label-text">
-                    First Name
+                    First Name:
                   </div>
                   <input
                     type="text"
@@ -147,9 +150,12 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
                 </div>
 
                 {/* Last Name */}
-                <div className="w-50">
-                  <div className="txt-primary responsive-label-text">
-                    Last Name
+                <div className="w-100 d-flex justify-content-between gap-3">
+                  <div
+                    className="txt-primary responsive-label-text"
+                    style={{ whiteSpace: "nowrap" }}
+                  >
+                    Last Name:
                   </div>
                   <input
                     type="text"
@@ -162,10 +168,10 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
                 </div>
               </div>
 
-              {/* Phone Number */}
-              <div className="mb-5 gap-4 d-flex">
+               {/* Phone Number */}
+               <div className="mb-3 mb-md-5 d-flex gap-4">
                 <div className="txt-primary responsive-label-text">
-                  Phone Number
+                  Phone Number:
                 </div>
                 <input
                   type="tel"
@@ -186,12 +192,15 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
             </>
           )}
 
-          {/* Buttons */}
+             {/* Buttons */}
           <div className="d-flex align-items-center justify-content-center gap-2">
             {!isSubmitted && (
               <>
                 {/* Submit*/}
-                <button className="w-30 bg-dark-green text-white btn-lg btn-block btn custom-btn p-5 d-flex align-items-center justify-content-center">
+                <button
+                  type="submit"
+                  className="w-30 bg-dark-green text-white btn-lg btn-block btn custom-btn p-4 p-md-5 d-flex align-items-center justify-content-center"
+                >
                   <span className="responsive-btn-text">Submit</span>
                 </button>
               </>
