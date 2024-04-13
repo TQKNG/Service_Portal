@@ -57,7 +57,7 @@ const Anonymous = () => {
 
           {/* Welcome Panel */}
           <div
-            className={`w-100 d-flex flex-column gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4 mb-5`}
+            className={`w-100 d-flex flex-column align-items-center justify-content-center p-2 p-sm-3 p-lg-4 mb-4 mb-md-5`}
           >
             <h1 className="responsive-heading">Welcome to</h1>
             <img
@@ -76,38 +76,23 @@ const Anonymous = () => {
           </div>
 
           {/* Sign In Sign Out Buttons */}
-          <div className="w-100 d-flex gap-0 justify-content-around mb-5">
+          <div className="w-100 d-flex gap-0 justify-content-around mb-1 mb-md-5">
             {/* In */}
             <button
-              className="w-30 bg-dark-green text-white btn-lg btn-block btn custom-btn p-5 d-flex align-items-center justify-content-center"
+              className="w-30 bg-dark-green text-white btn-block btn custom-btn p-4 p-md-5 d-flex align-items-center justify-content-center"
               onClick={() => setIsSignedIn(true)}
+              style={{ whiteSpace: 'nowrap' }}
             >
               <span className="responsive-btn-text text-center">Sign In</span>
-              {/* <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="24"
-          viewBox="0 -960 960 960"
-          width="24"
-          fill="currentColor"
-        >
-          <path d="M480-120v-80h280v-560H480v-80h280q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H480Zm-80-160-55-58 102-102H120v-80h327L345-622l55-58 200 200-200 200Z" />
-        </svg> */}
+
             </button>
             {/* Out */}
             <button
-              className="w-30 bg-pale-yellow btn-lg btn-block btn p-5 d-flex align-items-center justify-content-center"
+              className="w-30 bg-pale-yellow  btn-block btn p-4 p-md-5 d-flex align-items-center justify-content-center"
               onClick={() => setIsSignedOut(true)}
+              style={{ whiteSpace: 'nowrap' }}
             >
-              <span className="responsive-btn-text">Sign Out</span>
-              {/* <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="24"
-          viewBox="0 -960 960 960"
-          width="24"
-          fill="currentColor"
-        >
-          <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
-        </svg> */}
+              <span className="responsive-btn-text ">Sign Out</span>
             </button>
           </div>
 
