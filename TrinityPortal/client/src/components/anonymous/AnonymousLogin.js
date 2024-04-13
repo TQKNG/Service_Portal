@@ -132,19 +132,19 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
                 aria-label='Close'
               ></button>
             </div>
-            <div className='modal-body' style={{fontSize:"2rem"}}>
-             Please do not enter the building until your symptoms have resolved
+            <div className='modal-body text-center' style={{fontSize:"2rem"}}>
+             Please do not enter the building until your symptoms have resolved.
             </div>
-            <div className='modal-footer'>
+            <div className='modal-footer mx-auto'>
               <button
                 type='button'
-                className='btn button-primary'
+                className='w-100 bg-dark-green text-white btn-lg btn-block btn custom-btn p-5 d-flex align-items-center justify-content-center'
                 onClick={() => {
                 
                 }}
                 data-bs-dismiss='modal'
               >
-              Close
+              <span className="responsive-btn-text">Close</span>
               </button>
             </div>
           </div>
