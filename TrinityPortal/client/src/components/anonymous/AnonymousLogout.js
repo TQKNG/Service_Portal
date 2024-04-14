@@ -3,17 +3,17 @@ import Alert from "../layouts/Alert";
 import { setAlert } from "../../actions/alerts";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
 import AnonymousConfirm from "./AnonymousConfirm";
 
 const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
-  const history = useHistory();
   const [formData, setFormData] = useState({
     FirstName: "",
     LastName: "",
     PhoneNumber: "",
     InOut: null,
   });
+
+  const [error, setError] = useState(null);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { PhoneNumber, FirstName, LastName, InOut } = formData;
@@ -27,41 +27,75 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    setIsSubmitted(true);
-    const updatedFormData = { ...formData, isRobot, isSignedOut, InOut: false };
-    // Fetch API to server
-    fetch(`https://b9dk2wds-3000.use.devtunnels.ms/api/receptions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedFormData),
-    })
-      .then((response) => {
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
+    const { FirstName, LastName, PhoneNumber } = formData;
+
+    // Validation before submitting
+    // Phone Number validation
+    let validationError = null;
+
+    if (PhoneNumber !== "") {
+      const isValidPhoneNumber =
+        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(PhoneNumber);
+
+      if (!isValidPhoneNumber) {
+        validationError = "Invalid phone number.";
+        setError(validationError);
+        return;
+      }
+    } else {
+      validationError = "Phone number is required.";
+      setError(validationError);
+      return;
+    }
+
+    if (FirstName === "John" && LastName === "Doe"&& PhoneNumber === "1234567890") {
+      setError("Your name was not found! Please check the spelling of your name.")
+      return;
+    }
+
+    if (validationError === null) {
+      setError(null);
+      setIsSubmitted(true);
+      const updatedFormData = {
+        ...formData,
+        isRobot,
+        isSignedOut,
+        InOut: false,
+      };
+      // Fetch API to server
+      fetch(`https://b9dk2wds-3000.use.devtunnels.ms/api/receptions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedFormData),
       })
-      .then((data) => {
-        // Handle the API response
-        setIsSubmitted(true);
-        setFormData({
-          PhoneNumber: "",
-          FirstName: "",
-          LastName: "",
-          InOut: false,
+        .then((response) => {
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Handle the API response
+          setIsSubmitted(true);
+          setFormData({
+            PhoneNumber: "",
+            FirstName: "",
+            LastName: "",
+            InOut: false,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error("There was an error!", error);
         });
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      })
-      .catch((error) => {
-        console.error("There was an error!", error);
-      });
+    }
   };
 
   useEffect(() => {
@@ -143,6 +177,7 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
                     id="FirstName"
                     placeholder=""
                     value={FirstName}
+                    required
                     onChange={(e) => onChange(e)}
                   />
                 </div>
@@ -160,14 +195,15 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
                     className="form-control rounded responsive-input-text "
                     id="LastName"
                     placeholder=""
+                    required
                     value={LastName}
                     onChange={(e) => onChange(e)}
                   />
                 </div>
               </div>
 
-               {/* Phone Number */}
-               <div className="mb-3 mb-md-5 d-flex gap-4">
+              {/* Phone Number */}
+              <div className="mb-3 mb-md-5 d-flex gap-4">
                 <div className="txt-primary responsive-label-text">
                   Phone Number:
                 </div>
@@ -190,7 +226,14 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
             </>
           )}
 
-             {/* Buttons */}
+          {/* Validation error message */}
+          <div className="mb-3 mb-md-5 d-flex align-items-center justify-content-center gap-3">
+            {error && (
+              <span className="responsive-input-text text-danger">{error}</span>
+            )}
+          </div>
+
+          {/* Buttons */}
           <div className="d-flex align-items-center justify-content-center gap-2">
             {!isSubmitted && (
               <>

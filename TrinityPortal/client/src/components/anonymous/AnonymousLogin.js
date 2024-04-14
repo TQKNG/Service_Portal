@@ -117,7 +117,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
     }
 
     if (validationError === null) {
-      setError("");
+      setError(null);
       setIsSubmitted(true);
       const updatedFormData = { ...formData, isRobot, isSignedIn, InOut: true };
 
