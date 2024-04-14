@@ -19,6 +19,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
     FirstVisit: null,
     SicknessSymptom: null,
     Acknowledgement: null,
+    DepartmentVisit: "",
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -34,10 +35,12 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
     FirstVisit,
     SicknessSymptom,
     Acknowledgement,
+    DepartmentVisit,
   } = formData;
   const [isRobot, setIsRobot] = useState(false);
   const [isAdminOfficeClick, setIsAdminOfficeClick] = useState(false);
   const [isSicknessSymptom, setIsSicknessSymptom] = useState(false);
+  const [error, setError] = useState(null);
 
   // Check if the user is already logged in
   const onChange = (e) => {
@@ -63,47 +66,102 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    setIsSubmitted(true);
-    const updatedFormData = { ...formData, isRobot, isSignedIn, InOut: true };
+    console.log("test formData", formData);
 
-    // Fetch API to server
-    fetch(`https://b9dk2wds-3000.use.devtunnels.ms/api/receptions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedFormData),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
+    const {
+      FirstName,
+      LastName,
+      PhoneNumber,
+      InOut,
+      HomeAreas,
+      ScheduledVisit,
+      Purpose,
+      ResidentName,
+      FirstVisit,
+      SicknessSymptom,
+      Acknowledgement,
+      DepartmentVisit,
+    } = formData;
+
+    // Validation before submitting
+    // Phone Number validation
+    let validationError = null;
+
+    if (PhoneNumber !== "") {
+      const isValidPhoneNumber =
+        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(PhoneNumber);
+
+      if (!isValidPhoneNumber) {
+        validationError = "Invalid phone number.";
+        setError(validationError);
+        return;
+      }
+    } else {
+      validationError = "Phone number is required.";
+      setError(validationError);
+      return;
+    }
+
+    // Sickness Symptom validation
+    if(SicknessSymptom === null || SicknessSymptom === "true" ) {
+      validationError = "Please do not enter the building until your symptoms have resolved.";
+      setError(validationError);
+      return;
+    }
+
+    // Acknowledgement validation
+    if(Acknowledgement === null || Acknowledgement === "false") {
+      validationError = "Tick the box to acknowledge that you will follow all staff directions during your visit.";
+      setError(validationError);
+      return;
+    }
+
+    if (validationError === null) {
+      setError("");
+      setIsSubmitted(true);
+      const updatedFormData = { ...formData, isRobot, isSignedIn, InOut: true };
+
+      // Fetch API to server
+      fetch(`https://b9dk2wds-3000.use.devtunnels.ms/api/receptions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedFormData),
       })
-      .then((data) => {
-        // Handle the API response
-        setFormData({
-          FirstName: "",
-          LastName: "",
-          PhoneNumber: "",
-          InOut: null,
-          HomeAreas: [],
-          ScheduledVisit: null,
-          Purpose: "",
-          ResidentName: "",
-          FirstVisit: null,
-          SicknessSymptom: null,
-          Acknowledgement: null,
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Handle the API response
+          setFormData({
+            FirstName: "",
+            LastName: "",
+            PhoneNumber: "",
+            InOut: null,
+            HomeAreas: [],
+            ScheduledVisit: null,
+            Purpose: "",
+            ResidentName: "",
+            FirstVisit: null,
+            SicknessSymptom: null,
+            Acknowledgement: null,
+            DepartmentVisit: "",
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error("There was an error!", error);
         });
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      })
-      .catch((error) => {
-        console.error("There was an error!", error);
-      });
+    }
   };
 
+  // Check if the device is a robot
   useEffect(() => {
     if (device.includes("sl3288")) {
       setIsRobot(true);
@@ -205,7 +263,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
       <div className="w-100 h-100 mx-auto">
         {/* Form Content */}
         <form
-          className="w-100 p-2 p-sm-3 p-lg-4 mb-2 overflow-auto d-flex flex-column gap-2 justify-content-around"
+          className="w-100 p-2 p-sm-3 p-lg-4 mb-2 overflow-auto d-flex flex-column gap-2 justify-content-around overflow-hidden"
           style={{ minHeight: "400px" }}
           onSubmit={(e) => onSubmit(e)}
         >
@@ -260,7 +318,10 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               {/* Full Name */}
               <div className="w-100 d-flex mb-3 mb-md-5 gap-4 flex-column flex-md-row justify-content-between">
                 {/* First Name */}
-                <div className="w-100 d-flex justify-content-between gap-3" style={{whiteSpace:"nowrap"}}>
+                <div
+                  className="w-100 d-flex justify-content-between gap-3"
+                  style={{ whiteSpace: "nowrap" }}
+                >
                   <div className="txt-primary responsive-label-text">
                     First Name:
                   </div>
@@ -268,7 +329,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                     type="text"
                     className="form-control rounded responsive-input-text"
                     id="FirstName"
-                    placeholder=""
+                    required
                     value={FirstName}
                     onChange={(e) => onChange(e)}
                   />
@@ -276,13 +337,17 @@ There is some mandatory training that you must undertake (~10 minutes)`}
 
                 {/* Last Name */}
                 <div className="w-100 d-flex justify-content-between gap-3">
-                  <div className="txt-primary responsive-label-text" style={{whiteSpace:"nowrap"}}>
+                  <div
+                    className="txt-primary responsive-label-text"
+                    style={{ whiteSpace: "nowrap" }}
+                  >
                     Last Name:
                   </div>
                   <input
                     type="text"
                     className="form-control rounded responsive-input-text "
                     id="LastName"
+                    required
                     placeholder=""
                     value={LastName}
                     onChange={(e) => onChange(e)}
@@ -321,7 +386,12 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                         className="form-check-input"
                         onChange={(e) => onChange(e)}
                       />
-                      <label className="responsive-input-text" style={{whiteSpace:"nowrap"}}>Oak Ridge</label>
+                      <label
+                        className="responsive-input-text"
+                        style={{ whiteSpace: "nowrap" }}
+                      >
+                        Oak Ridge
+                      </label>
                     </div>
                     <div class="col-md-4 d-flex gap-3 align-items-center">
                       <input
@@ -332,7 +402,10 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                         className="form-check-input"
                         onChange={(e) => onChange(e)}
                       />
-                      <label className="responsive-input-text" style={{whiteSpace:"nowrap"}}>
+                      <label
+                        className="responsive-input-text"
+                        style={{ whiteSpace: "nowrap" }}
+                      >
                         Maple Bush
                       </label>
                     </div>
@@ -345,7 +418,10 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                         onChange={(e) => onChange(e)}
                         className="form-check-input"
                       />
-                      <label className="responsive-input-text" style={{whiteSpace:"nowrap"}}>
+                      <label
+                        className="responsive-input-text"
+                        style={{ whiteSpace: "nowrap" }}
+                      >
                         Pine Woods
                       </label>
                     </div>
@@ -360,7 +436,10 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                         onChange={(e) => onChange(e)}
                         className="form-check-input"
                       />
-                      <label className="responsive-input-text" style={{whiteSpace:"nowrap"}}>
+                      <label
+                        className="responsive-input-text"
+                        style={{ whiteSpace: "nowrap" }}
+                      >
                         Walnut Grove
                       </label>
                     </div>
@@ -373,7 +452,10 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                         onChange={(e) => onChange(e)}
                         className="form-check-input"
                       />
-                      <label className="responsive-input-text" style={{whiteSpace:"nowrap"}}>
+                      <label
+                        className="responsive-input-text"
+                        style={{ whiteSpace: "nowrap" }}
+                      >
                         Cherry Orchard
                       </label>
                     </div>
@@ -386,7 +468,10 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                         onChange={(e) => onChange(e)}
                         className="form-check-input"
                       />
-                      <label className="responsive-input-text" style={{whiteSpace:"nowrap"}}>
+                      <label
+                        className="responsive-input-text"
+                        style={{ whiteSpace: "nowrap" }}
+                      >
                         Admin Offices
                       </label>
                     </div>
@@ -406,22 +491,27 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                   <select
                     className="form-select responsive-input-text"
                     aria-label="Default select example"
-                    id="Purpose"
-                    value={Purpose}
+                    id="DepartmentVisit"
+                    value={DepartmentVisit}
                     onChange={(e) => onChange(e)}
                   >
-                    <option value={"1"}>Administration </option>
-                    <option value={" 3"}>Finance </option>
-                    <option value={" 2"}>Human Resources </option>
-                    <option value={" 5"}>Maintenance </option>
-                    <option value={" 4"}>Resident Services </option>
+                    <option value={"Administration"}>Administration </option>
+                    <option value={"Finance"}>Finance </option>
+                    <option value={"Human Resources"}>Human Resources </option>
+                    <option value={"Maintenance"}>Maintenance </option>
+                    <option value={"Resident Services"}>
+                      Resident Services{" "}
+                    </option>
                   </select>
                 </div>
               )}
 
               {/* Q2: Is your visit Scheduled or Unscheduled? */}
               <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row gap-2">
-                <div className="txt-primary w-20 responsive-label-text" style={{whiteSpace:"nowrap"}}>
+                <div
+                  className="txt-primary w-20 responsive-label-text"
+                  style={{ whiteSpace: "nowrap" }}
+                >
                   Is your visit?
                 </div>
                 <div class="w-100">
@@ -453,7 +543,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                   </div>
                 </div>
               </div>
-              
+
               {/* Q3: What is the purpose of your visit? */}
               <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row  gap-2">
                 <div
@@ -469,13 +559,17 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                   value={Purpose}
                   onChange={(e) => onChange(e)}
                 >
-                  <option value={"1"}>Caregiver </option>
-                  <option value={" 3"}>Contractor/Supplier </option>
-                  <option value={" 5"}>Funeral Assistance </option>
-                  <option value={" 2"}>General Visitor </option>
-                  <option value={" 4"}>Student </option>
-                  <option value={" 2"}>Transportation </option>
-                  <option value={" 4"}>Volunteer </option>
+                  <option value={"Caregiver"}>Caregiver </option>
+                  <option value={"Contractor/Supplier"}>
+                    Contractor/Supplier{" "}
+                  </option>
+                  <option value={"Funeral Assistance"}>
+                    Funeral Assistance{" "}
+                  </option>
+                  <option value={"General Visitor"}>General Visitor </option>
+                  <option value={"Student"}>Student </option>
+                  <option value={"Transportation"}>Transportation </option>
+                  <option value={"Volunteer "}>Volunteer </option>
                 </select>
               </div>
 
@@ -584,7 +678,6 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                   value={true}
                   className="form-check-input"
                   onChange={(e) => onChange(e)}
-                  required
                 />
                 <div className="txt-primary w-100 responsive-label-text">
                   Please tick this box to acknowledge that you will follow all
@@ -600,6 +693,13 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               <AnonymousConfirm isSignedIn={isSignedIn} />
             </>
           )}
+
+          {/* Validation error message */}
+          <div className="mb-3 mb-md-5 d-flex align-items-center justify-content-center gap-3">
+            {error && (
+              <span className="responsive-input-text text-danger">{error}</span>
+            )}
+          </div>
 
           {/* Buttons */}
           <div className="d-flex align-items-center justify-content-center gap-2">

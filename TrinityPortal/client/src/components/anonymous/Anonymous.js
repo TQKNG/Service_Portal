@@ -91,7 +91,7 @@ const Anonymous = () => {
               onClick={() => setIsSignedOut(true)}
               style={{ whiteSpace: "nowrap" }}
             >
-              <span className="responsive-btn-text ">Sign Out</span>
+              <span className="responsive-btn-text text-center">Sign Out</span>
             </button>
           </div>
 

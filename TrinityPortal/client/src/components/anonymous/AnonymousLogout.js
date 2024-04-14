@@ -38,7 +38,6 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
       body: JSON.stringify(updatedFormData),
     })
       .then((response) => {
-        console.log("Fecth oke", response);
         setTimeout(() => {
           window.location.reload();
         }, 2000);
@@ -49,7 +48,6 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
       })
       .then((data) => {
         // Handle the API response
-        console.log("Test AlternativeID", data);
         setIsSubmitted(true);
         setFormData({
           PhoneNumber: "",
