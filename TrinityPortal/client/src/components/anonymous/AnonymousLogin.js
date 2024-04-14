@@ -122,7 +122,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
       const updatedFormData = { ...formData, isRobot, isSignedIn, InOut: true };
 
       // Fetch API to server
-      fetch(`https://b9dk2wds-3000.use.devtunnels.ms/api/receptions`, {
+      fetch(`https://rj4442tq-3000.use.devtunnels.ms//api/receptions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -241,7 +241,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
             </div>
             <div
               className="modal-body text-center"
-              style={{ fontSize: "2rem" }}
+              style={{ fontSize: "1.3rem" }}
             >
               {`Since this is your first visit to our home, PLEASE see the receptionist before you enter.
 There is some mandatory training that you must undertake (~10 minutes)`}
@@ -260,7 +260,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
         </div>
       </div>
 
-      <div className="w-100 h-100 mx-auto">
+      <div className="w-100 mx-auto">
         {/* Form Content */}
         <form
           className="w-100 p-2 p-sm-3 p-lg-4 mb-2 overflow-auto d-flex flex-column gap-2 justify-content-around overflow-hidden"
@@ -700,6 +700,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               <span className="responsive-input-text text-danger">{error}</span>
             )}
           </div>
+         
 
           {/* Buttons */}
           <div className="d-flex align-items-center justify-content-center gap-2">

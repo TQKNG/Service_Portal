@@ -26,13 +26,16 @@ const useWebSocket = (url) => {
   };
 
   const onMessage = (callback) => {
-    if (ws) {
+    if (ws && typeof callback === 'function') {
       ws.onmessage = (event) => {
 
         callback(event.data);
         // const message = JSON.parse(event.data);
         console.log("Test Callback", callback)
       };
+    }
+    else {
+      console.error('Callback is not a function or WebSocket is not initialized.');
     }
   };
 

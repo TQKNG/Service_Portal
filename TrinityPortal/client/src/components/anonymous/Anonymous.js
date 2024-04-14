@@ -183,6 +183,13 @@ const Anonymous = () => {
           {isSignedOut && (
             <AnonymousLogout device={device} isSignedOut={isSignedOut} />
           )}
+          <div className="d-flex w-100">
+          <img
+                src={process.env.PUBLIC_URL + `images/Welcome-Hero.png`}
+                alt="hero cover"
+                style={{ width: "100%", objectFit: "cover" }}
+              />
+          </div>
         </>
       )}
     </div>

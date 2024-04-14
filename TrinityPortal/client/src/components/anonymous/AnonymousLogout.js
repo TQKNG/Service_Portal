@@ -63,7 +63,7 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
         InOut: false,
       };
       // Fetch API to server
-      fetch(`https://b9dk2wds-3000.use.devtunnels.ms/api/receptions`, {
+      fetch(`https://rj4442tq-5000.use.devtunnels.ms/api/receptions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
