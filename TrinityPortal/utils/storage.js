@@ -2,16 +2,21 @@ const fs = require("fs");
 const { exec } = require('child_process');
 const os = require("os");
 const path = require("path");
+const {addDelimiter, removeDelimiter} = require('./TextFormatter');
+
 
 async function storeImage(subloc, data, fileName) {
   // Define the directory for uploaded images
   const uploadDir = path.join(process.cwd(), `/assets/${subloc}`);
 
+  // Format filename with delimiter
+  let formattedFileName = addDelimiter(fileName, "_");
+
   // Ensure the directory exists
   fs.mkdirSync(uploadDir, { recursive: true });
 
   // Define the path for the new image
-  const dataPath = path.join(uploadDir, `${fileName}.png`);
+  const dataPath = path.join(uploadDir, `${formattedFileName}.png`);
 
   //Convert to base 64
   let base64Data = data.split(";base64,").pop();
@@ -28,11 +33,14 @@ async function storeAudio(subloc, data, fileName) {
   // Define the directory for uploaded images
   const uploadDir = path.join(process.cwd(), `/assets/${subloc}`);
 
+   // Format filename with delimiter
+   let formattedFileName = addDelimiter(fileName, "_");
+
   // Ensure the directory exists
   fs.mkdirSync(uploadDir, { recursive: true });
 
   // Define the path for the new image
-  const dataPath = path.join(uploadDir, `${fileName}.mp3`);
+  const dataPath = path.join(uploadDir, `${formattedFileName}.mp3`);
 
   //Convert to base 64
   let base64Data = data.split(";base64,").pop();
