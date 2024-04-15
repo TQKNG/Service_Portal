@@ -137,11 +137,10 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
           />
         </div>
       </div>
-      <div className="admin-users-fields  d-flex align-items-center justify-content-around  rounded  bg-body txt-primary">
-        <div className="admin-schools-field text-truncate ">In/Out ID</div>
+      <div className="admin-users-fields  d-flex align-items-center justify-content-around rounded  bg-body txt-primary">
 
         <div
-          className="admin-schools-field  text-truncate mx-1 "
+          className="admin-schools-field  text-truncate"
           onMouseEnter={() => setIsShowIcon("name")}
           onMouseLeave={() => setIsShowIcon(null)}
           onClick={() => {
@@ -185,8 +184,9 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
         <div className="admin-schools-field text-truncate ">Clock In Time</div>
         <div className="admin-schools-field text-truncate ">Clock Out Time</div>
         <div className="admin-schools-field text-truncate ">Status</div>
-        <div className="admin-schools-field text-truncate ml-1">Actions</div>
+        <div className="admin-schools-field text-truncate ">Actions</div>
       </div>
+
       <div className="users-list-body ">
         {receptionListLoading ? (
           <div className="d-flex justify-content-center align-items-center h-100">

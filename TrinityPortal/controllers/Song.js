@@ -152,6 +152,20 @@ exports.getSongs = async (req, res) => {
         SongLogo: "",
         SongData: "",
       },
+      {
+        SongID: 5,
+        Name: "Amazing_Grace",
+        Lyrics: "Lyrics for Amazing Grace",
+        SongLogo: "",
+        SongData: "",
+      },
+      {
+        SongID: 6,
+        Name: "After_The_Ball",
+        Lyrics: "Lyrics for After The Ball",
+        SongLogo: "",
+        SongData: "",
+      },
     ];
 
     // Map over data and return an array of promises

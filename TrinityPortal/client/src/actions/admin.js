@@ -509,36 +509,28 @@ export const loadReceptionsList =
         payload: [
           {
             InOutID: 1,
-            DateTime: "2024-03-16T12:34:56.789Z",
-            FullName: "Ziad Diab",
-            ClockIn: null,
-            ClockOut: null,
-            Status: 0,
-          },
-          {
-            InOutID: 2,
-            DateTime: "2024-03-17T08:20:30.123Z",
-            FullName: "Khanh Nguyen",
-            ClockIn: "2024-03-17T08:21:30.123Z",
-            ClockOut: null,
-            Status: 1,
-          },
-          {
-            InOutID: 3,
-            DateTime: "2024-03-18T10:15:00.456Z",
-            FullName: "Alan Pintor",
-            ClockIn: "2024-03-18T10:16:00.456Z",
-            ClockOut: null,
-            Status: 2,
-          },
-          {
-            InOutID: 4,
             DateTime: "2024-03-19T11:45:00.789Z",
             FullName: "Alok Rathava",
             ClockIn: "2024-03-19T11:46:00.789Z",
             ClockOut: "2024-03-19T19:15:00.000Z",
             Status: 3,
-          },
+        },
+        {
+            InOutID: 2,
+            DateTime: "2024-03-18T10:15:00.456Z",
+            FullName: "Alan Pintor",
+            ClockIn: "2024-03-18T10:16:00.456Z",
+            ClockOut: null,
+            Status: 1,
+        },
+        {
+            InOutID: 3,
+            DateTime: "2024-03-17T08:20:30.123Z",
+            FullName: "Khanh Nguyen",
+            ClockIn: "2024-03-17T08:21:30.123Z",
+            ClockOut: null,
+            Status: 1,
+        },
         ],
       });
     } catch (error) {

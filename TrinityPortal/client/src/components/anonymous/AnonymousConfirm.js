@@ -7,7 +7,7 @@ const AnonymousConfirm = ({ isSignedIn, isSignedOut }) => {
         {isSignedIn && (
           <>
             <h4 className="txt-primary responsive-confirmation-heading text-center">
-              Have a wonderful visit !!!
+              Have a wonderful visit.
             </h4>
             <div className="responsive-disclaimer-text text-center">
               Thank you for signing in today. Please remember to sign out when
@@ -19,7 +19,7 @@ const AnonymousConfirm = ({ isSignedIn, isSignedOut }) => {
         {isSignedOut && (
           <>
             <h4 className="txt-primary responsive-confirmation-heading text-center">
-              Thank you for your visit !!!
+              Thank you for your visit.
             </h4>
             <div className="responsive-disclaimer-text text-center">
               Have a nice day.

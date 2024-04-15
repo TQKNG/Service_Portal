@@ -14,7 +14,6 @@ const ReceptionsListItem = ({ reception, setReception }) => {
   const hist = useHistory();
   return (
     <div className="admin-users-fields  d-flex align-items-center justify-content-around   p-2 border-bottom">
-      <div className="admin-schools-field text-truncate mr-1">{InOutID}</div>
       <div
         className="admin-schools-field  text-truncate "
         onClick={() => {
@@ -25,10 +24,10 @@ const ReceptionsListItem = ({ reception, setReception }) => {
       >
         {FullName?FullName:"N/A"}
       </div>
-      <div className="admin-schools-field text-truncate mr-1">{moment(DateTime).format("MMM Do YYYY")}</div>
-      <div className="admin-schools-field text-truncate mr-1">{ClockIn&&moment(ClockIn).format("HH:mm:ss")}</div>
-      <div className="admin-schools-field text-truncate mr-1">{ClockOut&&moment(ClockOut).format("HH:mm:ss")}</div>
-      <div className="admin-schools-field text-truncate mr-1">
+      <div className="admin-schools-field text-truncate ">{moment(DateTime).format("MMM Do YYYY")}</div>
+      <div className="admin-schools-field text-truncate ">{ClockIn&&moment(ClockIn).format("HH:mm:ss")}</div>
+      <div className="admin-schools-field text-truncate ">{ClockOut&&moment(ClockOut).format("HH:mm:ss")}</div>
+      <div className="admin-schools-field text-truncate ">
         <Badge
           pill
           className="w-30"
@@ -36,11 +35,11 @@ const ReceptionsListItem = ({ reception, setReception }) => {
             Status === 0
               ? "secondary"
               : Status === 1
-              ? "success"
+              ? "warning"
               : Status === 2
               ? "warning"
               : Status === 3
-              ? "danger"
+              ? "success"
               : ""
           }`}
         >
