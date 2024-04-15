@@ -90,7 +90,7 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
           });
           setTimeout(() => {
             window.location.reload();
-          }, 2000);
+          }, 5000);
         })
         .catch((error) => {
           console.error("There was an error!", error);

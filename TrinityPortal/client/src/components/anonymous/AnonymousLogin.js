@@ -153,7 +153,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
           });
           setTimeout(() => {
             window.location.reload();
-          }, 2000);
+          }, 5000);
         })
         .catch((error) => {
           console.error("There was an error!", error);
