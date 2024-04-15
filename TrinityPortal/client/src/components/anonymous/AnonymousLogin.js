@@ -122,7 +122,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
       const updatedFormData = { ...formData, isRobot, isSignedIn, InOut: true };
 
       // Fetch API to server
-      fetch(`https://rj4442tq-3000.use.devtunnels.ms//api/receptions`, {
+      fetch(`https://b9dk2wds-3000.use.devtunnels.ms/api/receptions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -316,7 +316,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               </div> */}
 
               {/* Full Name */}
-              <div className="w-100 d-flex mb-3 mb-md-5 gap-4 flex-column flex-md-row justify-content-between">
+              <div className="w-100 d-flex mb-3 mb-md-5 gap-4 flex-column flex-sm-row justify-content-between">
                 {/* First Name */}
                 <div
                   className="w-100 d-flex justify-content-between gap-3"
@@ -377,7 +377,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                 </div>
                 <div class="">
                   <div class="row">
-                    <div class="col-md-4 d-flex gap-3 align-items-center">
+                    <div class="col-sm-4 d-flex gap-3 align-items-center">
                       <input
                         id="HomeAreas"
                         type="checkbox"
@@ -393,7 +393,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                         Oak Ridge
                       </label>
                     </div>
-                    <div class="col-md-4 d-flex gap-3 align-items-center">
+                    <div class="col-sm-4 d-flex gap-3 align-items-center">
                       <input
                         id="HomeAreas"
                         type="checkbox"
@@ -409,7 +409,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                         Maple Bush
                       </label>
                     </div>
-                    <div class="col-md-4 d-flex gap-3 align-items-center">
+                    <div class="col-sm-4 d-flex gap-3 align-items-center">
                       <input
                         id="HomeAreas"
                         type="checkbox"
@@ -427,7 +427,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-md-4 d-flex gap-3 align-items-center">
+                    <div class="col-sm-4 d-flex gap-3 align-items-center">
                       <input
                         id="HomeAreas"
                         type="checkbox"
@@ -443,7 +443,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                         Walnut Grove
                       </label>
                     </div>
-                    <div class="col-md-4 d-flex gap-3 align-items-center">
+                    <div class="col-sm-4 d-flex gap-3 align-items-center">
                       <input
                         id="HomeAreas"
                         type="checkbox"
@@ -459,7 +459,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                         Cherry Orchard
                       </label>
                     </div>
-                    <div class="col-md-4 d-flex gap-3 align-items-center">
+                    <div class="col-sm-4 d-flex gap-3 align-items-center">
                       <input
                         id="AdminOffices"
                         type="checkbox"
@@ -481,7 +481,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
 
               {/* Q4: What is the purpose of your visit? */}
               {isAdminOfficeClick && (
-                <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row justify-content-between  gap-2">
+                <div className="mb-3 mb-md-5 d-flex flex-column flex-sm-row justify-content-between  gap-2">
                   <div
                     className="txt-primary responsive-label-text"
                     style={{ whiteSpace: "nowrap" }}
@@ -507,7 +507,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               )}
 
               {/* Q2: Is your visit Scheduled or Unscheduled? */}
-              <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row gap-2">
+              <div className="mb-3 mb-md-5 d-flex flex-column flex-sm-row gap-2">
                 <div
                   className="txt-primary w-20 responsive-label-text"
                   style={{ whiteSpace: "nowrap" }}
@@ -516,7 +516,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                 </div>
                 <div class="w-100">
                   <div class="w-70 row">
-                    <div class="col-md-4 d-flex gap-3 align-items-center">
+                    <div class="col-sm-4 d-flex gap-3 align-items-center">
                       <input
                         id="ScheduledVisit"
                         type="radio"
@@ -527,7 +527,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                       />
                       <label className="responsive-input-text">Scheduled</label>
                     </div>
-                    <div class="col-md-4 d-flex gap-3 align-items-center">
+                    <div class="col-sm-4 d-flex gap-3 align-items-center">
                       <input
                         id="ScheduledVisit"
                         type="radio"
@@ -545,7 +545,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               </div>
 
               {/* Q3: What is the purpose of your visit? */}
-              <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row  gap-2">
+              <div className="mb-3 mb-md-5 d-flex flex-column flex-sm-row  gap-2">
                 <div
                   className="txt-primary w-50 responsive-label-text"
                   style={{ whiteSpace: "nowrap" }}
@@ -574,7 +574,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               </div>
 
               {/* Q3: What is the name of the resident you are visiting? */}
-              <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row  gap-2">
+              <div className="mb-3 mb-md-5 d-flex flex-column flex-sm-row  gap-2">
                 <div
                   className="txt-primary w-60 responsive-label-text"
                   style={{ whiteSpace: "nowrap" }}
@@ -592,7 +592,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               </div>
 
               {/* Q4: Is this your first visit to Trinity Village Care Center */}
-              <div className="mb-3 mb-md-5 d-flex flex-column flex-md-row  gap-2">
+              <div className="mb-3 mb-md-5 d-flex flex-column flex-sm-row  gap-2">
                 <div
                   className="txt-primary responsive-label-text"
                   style={{ whiteSpace: "nowrap" }}
@@ -602,7 +602,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                 <div class="w-100">
                   <div class="w-50 row">
                     <div
-                      class="col-md-6 d-flex gap-3 align-items-center"
+                      class="col-sm-6 d-flex gap-3 align-items-center"
                       data-bs-toggle="modal"
                       data-bs-target="#popupFirstVisit"
                     >
@@ -616,7 +616,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                       />
                       <label className="responsive-input-text ">Yes</label>
                     </div>
-                    <div class="col-md-6 d-flex gap-3 align-items-center">
+                    <div class="col-sm-6 d-flex gap-3 align-items-center">
                       <input
                         id="FirstVisit"
                         type="radio"
@@ -640,7 +640,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                 <div class="">
                   <div class="w-70 row">
                     <div
-                      class="col-md-3 d-flex gap-3 align-items-center"
+                      class="col-sm-3 d-flex gap-3 align-items-center"
                       data-bs-toggle="modal"
                       data-bs-target="#popupSymtomp"
                     >
@@ -654,7 +654,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                       />
                       <label className="responsive-input-text">Yes</label>
                     </div>
-                    <div class="col-md-3 d-flex gap-3 align-items-center">
+                    <div class="col-sm-3 d-flex gap-3 align-items-center">
                       <input
                         id="SicknessSymptom"
                         type="radio"
@@ -697,7 +697,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
           {/* Validation error message */}
           <div className="mb-3 mb-md-5 d-flex align-items-center justify-content-center gap-3">
             {error && (
-              <span className="responsive-input-text text-danger">{error}</span>
+              <span className="responsive-error-text text-danger">{error}</span>
             )}
           </div>
          

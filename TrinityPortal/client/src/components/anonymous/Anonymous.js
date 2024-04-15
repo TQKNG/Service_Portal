@@ -159,7 +159,7 @@ const Anonymous = () => {
           </div>
 
           {/* Welcome Panel */}
-          <div className="w-100 d-flex flex-row align-items-center justify-content-between p-3 p-md-5">
+          <div className="w-100 d-flex flex-row align-items-center justify-content-between p-3 p-sm-5">
             <h1
               className="w-100 text-left responsive-signinout-text"
               style={{

@@ -239,9 +239,19 @@ h6 {
   font-size: clamp(0.8rem, 2vw, 1.3rem)
 }
 
+.responsive-error-text {
+  font-size: clamp(0.8rem, 2vw, 1.3rem);
+  font-weight: 900;
+}
+
 .responsive-heading {
   font-weight: 500;
   font-size: clamp(2rem, 7vw, 5rem); 
+}
+
+.responsive-confirmation-heading {
+  font-weight: 500;
+  font-size: clamp(2rem, 6vw, 5rem); 
 }
 
 .responsive-signinout-text {

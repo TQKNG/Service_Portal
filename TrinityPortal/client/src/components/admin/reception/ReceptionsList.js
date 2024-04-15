@@ -39,7 +39,7 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
       console.log("Test converted Data", data);
 
       newRecord.InOutID = 99;
-      newRecord.FullName = convertedData.FirstName + convertedData.LastName;
+      newRecord.FullName = convertedData.FirstName + " "+ convertedData.LastName;
 
       if(convertedData.InOut){
         newRecord.ClockIn = new Date().toISOString();

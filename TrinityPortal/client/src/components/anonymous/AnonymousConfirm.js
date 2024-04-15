@@ -6,7 +6,7 @@ const AnonymousConfirm = ({ isSignedIn, isSignedOut }) => {
       <div className="w-100 d-flex flex-column justify-content-center align-item-center p-5 gap-4">
         {isSignedIn && (
           <>
-            <h4 className="txt-primary responsive-heading text-center">
+            <h4 className="txt-primary responsive-confirmation-heading text-center">
               Have a wonderful visit !!!
             </h4>
             <div className="responsive-disclaimer-text text-center">
@@ -18,7 +18,7 @@ const AnonymousConfirm = ({ isSignedIn, isSignedOut }) => {
 
         {isSignedOut && (
           <>
-            <h4 className="txt-primary responsive-heading text-center">
+            <h4 className="txt-primary responsive-confirmation-heading text-center">
               Thank you for your visit !!!
             </h4>
             <div className="responsive-disclaimer-text text-center">

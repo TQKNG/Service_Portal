@@ -63,7 +63,7 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
         InOut: false,
       };
       // Fetch API to server
-      fetch(`https://rj4442tq-5000.use.devtunnels.ms/api/receptions`, {
+      fetch(`https://b9dk2wds-3000.use.devtunnels.ms/api/receptions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -162,7 +162,7 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
               </div> */}
 
               {/* Full Name */}
-              <div className="w-100 d-flex mb-3 mb-md-5 gap-4 flex-column flex-md-row justify-content-between">
+              <div className="w-100 d-flex mb-3 mb-md-5 gap-4 flex-column flex-sm-row justify-content-between">
                 {/* First Name */}
                 <div
                   className="w-100 d-flex justify-content-between gap-3"
