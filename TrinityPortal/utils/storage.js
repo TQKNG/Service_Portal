@@ -75,10 +75,16 @@ async function storeJson(subloc, data, fileName) {
 async function retrieveImage(subloc, id) {
   // Define the directory for uploaded images
   const uploadDir = path.join(process.cwd(), `/assets/${subloc}`);
+
+  
+  // Format filename with delimiter
+  let formattedFileName = removeDelimiter(id);
+  console.log('Test ID2', formattedFileName)
+
   // Ensure the directory exists
   fs.mkdirSync(uploadDir, { recursive: true });
 
-  const fileName = id + ".png";
+  const fileName = formattedFileName + ".png";
 
   const imagePath = path.join(uploadDir, fileName);
 
@@ -92,10 +98,14 @@ async function retrieveImage(subloc, id) {
 async function retrieveAudio(subloc, id) {
   // Define the directory for uploaded images
   const uploadDir = path.join(process.cwd(), `/assets/${subloc}`);
+
+  // Format filename with delimiter
+  let formattedFileName = removeDelimiter(id, "_");
+
   // Ensure the directory exists
   fs.mkdirSync(uploadDir, { recursive: true });
 
-  const fileName = id + ".mp3";
+  const fileName = formattedFileName + ".mp3";
 
   const audioPath = path.join(uploadDir, fileName);
 
