@@ -25,14 +25,22 @@ const BookForm = ({
   const [formData, setFormData] = useState({
     BookID: book === null ? "" : book.BookID !== undefined ? book.BookID : "",
     Name: book === null ? "" : book.Name !== undefined ? book.Name : "",
-    BookData:
-      book === null ? "" : book.BookPath !== undefined ? book.BookData : "",
-    // BookLogo:
-    //   book === null ? "" : book.BookLogo !== undefined ? book.BookLogo : "",
+    BookText:
+      book === null ? "" : book.BookText !== undefined ? book.BookText : "",
+    BookCover:
+      book === null ? "" : book.BookCover !== undefined ? book.BookCover : "",
+    TextCount: book === null ? 0 : book.TextCount !== undefined ? book.TextCount : 0,  
   });
 
   const onChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const newFormData = { ...formData, [e.target.id]: e.target.value };
+
+    if(e.target.id === 'BookText') {
+      // Count words in the text
+      newFormData.TextCount = countWords(e.target.value);
+    }
+
+    setFormData(newFormData);
   };
 
   const onSubmit = (e) => {
@@ -43,14 +51,14 @@ const BookForm = ({
 
       console.log("Test formData", formData);
 
-      addBook(formData).then(() => {
-        setFormData({
-          BookID: "",
-          Name: "",
-          BookData: "",
-          // BookLogo: "",
-        });
-      });
+      // addBook(formData).then(() => {
+      //   setFormData({
+      //     BookID: "",
+      //     Name: "",
+      //     BookCover: "",
+      //     BookText: "",
+      //   });
+      // });
     } else if (location.pathname.includes("edit")) {
       // console.log("edit");
       // updateBook(BookID, formData);
@@ -59,7 +67,13 @@ const BookForm = ({
     }
   };
 
-  const { Name, BookID, BookData } = formData;
+  // Count words in the text
+  const countWords = (text) => {
+    const words = text.trim().split(/\s+/);
+    return words.filter((word) => word !== "").length;
+  };
+
+  const { Name, BookID, BookCover, BookText } = formData;
 
   if (book == null && location.pathname.includes("edit")) {
     hist.push("/admin/books");
@@ -114,18 +128,55 @@ const BookForm = ({
             onChange={(e) => onChange(e)}
           />
         </div>
+
         <div className="mb-3">
-          <div className="txt-primary">Joke Text</div>
+          <div className="txt-primary">Book Text</div>
           <textarea
             type="text"
             className="form-control rounded"
             rows="4"
             cols="50"
-            id="JokeText"
-            placeholder="Enter Joke Text..."
+            id="BookText"
+            placeholder="Enter Book Text..."
             required
-            value={""}
+            value={BookText}
             onChange={(e) => onChange(e)}
+          />
+          <span>Word Count: {formData.TextCount}</span>
+        </div>
+
+        <div className="mb-3">
+          <div className="d-flex flex-column align-items-start gap-2">
+            <div className="txt-primary">Book Cover {'(Optional)'}</div>
+            {/* Display of the image */}
+            {formData.BookCover !== "" && (
+              <img
+                src={formData.BookCover}
+                alt=""
+                srcset=""
+                width="200px"
+              />
+            )}
+          </div>
+          <FileUpload
+            instructionText={
+              "Drag and drop book image file here, or click to browse book image"
+            }
+            imgSrc={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="50"
+                viewBox="0 -960 960 960"
+                width="50"
+                fill="#1ba587"
+              >
+                <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h360v80H200v560h560v-360h80v360q0 33-23.5 56.5T760-120H200Zm480-480v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80ZM240-280h480L570-480 450-320l-90-120-120 160Zm-40-480v560-560Z" />
+              </svg>
+            }
+            module={"book"}
+            setFormData={setFormData}
+            formData={formData}
+            fieldType={"image"}
           />
         </div>
 

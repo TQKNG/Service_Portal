@@ -79,7 +79,6 @@ async function retrieveImage(subloc, id) {
   
   // Format filename with delimiter
   let formattedFileName = removeDelimiter(id);
-  console.log('Test ID2', formattedFileName)
 
   // Ensure the directory exists
   fs.mkdirSync(uploadDir, { recursive: true });

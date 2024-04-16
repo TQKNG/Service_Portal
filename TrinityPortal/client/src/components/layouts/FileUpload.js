@@ -86,12 +86,12 @@ const FileUpload = ({
               SongData: reader.result,
             }));
           } else if (
-            acceptedFiles[0].type.includes("pdf") &&
+            acceptedFiles[0].type.includes("image") &&
             module === "book"
           ) {
             setFormData((prevFormData) => ({
               ...prevFormData,
-              BookData: reader.result,
+              BookCover: reader.result,
             }));
           }
         };
