@@ -30,9 +30,6 @@ exports.protect = asyncHandler(async (req, res, next) => {
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     
-    if(decoded.UserEmail === "robot1@globaldws.com"){
-      next();
-    }
     let config = {
       user: process.env.SQL_USER,
       password: process.env.SQL_PASSWORD,
@@ -42,58 +39,19 @@ exports.protect = asyncHandler(async (req, res, next) => {
         encrypt: true,
       },
     };
+
+
     let pool = await sql.connect(config);
     let user = await pool
       .request()
       .input("UserID", sql.Int, decoded.userId)
-      .input("schoolID", sql.Int, -1)
-      .input("UserTypeID", sql.Int, -1)
-      .input("Email", sql.VarChar(250), -1)
-      .input("schoolIds", sql.VarChar(sql.Max), -1)
-      .execute("Main.Users_Load");
+      .execute("dbo.Users_Load");
 
     user = user.recordset[0];
 
-    if (user.UserTypeID === 1) {
-      let classrooms = await pool
-        .request()
-        .input(
-          "ClassroomID",
-          sql.Int,
-          req.body.ClassroomID !== undefined ? req.body.ClassroomID : -1
-        )
-        .execute("Main.Classrooms_Load");
-
-      classrooms = classrooms.recordset.filter(
-        (item) => item.TeacherID === user.UserID
-      );
-      console.log(classrooms);
-      let students = [];
-      for (let i = 0; i < classrooms.length; i++) {
-        console.log(classrooms[i].GradeID);
-        let s = await pool
-          .request()
-          .input("ClassroomID", sql.Int, classrooms[i].ClassroomID)
-          .input("StudentID", sql.Int, -1)
-          .execute("Main.ClassroomStudents_Load");
-
-        for (let j = 0; j < s.recordset.length; j++) {
-          s.recordset[j] = {
-            ...s.recordset[j],
-            Grade: classrooms[i].Grade,
-          };
-        }
-
-        students = [...students, ...s.recordset];
-      }
-      students = [...new Map(students.map((v) => [v.StudentID, v])).values()];
-
-      user = { ...user, Students: students };
-    }
-
     req.user = user;
 
-    delete req.user.Password;
+    delete req.user.password;
 
     next();
   } catch (error) {

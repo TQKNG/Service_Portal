@@ -60,23 +60,15 @@ exports.login = async (req, res) => {
     //   }
     //   sendTokenResponse(user, 200, res);
     // }
+    console.log("Test body", req.body)
 
-    // // Normal User Authentication
-    // const pool = await poolPromise;
-    // let results = await pool
-    //   .request()
-    //   .input("email", sql.VarChar(256), req.body.email)
-    //   .execute("dbo.Users_Load");
-
+    // Normal User Authentication
     const pool = await poolPromise;
     let results = await pool
       .request()
-      .input("UserID", sql.Int, -1)
-      .input("SchoolID", sql.Int, -1)
-      .input("UserTypeID", sql.Int, -1)
-      .input("Email", sql.VarChar(250), req.body.email)
-      .input("schoolIds", sql.VarChar(sql.Max), -1)
-      .execute("Main.Users_Load");
+      .input("email", sql.VarChar(256), req.body.email)
+      .execute("dbo.Users_Load");
+
 
     console.log(await encrypt(req.body.email));
 
@@ -95,7 +87,7 @@ exports.login = async (req, res) => {
         .json({ errors: [{ message: "User not Authorized" }] });
     }
 
-    const isMatch = await bcrypt.compare(req.body.password, user.Password);
+    const isMatch = await bcrypt.compare(req.body.password, user.password);
 
     if (!isMatch) {
       return res

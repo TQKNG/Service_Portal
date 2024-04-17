@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server",
     "server": "nodemon server",
-    "client": "npm start --prefix client",
+    "client": "set PORT=3001 && npm start --prefix client",
     "generate-api-docs": "swagger-jsdoc -d ./controllers/Song.js -o ./swagger.json",
     "dev": "concurrently \"npm run server\"  \"npm run client\"",
     "azure": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build",

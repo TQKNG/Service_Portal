@@ -11,10 +11,10 @@ import Reset from "./Reset";
 
 const Auth = ({ match, user }) => {
   const location = useLocation();
-  if (user !== null && user.UserTypeID >= 3) {
+  if (user !== null && user.roleID >= 3) {
     return <Redirect to="/admin/dashboard" />;
   }
-  if (user !== null && user.UserTypeID === 1) {
+  if (user !== null && user.roleID === 1) {
     return <Redirect to="/admin/result" />;
   }
   
