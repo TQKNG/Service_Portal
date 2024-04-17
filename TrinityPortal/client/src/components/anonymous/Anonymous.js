@@ -10,7 +10,7 @@ import AnonymousLogout from "./AnonymousLogout";
 const Anonymous = () => {
   const location = useLocation();
   const [device, setDetectDevice] = useState("Unknown");
-  const [isOutbreak, setIsOutbreak] = useState(false);
+  const [isOutbreak, setIsOutbreak] = useState(true);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isSignedOut, setIsSignedOut] = useState(false);
 
