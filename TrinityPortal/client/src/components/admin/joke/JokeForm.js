@@ -136,6 +136,7 @@ const JokeForm = ({
             {formData.JokeData !== "" && (
               <img
                 src={formData.JokeData}
+                className="mb-3"
                 alt=""
                 srcset=""
                 width="200px"
