@@ -22,7 +22,6 @@ const TriviaForm = ({
 }) => {
   const hist = useHistory();
   const location = useLocation();
-  const [checked, setChecked] = useState(false);
 
   const [formData, setFormData] = useState({
     QuestionID:
@@ -68,7 +67,7 @@ const TriviaForm = ({
     if (e.target.id.includes("isCorrect")) {
       let index = e.target.id.split(" - ")[1];
       let temp = formData.Answers;
-      temp[index].isCorrect = e.target.value;
+      temp[index].isCorrect = Boolean(e.target.value);
       setFormData({ ...formData, Answers: temp });
     }
   };
@@ -81,16 +80,16 @@ const TriviaForm = ({
 
       console.log("Test formData", formData);
 
-      // addTrivia(formData).then(() => {
-      //   setFormData({
-      //     QuestionID: "",
-      //     QuestionText: "",
-      //     Answers: null,
-      //     CorrectAnswer: null,
-      //   });
-      //   hist.push("/admin/trivia");
-      //   clearTrivia();
-      // });
+      addTrivia(formData).then(() => {
+        setFormData({
+          QuestionID: "",
+          QuestionText: "",
+          Answers: null,
+          CorrectAnswer: null,
+        });
+        hist.push("/admin/trivia");
+        clearTrivia();
+      });
     } else if (location.pathname.includes("edit")) {
       // console.log("edit");
       // updateTrivia(QuestionID, formData);
@@ -154,16 +153,6 @@ const TriviaForm = ({
             onChange={(e) => onChange(e)}
           />
         </div>
-        <div className="mb-3">
-          <div className="txt-primary">Answer Type</div>
-          <div style={{ maxWidth: "200px" }}>
-            <Toogle
-              checked={checked}
-              setChecked={setChecked}
-              labels={["Text", "Image"]}
-            />
-          </div>
-        </div>
 
         <div className="mb-3">
           <div className="d-flex flex-column gap-2">
@@ -179,8 +168,6 @@ const TriviaForm = ({
                   onChange={(e) => onChange(e)}
                   className="form-check-input"
                 />
-                {
-                  !checked?(
                     <input
                     type="text"
                     id={`Answers - ${index}`}
@@ -188,17 +175,6 @@ const TriviaForm = ({
                     onChange={(e) => onChange(e)}
                     className="form-control rounded"
                   />
-                  ):(
-                    <input
-                    type="file"
-                    id={`Answers - ${index}`}
-                    value={item?.AnswerText}
-                    onChange={(e) => onChange(e)}
-                    className="form-control rounded"
-                  />
-
-                  )
-                }
               </div>
             ))}
           </div>
