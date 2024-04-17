@@ -69,14 +69,14 @@ const Anonymous = () => {
           </div>
 
           {/* Warning text */}
-          <div className="w-80 d-flex flex-column mb-5">
+          <div className="w-80 d-flex flex-column mb-4">
             <h5 className="responsive-sub-text">Please sanitize your hands.</h5>
             <h5 className="responsive-sub-text">Masks are recommended</h5>
             <h5 className="responsive-sub-text">but not mandatory.</h5>
           </div>
 
           {/* Sign In Sign Out Buttons */}
-          <div className="w-100 d-flex gap-0 justify-content-around mb-1 mb-md-5">
+          <div className="w-100 d-flex gap-0 justify-content-around mb-3 mb-sm-3">
             {/* In */}
             <button
               className="w-30 bg-dark-green text-white btn-block btn custom-btn p-4 p-md-5 d-flex align-items-center justify-content-center"
@@ -96,7 +96,7 @@ const Anonymous = () => {
           </div>
 
           {/* QR */}
-          <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-start p-2 p-sm-3 p-lg-4 my-5">
+          <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-start p-2 p-sm-3 p-lg-4">
             <img
               src={process.env.PUBLIC_URL + `/qrForm.png`}
               alt="QR Code"
@@ -108,17 +108,17 @@ const Anonymous = () => {
           <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-end flex-grow-1">
             {isOutbreak ? (
               <>
-                <div className="d-flex responsive-disclaimer-text p-5">
-                  PLEASE READ these instructions:
-                  <br />
-                  <br />
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi
-                  quam magni eaque sint officiis unde eius nesciunt sapiente
-                  porro, voluptates perferendis est delectus tempore.
-                  Perferendis voluptatibus natus error impedit facere neque
-                  dolor minima. Porro expedita qui explicabo provident, ipsum
-                  quaerat odio nobis maiores eaque quae excepturi hic, amet
-                  similique aperiam.
+                <div className="w-80 d-flex justify-content-center align-items-center responsive-disclaimer-text my-sm-5 my-4">
+                    PLEASE READ these instructions:
+                    <br />
+                    <br />
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                    Nisi quam magni eaque sint officiis unde eius nesciunt
+                    sapiente porro, voluptates perferendis est delectus tempore.
+                    Perferendis voluptatibus natus error impedit facere neque
+                    dolor minima. Porro expedita qui explicabo provident, ipsum
+                    quaerat odio nobis maiores eaque quae excepturi hic, amet
+                    similique aperiam.
                 </div>
               </>
             ) : (
