@@ -61,7 +61,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
         >
           <IdleTimer logout={logout} />
           {/* Teacher Role */}
-          {user.UserTypeID === 1 && (
+          {user.roleID === 1 && (
             <Sidebar
               users={true}
               schools={false}
@@ -79,7 +79,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
           )}
 
           {/* Vice Principal and Principal Role */}
-          {(user.UserTypeID === 3 || user.UserTypeID === 4) && (
+          {(user.roleID === 3 || user.roleID === 4) && (
             <Sidebar
               users={true}
               schools={false}
@@ -96,7 +96,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
             />
           )}
 
-          {user.UserTypeID === 5 && (
+          {user.roleID === 5 && (
             <Sidebar
               users={true}
               schools={true}
@@ -113,7 +113,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
             />
           )}
 
-          {user.UserTypeID === 6 && (
+          {user.roleID === 6 && (
             <Sidebar
               users={true}
               schools={true}

@@ -100,16 +100,17 @@ const UsersList = ({ usersList, usersListLoading }) => {
   };
 
   const filterInput = (arr, data) => {
-    return arr.filter(
-      (item) =>
-        item.FirstName.toUpperCase().includes(data.FirstName.toUpperCase()) &&
-        item.LastName.toUpperCase().includes(data.LastName.toUpperCase()) &&
-        item.Email.toUpperCase().includes(data.Email.toUpperCase()) &&
-        (data.SchoolID === "" ? true : item.SchoolID + "" === data.SchoolID) &&
-        (data.UserTypeID === ""
-          ? true
-          : item.UserTypeID + "" === data.UserTypeID)
-    );
+    // return arr.filter(
+    //   (item) =>
+    //     item.firstName.toUpperCase().includes(data.firstName.toUpperCase()) &&
+    //     item.lastName.toUpperCase().includes(data.lastName.toUpperCase()) &&
+    //     item.Email.toUpperCase().includes(data.Email.toUpperCase()) &&
+    //     (data.SchoolID === "" ? true : item.SchoolID + "" === data.SchoolID) &&
+    //     (data.UserTypeID === ""
+    //       ? true
+    //       : item.UserTypeID + "" === data.UserTypeID)
+    // );
+    return arr
   };
 
   return (
