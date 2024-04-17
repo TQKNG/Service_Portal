@@ -49,28 +49,37 @@ const {
 
 exports.login = async (req, res) => {
   try {
-    console.log(req.body.email);
-    // Robot Service Authentication Tempo
-    if (req.body.email === "test1@globaldws.com") {
-      let user ={
-        UserID: 1,
-        FirstName: "Test",
-        LastName: "User",
-        Email: "robot1@globaldws.com"
-      }
-      sendTokenResponse(user, 200, res);
-    }
+    // console.log(req.body.email);
+    // // Robot Service Authentication Tempo
+    // if (req.body.email === "test1@globaldws.com") {
+    //   let user ={
+    //     UserID: 1,
+    //     FirstName: "Test",
+    //     LastName: "User",
+    //     Email: "robot1@globaldws.com"
+    //   }
+    //   sendTokenResponse(user, 200, res);
+    // }
 
-    // Normal User Authentication
+    // // Normal User Authentication
+    // const pool = await poolPromise;
+    // let results = await pool
+    //   .request()
+    //   .input("email", sql.VarChar(256), req.body.email)
+    //   .execute("dbo.Users_Load");
+
     const pool = await poolPromise;
     let results = await pool
       .request()
-      .input("email", sql.VarChar(256), req.body.email)
-      .execute("dbo.Users_Load");
+      .input("UserID", sql.Int, -1)
+      .input("SchoolID", sql.Int, -1)
+      .input("UserTypeID", sql.Int, -1)
+      .input("Email", sql.VarChar(250), req.body.email)
+      .input("schoolIds", sql.VarChar(sql.Max), -1)
+      .execute("Main.Users_Load");
 
     console.log(await encrypt(req.body.email));
 
-    console.log("teste results", results)
 
     let user = results.recordset[0];
 
