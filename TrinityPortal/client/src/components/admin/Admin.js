@@ -11,28 +11,10 @@ import User from "./users/User";
 import UserForm from "./users/UserForm";
 import UserReport from "./users/UserReport";
 
-import Schools from "./schools/Schools";
-import School from "./schools/School";
-import SchoolForm from "./schools/SchoolForm";
-
-import Assessments from "./assessments/Assessments";
-import AssessmentForm from "./assessments/AssessmentForm";
-import Assessment from "./assessments/Assessment";
-
-import Results from "./results/Results";
-import Result from "./results/Result";
-
 import Dashboard from "./dashboard/Dashboard";
-import CompareDashboard from "./dashboard/CompareDashboard";
-
-import Classrooms from "./classroom/Classrooms";
-import ClassroomForm from "./classroom/ClassroomForm";
-import Classroom from "./classroom/Classroom";
-import ClassroomReport from "./classroom/ClassroomReport";
 import IdleTimer from "../layouts/IdleTimer";
 
 import { logout } from "../../actions/auth";
-import ResultFinalize from "./results/ResultFinalize";
 import Receptions from "./reception/Receptions";
 import Songs from "./song/Songs";
 import Books from "./book/Books";
@@ -130,25 +112,8 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
             />
           )}
 
-          {location.pathname === "/admin/result" && <Results />}
-
           {location.pathname === "/admin/dashboard" && <Dashboard />}
-          {location.pathname === "/admin/dashboard/compare" && (
-            <CompareDashboard />
-          )}
-          {location.pathname.includes("/admin/result/resultId=") && (
-            <Result resultId={match.params.resultId} />
-          )}
-
-          {location.pathname === "/admin/classrooms" && <Classrooms />}
-          {location.pathname === "/admin/classroom/add" && <ClassroomForm />}
-          {location.pathname === "/admin/classroom/edit" && <ClassroomForm />}
-          {location.pathname === "/admin/classroom/report" && (
-            <ClassroomReport />
-          )}
-          {location.pathname.includes("/admin/classroom/classroomId=") && (
-            <Classroom classroomId={match.params.classroomId} />
-          )}
+         
 
           {location.pathname === "/admin/users" && <Users />}
           {location.pathname === "/admin/user/add" && <UserForm />}
@@ -157,23 +122,6 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
           {location.pathname.includes("/admin/user/userId=") && (
             <User userId={match.params.userId} />
           )}
-          {location.pathname === "/admin/schools" && <Schools />}
-          {location.pathname === "/admin/school/add" && <SchoolForm />}
-          {location.pathname === "/admin/school/edit" && <SchoolForm />}
-          {location.pathname.includes("/admin/school/schoolId=") && (
-            <School schoolId={match.params.schoolId} />
-          )}
-          {location.pathname === "/admin/assessments" && <Assessments />}
-          {location.pathname === "/admin/assessment/add" && <AssessmentForm />}
-          {location.pathname === "/admin/assessment/edit" && <AssessmentForm />}
-          {location.pathname.includes("/admin/assessment/assessmentId=") && (
-            <Assessment
-              assessmentId={match.params.assessmentId}
-              categoryId={match.params.categoryId}
-            />
-          )}
-          {location.pathname === "/admin/classes" && <p>1</p>}
-          {location.pathname === "/admin/grades" && <p>1</p>}
 
           {/* Reception */}
           {location.pathname === "/admin/reception" && <Receptions />}

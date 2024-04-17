@@ -79,24 +79,25 @@ const UsersList = ({ usersList, usersListLoading }) => {
   };
 
   const searchInput = (arr, word) => {
-    return arr.filter(
-      (item) =>
-        (
-          item.FirstName.toUpperCase() +
-          " " +
-          item.LastName.toUpperCase()
-        ).includes(word.toUpperCase()) ||
-        (parseInt(item.UserTypeID) === 2
-          ? false
-          : item.Email.toUpperCase().includes(word.toUpperCase())) ||
-        item.UserType.toUpperCase().includes(word.toUpperCase()) ||
-        (item.SchoolName === null
-          ? false
-          : item.SchoolName.toUpperCase().includes(word.toUpperCase())) ||
-        (item.AlternativeID === null
-          ? false
-          : item.AlternativeID.toUpperCase().includes(word.toUpperCase()))
-    );
+    // return arr.filter(
+    //   (item) =>
+    //     (
+    //       item.FirstName.toUpperCase() +
+    //       " " +
+    //       item.LastName.toUpperCase()
+    //     ).includes(word.toUpperCase()) ||
+    //     (parseInt(item.UserTypeID) === 2
+    //       ? false
+    //       : item.Email.toUpperCase().includes(word.toUpperCase())) ||
+    //     item.UserType.toUpperCase().includes(word.toUpperCase()) ||
+    //     (item.SchoolName === null
+    //       ? false
+    //       : item.SchoolName.toUpperCase().includes(word.toUpperCase())) ||
+    //     (item.AlternativeID === null
+    //       ? false
+    //       : item.AlternativeID.toUpperCase().includes(word.toUpperCase()))
+    // );
+    return arr
   };
 
   const filterInput = (arr, data) => {
@@ -110,7 +111,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
     //       ? true
     //       : item.UserTypeID + "" === data.UserTypeID)
     // );
-    return arr
+    return
   };
 
   return (
@@ -118,7 +119,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
       <Alert />
       <div className="d-flex w-100 align-items-center justify-content-between mb-3">
         <div className="">
-          {!usersListLoading && listSearch.length / 15 > 1 && (
+          {!usersListLoading && listSearch?.length / 15 > 1 && (
             <nav aria-label="Page navigation txt-primary">
               <ul className="pagination txt-primary">
                 {page > 1 && (
@@ -497,7 +498,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
           </div>
         ) : (
           listSearch
-            .slice(15 * (page - 1), 15 * page)
+            ?.slice(15 * (page - 1), 15 * page)
             .map((user, id) => <UserListItem user={user} key={id} />)
         )}
       </div>
