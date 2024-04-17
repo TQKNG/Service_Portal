@@ -56,9 +56,9 @@ const SongForm = ({
     } else if (location.pathname.includes("edit")) {
       console.log("edit");
       updateSong(SongID, formData);
-      hist.push("/admin/songs");
-      clearSong();
     }
+    hist.push("/admin/songs");
+    clearSong();
   };
 
   const { Name, Lyrics, SongID } = formData;
@@ -211,7 +211,7 @@ const SongForm = ({
               type="text"
               className="form-control rounded "
               id="SongID"
-              placeholder="Entersong ID..."
+              placeholder="Enter song ID..."
               value={SongID}
             />
           </div>
@@ -278,7 +278,7 @@ const SongForm = ({
               </div>
             </div>
           </div>
-          {authUser.UserTypeID === 5 && SongID !== "" && (
+          {authUser.roleID === 5 && SongID !== "" && (
             <div
               className="btn btn-danger d-flex align-items-center px-4 mx-3"
               data-bs-toggle="modal"

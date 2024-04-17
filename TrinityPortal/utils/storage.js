@@ -2,6 +2,7 @@ const fs = require("fs");
 const { exec } = require('child_process');
 const os = require("os");
 const path = require("path");
+require('dotenv').config();
 const {addDelimiter, removeDelimiter} = require('./TextFormatter');
 
 
@@ -10,13 +11,14 @@ async function storeImage(subloc, data, fileName) {
   const uploadDir = path.join(process.cwd(), `/assets/${subloc}`);
 
   // Format filename with delimiter
-  let formattedFileName = addDelimiter(fileName, "_");
+  // let formattedFileName = addDelimiter(fileName, "_");
 
   // Ensure the directory exists
   fs.mkdirSync(uploadDir, { recursive: true });
 
   // Define the path for the new image
-  const dataPath = path.join(uploadDir, `${formattedFileName}.png`);
+  // const dataPath = path.join(uploadDir, `${formattedFileName}.png`);
+  const dataPath = path.join(uploadDir, `${fileName}.png`);
 
   //Convert to base 64
   let base64Data = data.split(";base64,").pop();
@@ -27,6 +29,7 @@ async function storeImage(subloc, data, fileName) {
       console.log("Image file created successfully");
     }
   });
+  return dataPath;
 }
 
 async function storeAudio(subloc, data, fileName) {
@@ -34,13 +37,14 @@ async function storeAudio(subloc, data, fileName) {
   const uploadDir = path.join(process.cwd(), `/assets/${subloc}`);
 
    // Format filename with delimiter
-   let formattedFileName = addDelimiter(fileName, "_");
+  //  let formattedFileName = addDelimiter(fileName, "_");
 
   // Ensure the directory exists
   fs.mkdirSync(uploadDir, { recursive: true });
 
   // Define the path for the new image
-  const dataPath = path.join(uploadDir, `${formattedFileName}.mp3`);
+  // const dataPath = path.join(uploadDir, `${formattedFileName}.mid`);
+  const dataPath = path.join(uploadDir, `${fileName}.mid`);
 
   //Convert to base 64
   let base64Data = data.split(";base64,").pop();
@@ -51,6 +55,8 @@ async function storeAudio(subloc, data, fileName) {
       console.log("Audio file created successfully");
     }
   });
+
+  return dataPath;
 }
 
 async function storeJson(subloc, data, fileName) {
@@ -77,18 +83,19 @@ async function retrieveImage(subloc, id) {
   const uploadDir = path.join(process.cwd(), `/assets/${subloc}`);
 
   // Format filename with delimiter
-  let formattedFileName = removeDelimiter(id);
+  // let formattedFileName = removeDelimiter(id);
 
   // Ensure the directory exists
   fs.mkdirSync(uploadDir, { recursive: true });
 
-  const fileName = formattedFileName + ".png";
+  // const fileName = formattedFileName + ".png";
+  const fileName = id + ".png";
 
   const imagePath = path.join(uploadDir, fileName);
 
-  // const url = `https://b9dk2wds-5000.use.devtunnels.ms/assets/${subloc}/${fileName}`;
+  const url = `https://b9dk2wds-5001.use.devtunnels.ms/assets/${subloc}/${fileName}`;
 
-  const url = `http://localhost:5000/assets/${subloc}/${fileName}`;
+  // const url = `${process.env.BACKEND_BASE_URL}/assets/${subloc}/${fileName}`;
 
   let img = fs.readFileSync(imagePath, { encoding: "base64" });
 
@@ -100,18 +107,20 @@ async function retrieveAudio(subloc, id) {
   const uploadDir = path.join(process.cwd(), `/assets/${subloc}`);
 
   // Format filename with delimiter
-  let formattedFileName = removeDelimiter(id, "_");
+  // let formattedFileName = removeDelimiter(id, "_");
+
 
   // Ensure the directory exists
   fs.mkdirSync(uploadDir, { recursive: true });
 
-  const fileName = formattedFileName + ".mp3";
+  // const fileName = formattedFileName + ".mid";
+  const fileName = id + ".mid";
 
   const audioPath = path.join(uploadDir, fileName);
 
-  // const url = `https://b9dk2wds-5000.use.devtunnels.ms/assets/SongAudio/${fileName}`;
+  const url = `https://b9dk2wds-5001.use.devtunnels.ms/assets/SongAudio/${fileName}`;
 
-  const url = `http://localhost:5000/assets/assets/${subloc}/${fileName}`;
+  // const url = `${process.env.BACKEND_BASE_URL}/assets/${subloc}/${fileName}`;
 
   let audio = fs.readFileSync(audioPath, { encoding: "base64" });
 
@@ -200,7 +209,19 @@ async function convertPDFtoEPUB(base64Data, dataPath) {
   });
 }
 
-async function convertEPUBtoPDF(data) {}
+async function changeFileName(oldPath, newPath) {
+  return new Promise((resolve, reject) => {
+    fs.rename(oldPath, newPath, (err) => {
+      if (err) {
+        console.error("Error renaming file:", err);
+        reject(err);
+      } else {
+        resolve(newPath);
+      }
+    });
+  });
+
+}
 
 module.exports = {
   storeImage,
@@ -212,5 +233,4 @@ module.exports = {
   storeEPUB,
   retrieveEPUB,
   convertPDFtoEPUB,
-  convertEPUBtoPDF,
 };

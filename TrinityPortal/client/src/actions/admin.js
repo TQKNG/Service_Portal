@@ -636,12 +636,12 @@ export const loadSongsList =
     }
   };
 
-export const updateSong = (schoolId, formData) => async (dispatch) => {
+export const updateSong = (songID, formData) => async (dispatch) => {
   try {
-    // const result = await api.put(`/schools/${schoolId}`, formData);
-    // console.log("test result", result)
-    // dispatch(loadSchoolsList());
-    // dispatch(setAlert("School updated Successfully", "success"));
+    const result = await api.put(`/songs/${songID}`, formData);
+    console.log("test result", result)
+    dispatch(loadSongsList());
+    dispatch(setAlert("Song updated Successfully", "success"));
   } catch (err) {
     console.log(err);
     const errors = err.response.data.errors;
@@ -659,7 +659,7 @@ export const updateSong = (schoolId, formData) => async (dispatch) => {
 export const addSong = (formData) => async (dispatch) => {
   try {
     await api.post("/songs", formData);
-    // dispatch(loadSchoolsList());
+    dispatch(loadSongsList());
     dispatch(setAlert("Song Added Successfully", "success"));
   } catch (err) {
     console.log(err);
@@ -675,11 +675,11 @@ export const addSong = (formData) => async (dispatch) => {
   }
 };
 
-export const deleteSong = (schoolId) => async (dispatch) => {
+export const deleteSong = (songID) => async (dispatch) => {
   try {
-    // await api.delete(`/schools/${schoolId}`);
-    // dispatch(loadSchoolsList());
-    // dispatch(setAlert("School Deleted Successfully", "info"));
+    await api.put(`/songs/${songID}`);
+    dispatch(loadSongsList());
+    dispatch(setAlert("Song Deleted Successfully", "info"));
   } catch (error) {
     console.log(error);
     const errors = error.response.data.errors;

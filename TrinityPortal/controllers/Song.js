@@ -7,7 +7,6 @@ const {
 } = require("../utils/storage");
 const { poolPromise } = require("../config/db");
 
-
 /**
  * @openapi
  * /api/songs:
@@ -61,11 +60,49 @@ exports.addSong = async (req, res) => {
     if (req.body) {
       const { Name, Lyrics, SongData, SongLogo } = req.body;
       // Create new song on Database
+      const pool = await poolPromise;
+
+      // Check if songs with the same name already exist
+      const results = await pool
+        .request()
+        .input("songName", Name)
+        .execute("dbo.Songs_Load");
+
+      if (results.recordset.length > 0) {
+        return res
+          .status(400)
+          .json({ success: false, error: "Song already exists" });
+      }
+
+      // Insert new song into database
+      let record = await pool
+        .request()
+        .input("songName", Name)
+        .input("songPath", "")
+        .input("imagePath", "")
+        .input("lyrics", Lyrics)
+        .execute("dbo.Songs_Insert");
+
+
+      let newlyCreatedID = record.recordset[0].singSongID;
 
       // Save the song data and song logo to server file system
-      await storeImage("SongLogo", SongLogo, Name);
-      await storeAudio("SongAudio", SongData, Name);
+      const imgPath = await storeImage("SongLogo", SongLogo, newlyCreatedID);
+      const songPath = await storeAudio("SongAudio", SongData, newlyCreatedID);
+
+      if (!imgPath || !songPath) {
+        return res.status(500).json({ success: false, error: "Server Error" });
+      }
+      // Update the path for new song into database
+      await pool
+        .request()
+        .input("singSongID", newlyCreatedID)
+        .input("songPath", songPath)
+        .input("imagePath", imgPath)
+        .execute("dbo.Songs_Update");
     }
+
+    // Send a message to the WebSocket server
     sendWebSocketMessage({ type: "dataReceived", data: req.body });
 
     res.status(200).json({ success: true });
@@ -130,30 +167,99 @@ exports.getSongs = async (req, res) => {
 
     results = await pool.request().execute("dbo.Songs_Load");
 
-    if(results.recordset.length === 0) {
+    if (results.recordset.length === 0) {
       return res.status(200).json({ success: true, data: [] });
     }
 
-
-
     // Map over data and return an array of promises
-    const promises = data.map(async (item) => {
-      const logo = await retrieveImage("SongLogo", item.Name);
-      const audio = await retrieveAudio("SongAudio", item.Name);
+    const promises = results.recordset.map(async (item) => {
+      let audio = "";
+      let logo = "";
+      if (item.songPath !== "") {
+        audio = await retrieveAudio("SongAudio", item.singSongID);
+      }
 
-      // Assign retrieved values to item properties
+      if (item.imagePath !== "") {
+        logo = await retrieveImage("SongLogo", item.singSongID);
+      }
+
+      // Format json format for robot
+      item.SongID = item.singSongID;
+      item.Name = item.songName;
+      item.Lyrics = item.lyrics;
       item.SongLogo = logo;
       item.SongData = audio;
+
+      delete item.singSongID;
+      delete item.songName;
+      delete item.songPath;
+      delete item.imagePath;
+      delete item.isDeleted;
+      delete item.mediaType;
+      delete item.lyrics;
     });
 
     // Wait for all promises to resolve
     await Promise.all(promises);
 
+    console.log();
+
     // Once all asynchronous operations are complete, send the response
     res.status(200).json({
       success: true,
-      data
+      data: results.recordset,
     });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: "Server Error" });
+  }
+};
+
+// @route   PUT /api/school/:schoolId
+// @desc    Update School
+// @access  public
+exports.updateSong = async (req, res) => {
+  try {
+    if (req.body) {
+      const { SongID, Name, Lyrics, SongData, SongLogo } = req.body;
+
+      const pool = await poolPromise;
+
+      if(SongData !== ""){
+        var songPath = await storeAudio("SongAudio", SongData, SongID);
+      }
+
+      if(SongLogo !== ""){
+        var imgPath = await storeImage("SongLogo", SongLogo, SongID);
+      }
+
+      await pool
+        .request()
+        .input("singSongID", SongID)
+        .input("songName", Name)
+        .input("songPath", songPath)
+        .input("imagePath", imgPath)
+        .input("lyrics", Lyrics)
+        .execute("dbo.Songs_Update");
+    }
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: "Server Error" });
+  }
+};
+
+
+exports.deleteSong = async (req, res) => {
+  try {
+    const pool = await poolPromise;
+    const results = await pool
+      .request()
+      .input("singSongID", sql.Int, req.params.songID)
+      .execute("dbo.Songs_Delete");
+
+    res.status(200).json({ success: true });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Server Error" });
