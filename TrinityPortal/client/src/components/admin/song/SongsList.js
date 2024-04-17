@@ -180,13 +180,19 @@ const SongsList = ({ songsList, songListLoading }) => {
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
-        ) : (
-          listSearch
-            .slice(15 * (page - 1), 15 * page)
-            .map((song, id) => (
-              <SongListItem song={song} key={id} />
-            ))
-        )}
+        ) : 
+          songsList.length === 0 ? (
+            <div className="d-flex justify-content-center align-items-center h-100">
+              <div className="txt-primary">No Songs Found</div>
+            </div>
+          ) : (
+            listSearch
+              .slice(15 * (page - 1), 15 * page)
+              .map((song, id) => (
+                <SongListItem song={song} key={id} />
+              ))
+          )
+       }
       </div>
     </div>
   );

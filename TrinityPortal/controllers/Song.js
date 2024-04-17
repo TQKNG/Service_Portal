@@ -5,6 +5,8 @@ const {
   retrieveImage,
   retrieveAudio,
 } = require("../utils/storage");
+const { poolPromise } = require("../config/db");
+
 
 /**
  * @openapi
@@ -123,50 +125,16 @@ exports.addSong = async (req, res) => {
 
 exports.getSongs = async (req, res) => {
   try {
-    let data = [
-      {
-        SongID: 1,
-        Name: "Alan Jackson",
-        Lyrics: "Lyrics for Midnight Serenade",
-        SongLogo: "",
-        SongData: "",
-      },
-      {
-        SongID: 2,
-        Name: "Folk Music",
-        Lyrics: "Lyrics for Echoes of Tomorrow",
-        SongLogo: "",
-        SongData: "",
-      },
-      {
-        SongID: 3,
-        Name: "Old Fashion",
-        Lyrics: "Lyrics for Whispers in the Wind",
-        SongLogo: "",
-        SongData: "",
-      },
-      {
-        SongID: 4,
-        Name: "Top Along",
-        Lyrics: "Lyrics for Starlit Melodies",
-        SongLogo: "",
-        SongData: "",
-      },
-      {
-        SongID: 5,
-        Name: "Amazing Grace",
-        Lyrics: "Lyrics for Amazing Grace",
-        SongLogo: "",
-        SongData: "",
-      },
-      {
-        SongID: 6,
-        Name: "After The Ball",
-        Lyrics: "Lyrics for After The Ball",
-        SongLogo: "",
-        SongData: "",
-      },
-    ];
+    const pool = await poolPromise;
+    let results;
+
+    results = await pool.request().execute("dbo.Songs_Load");
+
+    if(results.recordset.length === 0) {
+      return res.status(200).json({ success: true, data: [] });
+    }
+
+
 
     // Map over data and return an array of promises
     const promises = data.map(async (item) => {
