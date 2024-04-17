@@ -152,7 +152,7 @@ app.use('/assets/SongLogo', express.static(path.join(__dirname, 'assets/SongLogo
 
 app.use('/assets/SongAudio', express.static(path.join(__dirname, 'assets/SongAudio')));
 
-app.use('/assets/BookData', express.static(path.join(__dirname, 'assets/BookData')));
+app.use('/assets/BookCover', express.static(path.join(__dirname, 'assets/BookCover')));
 
 app.use('/assets/JokeData', express.static(path.join(__dirname, 'assets/JokeData')));
 

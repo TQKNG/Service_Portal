@@ -76,7 +76,6 @@ async function retrieveImage(subloc, id) {
   // Define the directory for uploaded images
   const uploadDir = path.join(process.cwd(), `/assets/${subloc}`);
 
-  
   // Format filename with delimiter
   let formattedFileName = removeDelimiter(id);
 
@@ -87,7 +86,9 @@ async function retrieveImage(subloc, id) {
 
   const imagePath = path.join(uploadDir, fileName);
 
-  const url = `https://b9dk2wds-5000.use.devtunnels.ms/assets/${subloc}/${fileName}`;
+  // const url = `https://b9dk2wds-5000.use.devtunnels.ms/assets/${subloc}/${fileName}`;
+
+  const url = `http://localhost:5000/assets/${subloc}/${fileName}`;
 
   let img = fs.readFileSync(imagePath, { encoding: "base64" });
 
@@ -108,7 +109,9 @@ async function retrieveAudio(subloc, id) {
 
   const audioPath = path.join(uploadDir, fileName);
 
-  const url = `https://b9dk2wds-5000.use.devtunnels.ms/assets/SongAudio/${fileName}`;
+  // const url = `https://b9dk2wds-5000.use.devtunnels.ms/assets/SongAudio/${fileName}`;
+
+  const url = `http://localhost:5000/assets/assets/${subloc}/${fileName}`;
 
   let audio = fs.readFileSync(audioPath, { encoding: "base64" });
 
@@ -163,7 +166,7 @@ async function retrieveEPUB(subloc, id) {
 
   const bookPath = path.join(uploadDir, fileName);
 
-  const url = `https://b9dk2wds-5000.use.devtunnels.ms/assets/BookData/${fileName}`;
+  const url = `https://b9dk2wds-5000.use.devtunnels.ms/assets/${subloc}/${fileName}`;
 
   let book = fs.readFileSync(bookPath, { encoding: "base64" });
 

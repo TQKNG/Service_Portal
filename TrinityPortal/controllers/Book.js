@@ -1,6 +1,6 @@
 const { sendWebSocketMessage } = require("../utils/webSocketUtils");
 
-const{ storeEPUB, retrieveEPUB } = require("../utils/storage");
+const{ storeImage, retrieveImage } = require("../utils/storage");
 
 /**
  * @openapi
@@ -38,12 +38,12 @@ exports.addBook = async (req, res) => {
   try {
     if(req.body){
      
-      const {Name, BookData} = req.body;
+      const {Name, BookCover} = req.body;
 
       // Create new book on Database
 
       // Save the book data to server file system
-      await storeEPUB("BookData", BookData, Name);
+      await storeImage("BookCover", BookCover, Name);
     }
     sendWebSocketMessage({ type: 'dataReceived', data: req.body});
     
@@ -102,32 +102,19 @@ exports.getBooks = async (req, res) => {
     let data = [
       {
         BookID: 1,
-        Name: "Book_AnneWithEBook",
-        BookData: "",
-      },
-      {
-        BookID: 2,
-        Name: "Classroom_of_the_Elite_Vol-2",
-        BookData: "",
-      },
-      {
-        BookID: 3,
-        Name: "Classroom_of_the_Elite_Vol-3",
-        BookData: "",
-      },
-      {
-        BookID: 4,
-        Name: "Classroom_of_the_Elite_Vol-4.5",
-        BookData: "",
+        Name: "Design of Books",
+        BookText: "Test book text 1",
+        BookCover:"",
+        TextCount:500
       },
     ];
 
     // Map over data and return an array of promises
     const promises = data.map(async (item) => {
-      const book = await retrieveEPUB("BookData", item.Name);
+      const BookCover = await retrieveImage("BookCover", item.Name);
 
       // Assign retrieved values to item properties
-      item.BookData = book;
+      item.BookCover = BookCover;
     });
 
     // Wait for all promises to resolve

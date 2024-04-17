@@ -51,14 +51,14 @@ const BookForm = ({
 
       console.log("Test formData", formData);
 
-      // addBook(formData).then(() => {
-      //   setFormData({
-      //     BookID: "",
-      //     Name: "",
-      //     BookCover: "",
-      //     BookText: "",
-      //   });
-      // });
+      addBook(formData).then(() => {
+        setFormData({
+          BookID: "",
+          Name: "",
+          BookCover: "",
+          BookText: "",
+        });
+      });
     } else if (location.pathname.includes("edit")) {
       // console.log("edit");
       // updateBook(BookID, formData);
@@ -152,6 +152,7 @@ const BookForm = ({
             {formData.BookCover !== "" && (
               <img
                 src={formData.BookCover}
+                className="mb-3"
                 alt=""
                 srcset=""
                 width="200px"
