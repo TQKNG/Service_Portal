@@ -1,6 +1,7 @@
 const { sendWebSocketMessage } = require("../utils/webSocketUtils");
 
 const{ storeImage, retrieveImage } = require("../utils/storage");
+const { splitText } = require("../utils/TextFormatter");
 
 /**
  * @openapi
@@ -38,12 +39,22 @@ exports.addBook = async (req, res) => {
   try {
     if(req.body){
      
-      const {Name, BookCover} = req.body;
+      const {Name, BookText, TextCount, BookCover} = req.body;
+
+      let bookData =  splitText(BookText, 50);
+
+      console.log("test Book Data", bookData)
 
       // Create new book on Database
 
       // Save the book data to server file system
-      await storeImage("BookCover", BookCover, Name);
+      if(BookCover && BookCover !== ""){
+        await storeImage("BookCover", BookCover, Name);
+      }
+      else{
+        console.log("No book cover found");
+      }
+   
     }
     sendWebSocketMessage({ type: 'dataReceived', data: req.body});
     
