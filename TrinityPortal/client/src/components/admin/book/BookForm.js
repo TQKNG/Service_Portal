@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import {
@@ -10,6 +10,7 @@ import {
 import Alert from "../../layouts/Alert";
 import PropTypes from "prop-types";
 import FileUpload from "../../layouts/FileUpload";
+import { use } from "passport";
 
 const BookForm = ({
   book,
@@ -32,6 +33,16 @@ const BookForm = ({
     TextCount: book === null ? 0 : book.TextCount !== undefined ? book.TextCount : 0,  
   });
 
+ useEffect(() => {
+    if (book !== null) {
+      let textCount = countWords(book.BookText);
+
+      setFormData({
+       ...formData,
+        TextCount: textCount,
+      });
+    }
+ },[book])
   const onChange = (e) => {
     const newFormData = { ...formData, [e.target.id]: e.target.value };
 
@@ -60,11 +71,11 @@ const BookForm = ({
         });
       });
     } else if (location.pathname.includes("edit")) {
-      // console.log("edit");
-      // updateBook(BookID, formData);
-      // hist.push("/admin/books");
-      // clearBook();
+      console.log("edit");
+      updateBook(BookID, formData);
     }
+    hist.push("/admin/book");
+    clearBook();
   };
 
   // Count words in the text
@@ -82,7 +93,7 @@ const BookForm = ({
   return (
     <div className="p-sm-5 p-2 w-100  dashboard-margin mx-lg-auto container">
       <div className="mb-3 ">
-        <h6 className="txt-primary-light">Admin / Books / Book</h6>
+        <h6 className="txt-primary-light">{`${authUser.firstName} ${authUser.lastName}`} / Books / Book</h6>
         <div className="d-sm-flex  w-100 align-items-center justify-content-between">
           <div className="d-flex mb-2 mb-sm-0">
             <div
@@ -149,9 +160,9 @@ const BookForm = ({
           <div className="d-flex flex-column align-items-start gap-2">
             <div className="txt-primary">Book Cover {'(Optional)'}</div>
             {/* Display of the image */}
-            {formData.BookCover !== "" && (
+            {BookCover !== "" && (
               <img
-                src={formData.BookCover}
+                src={BookCover}
                 className="mb-3"
                 alt=""
                 srcset=""
@@ -227,8 +238,7 @@ const BookForm = ({
                   <br />
                   <b>
                     <span className="text-danger text-center">
-                      Warning Deleting abook will result in deleting everything
-                      related to it
+                      Warning Deleting a book will result in deleting everything            related to it
                     </span>
                   </b>
                 </div>
@@ -245,7 +255,7 @@ const BookForm = ({
                     className="btn button-primary"
                     onClick={() => {
                       deleteBook(BookID);
-                      hist.push("/admin/books");
+                      hist.push("/admin/book");
                       clearBook();
                     }}
                     data-bs-dismiss="modal"
@@ -256,7 +266,7 @@ const BookForm = ({
               </div>
             </div>
           </div>
-          {authUser.UserTypeID === 5 && BookID !== "" && (
+          {authUser.roleID === 5 && BookID !== "" && (
             <div
               className="btn btn-danger d-flex align-items-center px-4 mx-3"
               data-bs-toggle="modal"

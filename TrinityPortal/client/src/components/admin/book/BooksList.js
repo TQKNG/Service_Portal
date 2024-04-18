@@ -31,7 +31,6 @@ const BooksList = ({ booksList, bookListLoading }) => {
 
   useEffect(() => {
     const handleIncomingMessage = (data) => {
-
       // Set the message to state
       const newRecord = {};
       const convertedData = JSON.parse(data).data;
@@ -42,7 +41,6 @@ const BooksList = ({ booksList, bookListLoading }) => {
       newRecord.Name = convertedData.Name;
 
       setListSearch([newRecord, ...listSearch]);
-
     };
 
     onMessage(handleIncomingMessage);
@@ -117,9 +115,7 @@ const BooksList = ({ booksList, bookListLoading }) => {
             setListSearch={setListSearch}
             filter={(e) => {
               const list = booksList.filter((item) =>
-                item.Name.toUpperCase().includes(
-                  e.target.value.toUpperCase()
-                )
+                item.Name.toUpperCase().includes(e.target.value.toUpperCase())
               );
               return list;
             }}
@@ -156,10 +152,7 @@ const BooksList = ({ booksList, bookListLoading }) => {
                 name: -1,
               });
             } else {
-              const sortedList = _.sortBy(
-                booksList,
-                _.property("BookID")
-              );
+              const sortedList = _.sortBy(booksList, _.property("BookID"));
               setListSearch(sortedList);
               setIcons({
                 name: 0,
@@ -179,12 +172,14 @@ const BooksList = ({ booksList, bookListLoading }) => {
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
+        ) : booksList.length === 0 ? (
+          <div className="d-flex justify-content-center align-items-center h-100">
+            <div className="txt-primary">No Books Found</div>
+          </div>
         ) : (
           listSearch
             .slice(15 * (page - 1), 15 * page)
-            .map((book, id) => (
-              <BookListItem book={book} key={id} />
-            ))
+            .map((book, id) => <BookListItem book={book} key={id} />)
         )}
       </div>
     </div>

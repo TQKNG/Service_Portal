@@ -727,12 +727,11 @@ export const loadBooksList =
     }
   };
 
-export const updateBook = (schoolId, formData) => async (dispatch) => {
+export const updateBook = (bookID, formData) => async (dispatch) => {
   try {
-    // const result = await api.put(`/schools/${schoolId}`, formData);
-    // console.log("test result", result)
-    // dispatch(loadSchoolsList());
-    // dispatch(setAlert("School updated Successfully", "success"));
+    const result = await api.put(`/books/${bookID}`, formData);
+    dispatch(loadBooksList());
+    dispatch(setAlert("Book updated Successfully", "success"));
   } catch (err) {
     console.log(err);
     const errors = err.response.data.errors;
@@ -766,11 +765,11 @@ export const addBook = (formData) => async (dispatch) => {
   }
 };
 
-export const deleteBook = (schoolId) => async (dispatch) => {
+export const deleteBook = (bookID) => async (dispatch) => {
   try {
-    // await api.delete(`/schools/${schoolId}`);
-    // dispatch(loadSchoolsList());
-    // dispatch(setAlert("School Deleted Successfully", "info"));
+    await api.delete(`/books/${bookID}`);
+    dispatch(loadBooksList());
+    dispatch(setAlert("School Deleted Successfully", "info"));
   } catch (error) {
     console.log(error);
     const errors = error.response.data.errors;

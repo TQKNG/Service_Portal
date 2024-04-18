@@ -59,6 +59,7 @@ exports.addSong = async (req, res) => {
   try {
     if (req.body) {
       const { Name, Lyrics, SongData, SongLogo } = req.body;
+      
       // Create new song on Database
       const pool = await poolPromise;
 
@@ -159,7 +160,6 @@ exports.addSong = async (req, res) => {
  *     security:
  *       - apiKeyAuth: []
  */
-
 exports.getSongs = async (req, res) => {
   try {
     const pool = await poolPromise;
@@ -175,10 +175,13 @@ exports.getSongs = async (req, res) => {
     const promises = results.recordset.map(async (item) => {
       let audio = "";
       let logo = "";
+
+      // Retrieve song audio
       if (item.songPath !== "") {
         audio = await retrieveAudio("SongAudio", item.singSongID);
       }
 
+      // Retrieve song logo
       if (item.imagePath !== "") {
         logo = await retrieveImage("SongLogo", item.singSongID);
       }
@@ -202,7 +205,6 @@ exports.getSongs = async (req, res) => {
     // Wait for all promises to resolve
     await Promise.all(promises);
 
-    console.log();
 
     // Once all asynchronous operations are complete, send the response
     res.status(200).json({
@@ -215,9 +217,7 @@ exports.getSongs = async (req, res) => {
   }
 };
 
-// @route   PUT /api/school/:schoolId
-// @desc    Update School
-// @access  public
+
 exports.updateSong = async (req, res) => {
   try {
     if (req.body) {
@@ -228,7 +228,6 @@ exports.updateSong = async (req, res) => {
       if(SongData !== ""){
         var songPath = await storeAudio("SongAudio", SongData, SongID);
       }
-     
 
       if(SongLogo !== ""){
         var imgPath = await storeImage("SongLogo", SongLogo, SongID);
