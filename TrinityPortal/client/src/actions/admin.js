@@ -677,7 +677,7 @@ export const addSong = (formData) => async (dispatch) => {
 
 export const deleteSong = (songID) => async (dispatch) => {
   try {
-    await api.put(`/songs/${songID}`);
+    await api.delete(`/songs/${songID}`);
     dispatch(loadSongsList());
     dispatch(setAlert("Song Deleted Successfully", "info"));
   } catch (error) {

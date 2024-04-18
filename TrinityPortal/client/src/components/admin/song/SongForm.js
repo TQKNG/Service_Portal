@@ -57,7 +57,7 @@ const SongForm = ({
       console.log("edit");
       updateSong(SongID, formData);
     }
-    hist.push("/admin/songs");
+    hist.push("/admin/song");
     clearSong();
   };
 
@@ -70,7 +70,7 @@ const SongForm = ({
   return (
     <div className="p-sm-5 p-2 w-100  dashboard-margin mx-lg-auto container">
       <div className="mb-3 ">
-        <h6 className="txt-primary-light">Admin / Songs / Song</h6>
+        <h6 className="txt-primary-light">{`${authUser.firstName} ${authUser.lastName}`} / Songs / Song</h6>
         <div className="d-sm-flex  w-100 align-items-center justify-content-between">
           <div className="d-flex mb-2 mb-sm-0">
             <div
@@ -133,7 +133,7 @@ const SongForm = ({
         <div className="mb-3">
           <div className="d-flex align-items-center gap-2">
             <div className="txt-primary">Song File</div>
-            {/* Display of the audio */}
+            {/* Display of the audio --Check for midi player or convert midi to audio format */}
             {formData.SongData !== "" && (
               <audio controls >
                 <source
@@ -244,13 +244,13 @@ const SongForm = ({
                   ></button>
                 </div>
                 <div className="modal-body">
-                  Are you sure you want to deletesong?
+                  Are you sure you want to delete song?
                   <br />
                   <br />
                   <b>
                     <span className="text-danger text-center">
                       Warning Deleting asong will result in deleting everything
-                      related to it such a users and assessments
+                      related to it
                     </span>
                   </b>
                 </div>

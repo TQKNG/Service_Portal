@@ -228,6 +228,7 @@ exports.updateSong = async (req, res) => {
       if(SongData !== ""){
         var songPath = await storeAudio("SongAudio", SongData, SongID);
       }
+     
 
       if(SongLogo !== ""){
         var imgPath = await storeImage("SongLogo", SongLogo, SongID);
@@ -256,7 +257,7 @@ exports.deleteSong = async (req, res) => {
     const pool = await poolPromise;
     const results = await pool
       .request()
-      .input("singSongID", sql.Int, req.params.songID)
+      .input("singSongID", req.params.songID)
       .execute("dbo.Songs_Delete");
 
     res.status(200).json({ success: true });

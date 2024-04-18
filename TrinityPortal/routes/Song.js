@@ -17,6 +17,6 @@ router.get('/', getSongs);
 // router.put('/:songID', protect, authorize(5), updateSong);
 router.put('/:songID', updateSong);
 // router.delete('/:schoolId', protect, authorize(5), deleteSchool);
-router.put('/:songID', deleteSong);
+router.delete('/:songID', deleteSong);
 
 module.exports = router;
