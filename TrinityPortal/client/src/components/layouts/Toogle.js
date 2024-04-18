@@ -8,11 +8,11 @@ const Toogle = ({ checked, setChecked,labels }) => {
   return (
     <div className="toggle-container" onClick={handleChange}>
       <div
-        className={`dialog-button bg-primary text-white text-truncate m-0 ${
-          !checked ? "" : "disabled"
+        className={`dialog-button ${checked?"bg-danger":"bg-primary"} text-white text-truncate m-0 ${
+          checked ? "disabled" : ""
         }`}
       >
-        {!checked ? labels[0] : labels[1]}
+        {checked ? labels[1] : labels[0]}
       </div>
     </div>
   );
