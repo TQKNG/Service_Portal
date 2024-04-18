@@ -31,6 +31,9 @@ import {
   GET_TRIVIA,
   GET_TRIVIASLIST,
   CLEAR_TRIVIA,
+  GET_SETTING,
+  GET_SETTINGSLIST,
+  CLEAR_SETTING,
   GET_REPORT,
   CLEAR_REPORT,
   GET_ASSESSMENTSINSTRUCTIONLIST,
@@ -116,6 +119,11 @@ const initialState = {
   trivia: null,
   triviaListLoading: true,
   triviaLoading: true,
+
+  settingsList: [],
+  setting: null,
+  settingListLoading: true,
+  settingLoading: true,
 };
 
 // eslint-disable-next-line
@@ -177,6 +185,13 @@ export default function (state = initialState, action) {
       return { ...state, trivia: payload, triviaLoading: false };
     case CLEAR_TRIVIA:
       return { ...state, trivia: null, triviaLoading: true };
+
+      case GET_SETTINGSLIST:
+      return { ...state, settingsList: payload, settingListLoading: false };
+    case GET_SETTING:
+      return { ...state, setting: payload, settingLoading: false };
+    case CLEAR_SETTING:
+      return { ...state, setting: null, settingLoading: true };
 
     case GET_ASSESSMENTSLIST:
       return {
@@ -335,6 +350,11 @@ export default function (state = initialState, action) {
         trivia: null,
         triviaListLoading: true,
         triviaLoading: true,
+
+        settingsList: [],
+        setting: null,
+        settingListLoading: true,
+        settingLoading: true,
       };
     case CLEAR_ITEMS:
       return {
@@ -365,6 +385,9 @@ export default function (state = initialState, action) {
 
         trivia: null,
         triviaLoading: true,
+
+        setting: null,
+        settingLoading: true,
 
         reports: [],
         reportsLoading: true,

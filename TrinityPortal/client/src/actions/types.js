@@ -69,6 +69,10 @@ export const GET_TRIVIASLIST = 'GET_TRIVIASLIST';
 export const GET_TRIVIA = 'GET_TRIVIA';
 export const CLEAR_TRIVIA = 'CLEAR_TRIVIA';
 
+// Settings actions
+export const GET_SETTINGSLIST = 'GET_SETTINGSLIST';
+export const GET_SETTING = 'GET_SETTING';
+export const CLEAR_SETTING = 'CLEAR_SETTING';
 
 // Chart actions
 export const GET_OVERALL_RESULTS_CHART = 'GET_OVERALL_RESULTS_CHART';

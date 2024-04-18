@@ -119,6 +119,7 @@ const songs = require('./routes/Song');
 const books = require('./routes/Book');
 const jokes = require('./routes/Joke');
 const trivias = require('./routes/Trivia');
+const settings = require('./routes/Setting');
 
 //Routes for other robot services
 const robotservice = require('./routes/RobotService');
@@ -136,6 +137,7 @@ app.use('/api/songs', songs);
 app.use('/api/books', books);
 app.use('/api/jokes', jokes);
 app.use('/api/trivias', trivias);
+app.use('/api/settings', settings);
 app.use('/api/robotservices',robotservice);
 
 

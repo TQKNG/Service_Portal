@@ -1,8 +1,11 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import VolumeController from "../../layouts/Slider";
 import Toogle from "../../layouts/Toogle";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import {
+  loadSettingsList,
+} from "../../../actions/admin";
 
 
 const Setting = ({authUser}) => {
@@ -20,6 +23,10 @@ const Setting = ({authUser}) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  useEffect(() => {
+      loadSettingsList();
+  },[]);
+
   const {
     volumeMax,
     volumeMin,
@@ -28,6 +35,9 @@ const Setting = ({authUser}) => {
     outbreakMessage1,
     outbreakMessage2,
   } = formData;
+
+
+
   return (
     <Fragment>
       <div className="p-sm-5 p-2 w-100 dashboard-margin">
@@ -175,15 +185,6 @@ const Setting = ({authUser}) => {
                   className="button-primary btn-block btn px-5"
                 >
                   Save
-                  {/* <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="24"
-                        viewBox="0 -960 960 960"
-                        width="24"
-                        fill="currentColor"
-                      >
-                        <path d="M480-120v-80h280v-560H480v-80h280q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H480Zm-80-160-55-58 102-102H120v-80h327L345-622l55-58 200 200-200 200Z" />
-                      </svg> */}
                 </button>
               </>
             </div>

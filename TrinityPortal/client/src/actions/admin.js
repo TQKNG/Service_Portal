@@ -39,6 +39,9 @@ import {
   GET_TRIVIA,
   GET_TRIVIASLIST,
   CLEAR_TRIVIA,
+  GET_SETTING,
+  GET_SETTINGSLIST,
+  CLEAR_SETTING,
 } from "../actions/types";
 import { setAlert } from "./alerts";
 import { clearAssessmentResult } from "./assessment";
@@ -749,7 +752,7 @@ export const updateBook = (bookID, formData) => async (dispatch) => {
 export const addBook = (formData) => async (dispatch) => {
   try {
     await api.post("/books", formData);
-    // dispatch(loadSchoolsList());
+    dispatch(loadBooksList());
     dispatch(setAlert("Book Added Successfully", "success"));
   } catch (err) {
     console.log(err);
@@ -766,6 +769,78 @@ export const addBook = (formData) => async (dispatch) => {
 };
 
 export const deleteBook = (bookID) => async (dispatch) => {
+  try {
+    await api.delete(`/books/${bookID}`);
+    dispatch(loadBooksList());
+    dispatch(setAlert("School Deleted Successfully", "info"));
+  } catch (error) {
+    console.log(error);
+    const errors = error.response.data.errors;
+    if (errors)
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      }
+  }
+};
+
+// Setting
+export const loadSettingsList =
+  () =>
+  async (dispatch) => {
+    try {
+      const res = await api.get("/settings");
+      dispatch({ type: GET_SETTINGSLIST, payload: res.data.data });
+    } catch (error) {
+      console.log(error);
+      const errors = error.response.data.errors;
+      if (errors)
+        if (errors[0].msg === "Session Expired") {
+          dispatch({ type: LOGOUT });
+          dispatch(clearAll());
+        }
+    }
+  };
+
+export const updateSetting = (bookID, formData) => async (dispatch) => {
+  try {
+    const result = await api.put(`/books/${bookID}`, formData);
+    dispatch(loadBooksList());
+    dispatch(setAlert("Book updated Successfully", "success"));
+  } catch (err) {
+    console.log(err);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      } else
+        errors.forEach((error) => dispatch(setAlert(error.message, "danger")));
+    }
+  }
+};
+
+export const addSetting = (formData) => async (dispatch) => {
+  try {
+    await api.post("/books", formData);
+    dispatch(loadBooksList());
+    dispatch(setAlert("Book Added Successfully", "success"));
+  } catch (err) {
+    console.log(err);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      } else
+        errors.forEach((error) => dispatch(setAlert(error.message, "danger")));
+    }
+  }
+};
+
+export const deleteSetting = (bookID) => async (dispatch) => {
   try {
     await api.delete(`/books/${bookID}`);
     dispatch(loadBooksList());
