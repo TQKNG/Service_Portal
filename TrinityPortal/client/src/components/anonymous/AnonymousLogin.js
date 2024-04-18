@@ -495,12 +495,24 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                     value={DepartmentVisit}
                     onChange={(e) => onChange(e)}
                   >
-                    <option value={"Administration"}>Administration </option>
-                    <option value={"Finance"}>Finance </option>
+                    <option value={"COO/Administrator"}>COO/Administrator </option>
                     <option value={"Human Resources"}>Human Resources </option>
-                    <option value={"Maintenance"}>Maintenance </option>
-                    <option value={"Resident Services"}>
-                      Resident Services{" "}
+                    <option value={"Finance Manager"}>Finance Manager </option>
+                    <option value={"Director of Nursing"}>Director of Nursing </option>
+                    <option value={"Program Manager"}>
+                      Program Manager{" "}
+                    </option>
+                    <option value={"Volunteer Coordinator"}>
+                      Volunteer Coordinator{" "}
+                    </option>
+                    <option value={"Nutrition Manager"}>
+                    Nutrition Manager{" "}
+                    </option>
+                    <option value={"Manager of Cognitive Care"}>
+                    Manager of Cognitive Care
+                    </option>
+                    <option value={"IPAC Manager"}>
+                    IPAC Manager
                     </option>
                   </select>
                 </div>
