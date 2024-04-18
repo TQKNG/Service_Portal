@@ -186,7 +186,7 @@ export default function (state = initialState, action) {
     case CLEAR_TRIVIA:
       return { ...state, trivia: null, triviaLoading: true };
 
-      case GET_SETTINGSLIST:
+    case GET_SETTINGSLIST:
       return { ...state, settingsList: payload, settingListLoading: false };
     case GET_SETTING:
       return { ...state, setting: payload, settingLoading: false };

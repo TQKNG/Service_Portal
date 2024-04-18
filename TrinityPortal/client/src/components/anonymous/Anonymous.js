@@ -7,10 +7,9 @@ import PropTypes from "prop-types";
 import AnonymousLogin from "./AnonymousLogin";
 import AnonymousLogout from "./AnonymousLogout";
 
-const Anonymous = () => {
+const Anonymous = ({isOutbreak}) => {
   const location = useLocation();
   const [device, setDetectDevice] = useState("Unknown");
-  const [isOutbreak, setIsOutbreak] = useState(true);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isSignedOut, setIsSignedOut] = useState(false);
 
@@ -36,6 +35,10 @@ const Anonymous = () => {
     const device = detectDevice(userAgent);
     setDetectDevice(userAgent);
   }, [location]);
+
+  useEffect(()=>{
+    console.log("tests is outbreak", isOutbreak)
+  },[])
 
   return (
     <div className="w-100 h-100 d-flex flex-column align-items-center justify-content-start">
@@ -196,8 +199,12 @@ const Anonymous = () => {
   );
 };
 
-Anonymous.propTypes = {};
+Anonymous.propTypes = {
+  isOutbreak: PropTypes.bool.isRequired,
+};
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  isOutbreak: state.alerts,
+});
 
 export default connect(mapStateToProps, {})(Anonymous);

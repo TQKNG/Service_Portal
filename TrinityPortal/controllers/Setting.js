@@ -7,7 +7,6 @@ const { poolPromise } = require("../config/db");
 
 exports.addSetting = async (req, res) => {
   try {
-   
     res.status(200).json({ success: true });
   } catch (error) {
     console.log(error);
@@ -15,9 +14,9 @@ exports.addSetting = async (req, res) => {
   }
 };
 
-
 exports.getSettings = async (req, res) => {
   try {
+    console.log("Tests imm herer");
     const pool = await poolPromise;
     let results;
 
@@ -27,22 +26,55 @@ exports.getSettings = async (req, res) => {
       return res.status(200).json({ success: true, data: [] });
     }
 
-     // Once all asynchronous operations are complete, send the response
-     res.status(200).json({
+    // Convert arry of objects to single object, where value is parsed from json string to json object
+    const formattedSettings = results.recordset.reduce((obj, item) => {
+      try {
+        if (item.keyword !== "Language") {
+          obj[item.keyword] = JSON.parse(item.valueStr);
+        } else {
+          obj[item.keyword] = item.valueStr;
+        }
+      } catch (error) {
+        console.error(`Error parsing JSON for keyword ${item.keyword}:`, error);
+      }
+      return obj;
+    }, {});
+
+    // Once all asynchronous operations are complete, send the response
+    res.status(200).json({
       success: true,
-      data: results.recordset,
+      data: formattedSettings,
     });
-    
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Server Error" });
   }
 };
 
-
 exports.updateSetting = async (req, res) => {
   try {
-     
+    console.log("Test here body", req.body);
+
+    // Convert to json string for each property
+    {
+      `"outBreakMessage1": "There are currently no active outbreaks in the homes", "outBreakMessage2":"We are currently in outbreak"`;
+    }
+
+    let formatedSettings = {};
+
+    formatedSettings["OutbreakMessage"] = JSON.stringify({
+      outBreakMessage1: req.body.outbreakMessage1,
+      outBreakMessage2: req.body.outbreakMessage2,
+    });
+
+    let results;
+    const pool = await poolPromise;
+    results = await pool
+      .request()
+      .input("keyword", "OutbreakMessage")
+      .input("valueStr", formatedSettings["OutbreakMessage"])
+      .execute("dbo.Settings_Update");
+
     res.status(200).json({ success: true });
   } catch (error) {
     console.log(error);
@@ -52,7 +84,6 @@ exports.updateSetting = async (req, res) => {
 
 exports.deleteSetting = async (req, res) => {
   try {
-
     res.status(200).json({ success: true });
   } catch (error) {
     console.log(error);

@@ -87,3 +87,7 @@ export const CLEAR_AVERAGE_SCORE_BENCHMARK_CATEGORY_CHART = 'CLEAR_AVERAGE_SCORE
 // Alerts actions
 export const SET_ALERT = 'SET_ALERT';
 export const REMOVE_ALERT = 'REMOVE_ALERT';
+
+// Outbreak actions
+export const SET_OUTBREAK = 'SET_OUTBREAK';
+export const REMOVE_OUTBREAK = 'REMOVE_OUTBREAK';

@@ -517,23 +517,23 @@ export const loadReceptionsList =
             ClockIn: "2024-03-19T11:46:00.789Z",
             ClockOut: "2024-03-19T19:15:00.000Z",
             Status: 3,
-        },
-        {
+          },
+          {
             InOutID: 2,
             DateTime: "2024-03-18T10:15:00.456Z",
             FullName: "Alan Pintor",
             ClockIn: "2024-03-18T10:16:00.456Z",
             ClockOut: null,
             Status: 1,
-        },
-        {
+          },
+          {
             InOutID: 3,
             DateTime: "2024-03-17T08:20:30.123Z",
             FullName: "Khanh Nguyen",
             ClockIn: "2024-03-17T08:21:30.123Z",
             ClockOut: null,
             Status: 1,
-        },
+          },
         ],
       });
     } catch (error) {
@@ -642,7 +642,7 @@ export const loadSongsList =
 export const updateSong = (songID, formData) => async (dispatch) => {
   try {
     const result = await api.put(`/songs/${songID}`, formData);
-    console.log("test result", result)
+    console.log("test result", result);
     dispatch(loadSongsList());
     dispatch(setAlert("Song updated Successfully", "success"));
   } catch (err) {
@@ -785,66 +785,11 @@ export const deleteBook = (bookID) => async (dispatch) => {
 };
 
 // Setting
-export const loadSettingsList =
-  () =>
-  async (dispatch) => {
-    try {
-      const res = await api.get("/settings");
-      dispatch({ type: GET_SETTINGSLIST, payload: res.data.data });
-    } catch (error) {
-      console.log(error);
-      const errors = error.response.data.errors;
-      if (errors)
-        if (errors[0].msg === "Session Expired") {
-          dispatch({ type: LOGOUT });
-          dispatch(clearAll());
-        }
-    }
-  };
-
-export const updateSetting = (bookID, formData) => async (dispatch) => {
+export const loadSettingsList = () => async (dispatch) => {
   try {
-    const result = await api.put(`/books/${bookID}`, formData);
-    dispatch(loadBooksList());
-    dispatch(setAlert("Book updated Successfully", "success"));
-  } catch (err) {
-    console.log(err);
-    const errors = err.response.data.errors;
-
-    if (errors) {
-      if (errors[0].msg === "Session Expired") {
-        dispatch({ type: LOGOUT });
-        dispatch(clearAll());
-      } else
-        errors.forEach((error) => dispatch(setAlert(error.message, "danger")));
-    }
-  }
-};
-
-export const addSetting = (formData) => async (dispatch) => {
-  try {
-    await api.post("/books", formData);
-    dispatch(loadBooksList());
-    dispatch(setAlert("Book Added Successfully", "success"));
-  } catch (err) {
-    console.log(err);
-    const errors = err.response.data.errors;
-
-    if (errors) {
-      if (errors[0].msg === "Session Expired") {
-        dispatch({ type: LOGOUT });
-        dispatch(clearAll());
-      } else
-        errors.forEach((error) => dispatch(setAlert(error.message, "danger")));
-    }
-  }
-};
-
-export const deleteSetting = (bookID) => async (dispatch) => {
-  try {
-    await api.delete(`/books/${bookID}`);
-    dispatch(loadBooksList());
-    dispatch(setAlert("School Deleted Successfully", "info"));
+    console.log("test iam here");
+    const res = await api.get("/settings");
+    dispatch({ type: GET_SETTINGSLIST, payload: res.data.data });
   } catch (error) {
     console.log(error);
     const errors = error.response.data.errors;
@@ -855,6 +800,26 @@ export const deleteSetting = (bookID) => async (dispatch) => {
       }
   }
 };
+
+export const updateSetting = (formData) => async (dispatch) => {
+  try {
+    const result = await api.put(`/settings`, formData);
+    dispatch(loadSettingsList());
+    dispatch(setAlert("Settings updated Successfully", "success"));
+  } catch (err) {
+    console.log(err);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      } else
+        errors.forEach((error) => dispatch(setAlert(error.message, "danger")));
+    }
+  }
+};
+
 
 // Joke
 export const setJoke = (book) => (dispatch) => {
@@ -879,7 +844,7 @@ export const loadJokesList =
   (value = {}) =>
   async (dispatch) => {
     try {
-      const res = await api.get("/jokes",value);
+      const res = await api.get("/jokes", value);
       dispatch({ type: GET_JOKESLIST, payload: res.data.data });
     } catch (error) {
       console.log(error);
@@ -979,39 +944,39 @@ export const loadTriviasList =
             QuestionID: 1,
             QuestionText: "What is the capital of France?",
             Answers: [
-              { AnswerID: 1, AnswerText: "Paris", isCorrect: true},
-              { AnswerID: 2, AnswerText: "London", isCorrect: false},
-              { AnswerID: 3, AnswerText: "Berlin", isCorrect: false},
+              { AnswerID: 1, AnswerText: "Paris", isCorrect: true },
+              { AnswerID: 2, AnswerText: "London", isCorrect: false },
+              { AnswerID: 3, AnswerText: "Berlin", isCorrect: false },
             ],
           },
           {
             QuestionID: 2,
             QuestionText: "Who wrote 'To Kill a Mockingbird'?",
             Answers: [
-              { AnswerID: 1, AnswerText: "Harper Lee", isCorrect: false},
-              { AnswerID: 2, AnswerText: "George Orwell", isCorrect: false},
-              { AnswerID: 3, AnswerText: "Ernest Hemingway", isCorrect: true}
+              { AnswerID: 1, AnswerText: "Harper Lee", isCorrect: false },
+              { AnswerID: 2, AnswerText: "George Orwell", isCorrect: false },
+              { AnswerID: 3, AnswerText: "Ernest Hemingway", isCorrect: true },
             ],
           },
           {
             QuestionID: 3,
             QuestionText: "What is the square root of 81?",
             Answers: [
-              { AnswerID: 1, AnswerText: "7", isCorrect: false},
-              { AnswerID: 2, AnswerText: "8", isCorrect: false},
-              { AnswerID: 3, AnswerText: "9", isCorrect: true},
+              { AnswerID: 1, AnswerText: "7", isCorrect: false },
+              { AnswerID: 2, AnswerText: "8", isCorrect: false },
+              { AnswerID: 3, AnswerText: "9", isCorrect: true },
             ],
           },
           {
             QuestionID: 4,
             QuestionText: "Which planet is known as the Red Planet?",
             Answers: [
-              { AnswerID: 1, AnswerText: "Mars", isCorrect: true},
-              { AnswerID: 2, AnswerText: "Venus", isCorrect: false},
+              { AnswerID: 1, AnswerText: "Mars", isCorrect: true },
+              { AnswerID: 2, AnswerText: "Venus", isCorrect: false },
               { AnswerID: 3, AnswerText: "Jupiter", isCorrect: false },
             ],
-          }
-        ]
+          },
+        ],
       });
     } catch (error) {
       console.log(error);
