@@ -370,6 +370,44 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                 />
               </div>
 
+                    {/* Q5: Do you have any new or worsening respiratory or gastrointestinal symptoms */}
+                    <div className="mb-3 mb-md-5  d-flex flex-column gap-2">
+                <div className="txt-primary w-100 responsive-label-text">
+                  Do you have any new or worsening respiratory or
+                  gastrointestinal symptoms?
+                </div>
+                <div class="">
+                  <div class="w-70 row">
+                    <div
+                      class="col-sm-3 d-flex gap-3 align-items-center"
+                      data-bs-toggle="modal"
+                      data-bs-target="#popupSymtomp"
+                    >
+                      <input
+                        id="SicknessSymptom"
+                        type="radio"
+                        name="SicknessSymptom"
+                        value={true}
+                        className="form-check-input"
+                        onChange={(e) => onChange(e)}
+                      />
+                      <label className="responsive-input-text">Yes</label>
+                    </div>
+                    <div class="col-sm-3 d-flex gap-3 align-items-center">
+                      <input
+                        id="SicknessSymptom"
+                        type="radio"
+                        name="SicknessSymptom"
+                        value={false}
+                        className="form-check-input"
+                        onChange={(e) => onChange(e)}
+                      />
+                      <label className="responsive-input-text">No</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               {/* Q1: Which home area(s) will you visit today? */}
               <div className="d-flex flex-column mb-3 mb-md-5 gap-2">
                 <div className="txt-primary responsive-label-text">
@@ -643,43 +681,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                 </div>
               </div>
 
-              {/* Q5: Do you have any new or worsening respiratory or gastrointestinal symptoms */}
-              <div className="mb-3 mb-md-5  d-flex flex-column gap-2">
-                <div className="txt-primary w-100 responsive-label-text">
-                  Do you have any new or worsening respiratory or
-                  gastrointestinal symptoms?
-                </div>
-                <div class="">
-                  <div class="w-70 row">
-                    <div
-                      class="col-sm-3 d-flex gap-3 align-items-center"
-                      data-bs-toggle="modal"
-                      data-bs-target="#popupSymtomp"
-                    >
-                      <input
-                        id="SicknessSymptom"
-                        type="radio"
-                        name="SicknessSymptom"
-                        value={true}
-                        className="form-check-input"
-                        onChange={(e) => onChange(e)}
-                      />
-                      <label className="responsive-input-text">Yes</label>
-                    </div>
-                    <div class="col-sm-3 d-flex gap-3 align-items-center">
-                      <input
-                        id="SicknessSymptom"
-                        type="radio"
-                        name="SicknessSymptom"
-                        value={false}
-                        className="form-check-input"
-                        onChange={(e) => onChange(e)}
-                      />
-                      <label className="responsive-input-text">No</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
+        
 
               {/* Checkbox: Please tick this box to acknowledge that you will follow all staff directions during your visit*/}
               <div className="mb-3 mb-md-5 d-flex align-items-center justify-content-center gap-3">
