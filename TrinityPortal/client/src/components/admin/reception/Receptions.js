@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import {
   loadReceptionsList,
   clearReception,
@@ -14,6 +15,7 @@ const Receptions = ({
   receptionListLoading,
   clearReception,
 }) => {
+  const hist = useHistory();
   useEffect(() => {
     if (receptionsList.length === 0 && receptionListLoading) {
       loadReceptionsList();
@@ -24,21 +26,21 @@ const Receptions = ({
       <div className="p-sm-5 p-2 w-100 dashboard-margin">
         <div className="mb-3 ">
           <div className="d-flex align-items-center">
-            <h6 className="txt-primary-light mb-0">Admin / Receptions</h6>{" "}
+            <h6 className="txt-primary-light mb-0">{`${authUser.firstName} ${authUser.lastName}`}/ Receptions</h6>{" "}
             <div className="rounded-pill bg-primary px-2 py-1 align-self-center mx-2 my-2 caption ">
               {receptionsList.length}
             </div>
           </div>
           {/* Template */}
           <div className="d-flex w-100 align-items-center justify-content-end">
-            {authUser.UserTypeID === 5 && (
+            {authUser.roleID === 5 && (
               <>
                 <div className="d-flex">
                   <div
                     className="btn button-parent button-primary d-flex align-items-center px-3"
                     onClick={() => {
-                      // hist.push("/admin/school/add");
-                      // clearSchool();
+                      hist.push("/admin/reception/add");
+                      clearReception();
                     }}
                   >
                     <svg

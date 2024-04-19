@@ -4,8 +4,6 @@ import _ from "underscore";
 import Search from "../../layouts/Search";
 import SortIcon from "../../layouts/SortIcon";
 import ReceptionListItem from "./ReceptionListItem";
-import useWebSocket from "../../../services/WebSocketService";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
@@ -18,56 +16,10 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
 
   const { name } = icons;
 
-  // WebSocket Config
-  const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
-    `ws:${window.location.hostname}:5001`
-  );
-
-  useEffect(() => {
-    connect();
-
-    disconnect();
-  }, []);
-
-  useEffect(() => {
-    const handleIncomingMessage = (data) => {
-
-      // Set the message to state
-      const newRecord = {};
-      const convertedData = JSON.parse(data).data;
-
-      console.log("Test converted Data", data);
-
-      newRecord.InOutID = 99;
-      newRecord.FullName = convertedData.FirstName + " "+ convertedData.LastName;
-
-      if(convertedData.InOut){
-        newRecord.ClockIn = new Date().toISOString();
-        newRecord.Status = 1;
-        toast.success(`${newRecord.FullName} has clocked in`);
-      }
-      else{
-        newRecord.ClockOut = new Date().toISOString();
-        newRecord.Status = 3;
-        toast.error(`${newRecord.FullName} has clocked out`);
-      }
-
-      setListSearch([newRecord, ...listSearch]);
-
-    };
-
-    onMessage(handleIncomingMessage);
-
-    return () => {
-      // Clean up subscription
-      onMessage(null);
-    };
-  }, [onMessage]);
-
   useEffect(() => {
     if (!receptionListLoading) {
       // on initial load, sort by InOutID ASC - default
-      const sortedList = _.sortBy(receptionsList, _.property("InOutID"));
+      const sortedList = _.sortBy(receptionsList, _.property("visitID"));
 
       setListSearch(sortedList);
     }
@@ -75,7 +27,6 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
 
   return (
     <div className="card w-100 p-2 p-sm-3 p-lg-5 shadow-lg border-0 users-list ">
-      <ToastContainer />
       <Alert />
       <div className="d-flex w-100 align-items-center justify-content-between mb-3">
         <div className="">
@@ -128,7 +79,7 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
             setListSearch={setListSearch}
             filter={(e) => {
               const list = receptionsList.filter((item) =>
-                item.FullName.toUpperCase().includes(
+                item.firstName.toUpperCase().includes(
                   e.target.value.toUpperCase()
                 )
               );
@@ -138,15 +89,15 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
         </div>
       </div>
       <div className="admin-users-fields  d-flex align-items-center justify-content-around rounded  bg-body txt-primary">
-
+          {/* Full Name */}
         <div
-          className="admin-schools-field  text-truncate"
+          className="admin-large-field  text-truncate mx-auto"
           onMouseEnter={() => setIsShowIcon("name")}
           onMouseLeave={() => setIsShowIcon(null)}
           onClick={() => {
             if (name === 0 && receptionsList.length) {
               const sortedList = _.sortBy(receptionsList, (reception) => {
-                const name = reception.FullName;
+                const name = reception.firstName;
                 if (/^\d/.test(name)) {
                   return 0; // Numbers should come first
                 } else {
@@ -159,7 +110,7 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
               });
             } else if (name === 1) {
               const sortedList = _.sortBy(listSearch, [
-                (reception) => reception.FullName.toLowerCase(),
+                (reception) => reception.firstName.toLowerCase(),
               ]).reverse();
               setListSearch(sortedList);
               setIcons({
@@ -168,7 +119,7 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
             } else {
               const sortedList = _.sortBy(
                 receptionsList,
-                _.property("InOutID")
+                _.property("visitID")
               );
               setListSearch(sortedList);
               setIcons({
@@ -180,11 +131,41 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
           Full Name
           <SortIcon icon={name} isShowIcon={isShowIcon === "name"} />
         </div>
-        <div className="admin-schools-field text-truncate ">Date </div>
-        <div className="admin-schools-field text-truncate ">Clock In Time</div>
-        <div className="admin-schools-field text-truncate ">Clock Out Time</div>
-        <div className="admin-schools-field text-truncate ">Status</div>
-        <div className="admin-schools-field text-truncate ">Actions</div>
+        {/* Phone Number */}
+        <div className="admin-large-field text-truncate mx-auto">Phone Number</div>
+
+        {/* Sign In Time */}
+        <div className="admin-schools-field text-truncate mx-auto">Sign In Time</div>
+
+        {/* Sign Out Time */}
+        <div className="admin-schools-field text-truncate mx-auto">Sign Out Time</div>
+
+        {/* Home Areas */}
+        <div className="admin-schools-field text-truncate mx-auto">Home Areas</div>
+
+        {/* Scheduled Visit */}
+        <div className="admin-schools-field text-truncate mx-auto">Scheduled Visit</div>
+
+        {/* Purpose */}
+        <div className="admin-schools-field text-truncate mx-auto">Purpose</div>
+
+        {/* Resident Name */}
+        <div className="admin-schools-field text-truncate mx-auto">Resident Name</div>
+
+        {/* First Visit */}
+        <div className="admin-schools-field text-truncate mx-auto">First Visit</div>
+
+        {/* Sickness Symptom */}
+        <div className="admin-schools-field text-truncate mx-auto">Sickness Symptom</div>
+
+        {/* Acknowledgement */}
+        <div className="admin-schools-field text-truncate mx-auto">Acknowledgement</div>
+
+        {/* Status */}
+        <div className="admin-schools-field text-truncate mx-auto">Status</div>
+
+        {/* Edit */}
+        <div className="admin-schools-field text-truncate mx-auto">Actions</div>
       </div>
 
       <div className="users-list-body ">
@@ -193,6 +174,10 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
             <div class="spinner-border txt-primary" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
+          </div>
+        ) : receptionsList.length === 0 ? (
+          <div className="d-flex justify-content-center align-items-center h-100">
+            <div className="txt-primary">No Visits Found</div>
           </div>
         ) : (
           listSearch

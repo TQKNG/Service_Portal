@@ -505,37 +505,8 @@ export const loadReceptionsList =
   (value = {}) =>
   async (dispatch) => {
     try {
-      // const res = await api.post("/schools/get",value);
-      // dispatch({ type: GET_SCHOOLSLIST, payload: res.data.data });
-      dispatch({
-        type: GET_RECEPTIONSLIST,
-        payload: [
-          {
-            InOutID: 1,
-            DateTime: "2024-03-19T11:45:00.789Z",
-            FullName: "Alok Rathava",
-            ClockIn: "2024-03-19T11:46:00.789Z",
-            ClockOut: "2024-03-19T19:15:00.000Z",
-            Status: 3,
-          },
-          {
-            InOutID: 2,
-            DateTime: "2024-03-18T10:15:00.456Z",
-            FullName: "Alan Pintor",
-            ClockIn: "2024-03-18T10:16:00.456Z",
-            ClockOut: null,
-            Status: 1,
-          },
-          {
-            InOutID: 3,
-            DateTime: "2024-03-17T08:20:30.123Z",
-            FullName: "Khanh Nguyen",
-            ClockIn: "2024-03-17T08:21:30.123Z",
-            ClockOut: null,
-            Status: 1,
-          },
-        ],
-      });
+      const res = await api.get("/receptions");
+      dispatch({ type: GET_RECEPTIONSLIST, payload: res.data.data });
     } catch (error) {
       console.log(error);
       const errors = error.response.data.errors;
@@ -569,9 +540,9 @@ export const updateReception = (schoolId, formData) => async (dispatch) => {
 
 export const addReception = (formData) => async (dispatch) => {
   try {
-    // await api.post("/schools", formData);
-    // dispatch(loadSchoolsList());
-    // dispatch(setAlert("School Added Successfully", "success"));
+    await api.post("/receptions", formData);
+    dispatch(loadReceptionsList());
+    dispatch(setAlert("A Visit Added Successfully", "success"));
   } catch (err) {
     console.log(err);
     const errors = err.response.data.errors;
@@ -986,11 +957,11 @@ export const addTrivia = (formData) => async (dispatch) => {
   }
 };
 
-export const deleteTrivia = (schoolId) => async (dispatch) => {
+export const deleteTrivia = (triviaID) => async (dispatch) => {
   try {
-    // await api.delete(`/schools/${schoolId}`);
-    // dispatch(loadSchoolsList());
-    // dispatch(setAlert("School Deleted Successfully", "info"));
+    await api.delete(`/trivias/${triviaID}`);
+    dispatch(loadTriviasList());
+    dispatch(setAlert("Trivia Deleted Successfully", "info"));
   } catch (error) {
     console.log(error);
     const errors = error.response.data.errors;

@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import Badge from "react-bootstrap/Badge";
 import { setReception } from "../../../actions/admin";
 import ToolTipComp from "../../layouts/ToolTip";
-import moment from 'moment';
+import moment from "moment";
 
 const ReceptionsListItem = ({ reception, setReception }) => {
   const [edit, setEdit] = useState(false);
@@ -13,21 +13,55 @@ const ReceptionsListItem = ({ reception, setReception }) => {
   const { InOutID, DateTime, FullName, ClockIn, ClockOut, Status } = reception;
   const hist = useHistory();
   return (
-    <div className="admin-users-fields  d-flex align-items-center justify-content-around   p-2 border-bottom">
+    <div className="admin-users-fields  d-flex align-items-center justify-content-around  p-2 border-bottom">
+      {/* Full Name */}
       <div
-        className="admin-schools-field  text-truncate "
+        className="admin-large-field  text-truncate  mx-auto"
         onClick={() => {
           setReception(reception);
           //   hist.push(`/admin/school/schoolId=${SchoolID}`);
         }}
         title={FullName}
       >
-        {FullName?FullName:"N/A"}
+        {FullName ? FullName : "N/A"}
       </div>
-      <div className="admin-schools-field text-truncate ">{moment(DateTime).format("MMM Do YYYY")}</div>
-      <div className="admin-schools-field text-truncate ">{ClockIn&&moment(ClockIn).format("HH:mm:ss")}</div>
-      <div className="admin-schools-field text-truncate ">{ClockOut&&moment(ClockOut).format("HH:mm:ss")}</div>
-      <div className="admin-schools-field text-truncate ">
+
+      {/* Phone Number */}
+      <div className="admin-large-field text-truncate  mx-auto">Phone number</div>
+
+      {/* Sign in Time */}
+      <div className="admin-schools-field text-truncate  mx-auto">
+        {ClockIn && moment(ClockIn).format("HH:mm:ss")}
+      </div>
+
+      {/* Sign out Time */}
+      <div className="admin-schools-field text-truncate  mx-auto">
+        {ClockOut && moment(ClockOut).format("HH:mm:ss")}
+      </div>
+
+      {/* Home Area */}
+      <div className="admin-schools-field text-truncate ">Admin Office</div>
+
+      {/* Scheduled Visit */}
+      <div className="admin-schools-field text-truncate ">Yes</div>
+
+      {/* Purpose */}
+      <div className="admin-schools-field text-truncate  mx-auto">Purpose</div>
+
+      {/* Resident Name */}
+      <div className="admin-schools-field text-truncate  mx-auto">John Doe</div>
+
+      {/* First Visit */}
+      <div className="admin-schools-field text-truncate  mx-auto">Yes</div>
+
+      {/* Sickness Symptom */}
+      <div className="admin-schools-field text-truncate  mx-auto">Yes</div>
+
+      {/* Acknowledgement */}
+      <div className="admin-schools-field text-truncate  mx-auto">Yes</div>
+
+      {/* Status */}
+      <div className="admin-schools-field text-truncate  mx-auto">
         <Badge
           pill
           className="w-30"
@@ -54,7 +88,9 @@ const ReceptionsListItem = ({ reception, setReception }) => {
             : ""}
         </Badge>
       </div>
-      <div className="admin-schools-field  text-truncate">
+
+      {/* Edit */}
+      <div className="admin-schools-field  text-truncate mx-auto">
         <ToolTipComp
           myButton={
             <svg
@@ -83,7 +119,7 @@ const ReceptionsListItem = ({ reception, setReception }) => {
           module="Reception"
         />
 
-        <ToolTipComp
+        {/* <ToolTipComp
           myButton={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +152,7 @@ const ReceptionsListItem = ({ reception, setReception }) => {
           }
           type="Show"
           module="Reception"
-        />
+        /> */}
       </div>
     </div>
   );

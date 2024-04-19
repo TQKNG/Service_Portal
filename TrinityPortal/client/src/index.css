@@ -437,9 +437,15 @@ h6 {
 .admin-classrooms-field {
   width: 15%;
 }
+
+.admin-large-field {
+  width: 40%;
+}
 .dashboard-margin {
   margin-left: 65px;
 }
+
+
 
 .admin-back {
   width: 40px;

@@ -12,6 +12,8 @@ import PropTypes from "prop-types";
 import FileUpload from "../../layouts/FileUpload";
 import Toogle from "../../layouts/Toogle";
 
+
+
 const TriviaForm = ({
   trivia,
   authUser,
@@ -109,7 +111,7 @@ const TriviaForm = ({
   const { QuestionID, QuestionText, Answers } = formData;
 
   if (trivia == null && location.pathname.includes("edit")) {
-    hist.push("/admin/trivias");
+    hist.push("/admin/trivia");
   }
 
   return (
@@ -265,7 +267,7 @@ const TriviaForm = ({
               </div>
             </div>
           </div>
-          {authUser.UserTypeID === 5 && QuestionID !== "" && (
+          {authUser.roleID === 5 && QuestionID !== "" && (
             <div
               className="btn btn-danger d-flex align-items-center px-4 mx-3"
               data-bs-toggle="modal"

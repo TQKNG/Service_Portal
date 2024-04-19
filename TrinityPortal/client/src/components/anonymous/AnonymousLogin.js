@@ -5,8 +5,9 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import AnonymousConfirm from "./AnonymousConfirm";
+import { addReception } from "../../../../controllers/Reception";
 
-const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
+const AnonymousLogin = ({ setAlert, device, isSignedIn, offices }) => {
   const [formData, setFormData] = useState({
     FirstName: "",
     LastName: "",
@@ -39,6 +40,14 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
   } = formData;
   const [isRobot, setIsRobot] = useState(false);
   const [isAdminOfficeClick, setIsAdminOfficeClick] = useState(false);
+  const [homeAreasOptions, setHomeAreasOptions] = useState([
+    "Oak Ridge Orchard",
+    "Maple Ridge",
+    "Pine Woods",
+    "Walnut Groves",
+    "Cherry Orchard",
+    "Admin Offices",
+  ]);
   const [isSicknessSymptom, setIsSicknessSymptom] = useState(false);
   const [error, setError] = useState(null);
 
@@ -47,7 +56,7 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
 
     // Select multi-select areas checkbox
-    if (e.target.id === "HomeAreas") {
+    if (e.target.id.startsWith("option-")) {
       if (HomeAreas.includes(e.target.value)) {
         setFormData({
           ...formData,
@@ -58,15 +67,13 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
       }
     }
 
-    if (e.target.id === "AdminOffices") {
+    if (e.target.value === "Admin Offices") {
       setIsAdminOfficeClick((prevState) => !prevState);
     }
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    console.log("test formData", formData);
 
     const {
       FirstName,
@@ -103,15 +110,17 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
     }
 
     // Sickness Symptom validation
-    if(SicknessSymptom === null || SicknessSymptom === "true" ) {
-      validationError = "Please do not enter the building until your symptoms have resolved.";
+    if (SicknessSymptom === null || SicknessSymptom === "true") {
+      validationError =
+        "Please do not enter the building until your symptoms have resolved.";
       setError(validationError);
       return;
     }
 
     // Acknowledgement validation
-    if(Acknowledgement === null || Acknowledgement === "false") {
-      validationError = "Tick the box to acknowledge that you will follow all staff directions during your visit.";
+    if (Acknowledgement === null || Acknowledgement === "false") {
+      validationError =
+        "Tick the box to acknowledge that you will follow all staff directions during your visit.";
       setError(validationError);
       return;
     }
@@ -119,24 +128,11 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn }) => {
     if (validationError === null) {
       setError(null);
       setIsSubmitted(true);
+
       const updatedFormData = { ...formData, isRobot, isSignedIn, InOut: true };
 
-      // Fetch API to server
-      fetch(`https://b9dk2wds-3000.use.devtunnels.ms/api/receptions`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedFormData),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          // Handle the API response
+      addReception(updatedFormData)
+        .then(() => {
           setFormData({
             FirstName: "",
             LastName: "",
@@ -370,8 +366,8 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                 />
               </div>
 
-                    {/* Q5: Do you have any new or worsening respiratory or gastrointestinal symptoms */}
-                    <div className="mb-3 mb-md-5  d-flex flex-column gap-2">
+              {/* Q5: Do you have any new or worsening respiratory or gastrointestinal symptoms */}
+              <div className="mb-3 mb-md-5  d-flex flex-column gap-2">
                 <div className="txt-primary w-100 responsive-label-text">
                   Do you have any new or worsening respiratory or
                   gastrointestinal symptoms?
@@ -413,106 +409,31 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                 <div className="txt-primary responsive-label-text">
                   Which home area(s) will you visit today?
                 </div>
-                <div class="">
+                {/* Multi-Select Component */}
+                <div className="">
                   <div class="row">
-                    <div class="col-sm-4 d-flex gap-3 align-items-center">
-                      <input
-                        id="HomeAreas"
-                        type="checkbox"
-                        name="Oak Ridge Orchard"
-                        value="Oak Ridge Orchard"
-                        className="form-check-input"
-                        onChange={(e) => onChange(e)}
-                      />
-                      <label
-                        className="responsive-input-text"
-                        style={{ whiteSpace: "nowrap" }}
-                      >
-                        Oak Ridge
-                      </label>
-                    </div>
-                    <div class="col-sm-4 d-flex gap-3 align-items-center">
-                      <input
-                        id="HomeAreas"
-                        type="checkbox"
-                        name="Maple Ridge"
-                        value="Maple Ridge"
-                        className="form-check-input"
-                        onChange={(e) => onChange(e)}
-                      />
-                      <label
-                        className="responsive-input-text"
-                        style={{ whiteSpace: "nowrap" }}
-                      >
-                        Maple Bush
-                      </label>
-                    </div>
-                    <div class="col-sm-4 d-flex gap-3 align-items-center">
-                      <input
-                        id="HomeAreas"
-                        type="checkbox"
-                        name="Pine Woods"
-                        value="Pine Woods"
-                        onChange={(e) => onChange(e)}
-                        className="form-check-input"
-                      />
-                      <label
-                        className="responsive-input-text"
-                        style={{ whiteSpace: "nowrap" }}
-                      >
-                        Pine Woods
-                      </label>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-4 d-flex gap-3 align-items-center">
-                      <input
-                        id="HomeAreas"
-                        type="checkbox"
-                        name="Walnut Groves"
-                        value="Walnut Groves"
-                        onChange={(e) => onChange(e)}
-                        className="form-check-input"
-                      />
-                      <label
-                        className="responsive-input-text"
-                        style={{ whiteSpace: "nowrap" }}
-                      >
-                        Walnut Grove
-                      </label>
-                    </div>
-                    <div class="col-sm-4 d-flex gap-3 align-items-center">
-                      <input
-                        id="HomeAreas"
-                        type="checkbox"
-                        name="Admin Offices"
-                        value="Admin Offices"
-                        onChange={(e) => onChange(e)}
-                        className="form-check-input"
-                      />
-                      <label
-                        className="responsive-input-text"
-                        style={{ whiteSpace: "nowrap" }}
-                      >
-                        Cherry Orchard
-                      </label>
-                    </div>
-                    <div class="col-sm-4 d-flex gap-3 align-items-center">
-                      <input
-                        id="AdminOffices"
-                        type="checkbox"
-                        name="Other"
-                        value="Other"
-                        onChange={(e) => onChange(e)}
-                        className="form-check-input"
-                      />
-                      <label
-                        className="responsive-input-text"
-                        style={{ whiteSpace: "nowrap" }}
-                      >
-                        Admin Offices
-                      </label>
-                    </div>
+                    {homeAreasOptions?.map((area, index) => {
+                      return (
+                        <>
+                          <div class="col-sm-4 d-flex gap-3 align-items-center">
+                            <input
+                              type="checkbox"
+                              id={`option-${index}`}
+                              className="form-check-input"
+                              value={area}
+                              checked={HomeAreas.includes(area)}
+                              onChange={(e) => onChange(e)}
+                            />
+                            <label
+                              className="responsive-input-text"
+                              style={{ whiteSpace: "nowrap" }}
+                            >
+                              {area}
+                            </label>
+                          </div>
+                        </>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -533,25 +454,9 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                     value={DepartmentVisit}
                     onChange={(e) => onChange(e)}
                   >
-                    <option value={"COO/Administrator"}>COO/Administrator </option>
-                    <option value={"Human Resources"}>Human Resources </option>
-                    <option value={"Finance Manager"}>Finance Manager </option>
-                    <option value={"Director of Nursing"}>Director of Nursing </option>
-                    <option value={"Program Manager"}>
-                      Program Manager{" "}
-                    </option>
-                    <option value={"Volunteer Coordinator"}>
-                      Volunteer Coordinator{" "}
-                    </option>
-                    <option value={"Nutrition Manager"}>
-                    Nutrition Manager{" "}
-                    </option>
-                    <option value={"Manager of Cognitive Care"}>
-                    Manager of Cognitive Care
-                    </option>
-                    <option value={"IPAC Manager"}>
-                    IPAC Manager
-                    </option>
+                    {offices?.map((office) => (
+                      <option value={office}>{office}</option>
+                    ))}
                   </select>
                 </div>
               )}
@@ -681,8 +586,6 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                 </div>
               </div>
 
-        
-
               {/* Checkbox: Please tick this box to acknowledge that you will follow all staff directions during your visit*/}
               <div className="mb-3 mb-md-5 d-flex align-items-center justify-content-center gap-3">
                 <input
@@ -714,7 +617,6 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               <span className="responsive-error-text text-danger">{error}</span>
             )}
           </div>
-         
 
           {/* Buttons */}
           <div className="d-flex align-items-center justify-content-center gap-2">

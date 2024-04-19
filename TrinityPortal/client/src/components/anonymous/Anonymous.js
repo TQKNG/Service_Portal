@@ -9,7 +9,7 @@ import AnonymousLogout from "./AnonymousLogout";
 import { loadSettingsList } from "../../actions/admin";
 import useWebSocket from "../../services/WebSocketService";
 
-const Anonymous = ({isOutbreak, outbreakMessage1,outbreakMessage2,loadSettingsList}) => {
+const Anonymous = ({isOutbreak, outbreakMessage1,outbreakMessage2, offices,loadSettingsList}) => {
   const location = useLocation();
   const [device, setDetectDevice] = useState("Unknown");
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -214,7 +214,7 @@ const Anonymous = ({isOutbreak, outbreakMessage1,outbreakMessage2,loadSettingsLi
             </div>
           </div>
           {isSignedIn && (
-            <AnonymousLogin device={device} isSignedIn={isSignedIn} />
+            <AnonymousLogin device={device} isSignedIn={isSignedIn} offices={offices} />
           )}
           {isSignedOut && (
             <AnonymousLogout device={device} isSignedOut={isSignedOut} />
@@ -236,6 +236,7 @@ Anonymous.propTypes = {
   isOutbreak: PropTypes.bool.isRequired,
   outbreakMessage1: PropTypes.string.isRequired,
   outbreakMessage2: PropTypes.string.isRequired,
+  offices: PropTypes.array.isRequired,
   loadSettingsList: PropTypes.func.isRequired,
 
 };
@@ -244,6 +245,7 @@ const mapStateToProps = (state) => ({
   isOutbreak: state.admin.settingsList.OutbreakStatus,
   outbreakMessage1: state.admin.settingsList.OutbreakMessage?.outBreakMessage1,
   outbreakMessage2: state.admin.settingsList.OutbreakMessage?.outBreakMessage2,
+  offices: state.admin.settingsList.Roles
 });
 
 export default connect(mapStateToProps, {
