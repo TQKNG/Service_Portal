@@ -4,7 +4,6 @@ import Toogle from "../../layouts/Toogle";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { loadSettingsList, updateSetting } from "../../../actions/admin";
-import { setOutbreak,removeOutbreak } from "../../../actions/alerts";
 import Loading from "../../layouts/Loading";
 
 const Setting = ({
@@ -13,8 +12,6 @@ const Setting = ({
   settingListLoading,
   updateSetting,
   loadSettingsList,
-  setOutbreak,
-  removeOutbreak
 }) => {
   const [checked, setChecked] = useState(false);
   const [formData, setFormData] = useState({
@@ -68,16 +65,6 @@ const Setting = ({
     });
   }, [settingsList]);
 
-  // Set/unset outbreak globally
-  useEffect(() => {
-    if(checked){
-      setOutbreak();
-    }
-    else{
-      removeOutbreak();
-    }
-
-  },[checked]);
 
   const {
     volumeMax,
@@ -280,7 +267,7 @@ const Setting = ({
                           style={{ maxWidth: "100px" }}
                         >
                           <Toogle
-                            checked={outbreakStatus === 0? checked: !checked}
+                            checked={checked}
                             setChecked={setChecked}
                             labels={["No", "Yes"]}
                           />
@@ -524,7 +511,6 @@ Setting.propTypes = {
   settingsList: PropTypes.array,
   loadSettingsList: PropTypes.func.isRequired,
   updateSetting: PropTypes.func.isRequired,
-  setOutbreak: PropTypes.func.isRequired,
   settingListLoading: PropTypes.bool,
   authUser: PropTypes.object,
 };
@@ -537,6 +523,4 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   loadSettingsList,
   updateSetting,
-  setOutbreak,
-  removeOutbreak
 })(Setting);
