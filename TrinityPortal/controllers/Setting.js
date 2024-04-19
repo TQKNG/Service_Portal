@@ -67,12 +67,20 @@ exports.updateSetting = async (req, res) => {
       outBreakMessage2: req.body.outbreakMessage2,
     });
 
+    formatedSettings["OutbreakStatus"] = req.body.outbreakStatus;
+
     let results;
     const pool = await poolPromise;
-    results = await pool
+    await pool
       .request()
       .input("keyword", "OutbreakMessage")
       .input("valueStr", formatedSettings["OutbreakMessage"])
+      .execute("dbo.Settings_Update");
+
+    await pool
+      .request()
+      .input("keyword", "OutbreakStatus")
+      .input("valueStr", formatedSettings["OutbreakStatus"])
       .execute("dbo.Settings_Update");
 
     res.status(200).json({ success: true });

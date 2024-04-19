@@ -15,7 +15,7 @@ const Setting = ({
   updateSetting,
   loadSettingsList,
 }) => {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(null);
   const [volMaxTR, setVolMaxTR] = useState(null);
   const [volMinTR, setVolMinTR] = useState(null);
   const [formData, setFormData] = useState({
@@ -152,7 +152,15 @@ const Setting = ({
           ? settingsList.OutbreakMessage.outBreakMessage2
           : "",
     });
+
   }, [settingsList]);
+
+  // Set initial outbreak status
+  useEffect(() => {
+      setChecked(formData.outbreakStatus);
+   },[formData.outbreakStatus]);
+  
+
 
   const {
     volumeMax,
