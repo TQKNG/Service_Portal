@@ -6,12 +6,44 @@ import PropTypes from "prop-types";
 // Components
 import AnonymousLogin from "./AnonymousLogin";
 import AnonymousLogout from "./AnonymousLogout";
+import { loadSettingsList } from "../../actions/admin";
+import useWebSocket from "../../services/WebSocketService";
 
-const Anonymous = ({isOutbreak}) => {
+const Anonymous = ({isOutbreak, outbreakMessage1,outbreakMessage2,loadSettingsList}) => {
   const location = useLocation();
   const [device, setDetectDevice] = useState("Unknown");
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isSignedOut, setIsSignedOut] = useState(false);
+
+   // WebSocket Config
+   const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
+    `ws:${window.location.hostname}:5001`
+  );
+
+  useEffect(() => {
+    connect();
+
+    disconnect();
+  }, []);
+
+  useEffect(() => {
+    const handleIncomingMessage = (data) => {
+
+      const convertedData = JSON.parse(data).data;
+
+      console.log("Test converted Data", convertedData);
+
+      loadSettingsList();
+
+    };
+
+    onMessage(handleIncomingMessage);
+
+    return () => {
+      // Clean up subscription
+      onMessage(null);
+    };
+  }, [onMessage]);
 
   function detectDevice(userAgent) {
     if (userAgent.match(/Android/i)) {
@@ -37,7 +69,8 @@ const Anonymous = ({isOutbreak}) => {
   }, [location]);
 
   useEffect(()=>{
-    console.log("tests is outbreak", isOutbreak)
+    console.log("Load Settings", isOutbreak)
+    loadSettingsList();
   },[])
 
   return (
@@ -53,8 +86,8 @@ const Anonymous = ({isOutbreak}) => {
             {/* Title */}
             <span className="responsive-text text-white text-center">
               {isOutbreak
-                ? `We are currently in outbreak`
-                : `There are currently no active outbreaks in the homes`}
+                ? `${outbreakMessage2}`
+                : `${outbreakMessage1}`}
             </span>
           </div>
 
@@ -201,10 +234,18 @@ const Anonymous = ({isOutbreak}) => {
 
 Anonymous.propTypes = {
   isOutbreak: PropTypes.bool.isRequired,
+  outbreakMessage1: PropTypes.string.isRequired,
+  outbreakMessage2: PropTypes.string.isRequired,
+  loadSettingsList: PropTypes.func.isRequired,
+
 };
 
 const mapStateToProps = (state) => ({
-  isOutbreak: state.alerts,
+  isOutbreak: state.admin.settingsList.OutbreakStatus,
+  outbreakMessage1: state.admin.settingsList.OutbreakMessage?.outBreakMessage1,
+  outbreakMessage2: state.admin.settingsList.OutbreakMessage?.outBreakMessage2,
 });
 
-export default connect(mapStateToProps, {})(Anonymous);
+export default connect(mapStateToProps, {
+  loadSettingsList
+})(Anonymous);

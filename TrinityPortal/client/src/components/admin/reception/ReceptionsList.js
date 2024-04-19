@@ -20,7 +20,7 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
 
   // WebSocket Config
   const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
-    `ws:${window.location.hostname}:5000`
+    `ws:${window.location.hostname}:5001`
   );
 
   useEffect(() => {

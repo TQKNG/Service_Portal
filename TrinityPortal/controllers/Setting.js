@@ -83,6 +83,11 @@ exports.updateSetting = async (req, res) => {
       .input("valueStr", formatedSettings["OutbreakStatus"])
       .execute("dbo.Settings_Update");
 
+    sendWebSocketMessage({
+      type: "dataReceived",
+      data: "Outbreak Status Change",
+    });
+    
     res.status(200).json({ success: true });
   } catch (error) {
     console.log(error);
