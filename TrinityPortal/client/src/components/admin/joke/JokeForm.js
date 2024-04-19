@@ -54,8 +54,6 @@ const JokeForm = ({
     } else if (location.pathname.includes("edit")) {
       console.log("edit");
       updateJoke(JokeID, formData);
-      hist.push("/admin/jokes");
-      clearJoke();
     }
     hist.push("/admin/joke");
     clearJoke();
@@ -64,7 +62,7 @@ const JokeForm = ({
   const { JokeID, Name, JokeData, JokeText } = formData;
 
   if (joke == null && location.pathname.includes("edit")) {
-    hist.push("/admin/jokes");
+    hist.push("/admin/joke");
   }
 
   return (
@@ -130,13 +128,13 @@ const JokeForm = ({
             onChange={(e) => onChange(e)}
           />
         </div>
-        <div className="mb-3">
+
+        {/* <div className="mb-3">
           <div className="d-flex flex-column gap-2 mb-2">
             <div className="txt-primary">Joke File</div>
-            {/* Display of the image */}
-            {formData.JokeData !== "" && (
+            {JokeData !== "" && (
               <img
-                src={formData.JokeData}
+                src={JokeData}
                 className="mb-3"
                 alt=""
                 srcset=""
@@ -165,7 +163,7 @@ const JokeForm = ({
             formData={formData}
             fieldType={"image"}
           />
-        </div>
+        </div> */}
 
         {location.pathname.includes("edit") && (
           <div className="mb-3">
@@ -231,7 +229,7 @@ const JokeForm = ({
                     className="btn button-primary"
                     onClick={() => {
                       deleteJoke(JokeID);
-                      hist.push("/admin/jokes");
+                      hist.push("/admin/joke");
                       clearJoke();
                     }}
                     data-bs-dismiss="modal"
@@ -242,7 +240,7 @@ const JokeForm = ({
               </div>
             </div>
           </div>
-          {authUser.UserTypeID === 5 && JokeID !== "" && (
+          {authUser.roleID === 5 && JokeID !== "" && (
             <div
               className="btn btn-danger d-flex align-items-center px-4 mx-3"
               data-bs-toggle="modal"

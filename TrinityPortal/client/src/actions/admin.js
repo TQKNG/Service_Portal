@@ -857,12 +857,11 @@ export const loadJokesList =
     }
   };
 
-export const updateJoke = (schoolId, formData) => async (dispatch) => {
+export const updateJoke = (jokeID, formData) => async (dispatch) => {
   try {
-    // const result = await api.put(`/schools/${schoolId}`, formData);
-    // console.log("test result", result)
-    // dispatch(loadSchoolsList());
-    // dispatch(setAlert("School updated Successfully", "success"));
+    const result = await api.put(`/jokes/${jokeID}`, formData);
+    dispatch(loadJokesList());
+    dispatch(setAlert("Joke updated Successfully", "success"));
   } catch (err) {
     console.log(err);
     const errors = err.response.data.errors;
@@ -880,7 +879,7 @@ export const updateJoke = (schoolId, formData) => async (dispatch) => {
 export const addJoke = (formData) => async (dispatch) => {
   try {
     await api.post("/jokes", formData);
-    // dispatch(loadSchoolsList());
+    dispatch(loadJokesList());
     dispatch(setAlert("Joke Added Successfully", "success"));
   } catch (err) {
     console.log(err);
@@ -896,11 +895,11 @@ export const addJoke = (formData) => async (dispatch) => {
   }
 };
 
-export const deleteJoke = (schoolId) => async (dispatch) => {
+export const deleteJoke = (jokeID) => async (dispatch) => {
   try {
-    // await api.delete(`/schools/${schoolId}`);
-    // dispatch(loadSchoolsList());
-    // dispatch(setAlert("School Deleted Successfully", "info"));
+    await api.delete(`/jokes/${jokeID}`);
+    dispatch(loadJokesList());
+    dispatch(setAlert("Joke Deleted Successfully", "info"));
   } catch (error) {
     console.log(error);
     const errors = error.response.data.errors;

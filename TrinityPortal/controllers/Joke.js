@@ -83,25 +83,24 @@ exports.addJoke = async (req, res) => {
         .execute("dbo.Jokes_Insert");
 
 
-      let newlyCreatedID = record.recordset[0].laughJokeID;
+      // Logic to add joke logo
+      // let newlyCreatedID = record.recordset[0].laughJokeID;
+      // // Save the song data and song logo to server file system
+      // const imgPath = await storeImage("JokeLogo", JokeData, newlyCreatedID);
 
-
-      // Save the song data and song logo to server file system
-      const imgPath = await storeImage("JokeLogo", JokeData, newlyCreatedID);
-
-      if (!imgPath) {
-        return res.status(500).json({ success: false, error: "Server Error" });
-      }
+      // if (!imgPath) {
+      //   return res.status(500).json({ success: false, error: "Server Error" });
+      // }
       // Update the path for new song into database
-      await pool
-        .request()
-        .input("laughJokeID", newlyCreatedID)
-        .input("jokePath", imgPath)
-        .input("jokeName", Name)
-        .input("jokeText", JokeText)
-        .execute("dbo.Jokes_Update");
+      // await pool
+      //   .request()
+      //   .input("laughJokeID", newlyCreatedID)
+      //   .input("jokePath", imgPath)
+      //   .input("jokeName", Name)
+      //   .input("jokeText", JokeText)
+      //   .execute("dbo.Jokes_Update");
     }
-    sendWebSocketMessage({ type: 'dataReceived', data: req.body});
+    // sendWebSocketMessage({ type: 'dataReceived', data: req.body});
     
     res.status(200).json({ success: true });
   } catch (error) {
@@ -168,17 +167,17 @@ exports.getJokes = async (req, res) => {
 
      // Map over data and return an array of promises
      const promises = results.recordset.map(async (item) => {
-      let logo = "";
+      // let logo = "";
 
-      // Retrieve song logo
-      if (item.jokePath !== "") {
-        logo = await retrieveImage("JokeLogo", item.laughJokeID);
-      }
+      // // Retrieve song logo
+      // if (item.jokePath !== "") {
+      //   logo = await retrieveImage("JokeLogo", item.laughJokeID);
+      // }
 
       // Format json format for robot
       item.JokeID = item.laughJokeID;
       item.Name = item.jokeName;
-      item.JokeData = logo;
+      item.JokeData = "";
       item.JokeText = item.jokeText;
     
 
@@ -199,6 +198,44 @@ exports.getJokes = async (req, res) => {
       success: true,
       data: results.recordset,
     });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: "Server Error" });
+  }
+};
+
+exports.updateJoke= async (req, res) => {
+  try {
+    if (req.body) {
+      const { JokeID, Name, JokeText, JokeData } = req.body;
+
+      const pool = await poolPromise;
+
+      await pool
+        .request()
+        .input("laughJokeID", JokeID)
+        .input("jokeName", Name)
+        .input("jokeText", JokeText)
+        .execute("dbo.Jokes_Update");
+    }
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: "Server Error" });
+  }
+};
+
+
+exports.deleteJoke = async (req, res) => {
+  try {
+    const pool = await poolPromise;
+    const results = await pool
+      .request()
+      .input("laughJokeID", req.params.jokeID)
+      .execute("dbo.Jokes_Delete");
+
+    res.status(200).json({ success: true });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Server Error" });
