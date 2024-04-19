@@ -13,20 +13,13 @@ const VolumeController = ({ volume, setFormData, type }) => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    if (type === "Max") {
-      setFormData({ ...setFormData, volumeMax: newValue });
+    if (type === "Min") {
+      setFormData((prev) => ({ ...prev, volumeMin1: newValue }));
     } else {
-      setFormData({ ...setFormData, volumeMin: newValue });
+      setFormData((prev) => ({ ...prev, volumeMax1: newValue }));
     }
   };
 
-  const handleBlur = () => {
-    if (value < 0) {
-      setValue(0);
-    } else if (value > 100) {
-      setValue(100);
-    }
-  };
   return (
     <>
       <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">

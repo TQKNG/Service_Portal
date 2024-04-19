@@ -108,12 +108,9 @@ const Setting = ({
                   >
                     {/* Fields */}
                     <>
-                      {/* Morning Volume */}
+                      {/* Volume */}
                       <div className="mb-3">
                         {/* Volume Max */}
-                        <div>
-                          <div className="fw-bold">Morning Volume</div>
-                        </div>
                         <div className="">
                           <div className="txt-primary">Volume Max {""}</div>
                           <div className="d-flex gap-3">
@@ -139,6 +136,9 @@ const Setting = ({
                             </div>
                           </div>
                         </div>
+                      </div>
+  
+                       <div className="mb-3">
                         {/* Volume Min */}
                         <div className="">
                           <div className="txt-primary">Volume Min {""}</div>
@@ -155,67 +155,6 @@ const Setting = ({
                                 id="volumeMin1"
                                 className="w-100 form-control rounded "
                                 value={volumeMin1}
-                                min={0}
-                                max={100}
-                                type="number"
-                                placeholder="Min."
-                                required
-                                onChange={(e)=>onChange(e)}
-
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-  
-                       {/* Night Volume */}
-                       <div className="mb-3">
-                       <div>
-                          <div className="fw-bold">Night Volume</div>
-                        </div>
-                        {/* Volume Max */}
-                        <div className="">
-                          <div className="txt-primary">Volume Max {""}</div>
-                          <div className="d-flex gap-3">
-                            <div className="col-9">
-                              <VolumeController
-                                volume={volumeMax2}
-                                setFormData={setFormData}
-                                type={"Max"}
-                              />
-                            </div>
-                            <div className="w-100">
-                              <input
-                                id="volumeMax2"
-                                className="w-100 form-control rounded "
-                                value={volumeMax2}
-                                min={0}
-                                max={100}
-                                type="number"
-                                placeholder="Max."
-                                required
-                                onChange={(e)=>onChange(e)}
-
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        {/* Volume Min */}
-                        <div className="">
-                          <div className="txt-primary">Volume Min {""}</div>
-                          <div className="d-flex gap-3">
-                            <div className="col-9">
-                              <VolumeController
-                                volume={volumeMin2}
-                                setFormData={setFormData}
-                                type={"Min"}
-                              />
-                            </div>
-                            <div className="w-100">
-                              <input
-                                id="volumeMin2"
-                                className="w-100 form-control rounded "
-                                value={volumeMin2}
                                 min={0}
                                 max={100}
                                 type="number"
