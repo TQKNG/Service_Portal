@@ -134,15 +134,6 @@ const SongForm = ({
           <div className="d-flex align-items-center gap-2">
             <div className="txt-primary">Song File</div>
             {/* Display of the audio --Check for midi player or convert midi to audio format */}
-            {formData.SongData !== "" && (
-              <audio controls >
-                <source
-                  src={formData.SongData}
-                  type="audio/mpeg"
-                />
-                Your browser does not support the audio element.
-              </audio>
-            )}
           </div>
 
           <FileUpload
@@ -202,20 +193,6 @@ const SongForm = ({
             fieldType={"image"}
           />
         </div>
-
-        {location.pathname.includes("edit") && (
-          <div className="mb-3">
-            <div className="txt-primary">SongID</div>
-            <input
-              disabled
-              type="text"
-              className="form-control rounded "
-              id="SongID"
-              placeholder="Enter song ID..."
-              value={SongID}
-            />
-          </div>
-        )}
 
         <div className="d-flex align-items-center justify-content-center">
           <button type="submit" className="button-primary btn-block btn px-5">
