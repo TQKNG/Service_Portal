@@ -66,8 +66,17 @@ const TriviaForm = ({
     // Update Correct Answer
     if (e.target.id.includes("isCorrect")) {
       let index = e.target.id.split(" - ")[1];
-      let temp = formData.Answers;
-      temp[index].isCorrect = Boolean(e.target.value);
+      let temp = formData.Answers.map((answer, i) => {
+        if (i === parseInt(index)) {
+          // This is the answer that was just edited
+          return { ...answer, isCorrect: true };
+        } else {
+          // All other answers should be set to false
+          return { ...answer, isCorrect: false };
+        }
+      });
+      // let temp = formData.Answers;
+      // temp[index].isCorrect = Boolean(e.target.value);
       setFormData({ ...formData, Answers: temp });
     }
   };
@@ -87,15 +96,14 @@ const TriviaForm = ({
           Answers: null,
           CorrectAnswer: null,
         });
-        hist.push("/admin/trivia");
-        clearTrivia();
+      
       });
     } else if (location.pathname.includes("edit")) {
-      // console.log("edit");
-      // updateTrivia(QuestionID, formData);
-      // hist.push("/admin/trivias");
-      // clearTrivia();
+      console.log("edit");
+      updateTrivia(QuestionID, formData);
     }
+    hist.push("/admin/trivia");
+    clearTrivia();
   };
 
   const { QuestionID, QuestionText, Answers } = formData;
@@ -107,7 +115,7 @@ const TriviaForm = ({
   return (
     <div className="p-sm-5 p-2 w-100  dashboard-margin mx-lg-auto container">
       <div className="mb-3 ">
-        <h6 className="txt-primary-light">Admin / Trivias / Trivia</h6>
+        <h6 className="txt-primary-light">{`${authUser.firstName} ${authUser.lastName}`} / Trivias / Trivia</h6>
         <div className="d-sm-flex  w-100 align-items-center justify-content-between">
           <div className="d-flex mb-2 mb-sm-0">
             <div
@@ -159,15 +167,17 @@ const TriviaForm = ({
             <div className="txt-primary">Answers</div>
             {Answers?.map((item, index) => (
               <div key={index} className="d-flex gap-2 align-items-center">
+                {/* Is Correct Radio button */}
                 <input
                   id={`isCorrect - ${index}`}
                   type="radio"
                   name={`isCorrect`}
-                  value={true}
+                  value={item?.isCorrect}
                   checked={item?.isCorrect}
                   onChange={(e) => onChange(e)}
                   className="form-check-input"
                 />
+                {/* Answer Text */}
                     <input
                     type="text"
                     id={`Answers - ${index}`}
@@ -226,7 +236,7 @@ const TriviaForm = ({
                   <br />
                   <b>
                     <span className="text-danger text-center">
-                      Warning Deleting atrivia will result in deleting
+                      Warning Deleting a trivia will result in deleting
                       everything related to it
                     </span>
                   </b>
@@ -244,7 +254,7 @@ const TriviaForm = ({
                     className="btn button-primary"
                     onClick={() => {
                       deleteTrivia(QuestionID);
-                      hist.push("/admin/trivias");
+                      hist.push("/admin/trivia");
                       clearTrivia();
                     }}
                     data-bs-dismiss="modal"

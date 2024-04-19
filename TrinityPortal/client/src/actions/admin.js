@@ -934,49 +934,9 @@ export const loadTriviasList =
   (value = {}) =>
   async (dispatch) => {
     try {
-      // const res = await api.post("/schools/get",value);
-      // dispatch({ type: GET_SCHOOLSLIST, payload: res.data.data });
-      dispatch({
-        type: GET_TRIVIASLIST,
-        payload: [
-          {
-            QuestionID: 1,
-            QuestionText: "What is the capital of France?",
-            Answers: [
-              { AnswerID: 1, AnswerText: "Paris", isCorrect: true },
-              { AnswerID: 2, AnswerText: "London", isCorrect: false },
-              { AnswerID: 3, AnswerText: "Berlin", isCorrect: false },
-            ],
-          },
-          {
-            QuestionID: 2,
-            QuestionText: "Who wrote 'To Kill a Mockingbird'?",
-            Answers: [
-              { AnswerID: 1, AnswerText: "Harper Lee", isCorrect: false },
-              { AnswerID: 2, AnswerText: "George Orwell", isCorrect: false },
-              { AnswerID: 3, AnswerText: "Ernest Hemingway", isCorrect: true },
-            ],
-          },
-          {
-            QuestionID: 3,
-            QuestionText: "What is the square root of 81?",
-            Answers: [
-              { AnswerID: 1, AnswerText: "7", isCorrect: false },
-              { AnswerID: 2, AnswerText: "8", isCorrect: false },
-              { AnswerID: 3, AnswerText: "9", isCorrect: true },
-            ],
-          },
-          {
-            QuestionID: 4,
-            QuestionText: "Which planet is known as the Red Planet?",
-            Answers: [
-              { AnswerID: 1, AnswerText: "Mars", isCorrect: true },
-              { AnswerID: 2, AnswerText: "Venus", isCorrect: false },
-              { AnswerID: 3, AnswerText: "Jupiter", isCorrect: false },
-            ],
-          },
-        ],
-      });
+      const res = await api.get("/trivias");
+      dispatch({ type: GET_TRIVIASLIST, payload: res.data.data });
+   
     } catch (error) {
       console.log(error);
       const errors = error.response.data.errors;
@@ -988,12 +948,11 @@ export const loadTriviasList =
     }
   };
 
-export const updateTrivia = (schoolId, formData) => async (dispatch) => {
+export const updateTrivia = (questionID, formData) => async (dispatch) => {
   try {
-    // const result = await api.put(`/schools/${schoolId}`, formData);
-    // console.log("test result", result)
-    // dispatch(loadSchoolsList());
-    // dispatch(setAlert("School updated Successfully", "success"));
+    const result = await api.put(`/trivias/${questionID}`, formData);
+    dispatch(loadTriviasList());
+    dispatch(setAlert("Trivia updated Successfully", "success"));
   } catch (err) {
     console.log(err);
     const errors = err.response.data.errors;
@@ -1011,7 +970,7 @@ export const updateTrivia = (schoolId, formData) => async (dispatch) => {
 export const addTrivia = (formData) => async (dispatch) => {
   try {
     await api.post("/trivias", formData);
-    // dispatch(loadSchoolsList());
+    dispatch(loadTriviasList());
     dispatch(setAlert("Trivia Added Successfully", "success"));
   } catch (err) {
     console.log(err);

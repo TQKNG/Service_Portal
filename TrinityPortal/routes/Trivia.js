@@ -2,8 +2,8 @@ const express = require('express');
 const {
   addTrivia,
   getTrivias,
-//   updateSchool,
-//   deleteSchool,
+  updateTrivia,
+  deleteTrivia,
 //   addMultipleSchools,
 } = require('../controllers/Trivia');
 
@@ -13,10 +13,10 @@ const router = express.Router();
 
 router.post('/', addTrivia);
 router.get('/', getTrivias);
+router.put('/:questionID', updateTrivia);
+router.delete('/:questionID', deleteTrivia);
 
 // router.post('/import', protect, authorize(5), addMultipleSchools);
 // router.post('/get', protect, getSchools);
-// router.put('/:schoolId', protect, authorize(3, 4, 5,6), updateSchool);
-// router.delete('/:schoolId', protect, authorize(5), deleteSchool);
 
 module.exports = router;

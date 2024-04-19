@@ -179,7 +179,11 @@ const TriviasList = ({ triviasList, triviaListLoading }) => {
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
-        ) : (
+        ) : triviasList.length === 0 ? (
+          <div className="d-flex justify-content-center align-items-center h-100">
+            <div className="txt-primary">No Trivias Found</div>
+          </div>
+        ): (
           listSearch
             .slice(15 * (page - 1), 15 * page)
             .map((trivia, id) => (
