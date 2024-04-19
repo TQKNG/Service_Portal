@@ -192,20 +192,6 @@ const BookForm = ({
           />
         </div>
 
-        {location.pathname.includes("edit") && (
-          <div className="mb-3">
-            <div className="txt-primary">BookID</div>
-            <input
-              disabled
-              type="text"
-              className="form-control rounded "
-              id="BookID"
-              placeholder="Enter book ID..."
-              value={BookID}
-            />
-          </div>
-        )}
-
         <div className="d-flex align-items-center justify-content-center">
           <button type="submit" className="button-primary btn-block btn px-5">
             Save
