@@ -6,6 +6,7 @@ const {
   storeImage,
   retrieveImage,
 } = require("../utils/storage");
+const { poolPromise } = require("../config/db");
 
 
 /**
@@ -58,10 +59,47 @@ exports.addJoke = async (req, res) => {
 
     if (req.body) {
       const { Name, JokeText, JokeData } = req.body;
-      // Create new song on Database
+     // Create new song on Database
+     const pool = await poolPromise;
+
+     // Check if songs with the same name already exist
+     const results = await pool
+       .request()
+       .input("jokeName", Name)
+       .execute("dbo.Jokes_Load");
+
+     if (results.recordset.length > 0) {
+       return res
+         .status(400)
+         .json({ success: false, error: "Joke already exists" });
+     }
+
+      // Insert new song into database
+      let record = await pool
+        .request()
+        .input("jokeName", Name)
+        .input("jokePath", "")
+        .input("jokeText", JokeText)
+        .execute("dbo.Jokes_Insert");
+
+
+      let newlyCreatedID = record.recordset[0].laughJokeID;
+
 
       // Save the song data and song logo to server file system
-      await storeImage("JokeData", JokeData, Name);
+      const imgPath = await storeImage("JokeLogo", JokeData, newlyCreatedID);
+
+      if (!imgPath) {
+        return res.status(500).json({ success: false, error: "Server Error" });
+      }
+      // Update the path for new song into database
+      await pool
+        .request()
+        .input("laughJokeID", newlyCreatedID)
+        .input("jokePath", imgPath)
+        .input("jokeName", Name)
+        .input("jokeText", JokeText)
+        .execute("dbo.Jokes_Update");
     }
     sendWebSocketMessage({ type: 'dataReceived', data: req.body});
     
@@ -119,48 +157,47 @@ exports.addJoke = async (req, res) => {
  */
 exports.getJokes = async (req, res) => {
   try {
-    let data = [
-      {
-        JokeID: 1,
-        Name: "Why do beets always win",
-        JokeText: "Why do beets always win? They are un-beet-able.",
-        JokeData: "",
-      },
-      {
-        JokeID: 2,
-        Name: "Why did the slice of bread get sent home from school",
-        JokeText: "Why did the slice of bread get sent home from school? It was feeling crumpy.",
-        JokeData: "",
-      },
-      {
-        JokeID: 3,
-        Name: "What do you call a magic dog",
-        JokeText: "What do you call a magic dog? A labracadabrador!",
-        JokeData: "",
-      },
-      {
-        JokeID: 4,
-        Name: "Why did the robber jump in the shower",
-        JokeText: "Why did the robber jump in the shower? He wanted to make a clean getaway!",
-        JokeData: "",
-      },
-    ];
+    const pool = await poolPromise;
+    let results;
 
-    // Map over data and return an array of promises
-    const promises = data.map(async (item) => {
-      const jokeData = await retrieveImage("JokeData", item.Name);
+    results = await pool.request().execute("dbo.Jokes_Load");
 
-      // Assign retrieved values to item properties
-      item.JokeData= jokeData;
+    if(results.recordset.length === 0) {
+      return res.status(200).json({ success: true, data: [] });
+    }
+
+     // Map over data and return an array of promises
+     const promises = results.recordset.map(async (item) => {
+      let logo = "";
+
+      // Retrieve song logo
+      if (item.jokePath !== "") {
+        logo = await retrieveImage("JokeLogo", item.laughJokeID);
+      }
+
+      // Format json format for robot
+      item.JokeID = item.laughJokeID;
+      item.Name = item.jokeName;
+      item.JokeData = logo;
+      item.JokeText = item.jokeText;
+    
+
+      delete item.laughJokeID;
+      delete item.jokeName;
+      delete item.jokePath;
+      delete item.isDeleted;
+      delete item.mediaType;
+      delete item.jokeText;
     });
+    
+     // Wait for all promises to resolve
+     await Promise.all(promises);
 
-    // Wait for all promises to resolve
-    await Promise.all(promises);
-
+     
     // Once all asynchronous operations are complete, send the response
     res.status(200).json({
       success: true,
-      data
+      data: results.recordset,
     });
   } catch (error) {
     console.log(error);

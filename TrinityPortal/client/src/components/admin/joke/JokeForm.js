@@ -57,9 +57,11 @@ const JokeForm = ({
       hist.push("/admin/jokes");
       clearJoke();
     }
+    hist.push("/admin/joke");
+    clearJoke();
   };
 
-  const { JokeID, Name, JJokeData, JokeText } = formData;
+  const { JokeID, Name, JokeData, JokeText } = formData;
 
   if (joke == null && location.pathname.includes("edit")) {
     hist.push("/admin/jokes");
@@ -68,7 +70,7 @@ const JokeForm = ({
   return (
     <div className="p-sm-5 p-2 w-100  dashboard-margin mx-lg-auto container">
       <div className="mb-3 ">
-        <h6 className="txt-primary-light">Admin / Jokes / Joke</h6>
+        <h6 className="txt-primary-light">{`${authUser.firstName} ${authUser.lastName}`} / Jokes / Joke</h6>
         <div className="d-sm-flex  w-100 align-items-center justify-content-between">
           <div className="d-flex mb-2 mb-sm-0">
             <div
@@ -131,7 +133,6 @@ const JokeForm = ({
         <div className="mb-3">
           <div className="d-flex flex-column gap-2 mb-2">
             <div className="txt-primary">Joke File</div>
-            {/* Display of the audio */}
             {/* Display of the image */}
             {formData.JokeData !== "" && (
               <img
