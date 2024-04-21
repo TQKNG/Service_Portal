@@ -1,10 +1,64 @@
 const { poolPromise } = require("../config/db");
+const moment = require("moment");
 
 exports.addReception = async (req, res) => {
   try {
     console.log("test my request body2", req.body);
-  
-    
+
+    if (req.body) {
+      const {
+        FirstName,
+        LastName,
+        PhoneNumber,
+        InOut,
+        HomeAreas,
+        ScheduledVisit,
+        Purpose,
+        ResidentName,
+        FirstVisit,
+        SicknessSymptom,
+        Acknowledgement,
+        DepartmentVisit,
+      } = req.body;
+
+      if (InOut) {
+        var SignInOutTime = moment.utc().format();
+      }
+
+      const pool = await poolPromise;
+      let visitRecord = await pool
+        .request()
+        .input("firstName", FirstName)
+        .input("lastName", LastName)
+        .input("phoneNumber", PhoneNumber)
+        .execute("dbo.Visits_Load");
+
+      // First time visit then insert new record
+      // if (visitRecord.recordset.length === 0) {
+      //   await pool
+      //     .request()
+      //     .input("firstName", FirstName)
+      //     .input("lastName", LastName)
+      //     .input("phoneNumber", PhoneNumber)
+      //     .input("signInDate", SignInOutTime)
+      //     .input("homeAreas", JSON.stringify(HomeAreas))
+      //     .input("scheduledVisit", ScheduledVisit)
+      //     .input("purpose", Purpose)
+      //     .input("residentName", ResidentName)
+      //     .input("firstVisit", FirstVisit)
+      //     .input("sicknessSymptom", SicknessSymptom)
+      //     .input("acknowledgement", Acknowledgement)
+      //     .input("departmentVisit", DepartmentVisit)
+      //     .execute("dbo.Visits_Insert");
+      // }
+
+      // Not First time visit then check for the latest record
+
+      // if there sign in but no sign out then do not allow to sign in again
+
+      // otherwise allow to sign in and persist the new record to db
+    }
+
     res.status(200).json({ success: true });
   } catch (error) {
     console.log(error);
@@ -34,7 +88,6 @@ exports.getReceptions = async (req, res) => {
   }
 };
 
-
 exports.updateReception = async (req, res) => {
   try {
     if (req.body) {
@@ -42,11 +95,11 @@ exports.updateReception = async (req, res) => {
 
       const pool = await poolPromise;
 
-      if(SongData !== ""){
+      if (SongData !== "") {
         var songPath = await storeAudio("SongAudio", SongData, SongID);
       }
 
-      if(SongLogo !== ""){
+      if (SongLogo !== "") {
         var imgPath = await storeImage("SongLogo", SongLogo, SongID);
       }
 
@@ -66,7 +119,6 @@ exports.updateReception = async (req, res) => {
     res.status(500).json({ success: false, error: "Server Error" });
   }
 };
-
 
 exports.deleteReception = async (req, res) => {
   try {

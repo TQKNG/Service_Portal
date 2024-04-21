@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import AnonymousConfirm from "./AnonymousConfirm";
-import { addReception } from "../../../../controllers/Reception";
+import { addReception } from "../../actions/admin";
 
-const AnonymousLogin = ({ setAlert, device, isSignedIn, offices }) => {
+const AnonymousLogin = ({ setAlert, device, isSignedIn, offices, addReception }) => {
   const [formData, setFormData] = useState({
     FirstName: "",
     LastName: "",
@@ -48,7 +48,6 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn, offices }) => {
     "Cherry Orchard",
     "Admin Offices",
   ]);
-  const [isSicknessSymptom, setIsSicknessSymptom] = useState(false);
   const [error, setError] = useState(null);
 
   // Check if the user is already logged in
@@ -640,9 +639,13 @@ There is some mandatory training that you must undertake (~10 minutes)`}
 
 AnonymousLogin.propTypes = {
   setAlert: PropTypes.func.isRequired,
+  addReception: PropTypes.func.isRequired,
 };
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+
+});
 
 export default connect(mapStateToProps, {
+  addReception,
   setAlert,
 })(AnonymousLogin);
