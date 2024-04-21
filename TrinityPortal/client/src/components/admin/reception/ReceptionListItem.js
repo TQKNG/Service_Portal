@@ -10,7 +10,8 @@ import moment from "moment";
 const ReceptionsListItem = ({ reception, setReception }) => {
   const [edit, setEdit] = useState(false);
   const [show, setShow] = useState(false);
-  const { InOutID, DateTime, FullName, ClockIn, ClockOut, Status } = reception;
+  const { visitID, firstName, lastName, Status,phoneNumber, signInDate, signOutDate, homeAreas, scheduledVisit, purpose, residentName, firstVisit, sicknessSymptom, acknowledgement } = reception;
+
   const hist = useHistory();
   return (
     <div className="admin-users-fields  d-flex align-items-center justify-content-around  p-2 border-bottom">
@@ -21,29 +22,29 @@ const ReceptionsListItem = ({ reception, setReception }) => {
           setReception(reception);
           //   hist.push(`/admin/school/schoolId=${SchoolID}`);
         }}
-        title={FullName}
+        title={firstName + " " + lastName}
       >
-        {FullName ? FullName : "N/A"}
+        {firstName && lastName ? `${firstName} ${lastName}`: "N/A"}
       </div>
 
       {/* Phone Number */}
-      <div className="admin-large-field text-truncate  mx-auto">Phone number</div>
+      <div className="admin-large-field text-truncate  mx-auto">{phoneNumber}</div>
 
       {/* Sign in Time */}
       <div className="admin-schools-field text-truncate  mx-auto">
-        {ClockIn && moment(ClockIn).format("HH:mm:ss")}
+      {signInDate && moment(signInDate).format('MMMM Do, YYYY h:mm A')}
       </div>
 
       {/* Sign out Time */}
       <div className="admin-schools-field text-truncate  mx-auto">
-        {ClockOut && moment(ClockOut).format("HH:mm:ss")}
+      {signOutDate && moment(signOutDate).format('MMMM Do, YYYY h:mm A')}
       </div>
 
       {/* Home Area */}
-      <div className="admin-schools-field text-truncate ">Admin Office</div>
+      <div className="admin-schools-field text-truncate ">{homeAreas}</div>
 
       {/* Scheduled Visit */}
-      <div className="admin-schools-field text-truncate ">Yes</div>
+      <div className="admin-schools-field text-truncate ">{scheduledVisit?"Yes":"No"}</div>
 
       {/* Purpose */}
       <div className="admin-schools-field text-truncate  mx-auto">Purpose</div>
