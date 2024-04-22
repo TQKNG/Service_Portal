@@ -134,21 +134,6 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn, offices, addReception })
           const {error} = data;
           if (error) {
             setError(error);
-            setFormData({
-              FirstName: "",
-              LastName: "",
-              PhoneNumber: "",
-              InOut: null,
-              HomeAreas: [],
-              ScheduledVisit: null,
-              Purpose: "",
-              ResidentName: "",
-              FirstVisit: null,
-              SicknessSymptom: null,
-              Acknowledgement: null,
-              DepartmentVisit: "",
-            });
-            return;
           }
           
           setIsSubmitted(true);
