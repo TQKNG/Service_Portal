@@ -26,7 +26,7 @@ const Receptions = ({
       <div className="p-sm-5 p-2 w-100 dashboard-margin">
         <div className="mb-3 ">
           <div className="d-flex align-items-center">
-            <h6 className="txt-primary-light mb-0">{`${authUser.firstName} ${authUser.lastName}`}/ Receptions</h6>{" "}
+            <h6 className="txt-primary-light mb-0">{`${authUser.firstName} ${authUser.lastName}`}/ Visitors</h6>{" "}
             <div className="rounded-pill bg-primary px-2 py-1 align-self-center mx-2 my-2 caption ">
               {receptionsList.length}
             </div>

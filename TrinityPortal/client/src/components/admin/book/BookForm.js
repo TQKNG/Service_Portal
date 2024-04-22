@@ -153,7 +153,7 @@ const BookForm = ({
             value={BookText}
             onChange={(e) => onChange(e)}
           />
-          <span>Word Count: {formData.TextCount}</span>
+          {/* <span>Word Count: {formData.TextCount}</span> */}
         </div>
 
         <div className="mb-3">

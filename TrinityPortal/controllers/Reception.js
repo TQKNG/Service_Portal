@@ -26,37 +26,62 @@ exports.addReception = async (req, res) => {
       }
 
       const pool = await poolPromise;
-      let visitRecord = await pool
+      let latestVisitRecord = await pool
         .request()
         .input("firstName", FirstName)
         .input("lastName", LastName)
         .input("phoneNumber", PhoneNumber)
+        .input("latestVisit", 1)
         .execute("dbo.Visits_Load");
 
+      console.log("test field", latestVisitRecord.recordset);
       // First time visit then insert new record
-      // if (visitRecord.recordset.length === 0) {
-      //   await pool
-      //     .request()
-      //     .input("firstName", FirstName)
-      //     .input("lastName", LastName)
-      //     .input("phoneNumber", PhoneNumber)
-      //     .input("signInDate", SignInOutTime)
-      //     .input("homeAreas", JSON.stringify(HomeAreas))
-      //     .input("scheduledVisit", ScheduledVisit)
-      //     .input("purpose", Purpose)
-      //     .input("residentName", ResidentName)
-      //     .input("firstVisit", FirstVisit)
-      //     .input("sicknessSymptom", SicknessSymptom)
-      //     .input("acknowledgement", Acknowledgement)
-      //     .input("departmentVisit", DepartmentVisit)
-      //     .execute("dbo.Visits_Insert");
-      // }
-
-      // Not First time visit then check for the latest record
-
-      // if there sign in but no sign out then do not allow to sign in again
-
-      // otherwise allow to sign in and persist the new record to db
+      if (latestVisitRecord.recordset.length === 0) {
+        await pool
+          .request()
+          .input("firstName", FirstName)
+          .input("lastName", LastName)
+          .input("phoneNumber", PhoneNumber)
+          .input("signInDate", SignInOutTime)
+          .input("homeAreas", JSON.stringify(HomeAreas))
+          .input("scheduledVisit", ScheduledVisit)
+          .input("purpose", Purpose)
+          .input("residentName", ResidentName)
+          .input("firstVisit", FirstVisit)
+          .input("sicknessSymptom", SicknessSymptom)
+          .input("acknowledgement", Acknowledgement)
+          .input("departmentVisit", DepartmentVisit)
+          .execute("dbo.Visits_Insert");
+      } else {
+        if (
+          latestVisitRecord.recordset[0].signInDate &&
+          !latestVisitRecord.recordset[0].signOutDate
+        ) {
+          return res
+            .status(200)
+            .json({
+              success: false,
+              error:
+                "You have not signed out yet. Please sign out before continue",
+            });
+        } else {
+          await pool
+            .request()
+            .input("firstName", FirstName)
+            .input("lastName", LastName)
+            .input("phoneNumber", PhoneNumber)
+            .input("signInDate", SignInOutTime)
+            .input("homeAreas", JSON.stringify(HomeAreas))
+            .input("scheduledVisit", ScheduledVisit)
+            .input("purpose", Purpose)
+            .input("residentName", ResidentName)
+            .input("firstVisit", FirstVisit)
+            .input("sicknessSymptom", SicknessSymptom)
+            .input("acknowledgement", Acknowledgement)
+            .input("departmentVisit", DepartmentVisit)
+            .execute("dbo.Visits_Insert");
+        }
+      }
     }
 
     res.status(200).json({ success: true });
@@ -90,27 +115,48 @@ exports.getReceptions = async (req, res) => {
 
 exports.updateReception = async (req, res) => {
   try {
+    console.log("test my request body", req.body, req.params.receptionID);
+
+    // Update from the portal
+    // if(req.params.receptionID){
+    //   return
+    // }
+    // Update from form data
     if (req.body) {
-      const { SongID, Name, Lyrics, SongData, SongLogo } = req.body;
+      const { FirstName, LastName, PhoneNumber, InOut } = req.body;
+
+      let SignInOutTime; // UTC ISO 8601 format - Current Time
+
+      if (!InOut) {
+        SignInOutTime = moment.utc().format();
+      }
 
       const pool = await poolPromise;
-
-      if (SongData !== "") {
-        var songPath = await storeAudio("SongAudio", SongData, SongID);
-      }
-
-      if (SongLogo !== "") {
-        var imgPath = await storeImage("SongLogo", SongLogo, SongID);
-      }
-
-      await pool
+      let latestVisitRecord = await pool
         .request()
-        .input("singSongID", SongID)
-        .input("songName", Name)
-        .input("songPath", songPath)
-        .input("imagePath", imgPath)
-        .input("lyrics", Lyrics)
-        .execute("dbo.Songs_Update");
+        .input("firstName", FirstName)
+        .input("lastName", LastName)
+        .input("phoneNumber", PhoneNumber)
+        .input("latestVisit", 1)
+        .execute("dbo.Visits_Load");
+
+      console.log("test field", latestVisitRecord.recordset);
+      // First time visit then insert new record
+      if (latestVisitRecord.recordset.length === 0) {
+        return res
+          .status(200)
+          .json({
+            success: false,
+            error:
+              "Your name was not found! Please check the spelling of your name.",
+          });
+      } else {
+        await pool
+          .request()
+          .input("visitID", latestVisitRecord.recordset[0].visitID)
+          .input("signOutDate", SignInOutTime)
+          .execute("dbo.Visits_Update");
+      }
     }
 
     res.status(200).json({ success: true });

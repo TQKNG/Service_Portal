@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -10,9 +10,35 @@ import moment from "moment";
 const ReceptionsListItem = ({ reception, setReception }) => {
   const [edit, setEdit] = useState(false);
   const [show, setShow] = useState(false);
-  const { visitID, firstName, lastName, Status,phoneNumber, signInDate, signOutDate, homeAreas, scheduledVisit, purpose, residentName, firstVisit, sicknessSymptom, acknowledgement } = reception;
+  const {
+    visitID,
+    firstName,
+    lastName,
+    Status,
+    phoneNumber,
+    signInDate,
+    signOutDate,
+    homeAreas,
+    scheduledVisit,
+    purpose,
+    residentName,
+    firstVisit,
+    sicknessSymptom,
+    acknowledgement,
+  } = reception;
 
   const hist = useHistory();
+
+  const visitStatus = useMemo(() => {
+    if (signInDate && !signOutDate) {
+      return 1;
+    } else if (signInDate && signOutDate) {
+      return 2;
+    } else {
+      return 0;
+    }
+  }, [signInDate, signOutDate]);
+
   return (
     <div className="admin-users-fields  d-flex align-items-center justify-content-around  p-2 border-bottom">
       {/* Full Name */}
@@ -24,42 +50,46 @@ const ReceptionsListItem = ({ reception, setReception }) => {
         }}
         title={firstName + " " + lastName}
       >
-        {firstName && lastName ? `${firstName} ${lastName}`: "N/A"}
+        {firstName && lastName ? `${firstName} ${lastName}` : "N/A"}
       </div>
 
       {/* Phone Number */}
-      <div className="admin-large-field text-truncate  mx-auto">{phoneNumber}</div>
+      <div className="admin-large-field text-truncate  mx-auto">
+        {phoneNumber}
+      </div>
 
       {/* Sign in Time */}
       <div className="admin-schools-field text-truncate  mx-auto">
-      {signInDate && moment(signInDate).format('MMMM Do, YYYY h:mm A')}
+        {signInDate && moment(signInDate).format("MMMM Do, YYYY h:mm A")}
       </div>
 
       {/* Sign out Time */}
       <div className="admin-schools-field text-truncate  mx-auto">
-      {signOutDate && moment(signOutDate).format('MMMM Do, YYYY h:mm A')}
+        {signOutDate && moment(signOutDate).format("MMMM Do, YYYY h:mm A")}
       </div>
 
       {/* Home Area */}
       <div className="admin-schools-field text-truncate ">{homeAreas}</div>
 
       {/* Scheduled Visit */}
-      <div className="admin-schools-field text-truncate ">{scheduledVisit?"Yes":"No"}</div>
+      <div className="admin-schools-field text-truncate ">
+        {scheduledVisit ? "Yes" : "No"}
+      </div>
 
       {/* Purpose */}
-      <div className="admin-schools-field text-truncate  mx-auto">Purpose</div>
+      <div className="admin-schools-field text-truncate  mx-auto">{purpose}</div>
 
       {/* Resident Name */}
-      <div className="admin-schools-field text-truncate  mx-auto">John Doe</div>
+      <div className="admin-schools-field text-truncate  mx-auto">{residentName}</div>
 
       {/* First Visit */}
-      <div className="admin-schools-field text-truncate  mx-auto">Yes</div>
+      <div className="admin-schools-field text-truncate  mx-auto">{firstVisit?"Yes" : "No"}</div>
 
       {/* Sickness Symptom */}
-      <div className="admin-schools-field text-truncate  mx-auto">Yes</div>
+      <div className="admin-schools-field text-truncate  mx-auto">{sicknessSymptom?"Yes" : "No"}</div>
 
       {/* Acknowledgement */}
-      <div className="admin-schools-field text-truncate  mx-auto">Yes</div>
+      <div className="admin-schools-field text-truncate  mx-auto">{acknowledgement?"Yes" : "No"}</div>
 
       {/* Status */}
       <div className="admin-schools-field text-truncate  mx-auto">
@@ -67,24 +97,16 @@ const ReceptionsListItem = ({ reception, setReception }) => {
           pill
           className="w-30"
           bg={`${
-            Status === 0
-              ? "secondary"
-              : Status === 1
+            visitStatus === 1
               ? "warning"
-              : Status === 2
-              ? "warning"
-              : Status === 3
+              : visitStatus === 2
               ? "success"
               : ""
           }`}
         >
-          {Status === 0
-            ? "N/A"
-            : Status === 1
+          {visitStatus === 1
             ? "In"
-            : Status === 2
-            ? "Progress"
-            : Status === 3
+            : visitStatus === 2
             ? "Out"
             : ""}
         </Badge>

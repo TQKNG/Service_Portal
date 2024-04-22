@@ -518,12 +518,17 @@ export const loadReceptionsList =
     }
   };
 
-export const updateReception = (schoolId, formData) => async (dispatch) => {
+export const updateReception = (receptionID = null, formData) => async (dispatch) => {
   try {
-    // const result = await api.put(`/schools/${schoolId}`, formData);
-    // console.log("test result", result)
-    // dispatch(loadSchoolsList());
-    // dispatch(setAlert("School updated Successfully", "success"));
+    const result = await api.put(`/receptions/${receptionID}`, formData);
+    if(result.data.success){
+      dispatch(loadReceptionsList());
+      // dispatch(setAlert("A Visit Updated Successfully", "success"));
+    }
+    else{
+      return result.data
+    }
+ 
   } catch (err) {
     console.log(err);
     const errors = err.response.data.errors;
@@ -540,9 +545,15 @@ export const updateReception = (schoolId, formData) => async (dispatch) => {
 
 export const addReception = (formData) => async (dispatch) => {
   try {
-    await api.post("/receptions", formData);
-    dispatch(loadReceptionsList());
-    dispatch(setAlert("A Visit Added Successfully", "success"));
+    const result = await api.post("/receptions", formData);
+    if(result.data.success){
+      dispatch(loadReceptionsList());
+      // dispatch(setAlert("A Visit Added Successfully", "success"));
+    }
+    else{
+      return result.data
+    }
+   
   } catch (err) {
     console.log(err);
     const errors = err.response.data.errors;

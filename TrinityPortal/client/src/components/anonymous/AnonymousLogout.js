@@ -4,8 +4,10 @@ import { setAlert } from "../../actions/alerts";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import AnonymousConfirm from "./AnonymousConfirm";
+import { updateReception } from "../../actions/admin";
 
-const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
+
+const AnonymousLogout = ({ setAlert, device, isSignedOut, updateReception }) => {
   const [formData, setFormData] = useState({
     FirstName: "",
     LastName: "",
@@ -48,49 +50,33 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
       return;
     }
 
-    if (FirstName === "John" && LastName === "Doe"&& PhoneNumber === "1234567890") {
-      setError("Your name was not found! Please check the spelling of your name.")
-      return;
-    }
+
 
     if (validationError === null) {
       setError(null);
-      setIsSubmitted(true);
-      const updatedFormData = {
-        ...formData,
-        isRobot,
-        isSignedOut,
-        InOut: false,
-      };
-      // Fetch API to server
-      fetch(`https://b9dk2wds-3000.use.devtunnels.ms/api/receptions`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedFormData),
-      })
-        .then((response) => {
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
+
+      const updatedFormData = { ...formData, isRobot, isSignedOut, InOut: false };
+
+      updateReception(null,updatedFormData)
         .then((data) => {
-          // Handle the API response
-          setIsSubmitted(true);
-          setFormData({
-            PhoneNumber: "",
-            FirstName: "",
-            LastName: "",
-            InOut: false,
-          });
+          const {error} = data;
+          if (error) {
+            setError(error);
+            setFormData({
+              FirstName: "",
+              LastName: "",
+              PhoneNumber: "",
+            });
+            setIsSubmitted(false);
+
+          }
+          else{
+            setIsSubmitted(true);
+          }
           setTimeout(() => {
             window.location.reload();
           }, 5000);
+        
         })
         .catch((error) => {
           console.error("There was an error!", error);
@@ -255,9 +241,11 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut }) => {
 
 AnonymousLogout.propTypes = {
   setAlert: PropTypes.func.isRequired,
+  updateReception: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, {
   setAlert,
+  updateReception
 })(AnonymousLogout);

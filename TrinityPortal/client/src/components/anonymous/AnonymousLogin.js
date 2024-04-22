@@ -126,12 +126,32 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn, offices, addReception })
 
     if (validationError === null) {
       setError(null);
-      setIsSubmitted(true);
 
       const updatedFormData = { ...formData, isRobot, isSignedIn, InOut: true };
 
       addReception(updatedFormData)
-        .then(() => {
+        .then((data) => {
+          const {error} = data;
+          if (error) {
+            setError(error);
+            setFormData({
+              FirstName: "",
+              LastName: "",
+              PhoneNumber: "",
+              InOut: null,
+              HomeAreas: [],
+              ScheduledVisit: null,
+              Purpose: "",
+              ResidentName: "",
+              FirstVisit: null,
+              SicknessSymptom: null,
+              Acknowledgement: null,
+              DepartmentVisit: "",
+            });
+            return;
+          }
+          
+          setIsSubmitted(true);
           setFormData({
             FirstName: "",
             LastName: "",

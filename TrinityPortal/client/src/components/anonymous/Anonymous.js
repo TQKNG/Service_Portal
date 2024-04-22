@@ -16,8 +16,12 @@ const Anonymous = ({isOutbreak, outbreakMessage1,outbreakMessage2, offices,loadS
   const [isSignedOut, setIsSignedOut] = useState(false);
 
    // WebSocket Config
-   const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
-    `ws:${window.location.hostname}:5001`
+  //  const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
+  //   `ws:${window.location.hostname}:5001`
+  // );
+
+  const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
+    `wss://b9dk2wds-5001.use.devtunnels.ms`
   );
 
   useEffect(() => {
