@@ -1,0 +1,315 @@
+const {
+  storeImage,
+  storeJson,
+  retrieveImage,
+  retrieveJson,
+} = require("../utils/storage");
+
+/**
+ * @openapi
+ * /api/robotservices/map:
+ *   post:
+ *     summary: Add a new map
+ *     description: Adds a new map to the database.
+ *     tags:
+ *       - Robot Services
+ *          - Map
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               mapName:
+ *                 type: string
+ *               mapData:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Successfully added the map.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *     security:
+ *       - apiKeyAuth: []
+ */
+
+exports.addMap = async (req, res) => {
+  try {
+    // Construct a new map
+    const newMap = {
+      mapName: req.body.mapName,
+      mapData: req.body.mapData,
+    };
+
+    // Save the map to file server
+    // if there is new instruction image, add to the server filesystem
+    if (req.body.mapData !== null) {
+      // Where/sublocation to store the file
+      let subloc = "Map";
+      await storeJson(subloc, newMap, req.body.mapName);
+    }
+
+    // sendWebSocketMessage({ type: "dataReceived", data: req.body });
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: "Server Error" });
+  }
+};
+
+/**
+ * @openapi
+ * /api/robotservices/map/{id}:
+ *   get:
+ *     summary: Get a map based on id
+ *     description: Retrieves a map by match its id and the filename
+ *     tags:
+ *       - Robot Services
+ *          - Map
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         type: string
+ *         required: true
+ *         description: The name of the map.
+ *
+ *     responses:
+ *       '200':
+ *         description: the map data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 data:
+ *                     type: object
+ *                     properties:
+ *                       mapName:
+ *                         type: string
+ *                       mapData:
+ *                         type: string
+ *
+ *     security:
+ *       - apiKeyAuth: []
+ */
+
+exports.getMaps = async (req, res) => {
+  try {
+    let retrieveData = await retrieveJson("Map", req.params.id);
+
+    res.status(200).json({ success: true, data: retrieveData });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: "Server Error" });
+  }
+};
+
+/**
+ * @openapi
+ * /api/robotservices/location:
+ *   post:
+ *     summary: Add location points
+ *     description: Adds new location points to the database.
+ *     tags:
+ *       - Robot Services
+ *          - Location
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   roomNumber:
+ *                     type: integer
+ *                     description: The room number.
+ *                   description:
+ *                     type: string
+ *                     description: The description of the room.
+ *                   coordinates:
+ *                     type: object
+ *                     properties:
+ *                       rotation:
+ *                         type: object
+ *                         properties:
+ *                           pitch:
+ *                             type: number
+ *                             description: The pitch rotation.
+ *                           roll:
+ *                             type: number
+ *                             description: The roll rotation.
+ *                           yaw:
+ *                             type: number
+ *                             description: The yaw rotation.
+ *                       x_location:
+ *                         type: number
+ *                         description: The x-coordinate location.
+ *                       y_location:
+ *                         type: number
+ *                         description: The y-coordinate location.
+ *                       yaw_location:
+ *                         type: number
+ *                         description: The yaw coordinate location.
+ *     responses:
+ *       '200':
+ *         description: Successfully added the location.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *     security:
+ *       - apiKeyAuth: []
+ */
+
+exports.addLocation = async (req, res) => {
+  try {
+    // console.log("test my request body", req.body);
+    // sendWebSocketMessage({ type: "dataReceived", data: req.body });
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: "Server Error" });
+  }
+};
+
+/**
+ * @openapi
+ * /api/robotservices/location:
+ *   get:
+ *     summary: Get all locations
+ *     description: Retrieves a list of all locations from the portal.
+ *     tags:
+ *       - Robot Services
+ *          - Location
+ *     responses:
+ *       '200':
+ *         description: A list of locations.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   roomNumber:
+ *                     type: integer
+ *                     description: The room number.
+ *                   description:
+ *                     type: string
+ *                     description: The description of the room.
+ *                   coordinates:
+ *                     type: object
+ *                     properties:
+ *                       rotation:
+ *                         type: object
+ *                         properties:
+ *                           pitch:
+ *                             type: number
+ *                             description: The pitch rotation.
+ *                           roll:
+ *                             type: number
+ *                             description: The roll rotation.
+ *                           yaw:
+ *                             type: number
+ *                             description: The yaw rotation.
+ *                       x_location:
+ *                         type: number
+ *                         description: The x-coordinate location.
+ *                       y_location:
+ *                         type: number
+ *                         description: The y-coordinate location.
+ *                       yaw_location:
+ *                         type: number
+ *                         description: The yaw coordinate location.
+ *     security:
+ *       - apiKeyAuth: []
+ */
+exports.getLocations = async (req, res) => {
+  try {
+    // console.log("Test req body", req.body);
+    // const role = req.user.UserTypeID;
+    // const pool = await poolPromise;
+    // let results;
+
+    // if (role === 6) {
+    //   results = await pool
+    //     .request()
+    //     .input("SchoolIds", sql.VarChar(250), req.body.schoolIds)
+    //     .execute("Shared.Schools_Load");
+    // } else {
+    //   results = await pool
+    //     .request()
+    //     .input("SchoolID", sql.Int, req.body.SchoolID)
+    //     .input("Name", sql.VarChar(250), req.body.Name)
+    //     .execute("Shared.Schools_Load");
+    // }
+
+    res.status(200).json({
+      success: true,
+      data: [
+        {
+          roomNumber: 234,
+          description: "busy",
+          coordinates: {
+            rotation: {
+              pitch: 0.0,
+              roll: 0.0,
+              yaw: 0.72924143,
+            },
+            x_location: 0.0,
+            y_location: 0.0,
+            yaw_location: 0.72924143,
+          },
+        },
+
+        {
+          roomNumber: 235,
+          description: "quiet",
+          coordinates: {
+            rotation: {
+              pitch: 0.0,
+              roll: 0.0,
+              yaw: 0.72924143,
+            },
+            x_location: 1.0,
+            y_location: 1.0,
+            yaw_location: 1.0,
+          },
+        },
+
+        {
+          roomNumber: 236,
+          description: "occupied",
+          coordinates: {
+            rotation: {
+              pitch: 0.0,
+              roll: 0.0,
+              yaw: 0.72924143,
+            },
+            x_location: 2.0,
+            y_location: 2.0,
+            yaw_location: 2.0,
+          },
+        },
+      ],
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: "Server Error" });
+  }
+};
