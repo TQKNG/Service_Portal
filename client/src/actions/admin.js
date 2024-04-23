@@ -918,7 +918,6 @@ export const loadTriviasList =
     try {
       const res = await api.get("/trivias");
       dispatch({ type: GET_TRIVIASLIST, payload: res.data.data });
-   
     } catch (error) {
       console.log(error);
       const errors = error.response.data.errors;
@@ -932,7 +931,7 @@ export const loadTriviasList =
 
 export const updateTrivia = (questionID, formData) => async (dispatch) => {
   try {
-    const result = await api.put(`/trivias/${questionID}`, formData);
+    await api.put(`/trivias/${questionID}`, formData);
     dispatch(loadTriviasList());
     dispatch(setAlert("Trivia updated Successfully", "success"));
   } catch (err) {

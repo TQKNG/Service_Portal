@@ -3,13 +3,12 @@ import Alert from "../../layouts/Alert";
 import _ from "underscore";
 import Search from "../../layouts/Search";
 import SortIcon from "../../layouts/SortIcon";
-import JokeListItem from "./JokeListItem";
-import useWebSocket from "../../../services/WebSocketService";
+import BookListItem from "./BookListItem";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const JokesList = ({ jokesList, jokeListLoading }) => {
-  const [listSearch, setListSearch] = useState(jokesList);
+const BooksList = ({ booksList, bookListLoading }) => {
+  const [listSearch, setListSearch] = useState(booksList);
   const [page, setPage] = useState(1);
   const [icons, setIcons] = useState({
     name: 0,
@@ -18,49 +17,14 @@ const JokesList = ({ jokesList, jokeListLoading }) => {
 
   const { name } = icons;
 
-  // WebSocket Config
-  const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
-    `ws:${window.location.hostname}:5000`
-  );
-
   useEffect(() => {
-    connect();
-
-    disconnect();
-  }, []);
-
-  useEffect(() => {
-    const handleIncomingMessage = (data) => {
-
-      // Set the message to state
-      const newRecord = {};
-      const convertedData = JSON.parse(data).data;
-
-      console.log("Test converted Data", data);
-
-      newRecord.JokeID = 99;
-      newRecord.Name = convertedData.Name;
-
-      setListSearch([newRecord, ...listSearch]);
-
-    };
-
-    onMessage(handleIncomingMessage);
-
-    return () => {
-      // Clean up subscription
-      onMessage(null);
-    };
-  }, [onMessage]);
-
-  useEffect(() => {
-    if (!jokeListLoading) {
+    if (!bookListLoading) {
       // on initial load, sort by InOutID ASC - default
-      const sortedList = _.sortBy(jokesList, _.property("InOutID"));
+      const sortedList = _.sortBy(booksList, _.property("InOutID"));
 
       setListSearch(sortedList);
     }
-  }, [jokeListLoading, setListSearch, jokesList]);
+  }, [bookListLoading, setListSearch, booksList]);
 
   return (
     <div className="card w-100 p-2 p-sm-3 p-lg-5 shadow-lg border-0 users-list ">
@@ -68,7 +32,7 @@ const JokesList = ({ jokesList, jokeListLoading }) => {
       <Alert />
       <div className="d-flex w-100 align-items-center justify-content-between mb-3">
         <div className="">
-          {!jokeListLoading && listSearch.length / 15 > 1 && (
+          {!bookListLoading && listSearch.length / 15 > 1 && (
             <nav aria-label="Page navigation txt-primary">
               <ul className="pagination txt-primary">
                 {page > 1 && (
@@ -116,10 +80,8 @@ const JokesList = ({ jokesList, jokeListLoading }) => {
           <Search
             setListSearch={setListSearch}
             filter={(e) => {
-              const list = jokesList.filter((item) =>
-                item.Name.toUpperCase().includes(
-                  e.target.value.toUpperCase()
-                )
+              const list = booksList.filter((item) =>
+                item.Name.toUpperCase().includes(e.target.value.toUpperCase())
               );
               return list;
             }}
@@ -127,16 +89,16 @@ const JokesList = ({ jokesList, jokeListLoading }) => {
         </div>
       </div>
       <div className="admin-users-fields  d-flex align-items-center justify-content-around  rounded  bg-body txt-primary">
-        <div className="admin-schools-field text-truncate ">Joke ID</div>
+        <div className="admin-schools-field text-truncate ">Book ID</div>
 
         <div
           className="admin-schools-field  text-truncate mx-1 "
           onMouseEnter={() => setIsShowIcon("name")}
           onMouseLeave={() => setIsShowIcon(null)}
           onClick={() => {
-            if (name === 0 && jokesList.length) {
-              const sortedList = _.sortBy(jokesList, (joke) => {
-                const name = joke.Name;
+            if (name === 0 && booksList.length) {
+              const sortedList = _.sortBy(booksList, (book) => {
+                const name = book.Name;
                 if (/^\d/.test(name)) {
                   return 0; // Numbers should come first
                 } else {
@@ -149,17 +111,14 @@ const JokesList = ({ jokesList, jokeListLoading }) => {
               });
             } else if (name === 1) {
               const sortedList = _.sortBy(listSearch, [
-                (joke) => joke.Name.toLowerCase(),
+                (book) => book.Name.toLowerCase(),
               ]).reverse();
               setListSearch(sortedList);
               setIcons({
                 name: -1,
               });
             } else {
-              const sortedList = _.sortBy(
-                jokesList,
-                _.property("JokeID")
-              );
+              const sortedList = _.sortBy(booksList, _.property("BookID"));
               setListSearch(sortedList);
               setIcons({
                 name: 0,
@@ -173,26 +132,24 @@ const JokesList = ({ jokesList, jokeListLoading }) => {
         <div className="admin-schools-field text-truncate ml-1">Actions</div>
       </div>
       <div className="users-list-body ">
-        {jokeListLoading ? (
+        {bookListLoading ? (
           <div className="d-flex justify-content-center align-items-center h-100">
             <div class="spinner-border txt-primary" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
-        ) :jokesList.length === 0 ? (
+        ) : booksList.length === 0 ? (
           <div className="d-flex justify-content-center align-items-center h-100">
-            <div className="txt-primary">No Jokes Found</div>
+            <div className="txt-primary">No Books Found</div>
           </div>
-        ): (
+        ) : (
           listSearch
             .slice(15 * (page - 1), 15 * page)
-            .map((joke, id) => (
-              <JokeListItem joke={joke} key={id} />
-            ))
+            .map((book, id) => <BookListItem book={book} key={id} />)
         )}
       </div>
     </div>
   );
 };
 
-export default JokesList;
+export default BooksList;
