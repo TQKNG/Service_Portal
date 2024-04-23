@@ -1,10 +1,7 @@
-const {
-  storeImage,
-  storeJson,
-  retrieveImage,
-  retrieveJson,
-} = require("../utils/storage");
+const { storeJson, retrieveJson } = require("../utils/storage");
 
+const { poolPromise } = require("../config/db");
+const moment = require("moment");
 /**
  * @openapi
  * /api/robotservices/map:
@@ -175,7 +172,21 @@ exports.getMaps = async (req, res) => {
 
 exports.addLocation = async (req, res) => {
   try {
+    if (req.body.length) {
+      for (let i = 0; i < req.body.length; i++) {
+        const { roomNumber, description, coordinates } = req.body[i];
 
+        if (coordinates !== null) {
+          const pool = await poolPromise;
+          await pool
+            .request()
+            .input("roomNumber", roomNumber)
+            .input("description", description)
+            .input("coordinates", JSON.stringify(coordinates))
+            .execute("dbo.Locations_Insert");
+        }
+      }
+    }
     res.status(200).json({ success: true });
   } catch (error) {
     console.log(error);
@@ -235,26 +246,9 @@ exports.addLocation = async (req, res) => {
  *     security:
  *       - apiKeyAuth: []
  */
-exports.getLocations = async (req, res) => {
+exports.getSchedules = async (req, res) => {
   try {
-    // console.log("Test req body", req.body);
-    // const role = req.user.UserTypeID;
-    // const pool = await poolPromise;
-    // let results;
-
-    // if (role === 6) {
-    //   results = await pool
-    //     .request()
-    //     .input("SchoolIds", sql.VarChar(250), req.body.schoolIds)
-    //     .execute("Shared.Schools_Load");
-    // } else {
-    //   results = await pool
-    //     .request()
-    //     .input("SchoolID", sql.Int, req.body.SchoolID)
-    //     .input("Name", sql.VarChar(250), req.body.Name)
-    //     .execute("Shared.Schools_Load");
-    // }
-
+   
     res.status(200).json({
       success: true,
       data: [
@@ -304,6 +298,48 @@ exports.getLocations = async (req, res) => {
         },
       ],
     });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: "Server Error" });
+  }
+};
+
+exports.addStatisticLogs = async (req, res) => {
+  try {
+    if (req.body.length) {
+      for (let i = 0; i < req.body.length; i++) {
+        const { userID, actionID, actionType, startTime, endTime } =
+          req.body[i];
+
+        // Convert Datetime to UTC ISO 8601 format
+        const startDateTime = moment.utc(startTime).format();
+        const endDateTime = moment.utc(endTime).format();
+
+        const pool = await poolPromise;
+        await pool
+          .request()
+          .input("userID", userID)
+          .input("actionID", actionID)
+          .input("actionType", actionType)
+          .input("startTime", startDateTime)
+          .input("endTime", endDateTime)
+          .execute("dbo.StatisticLogs_Insert");
+      }
+    }
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: "Server Error" });
+  }
+};
+
+exports.getStatisticLogs = async (req, res) => {
+  try {
+    const pool = await poolPromise;
+    let results;
+    results = await pool.request().execute("dbo.StatisticLogs_Load");
+
+    res.status(200).json({ success: true, data: results.recordset});
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Server Error" });

@@ -2,6 +2,7 @@ import React, { useState, Fragment, useEffect, useMemo } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
+import DashboardExport from "./DashboardExport";
 import {
   generateReport,
   clearReport,
@@ -13,12 +14,15 @@ import {
   setSchool,
   loadClassroomsList,
   getUser,
+  loadStatisticLogsList,
 } from "../../../actions/admin";
 import Loading from "../../layouts/Loading";
 import ChartPlaceHolder from "./ChartPlaceHolder";
 
 
 const Dashboard = ({
+  statisticlogsList,
+  loadStatisticLogsList,
   reports,
   user,
 }) => {
@@ -27,6 +31,10 @@ const Dashboard = ({
   // const [year, setYear] = useState(new Date().getFullYear());
   const [year, setYear] = useState(-1);
   const [grade, setGrade] = useState(-1);
+
+  useEffect(()=>{
+    loadStatisticLogsList();
+  },[user])
 
 
   return (
@@ -113,6 +121,11 @@ const Dashboard = ({
                   <option value={4}>Joshua 1</option>
                 </select>
               </div>
+
+              {/* Report */}
+              <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
+                <DashboardExport reports={statisticlogsList} />
+              </div>
             </div>
           </div>
           {reports !== undefined && (
@@ -141,6 +154,7 @@ const Dashboard = ({
 Dashboard.propTypes = {
   user: PropTypes.object,
   reports: PropTypes.array,
+  statisticlogsList: PropTypes.array,
   reportsLoading: PropTypes.bool,
   overallResultsChart: PropTypes.array,
   overallResultsChartLoading: PropTypes.bool,
@@ -155,6 +169,7 @@ Dashboard.propTypes = {
 };
 const mapStateToProps = (state) => ({
   reports: state.admin.reports,
+  statisticlogsList:state.admin.statisticlogsList,
   reportsLoading: state.admin.reportsLoading,
   overallResultsChart: state.admin.overallResultsChart,
   overallResultsChartLoading: state.admin.overallResultsChartLoading,
@@ -180,6 +195,7 @@ export default connect(mapStateToProps, {
   getChartOverallProgression,
   clearReport,
   loadSchoolsList,
+  loadStatisticLogsList,
   loadClassroomsList,
   setSchool,
 })(Dashboard);

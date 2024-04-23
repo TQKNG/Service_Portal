@@ -34,6 +34,9 @@ import {
   GET_SETTING,
   GET_SETTINGSLIST,
   CLEAR_SETTING,
+  GET_STATISTICLOG,
+  GET_STATISTICLOGSLIST,
+  CLEAR_STATISTICLOG,
   GET_REPORT,
   CLEAR_REPORT,
   GET_ASSESSMENTSINSTRUCTIONLIST,
@@ -100,6 +103,11 @@ const initialState = {
   receptionListLoading: true,
   receptionLoading: true,
 
+  statisticlogsList: [],
+  statisticlog: null,
+  statisticlogListLoading: true,
+  statisticlogLoading: true,
+
   songsList: [],
   song: null,
   songListLoading: true,
@@ -157,6 +165,13 @@ export default function (state = initialState, action) {
       return { ...state, reception: payload, receptionLoading: false };
     case CLEAR_RECEPTION:
       return { ...state, reception: null, receptionLoading: true };
+
+    case GET_STATISTICLOGSLIST:
+      return { ...state, statisticlogsList: payload, statisticlogListLoading: false };
+    case GET_STATISTICLOG:
+      return { ...state, statisticlog: payload, statisticlogLoading: false };
+    case CLEAR_STATISTICLOG:
+      return { ...state, statisticlog: null, statisticlogLoading: true };
 
     case GET_SONGSLIST:
       return { ...state, songsList: payload, songListLoading: false };
@@ -331,6 +346,11 @@ export default function (state = initialState, action) {
         receptionListLoading: true,
         receptionLoading: true,
 
+        statisticlogsList: [],
+        statisticlog: null,
+        statisticlogListLoading: true,
+        statisticlogLoading: true,
+
         songsList: [],
         song: null,
         songListLoading: true,
@@ -373,6 +393,9 @@ export default function (state = initialState, action) {
 
         reception: null,
         receptionLoading: true,
+
+        statisticlog: null,
+        statisticlogLoading: true,
 
         song: null,
         songLoading: true,

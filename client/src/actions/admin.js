@@ -27,6 +27,9 @@ import {
   GET_RECEPTION,
   GET_RECEPTIONSLIST,
   CLEAR_RECEPTION,
+  GET_STATISTICLOG,
+  GET_STATISTICLOGSLIST,
+  CLEAR_STATISTICLOG,
   CLEAR_SONG,
   CLEAR_BOOK,
   GET_SONG,
@@ -1310,6 +1313,23 @@ export const deleteClassroom = (classroomId) => async (dispatch) => {
       }
   }
 };
+
+export const loadStatisticLogsList =
+  (value = {}) =>
+  async (dispatch) => {
+    try {
+      const res = await api.get("/robotservices/statisticLogs", value);
+      dispatch({ type: GET_STATISTICLOGSLIST, payload: res.data.data });
+    } catch (error) {
+      console.log(error);
+      const errors = error.response.data.errors;
+      if (errors)
+        if (errors[0].msg === "Session Expired") {
+          dispatch({ type: LOGOUT });
+          dispatch(clearAll());
+        }
+    }
+  };
 
 export const clearUser = () => (dispatch) => {
   dispatch({ type: CLEAR_USER });

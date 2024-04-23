@@ -2,28 +2,18 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Badge from "react-bootstrap/Badge";
 import { setTrivia } from "../../../actions/admin";
 import ToolTipComp from "../../layouts/ToolTip";
-import moment from "moment";
 
 
-// your forceUpdate hook
-const useForceUpdate = () => {
-  const [value, setValue] = useState(0); // integer state
-  return () => setValue((value) => value + 1); // update the state to force render
-};
 
 const TriviasListItem = ({ trivia, setTrivia }) => {
   const [edit, setEdit] = useState(false);
   const [show, setShow] = useState(false);
   const { QuestionID, QuestionText, Answers} = trivia;
   const hist = useHistory();
-  const forceUpdate = useForceUpdate();
   
-  useEffect(()=>{
-    forceUpdate();
-  },[])
+
 
   return (
     <div className="admin-users-fields  d-flex align-items-center justify-content-around p-2 border-bottom">
