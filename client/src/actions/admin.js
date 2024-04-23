@@ -950,9 +950,10 @@ export const updateTrivia = (questionID, formData) => async (dispatch) => {
 
 export const addTrivia = (formData) => async (dispatch) => {
   try {
-    await api.post("/trivias", formData);
-    dispatch(loadTriviasList());
-    dispatch(setAlert("Trivia Added Successfully", "success"));
+    await api.post("/trivias", formData).then(()=>{
+      dispatch(loadTriviasList());
+      dispatch(setAlert("Trivia Added Successfully", "success"));
+    });
   } catch (err) {
     console.log(err);
     const errors = err.response.data.errors;

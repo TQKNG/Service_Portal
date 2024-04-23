@@ -96,16 +96,13 @@ const TriviaForm = ({
           Answers: null,
           CorrectAnswer: null,
         });
-        clearTrivia();
-        hist.push("/admin/trivia");
+      
       });
     } else if (location.pathname.includes("edit")) {
-      updateTrivia(QuestionID, formData).then(()=>{
-        hist.push("/admin/trivia");
-        clearTrivia()
-      })
+      updateTrivia(QuestionID, formData);
     }
-
+    hist.push("/admin/trivia");
+    clearTrivia();
   };
 
   const { QuestionID, QuestionText, Answers } = formData;
@@ -292,6 +289,7 @@ const TriviaForm = ({
   );
 };
 TriviaForm.propTypes = {
+  trivia: PropTypes.object,
   authUser: PropTypes.object.isRequired,
   updateTrivia: PropTypes.func.isRequired,
   deleteTrivia: PropTypes.func.isRequired,
