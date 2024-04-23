@@ -19,25 +19,13 @@ const Setting = ({
   const [volMaxTR, setVolMaxTR] = useState(null);
   const [volMinTR, setVolMinTR] = useState(null);
   const [formData, setFormData] = useState({
-    volumeMin1:
-      settingsList === null
-        ? 0
-        : settingsList.Volume !== undefined
-        ? settingsList.Volume["9am-5pm"].min
-        : 0,
-    volumeMax1:
-      settingsList === null
-        ? 0
-        : settingsList.Volume !== undefined
-        ? settingsList.Volume["9am-5pm"].max
-        : 0,
-    volumeMin2:
+    volumeMin:
       settingsList === null
         ? 0
         : settingsList.Volume !== undefined
         ? settingsList.Volume["5pm-9am"].min
         : 0,
-    volumeMax2:
+    volumeMax:
       settingsList === null
         ? 0
         : settingsList.Volume !== undefined
@@ -84,6 +72,13 @@ const Setting = ({
   const onSubmit = (e) => {
     e.preventDefault();
 
+    let volumeSettings = {
+      volumeMax:{
+        startTime: volMaxTR[0],
+        endTime: volMaxTR[1],
+        value: volumeMax
+      }
+    }
     const updatedFormData = { ...formData, outbreakStatus: checked };
     setFormData(updatedFormData);
 
@@ -101,25 +96,13 @@ const Setting = ({
   // Set the form whenever the list available
   useEffect(() => {
     setFormData({
-      volumeMin1:
-        settingsList === null
-          ? 0
-          : settingsList.Volume !== undefined
-          ? settingsList.Volume["9am-5pm"].min
-          : 0,
-      volumeMax1:
-        settingsList === null
-          ? 0
-          : settingsList.Volume !== undefined
-          ? settingsList.Volume["9am-5pm"].max
-          : 0,
-      volumeMin2:
+      volumeMin:
         settingsList === null
           ? 0
           : settingsList.Volume !== undefined
           ? settingsList.Volume["5pm-9am"].min
           : 0,
-      volumeMax2:
+      volumeMax:
         settingsList === null
           ? 0
           : settingsList.Volume !== undefined
@@ -169,10 +152,6 @@ const Setting = ({
     outbreakStatus,
     outbreakMessage1,
     outbreakMessage2,
-    volumeMin1,
-    volumeMax1,
-    volumeMin2,
-    volumeMax2,
     roles,
   } = formData;
 
@@ -219,16 +198,16 @@ const Setting = ({
                             <div className="d-flex gap-3">
                               <div className="col-9">
                                 <VolumeController
-                                  volume={volumeMax1}
+                                  volume={volumeMax}
                                   setFormData={setFormData}
                                   type={"Max"}
                                 />
                               </div>
                               <div className="w-100">
                                 <input
-                                  id="volumeMax1"
+                                  id="volumeMax"
                                   className="w-100 form-control rounded "
-                                  value={volumeMax1}
+                                  value={volumeMax}
                                   min={0}
                                   max={100}
                                   type="number"
@@ -252,16 +231,16 @@ const Setting = ({
                             <div className="d-flex gap-3">
                               <div className="col-9">
                                 <VolumeController
-                                  volume={volumeMin1}
+                                  volume={volumeMin}
                                   setFormData={setFormData}
                                   type={"Min"}
                                 />
                               </div>
                               <div className="w-100">
                                 <input
-                                  id="volumeMin1"
+                                  id="volumeMin"
                                   className="w-100 form-control rounded "
-                                  value={volumeMin1}
+                                  value={volumeMin}
                                   min={0}
                                   max={100}
                                   type="number"

@@ -14,9 +14,9 @@ const VolumeController = ({ volume, setFormData, type }) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
     if (type === "Min") {
-      setFormData((prev) => ({ ...prev, volumeMin1: newValue }));
+      setFormData((prev) => ({ ...prev, volumeMin: newValue }));
     } else {
-      setFormData((prev) => ({ ...prev, volumeMax1: newValue }));
+      setFormData((prev) => ({ ...prev, volumeMax: newValue }));
     }
   };
 
