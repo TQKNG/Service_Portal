@@ -4,7 +4,6 @@ import _ from "underscore";
 import Search from "../../layouts/Search";
 import SortIcon from "../../layouts/SortIcon";
 import SongListItem from "./SongListItem";
-import useWebSocket from "../../../services/WebSocketService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -18,41 +17,6 @@ const SongsList = ({ songsList, songListLoading }) => {
 
   const { name } = icons;
 
-  // WebSocket Config
-  const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
-    `ws:${window.location.hostname}:5000`
-  );
-
-  useEffect(() => {
-    connect();
-
-    disconnect();
-  }, []);
-
-  useEffect(() => {
-    const handleIncomingMessage = (data) => {
-
-      // Set the message to state
-      const newRecord = {};
-      const convertedData = JSON.parse(data).data;
-
-      console.log("Test converted Data", data);
-
-      newRecord.SongID = 99;
-      newRecord.Name = convertedData.Name;
-
-
-      setListSearch([newRecord, ...listSearch]);
-
-    };
-
-    onMessage(handleIncomingMessage);
-
-    return () => {
-      // Clean up subscription
-      onMessage(null);
-    };
-  }, [onMessage]);
 
   useEffect(() => {
     if (!songListLoading) {

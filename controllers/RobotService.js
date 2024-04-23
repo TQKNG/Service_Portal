@@ -55,8 +55,6 @@ exports.addMap = async (req, res) => {
       await storeJson(subloc, newMap, req.body.mapName);
     }
 
-    // sendWebSocketMessage({ type: "dataReceived", data: req.body });
-
     res.status(200).json({ success: true });
   } catch (error) {
     console.log(error);
@@ -177,8 +175,6 @@ exports.getMaps = async (req, res) => {
 
 exports.addLocation = async (req, res) => {
   try {
-    // console.log("test my request body", req.body);
-    // sendWebSocketMessage({ type: "dataReceived", data: req.body });
 
     res.status(200).json({ success: true });
   } catch (error) {

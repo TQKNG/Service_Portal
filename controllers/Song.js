@@ -1,4 +1,3 @@
-const { sendWebSocketMessage } = require("../utils/webSocketUtils");
 const {
   storeImage,
   storeAudio,
@@ -102,9 +101,6 @@ exports.addSong = async (req, res) => {
         .input("imagePath", imgPath)
         .execute("dbo.Songs_Update");
     }
-
-    // Send a message to the WebSocket server
-    sendWebSocketMessage({ type: "dataReceived", data: req.body });
 
     res.status(200).json({ success: true });
   } catch (error) {

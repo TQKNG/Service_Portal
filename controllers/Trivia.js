@@ -1,8 +1,5 @@
 // @route   POST /api/trivia
 // @desc    Add Trivia
-
-const { sendWebSocketMessage } = require("../utils/webSocketUtils");
-
 const { poolPromise } = require("../config/db");
 
 /**

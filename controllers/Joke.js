@@ -1,7 +1,7 @@
 // @route   POST /api/joke
 // @desc    Add Joke
 
-const { sendWebSocketMessage } = require("../utils/webSocketUtils");
+
 const {
   storeImage,
   retrieveImage,
@@ -100,7 +100,6 @@ exports.addJoke = async (req, res) => {
       //   .input("jokeText", JokeText)
       //   .execute("dbo.Jokes_Update");
     }
-    // sendWebSocketMessage({ type: 'dataReceived', data: req.body});
     
     res.status(200).json({ success: true });
   } catch (error) {

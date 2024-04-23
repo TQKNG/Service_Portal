@@ -3,13 +3,12 @@ import Alert from "../../layouts/Alert";
 import _ from "underscore";
 import Search from "../../layouts/Search";
 import SortIcon from "../../layouts/SortIcon";
-import TriviaListItem from "./TriviaListItem";
-import useWebSocket from "../../../services/WebSocketService";
+import JokeListItem from "./JokeListItem";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const TriviasList = ({ triviasList, triviaListLoading }) => {
-  const [listSearch, setListSearch] = useState(triviasList);
+const JokesList = ({ jokesList, jokeListLoading }) => {
+  const [listSearch, setListSearch] = useState(jokesList);
   const [page, setPage] = useState(1);
   const [icons, setIcons] = useState({
     name: 0,
@@ -18,49 +17,14 @@ const TriviasList = ({ triviasList, triviaListLoading }) => {
 
   const { name } = icons;
 
-  // WebSocket Config
-  const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
-    `ws:${window.location.hostname}:5000`
-  );
-
   useEffect(() => {
-    connect();
-
-    disconnect();
-  }, []);
-
-  useEffect(() => {
-    const handleIncomingMessage = (data) => {
-
-      // Set the message to state
-      const newRecord = {};
-      const convertedData = JSON.parse(data).data;
-
-      console.log("Test converted Data", data);
-
-      newRecord.TriviaID = 99;
-      newRecord.Name = convertedData.Name;
-
-      setListSearch([newRecord, ...listSearch]);
-
-    };
-
-    onMessage(handleIncomingMessage);
-
-    return () => {
-      // Clean up subscription
-      onMessage(null);
-    };
-  }, [onMessage]);
-
-  useEffect(() => {
-    if (!triviaListLoading) {
-      // on initial load, sort by TriviaID ASC - default
-      const sortedList = _.sortBy(triviasList, _.property("QuestionID"));
+    if (!jokeListLoading) {
+      // on initial load, sort by InOutID ASC - default
+      const sortedList = _.sortBy(jokesList, _.property("InOutID"));
 
       setListSearch(sortedList);
     }
-  }, [triviaListLoading, setListSearch, triviasList]);
+  }, [jokeListLoading, setListSearch, jokesList]);
 
   return (
     <div className="card w-100 p-2 p-sm-3 p-lg-5 shadow-lg border-0 users-list ">
@@ -68,7 +32,7 @@ const TriviasList = ({ triviasList, triviaListLoading }) => {
       <Alert />
       <div className="d-flex w-100 align-items-center justify-content-between mb-3">
         <div className="">
-          {!triviaListLoading && listSearch.length / 15 > 1 && (
+          {!jokeListLoading && listSearch.length / 15 > 1 && (
             <nav aria-label="Page navigation txt-primary">
               <ul className="pagination txt-primary">
                 {page > 1 && (
@@ -116,8 +80,8 @@ const TriviasList = ({ triviasList, triviaListLoading }) => {
           <Search
             setListSearch={setListSearch}
             filter={(e) => {
-              const list = triviasList.filter((item) =>
-                item.QuestionText.toUpperCase().includes(
+              const list = jokesList.filter((item) =>
+                item.Name.toUpperCase().includes(
                   e.target.value.toUpperCase()
                 )
               );
@@ -127,15 +91,16 @@ const TriviasList = ({ triviasList, triviaListLoading }) => {
         </div>
       </div>
       <div className="admin-users-fields  d-flex align-items-center justify-content-around  rounded  bg-body txt-primary">
-        <div className="admin-schools-field text-truncate ">Question ID</div>
+        <div className="admin-schools-field text-truncate ">Joke ID</div>
+
         <div
-          className="admin-schools-field  text-truncate"
+          className="admin-schools-field  text-truncate mx-1 "
           onMouseEnter={() => setIsShowIcon("name")}
           onMouseLeave={() => setIsShowIcon(null)}
           onClick={() => {
-            if (name === 0 && triviasList.length) {
-              const sortedList = _.sortBy(triviasList, (trivia) => {
-                const name = trivia.QuestionText;
+            if (name === 0 && jokesList.length) {
+              const sortedList = _.sortBy(jokesList, (joke) => {
+                const name = joke.Name;
                 if (/^\d/.test(name)) {
                   return 0; // Numbers should come first
                 } else {
@@ -148,7 +113,7 @@ const TriviasList = ({ triviasList, triviaListLoading }) => {
               });
             } else if (name === 1) {
               const sortedList = _.sortBy(listSearch, [
-                (trivia) => trivia.QuestionText.toLowerCase(),
+                (joke) => joke.Name.toLowerCase(),
               ]).reverse();
               setListSearch(sortedList);
               setIcons({
@@ -156,8 +121,8 @@ const TriviasList = ({ triviasList, triviaListLoading }) => {
               });
             } else {
               const sortedList = _.sortBy(
-                triviasList,
-                _.property("QuestionID")
+                jokesList,
+                _.property("JokeID")
               );
               setListSearch(sortedList);
               setIcons({
@@ -166,28 +131,27 @@ const TriviasList = ({ triviasList, triviaListLoading }) => {
             }
           }}
         >
-          Question Text
+          Name
           <SortIcon icon={name} isShowIcon={isShowIcon === "name"} />
         </div>
-        <div className="admin-schools-field text-truncate">Answer Options</div>
-        <div className="admin-schools-field text-truncate">Actions</div>
+        <div className="admin-schools-field text-truncate ml-1">Actions</div>
       </div>
       <div className="users-list-body ">
-        {triviaListLoading ? (
+        {jokeListLoading ? (
           <div className="d-flex justify-content-center align-items-center h-100">
             <div class="spinner-border txt-primary" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
-        ) : triviasList.length === 0 ? (
+        ) :jokesList.length === 0 ? (
           <div className="d-flex justify-content-center align-items-center h-100">
-            <div className="txt-primary">No Trivias Found</div>
+            <div className="txt-primary">No Jokes Found</div>
           </div>
         ): (
           listSearch
             .slice(15 * (page - 1), 15 * page)
-            .map((trivia, id) => (
-              <TriviaListItem trivia={trivia} key={id} />
+            .map((joke, id) => (
+              <JokeListItem joke={joke} key={id} />
             ))
         )}
       </div>
@@ -195,4 +159,4 @@ const TriviasList = ({ triviasList, triviaListLoading }) => {
   );
 };
 
-export default TriviasList;
+export default JokesList;
