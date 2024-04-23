@@ -25,12 +25,7 @@ const Trivias = ({
     if (triviasList.length === 0 && triviaListLoading) {
       loadTriviasList();
     }
-  }, [triviasList, triviaListLoading, loadTriviasList]);
-
-  useEffect(()=>{
-    clearTrivia();
-    loadTriviasList();
-  },[updateTrivia])
+  }, [triviasList, triviaListLoading]);
 
   return (
     <Fragment>
