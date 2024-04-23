@@ -45,6 +45,12 @@ const Setting = ({
         : settingsList.OutbreakStatus !== undefined
         ? settingsList.OutbreakStatus
         : 0,
+    volumeSetting:
+      settingsList === null
+        ? {}
+        : settingsList.Volume !== undefined
+        ? settingsList.Volume
+        : {},
     outbreakMessage1:
       settingsList === null
         ? ""
@@ -74,17 +80,23 @@ const Setting = ({
 
     let volumeSettings = {
       volumeMax:{
-        startTime: volMaxTR[0],
-        endTime: volMaxTR[1],
+        startTime: moment(volMaxTR[0]).format(),
+        endTime: moment(volMaxTR[1]).format(),
         value: volumeMax
+      },
+      volumeMin:{
+        startTime: moment(volMinTR[0]).format(),
+        endTime: moment(volMinTR[1]).format(),
+        value: volumeMin
       }
     }
-    const updatedFormData = { ...formData, outbreakStatus: checked };
+    const updatedFormData = { ...formData, outbreakStatus: checked, volumeSetting: volumeSettings};
     setFormData(updatedFormData);
 
-    updateSetting(updatedFormData).then(() => {
-      console.log("Settings Updated");
-    });
+    console.log("Test updated form", updatedFormData);
+    // updateSetting(updatedFormData).then(() => {
+    //   console.log("Settings Updated");
+    // });
   };
 
   useEffect(() => {
@@ -258,14 +270,14 @@ const Setting = ({
                           <select
                             className="form-select form-control bg-white text-main m-0"
                             aria-label="Default select example"
-                            // value={year}
+                            value={language}
                             id="language"
-                            // onChange={(e) => setYear(parseInt(e.target.value))}
+                            onChange={(e) => onChange(e)}
                           >
-                            <option value={1}>English</option>
-                            <option value={2}>French</option>
-                            <option value={3}>German</option>
-                            <option value={4}>Chinese</option>
+                            <option value={'English'}>English</option>
+                            <option value={'French'}>French</option>
+                            <option value={'German'}>German</option>
+                            <option value={'Chinese'}>Chinese</option>
                           </select>
                         </div>
                       </>

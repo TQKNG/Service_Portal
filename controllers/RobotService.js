@@ -315,18 +315,20 @@ exports.addStatisticLogs = async (req, res) => {
         const startDateTime = moment.utc(startTime).format();
         const endDateTime = moment.utc(endTime).format();
 
+        // look up for user ID from Hardware ID
+
         const pool = await poolPromise;
         await pool
           .request()
-          .input("userID", userID)
           .input("actionID", actionID)
           .input("actionType", actionType)
           .input("startTime", startDateTime)
           .input("endTime", endDateTime)
           .execute("dbo.StatisticLogs_Insert");
       }
+      res.status(200).json({ success: true });
     }
-    res.status(200).json({ success: true });
+    res.status(400).json({ success: false, error: "Bad Request" })
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Server Error" });

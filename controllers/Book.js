@@ -39,15 +39,7 @@ const { poolPromise } = require("../config/db");
 exports.addBook = async (req, res) => {
   try {
     if (req.body) {
-      const { Name, BookText, TextCount, BookCover } = req.body;
-
-      const wordPerPage = 50;
-
-
-      // Split the book text into pages
-      let bookData = splitText(BookText, wordPerPage);
-
-      console.log("Test Book Data", bookData);
+      const { Name, BookText, TextCount, BookCover, BookLastPage } = req.body;
 
       // Create new song on Database
       const pool = await poolPromise;
@@ -68,7 +60,9 @@ exports.addBook = async (req, res) => {
       let record = await pool
         .request()
         .input("bookName", Name)
+        .input("bookText", BookText)
         .input("imagePath", "")
+        .input("imageLastPath", "")
         .execute("dbo.Books_Insert");
 
       let newlyCreatedID = record.recordset[0].readBookID;
@@ -76,7 +70,9 @@ exports.addBook = async (req, res) => {
       // Save the book data to server file system
       const imgPath = await storeImage("BookCover", BookCover, newlyCreatedID);
 
-      if (!imgPath) {
+      const lastImgPath = await storeImage("BookLastPage", BookLastPage, newlyCreatedID);
+
+      if (!imgPath || !lastImgPath) {
         return res.status(500).json({ success: false, error: "Server Error" });
       }
 
@@ -85,16 +81,9 @@ exports.addBook = async (req, res) => {
         .request()
         .input("readBookID", newlyCreatedID)
         .input("imagePath", imgPath)
+        .input("imageLastPath", lastImgPath)
         .execute("dbo.Books_Update");
 
-      // Add new pages to the database
-      for (let i = 0; i < bookData.length; i++) {
-        await pool
-          .request()
-          .input("readBookID", newlyCreatedID)
-          .input("pageText", bookData[i].text)
-          .execute("dbo.BookPages_Insert");
-      }
     }
     res.status(200).json({ success: true });
   } catch (error) {
@@ -160,35 +149,30 @@ exports.getBooks = async (req, res) => {
      // Map over data and return an array of promises
      const promises = results.recordset.map(async (item) => {
       let cover = "";
+      let lastPage ="";
 
       // Retrieve book cover image
       if (item.imagePath !== "") {
         cover = await retrieveImage("BookCover", item.readBookID);
       }
 
-      // Retrive Book Pages and convert to text
-      let pages = await pool
-        .request()
-        .input("readBookID", item.readBookID)
-        .execute("dbo.BookPages_Load");
-
-      console.log("Pages", pages.recordset)
-
-      // Concatenate all pages text
-      let bookText = "";
-      pages.recordset.forEach((page) => {
-        bookText += page.pageText;
-      });
+      // Retrive Book Pages 
+      if(item.imageLastPath !== "") {
+        lastPage = await retrieveImage("BookLastPage", item.readBookID);
+      }
 
       // Format json format for robot
       item.BookID = item.readBookID;
       item.Name = item.bookName;
-      item.BookText = bookText;
+      item.BookText = item.bookText;
       item.BookCover = cover;
+      item.BookLastPage = lastPage;
 
       delete item.readBookID;
       delete item.bookName;
+      delete item.bookText;
       delete item.imagePath;
+      delete item.imageLastPath;
       delete item.isDeleted;
       delete item.mediaType;
     });
@@ -212,14 +196,7 @@ exports.getBooks = async (req, res) => {
 exports.updateBook = async (req, res) => {
   try {
     if (req.body) {
-      const { BookID, Name, BookText, TextCount, BookCover } = req.body;
-
-      // const wordPerPage = 50;
-
-      // // Split the book text into pages
-      // let bookData = splitText(BookText, wordPerPage);
-
-      // console.log("Test Book Data", bookData);
+      const { BookID, Name, BookText, BookCover, BookLastPage } = req.body;
 
       // Create new song on Database
       const pool = await poolPromise;
@@ -228,11 +205,17 @@ exports.updateBook = async (req, res) => {
         var imgPath = await storeImage("BookCover", BookCover, BookID);
       }
 
+      if(BookLastPage !== ""){
+        var lastImgPath = await storeImage("BookLastPage", BookLastPage, BookID);
+      }
+
       await pool
         .request()
         .input("readBookID", BookID)
         .input("bookName", Name)
+        .input("bookText", BookText)
         .input("imagePath", imgPath)
+        .input("imageLastPath", lastImgPath)
         .execute("dbo.Books_Update");
     }
     res.status(200).json({ success: true });
