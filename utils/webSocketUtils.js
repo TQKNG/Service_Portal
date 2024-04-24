@@ -2,24 +2,12 @@ const WebSocket = require("ws");
 
 let wss;
 
-function initWebSocket(server, options) {
-  const { port } = options || {};
+function initWebSocket(server) {
+  wss = new WebSocket.Server({ server }); // Separate WebSocket server
 
-  if (port) {
-    // If port is provided, create WebSocket server using port
-    const wss = new WebSocket.Server({ port });
-
-    wss.on("connection", (ws) => {
-      console.log("New WebSocket Connection");
-    });
-  } else {
-    // If port is not provided, use existing HTTP server
-    const wss = new WebSocket.Server({ server });
-
-    wss.on("connection", (ws) => {
-      console.log("New WebSocket Connection");
-    });
-  }
+  wss.on("connection", (ws) => {
+    console.log("New WebSocket Connection");
+  });
 }
 
 function sendWebSocketMessage(message) {
