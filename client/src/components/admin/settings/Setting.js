@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect, useRef } from "react";
 import VolumeController from "../../layouts/Slider";
 import Toogle from "../../layouts/Toogle";
 import { connect } from "react-redux";
@@ -16,6 +16,7 @@ const Setting = ({
   loadSettingsList,
 }) => {
   const [checked, setChecked] = useState(null);
+  const lastOfficeRef = useRef(null);
   const [volMaxTR, setVolMaxTR] = useState(null);
   const [volMinTR, setVolMinTR] = useState(null);
   const [formData, setFormData] = useState({
@@ -38,7 +39,12 @@ const Setting = ({
         : settingsList.Roles !== undefined
         ? settingsList.Roles
         : [],
-    emails: [],
+    adminOffices:
+      settingsList === null
+        ? []
+        : settingsList.AdminOffices !== undefined
+        ? settingsList.AdminOffices
+        : [],
     outbreakStatus:
       settingsList === null
         ? 0
@@ -67,13 +73,38 @@ const Setting = ({
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
+
+    if (e.target.id.includes("title")) {
+      let index = e.target.id.replace("title", "");
+      console.log("Test index here", index);
+      let office = adminOffices[index];
+      office.title = e.target.value;
+      setFormData({ ...formData, adminOffices: [...adminOffices] });
+    }
+
+    if (e.target.id.includes("email")) {
+      let index = e.target.id.replace("email", "");
+      console.log("Test index here", index);
+      let office = adminOffices[index];
+      office.email = e.target.value;
+      setFormData({ ...formData, adminOffices: [...adminOffices] });
+    }
   };
 
-  const onChangeTime = (time, timeString)=>{
+  const onRemoveOffice = (index) => {
+    console.log("Test index", index);
+    setFormData({ ...formData }, adminOffices.splice(index, 1));
+  };
+
+  const onAddOffice =()=>{
+    setFormData({ ...formData }, adminOffices.push({title:"", email:""}));
+  }
+
+  const onChangeTime = (time, timeString) => {
     setVolMaxTR(time);
     let minTime = time.slice().reverse();
     setVolMinTR(minTime);
-  }
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -90,13 +121,14 @@ const Setting = ({
     //     value: volumeMin
     //   }
     // }
-    const updatedFormData = { ...formData, outbreakStatus: checked};
+
+    const updatedFormData = { ...formData, outbreakStatus: checked };
     setFormData(updatedFormData);
 
     console.log("Test updated form", updatedFormData);
-    updateSetting(updatedFormData).then(() => {
-      console.log("Settings Updated");
-    });
+    // updateSetting(updatedFormData).then(() => {
+    //   console.log("Settings Updated");
+    // });
   };
 
   useEffect(() => {
@@ -127,7 +159,12 @@ const Setting = ({
           : settingsList.Roles !== undefined
           ? settingsList.Roles
           : [],
-      emails: [],
+      adminOffices:
+        settingsList === null
+          ? []
+          : settingsList.AdminOffices !== undefined
+          ? settingsList.AdminOffices
+          : [],
       outbreakStatus:
         settingsList === null
           ? 0
@@ -147,15 +184,19 @@ const Setting = ({
           ? settingsList.OutbreakMessage.outBreakMessage2
           : "",
     });
-
   }, [settingsList]);
 
   // Set initial outbreak status
   useEffect(() => {
-      setChecked(formData.outbreakStatus);
-   },[formData.outbreakStatus]);
-  
+    setChecked(formData.outbreakStatus);
+  }, [formData.outbreakStatus]);
 
+  //Set scroll to the last office even when the office is added or removed
+  useEffect(() => {
+    if (lastOfficeRef.current) {
+      lastOfficeRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [formData.adminOffices, onAddOffice, onRemoveOffice]);
 
   const {
     volumeMax,
@@ -165,6 +206,7 @@ const Setting = ({
     outbreakMessage1,
     outbreakMessage2,
     roles,
+    adminOffices,
   } = formData;
 
   return (
@@ -203,10 +245,14 @@ const Setting = ({
                         <div className="mb-3">
                           {/* Volume Max */}
                           <div className="">
-                            <div className="txt-primary">Select Time and Volume Max</div>
-                            <TimePicker.RangePicker 
-                            value = {volMaxTR}
-                            format='hh A' onChange={onChangeTime}/>
+                            <div className="txt-primary">
+                              Select Time and Volume Max
+                            </div>
+                            <TimePicker.RangePicker
+                              value={volMaxTR}
+                              format="hh A"
+                              onChange={onChangeTime}
+                            />
                             <div className="d-flex gap-3">
                               <div className="col-9">
                                 <VolumeController
@@ -235,11 +281,14 @@ const Setting = ({
                         <div className="mb-3">
                           {/* Volume Min */}
                           <div className="">
-                            <div className="txt-primary">Select Time and Volume Min</div>
-                            <TimePicker.RangePicker 
-                            disabled
-                            value={volMinTR}
-                            format='hh A'/>
+                            <div className="txt-primary">
+                              Select Time and Volume Min
+                            </div>
+                            <TimePicker.RangePicker
+                              disabled
+                              value={volMinTR}
+                              format="hh A"
+                            />
                             <div className="d-flex gap-3">
                               <div className="col-9">
                                 <VolumeController
@@ -274,10 +323,10 @@ const Setting = ({
                             id="language"
                             onChange={(e) => onChange(e)}
                           >
-                            <option value={'English'}>English</option>
-                            <option value={'French'}>French</option>
-                            <option value={'German'}>German</option>
-                            <option value={'Chinese'}>Chinese</option>
+                            <option value={"English"}>English</option>
+                            <option value={"French"}>French</option>
+                            <option value={"German"}>German</option>
+                            <option value={"Chinese"}>Chinese</option>
                           </select>
                         </div>
                       </>
@@ -345,177 +394,73 @@ const Setting = ({
                     <div
                       className="w-100 p-2 p-sm-3 p-lg-4 shadow-lg  mb-2 overflow-auto d-flex flex-column gap-2 justify-content-start"
                       style={{ height: "500px" }}
-                      // onSubmit={(e) => onSubmit(e)}
                     >
-                      {/* Fields */}
-                      <>
-                        <div className="mb-3">
-                          <div className="txt-primary">Office 1</div>
-                          <input
-                            type="text"
-                            className="form-control rounded "
-                            id="role1"
-                            placeholder=""
-                            required
-                            value={roles[0]}
-                            onChange={(e) => onChange(e)}
-                          />
-                        </div>
-                        <div className="mb-3">
-                          <div className="txt-primary">Office 2</div>
-                          <input
-                            type="text"
-                            className="form-control rounded "
-                            id="role2"
-                            placeholder=""
-                            required
-                            value={roles[1]}
-                            onChange={(e) => onChange(e)}
-                          />
-                        </div>
-                        <div className="mb-3">
-                          <div className="txt-primary">Office 3</div>
-                          <input
-                            type="text"
-                            className="form-control rounded "
-                            id="role3"
-                            placeholder=""
-                            required
-                            value={roles[2]}
-                            onChange={(e) => onChange(e)}
-                          />
-                        </div>
-                        <div className="mb-3">
-                          <div className="txt-primary">Office 4</div>
-                          <input
-                            type="text"
-                            className="form-control rounded "
-                            id="role4"
-                            placeholder=""
-                            required
-                            value={roles[3]}
-                            onChange={(e) => onChange(e)}
-                          />
-                        </div>
-                        <div className="mb-3">
-                          <div className="txt-primary">Office 5</div>
-                          <input
-                            type="text"
-                            className="form-control rounded "
-                            id="role5"
-                            placeholder=""
-                            required
-                            value={roles[4]}
-                            onChange={(e) => onChange(e)}
-                          />
-                        </div>
-                        <div className="mb-3">
-                          <div className="txt-primary">Office 6</div>
-                          <input
-                            type="text"
-                            className="form-control rounded "
-                            id="role6"
-                            placeholder=""
-                            required
-                            value={roles[5]}
-                            onChange={(e) => onChange(e)}
-                          />
-                        </div>
-                        <div className="mb-3">
-                          <div className="txt-primary">Office 7</div>
-                          <input
-                            type="text"
-                            className="form-control rounded "
-                            id="role7"
-                            placeholder=""
-                            required
-                            value={roles[6]}
-                            onChange={(e) => onChange(e)}
-                          />
-                        </div>
-                        <div className="mb-3">
-                          <div className="txt-primary">Office 8</div>
-                          <input
-                            type="text"
-                            className="form-control rounded "
-                            id="role8"
-                            placeholder=""
-                            required
-                            value={roles[7]}
-                            onChange={(e) => onChange(e)}
-                          />
-                        </div>
-                        <div className="mb-3">
-                          <div className="txt-primary">Office 9</div>
-                          <input
-                            type="text"
-                            className="form-control rounded "
-                            id="role9"
-                            placeholder=""
-                            required
-                            value={roles[8]}
-                            onChange={(e) => onChange(e)}
-                          />
-                        </div>
-                      </>
-                    </div>
-                  </div>
+                      {/* Add icon */}
+                      <div className="w-100 mx-auto text-center position-sticky" style={{top:0, opacity:0.8, background:"#1ba587"}}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          enableBackground="new 0 0 24 24"
+                          height="36px"
+                          viewBox="0 0 24 24"
+                          width="48px"
+                          fill="white"
+                          onClick={()=>onAddOffice()}
+                        >
+                          <g>
+                            <rect fill="none" height="50" width="50" />
+                          </g>
+                          <g>
+                            <g>
+                              <path d="M19,13h-6v6h-2v-6H5v-2h6V5h2v6h6V13z" />
+                            </g>
+                          </g>
+                        </svg>
+                      </div>
 
-                  {/* Email Settings */}
-                  <div className="col-12 col-md-3 d-flex flex-column">
-                    <h6>Email Settings</h6>
-                    {/* Form Content */}
-                    <div
-                      className="w-100 p-2 p-sm-3 p-lg-4 shadow-lg  mb-2 overflow-auto d-flex flex-column gap-2 justify-content-start"
-                      style={{ height: "500px" }}
-                    >
-                      {/* Fields */}
-                      <>
-                        <div className="mb-3">
-                          <div className="txt-primary">Host Email</div>
-                          <input
-                            type="text"
-                            className="form-control rounded "
-                            id="message1"
-                            placeholder=""
-                            // value={Name}
-                            // onChange={(e) => onChange(e)}
-                          />
-                        </div>
-                        <div className="mb-3">
-                          <div className="txt-primary">Email 1</div>
-                          <input
-                            type="text"
-                            className="form-control rounded "
-                            id="message1"
-                            placeholder=""
-                            // value={Name}
-                            // onChange={(e) => onChange(e)}
-                          />
-                        </div>
-                        <div className="mb-3">
-                          <div className="txt-primary">Email 2</div>
-                          <input
-                            type="text"
-                            className="form-control rounded "
-                            id="message1"
-                            placeholder=""
-                            // value={Name}
-                            // onChange={(e) => onChange(e)}
-                          />
-                        </div>
-                        <div className="mb-3">
-                          <div className="txt-primary">Email 3</div>
-                          <input
-                            type="text"
-                            className="form-control rounded "
-                            id="message1"
-                            placeholder=""
-                            // value={Name}
-                            // onChange={(e) => onChange(e)}
-                          />
-                        </div>
-                      </>
+                      {adminOffices?.map((office, index) => {
+                        const isLastItem = index === adminOffices.length - 1;
+                        return (
+                          <div className="mb-3" ref={isLastItem?lastOfficeRef:null}>
+                            <div className="d-flex justify-content-between">
+                              <div className="txt-primary">{`Office ${
+                                index + 1
+                              }`}</div>
+
+                              <div
+                                id={`${index}`}
+                                onClick={() => onRemoveOffice(index)}
+                              >
+                                {/* Remove Icon */}
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  height="24"
+                                  viewBox="0 -960 960 960"
+                                  width="24"
+                                  fill="salmon"
+                                >
+                                  <path d="M200-440v-80h560v80H200Z" />
+                                </svg>
+                              </div>
+                            </div>
+                            <input
+                              type="text"
+                              className="form-control rounded mb-1"
+                              id={`title${index}`}
+                              placeholder=""
+                              value={office.title}
+                              onChange={(e) => onChange(e)}
+                            />
+                            <input
+                              type="text"
+                              className="form-control rounded "
+                              id={`email${index}`}
+                              placeholder=""
+                              value={office.email}
+                              onChange={(e) => onChange(e)}
+                            />
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
