@@ -78,25 +78,25 @@ const Setting = ({
   const onSubmit = (e) => {
     e.preventDefault();
 
-    let volumeSettings = {
-      volumeMax:{
-        startTime: moment(volMaxTR[0]).format(),
-        endTime: moment(volMaxTR[1]).format(),
-        value: volumeMax
-      },
-      volumeMin:{
-        startTime: moment(volMinTR[0]).format(),
-        endTime: moment(volMinTR[1]).format(),
-        value: volumeMin
-      }
-    }
-    const updatedFormData = { ...formData, outbreakStatus: checked, volumeSetting: volumeSettings};
+    // let volumeSettings = {
+    //   volumeMax:{
+    //     startTime: moment(volMaxTR[0])?.format(),
+    //     endTime: moment(volMaxTR[1])?.format(),
+    //     value: volumeMax
+    //   },
+    //   volumeMin:{
+    //     startTime: moment(volMinTR[0])?.format(),
+    //     endTime: moment(volMinTR[1])?.format(),
+    //     value: volumeMin
+    //   }
+    // }
+    const updatedFormData = { ...formData, outbreakStatus: checked};
     setFormData(updatedFormData);
 
     console.log("Test updated form", updatedFormData);
-    // updateSetting(updatedFormData).then(() => {
-    //   console.log("Settings Updated");
-    // });
+    updateSetting(updatedFormData).then(() => {
+      console.log("Settings Updated");
+    });
   };
 
   useEffect(() => {
