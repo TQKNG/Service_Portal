@@ -126,7 +126,7 @@ const Sidebar = ({
               clearItems();
             }}
           >
-            Dashboard
+            Report
           </div>
         </div>
       )}
