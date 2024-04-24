@@ -84,13 +84,12 @@ exports.updateSetting = async (req, res) => {
       .input("valueStr", formatedSettings["Language"])
       .execute("dbo.Settings_Update");
 
-    await pool
-      .request()
-      .input("keyword", "Volume")
-      .input("valueStr", formatedSettings["VolumeSetting"])
-      .execute("dbo.Settings_Update");
+    // await pool
+    //   .request()
+    //   .input("keyword", "Volume")
+    //   .input("valueStr", formatedSettings["VolumeSetting"])
+    //   .execute("dbo.Settings_Update");
     
-
 
     sendWebSocketMessage({
       type: "dataReceived",

@@ -47,7 +47,7 @@ const Dashboard = ({
         <div className="p-sm-5 p-2 w-100 dashboard-margin">
           <div className="mb-3">
             <h6 className="txt-primary-light">
-              {`${user.firstName} ${user.lastName}`} / Dashboard
+              {`${user.firstName} ${user.lastName}`} / Report
             </h6>
 
             <div className="d-flex w-100 align-items-center justify-content-end ">
