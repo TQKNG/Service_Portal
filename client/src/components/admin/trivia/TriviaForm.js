@@ -9,6 +9,8 @@ import {
 } from "../../../actions/admin";
 import Alert from "../../layouts/Alert";
 import PropTypes from "prop-types";
+import FileUpload from "../../layouts/FileUpload";
+import Toogle from "../../layouts/Toogle";
 
 
 
@@ -99,6 +101,7 @@ const TriviaForm = ({
       
       });
     } else if (location.pathname.includes("edit")) {
+      console.log("edit");
       updateTrivia(QuestionID, formData);
     }
     hist.push("/admin/trivia");

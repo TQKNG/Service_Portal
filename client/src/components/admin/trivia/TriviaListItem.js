@@ -2,19 +2,16 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import Badge from "react-bootstrap/Badge";
 import { setTrivia } from "../../../actions/admin";
 import ToolTipComp from "../../layouts/ToolTip";
-
-
+import moment from "moment";
 
 const TriviasListItem = ({ trivia, setTrivia }) => {
   const [edit, setEdit] = useState(false);
   const [show, setShow] = useState(false);
   const { QuestionID, QuestionText, Answers} = trivia;
   const hist = useHistory();
-  
-
-
   return (
     <div className="admin-users-fields  d-flex align-items-center justify-content-around p-2 border-bottom">
       <div className="admin-schools-field text-truncate ">{QuestionID}</div>
