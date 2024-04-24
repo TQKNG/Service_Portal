@@ -94,6 +94,13 @@ const FileUpload = ({
               BookCover: reader.result,
             }));
           }
+          else if( acceptedFiles[0].type.includes("image") &&
+          module === "book2"){
+            setFormData((prevFormData) => ({
+              ...prevFormData,
+              BookLastPage: reader.result,
+            }));
+          }
         };
         reader.readAsDataURL(acceptedFiles[0]);
       }

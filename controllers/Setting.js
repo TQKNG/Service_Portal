@@ -1,7 +1,5 @@
 const { sendWebSocketMessage } = require("../utils/webSocketUtils");
 
-const { storeImage, retrieveImage } = require("../utils/storage");
-const { splitText } = require("../utils/TextFormatter");
 
 const { poolPromise } = require("../config/db");
 
@@ -55,11 +53,6 @@ exports.updateSetting = async (req, res) => {
   try {
     console.log("Test here body", req.body);
 
-    // Convert to json string for each property
-    {
-      `"outBreakMessage1": "There are currently no active outbreaks in the homes", "outBreakMessage2":"We are currently in outbreak"`;
-    }
-
     let formatedSettings = {};
 
     formatedSettings["OutbreakMessage"] = JSON.stringify({
@@ -68,8 +61,10 @@ exports.updateSetting = async (req, res) => {
     });
 
     formatedSettings["OutbreakStatus"] = req.body.outbreakStatus;
+    formatedSettings["Language"] = req.body.language;
+    formatedSettings["VolumeSetting"] = req.body.volumeSetting;
 
-    let results;
+
     const pool = await poolPromise;
     await pool
       .request()
@@ -82,6 +77,20 @@ exports.updateSetting = async (req, res) => {
       .input("keyword", "OutbreakStatus")
       .input("valueStr", formatedSettings["OutbreakStatus"])
       .execute("dbo.Settings_Update");
+
+    await pool
+      .request()
+      .input("keyword", "Language")
+      .input("valueStr", formatedSettings["Language"])
+      .execute("dbo.Settings_Update");
+
+    await pool
+      .request()
+      .input("keyword", "Volume")
+      .input("valueStr", formatedSettings["VolumeSetting"])
+      .execute("dbo.Settings_Update");
+    
+
 
     sendWebSocketMessage({
       type: "dataReceived",

@@ -13,10 +13,6 @@ import store from "./store";
 import Auth from "./components/auth/Auth";
 import Navbar from "./components/layouts/Navbar";
 import Admin from "./components/admin/Admin";
-import AssessmentJoin from "./components/assessment/AssessmentJoin";
-import Assessment from "./components/assessment/Assessment";
-import AssessmentCreate from "./components/assessment/AssessmentCreate";
-import ResultFinalize from "./components/admin/results/ResultFinalize";
 import Anonymous from "./components/anonymous/Anonymous";
 
 const App = () => {

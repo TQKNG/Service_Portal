@@ -27,6 +27,9 @@ import {
   GET_RECEPTION,
   GET_RECEPTIONSLIST,
   CLEAR_RECEPTION,
+  GET_STATISTICLOG,
+  GET_STATISTICLOGSLIST,
+  CLEAR_STATISTICLOG,
   CLEAR_SONG,
   CLEAR_BOOK,
   GET_SONG,
@@ -918,6 +921,7 @@ export const loadTriviasList =
     try {
       const res = await api.get("/trivias");
       dispatch({ type: GET_TRIVIASLIST, payload: res.data.data });
+      
     } catch (error) {
       console.log(error);
       const errors = error.response.data.errors;
@@ -929,6 +933,7 @@ export const loadTriviasList =
     }
   };
 
+  
 export const updateTrivia = (questionID, formData) => async (dispatch) => {
   try {
     await api.put(`/trivias/${questionID}`, formData);
@@ -950,9 +955,10 @@ export const updateTrivia = (questionID, formData) => async (dispatch) => {
 
 export const addTrivia = (formData) => async (dispatch) => {
   try {
-    await api.post("/trivias", formData);
-    dispatch(loadTriviasList());
-    dispatch(setAlert("Trivia Added Successfully", "success"));
+    await api.post("/trivias", formData).then(()=>{
+      dispatch(loadTriviasList());
+      dispatch(setAlert("Trivia Added Successfully", "success"));
+    });
   } catch (err) {
     console.log(err);
     const errors = err.response.data.errors;
@@ -1307,6 +1313,23 @@ export const deleteClassroom = (classroomId) => async (dispatch) => {
       }
   }
 };
+
+export const loadStatisticLogsList =
+  (value = {}) =>
+  async (dispatch) => {
+    try {
+      const res = await api.get("/robotservices/statisticLogs", value);
+      dispatch({ type: GET_STATISTICLOGSLIST, payload: res.data.data });
+    } catch (error) {
+      console.log(error);
+      const errors = error.response.data.errors;
+      if (errors)
+        if (errors[0].msg === "Session Expired") {
+          dispatch({ type: LOGOUT });
+          dispatch(clearAll());
+        }
+    }
+  };
 
 export const clearUser = () => (dispatch) => {
   dispatch({ type: CLEAR_USER });

@@ -30,26 +30,12 @@ const BookForm = ({
       book === null ? "" : book.BookText !== undefined ? book.BookText : "",
     BookCover:
       book === null ? "" : book.BookCover !== undefined ? book.BookCover : "",
-    TextCount: book === null ? 0 : book.TextCount !== undefined ? book.TextCount : 0,  
+    BookLastPage:
+      book === null? "" : book.BookLastPage !== undefined ? book.BookLastPage : "",
   });
 
- useEffect(() => {
-    if (book !== null) {
-      let textCount = countWords(book.BookText);
-
-      setFormData({
-       ...formData,
-        TextCount: textCount,
-      });
-    }
- },[book])
   const onChange = (e) => {
     const newFormData = { ...formData, [e.target.id]: e.target.value };
-
-    if(e.target.id === 'BookText') {
-      // Count words in the text
-      newFormData.TextCount = countWords(e.target.value);
-    }
 
     setFormData(newFormData);
   };
@@ -67,6 +53,7 @@ const BookForm = ({
           BookID: "",
           Name: "",
           BookCover: "",
+          BookLastPage:"",
           BookText: "",
         });
       });
@@ -78,13 +65,8 @@ const BookForm = ({
     clearBook();
   };
 
-  // Count words in the text
-  const countWords = (text) => {
-    const words = text.trim().split(/\s+/);
-    return words.filter((word) => word !== "").length;
-  };
 
-  const { Name, BookID, BookCover, BookText } = formData;
+  const { Name, BookID, BookCover, BookLastPage, BookText } = formData;
 
   if (book == null && location.pathname.includes("edit")) {
     hist.push("/admin/books");
@@ -156,6 +138,7 @@ const BookForm = ({
           {/* <span>Word Count: {formData.TextCount}</span> */}
         </div>
 
+              {/* Book Cover */}
         <div className="mb-3">
           <div className="d-flex flex-column align-items-start gap-2">
             <div className="txt-primary">Book Cover {'(Optional)'}</div>
@@ -186,6 +169,43 @@ const BookForm = ({
               </svg>
             }
             module={"book"}
+            setFormData={setFormData}
+            formData={formData}
+            fieldType={"image"}
+          />
+        </div>
+
+        {/* Book Last Page */}
+        <div className="mb-3">
+          <div className="d-flex flex-column align-items-start gap-2">
+            <div className="txt-primary">Book Last Page</div>
+            {/* Display of the image */}
+            {BookLastPage !== "" && (
+              <img
+                src={BookLastPage}
+                className="mb-3"
+                alt=""
+                srcset=""
+                width="200px"
+              />
+            )}
+          </div>
+          <FileUpload
+            instructionText={
+              "Drag and drop book image file here, or click to browse book image"
+            }
+            imgSrc={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="50"
+                viewBox="0 -960 960 960"
+                width="50"
+                fill="#1ba587"
+              >
+                <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h360v80H200v560h560v-360h80v360q0 33-23.5 56.5T760-120H200Zm480-480v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80ZM240-280h480L570-480 450-320l-90-120-120 160Zm-40-480v560-560Z" />
+              </svg>
+            }
+            module={"book2"}
             setFormData={setFormData}
             formData={formData}
             fieldType={"image"}

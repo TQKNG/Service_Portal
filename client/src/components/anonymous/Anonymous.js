@@ -21,7 +21,7 @@ const Anonymous = ({isOutbreak, outbreakMessage1,outbreakMessage2, offices,loadS
   // );
 
   const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
-    `wss://b9dk2wds-5001.use.devtunnels.ms`
+    `wss://trinityvillagedev.azurewebsites.net`
   );
 
   useEffect(() => {

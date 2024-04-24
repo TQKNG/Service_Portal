@@ -9,6 +9,8 @@ import {
 } from "../../../actions/admin";
 import Alert from "../../layouts/Alert";
 import PropTypes from "prop-types";
+import FileUpload from "../../layouts/FileUpload";
+import Toogle from "../../layouts/Toogle";
 
 
 
@@ -96,16 +98,14 @@ const TriviaForm = ({
           Answers: null,
           CorrectAnswer: null,
         });
-        clearTrivia();
-        hist.push("/admin/trivia");
+      
       });
     } else if (location.pathname.includes("edit")) {
-      updateTrivia(QuestionID, formData).then(()=>{
-        hist.push("/admin/trivia");
-        clearTrivia()
-      })
+      console.log("edit");
+      updateTrivia(QuestionID, formData);
     }
-
+    hist.push("/admin/trivia");
+    clearTrivia();
   };
 
   const { QuestionID, QuestionText, Answers } = formData;
@@ -292,6 +292,7 @@ const TriviaForm = ({
   );
 };
 TriviaForm.propTypes = {
+  trivia: PropTypes.object,
   authUser: PropTypes.object.isRequired,
   updateTrivia: PropTypes.func.isRequired,
   deleteTrivia: PropTypes.func.isRequired,

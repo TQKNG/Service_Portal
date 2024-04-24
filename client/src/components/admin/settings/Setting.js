@@ -19,25 +19,13 @@ const Setting = ({
   const [volMaxTR, setVolMaxTR] = useState(null);
   const [volMinTR, setVolMinTR] = useState(null);
   const [formData, setFormData] = useState({
-    volumeMin1:
-      settingsList === null
-        ? 0
-        : settingsList.Volume !== undefined
-        ? settingsList.Volume["9am-5pm"].min
-        : 0,
-    volumeMax1:
-      settingsList === null
-        ? 0
-        : settingsList.Volume !== undefined
-        ? settingsList.Volume["9am-5pm"].max
-        : 0,
-    volumeMin2:
+    volumeMin:
       settingsList === null
         ? 0
         : settingsList.Volume !== undefined
         ? settingsList.Volume["5pm-9am"].min
         : 0,
-    volumeMax2:
+    volumeMax:
       settingsList === null
         ? 0
         : settingsList.Volume !== undefined
@@ -57,6 +45,12 @@ const Setting = ({
         : settingsList.OutbreakStatus !== undefined
         ? settingsList.OutbreakStatus
         : 0,
+    volumeSetting:
+      settingsList === null
+        ? {}
+        : settingsList.Volume !== undefined
+        ? settingsList.Volume
+        : {},
     outbreakMessage1:
       settingsList === null
         ? ""
@@ -84,12 +78,25 @@ const Setting = ({
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const updatedFormData = { ...formData, outbreakStatus: checked };
+    let volumeSettings = {
+      volumeMax:{
+        startTime: moment(volMaxTR[0]).format(),
+        endTime: moment(volMaxTR[1]).format(),
+        value: volumeMax
+      },
+      volumeMin:{
+        startTime: moment(volMinTR[0]).format(),
+        endTime: moment(volMinTR[1]).format(),
+        value: volumeMin
+      }
+    }
+    const updatedFormData = { ...formData, outbreakStatus: checked, volumeSetting: volumeSettings};
     setFormData(updatedFormData);
 
-    updateSetting(updatedFormData).then(() => {
-      console.log("Settings Updated");
-    });
+    console.log("Test updated form", updatedFormData);
+    // updateSetting(updatedFormData).then(() => {
+    //   console.log("Settings Updated");
+    // });
   };
 
   useEffect(() => {
@@ -101,25 +108,13 @@ const Setting = ({
   // Set the form whenever the list available
   useEffect(() => {
     setFormData({
-      volumeMin1:
-        settingsList === null
-          ? 0
-          : settingsList.Volume !== undefined
-          ? settingsList.Volume["9am-5pm"].min
-          : 0,
-      volumeMax1:
-        settingsList === null
-          ? 0
-          : settingsList.Volume !== undefined
-          ? settingsList.Volume["9am-5pm"].max
-          : 0,
-      volumeMin2:
+      volumeMin:
         settingsList === null
           ? 0
           : settingsList.Volume !== undefined
           ? settingsList.Volume["5pm-9am"].min
           : 0,
-      volumeMax2:
+      volumeMax:
         settingsList === null
           ? 0
           : settingsList.Volume !== undefined
@@ -169,10 +164,6 @@ const Setting = ({
     outbreakStatus,
     outbreakMessage1,
     outbreakMessage2,
-    volumeMin1,
-    volumeMax1,
-    volumeMin2,
-    volumeMax2,
     roles,
   } = formData;
 
@@ -219,16 +210,16 @@ const Setting = ({
                             <div className="d-flex gap-3">
                               <div className="col-9">
                                 <VolumeController
-                                  volume={volumeMax1}
+                                  volume={volumeMax}
                                   setFormData={setFormData}
                                   type={"Max"}
                                 />
                               </div>
                               <div className="w-100">
                                 <input
-                                  id="volumeMax1"
+                                  id="volumeMax"
                                   className="w-100 form-control rounded "
-                                  value={volumeMax1}
+                                  value={volumeMax}
                                   min={0}
                                   max={100}
                                   type="number"
@@ -252,16 +243,16 @@ const Setting = ({
                             <div className="d-flex gap-3">
                               <div className="col-9">
                                 <VolumeController
-                                  volume={volumeMin1}
+                                  volume={volumeMin}
                                   setFormData={setFormData}
                                   type={"Min"}
                                 />
                               </div>
                               <div className="w-100">
                                 <input
-                                  id="volumeMin1"
+                                  id="volumeMin"
                                   className="w-100 form-control rounded "
-                                  value={volumeMin1}
+                                  value={volumeMin}
                                   min={0}
                                   max={100}
                                   type="number"
@@ -279,14 +270,14 @@ const Setting = ({
                           <select
                             className="form-select form-control bg-white text-main m-0"
                             aria-label="Default select example"
-                            // value={year}
+                            value={language}
                             id="language"
-                            // onChange={(e) => setYear(parseInt(e.target.value))}
+                            onChange={(e) => onChange(e)}
                           >
-                            <option value={1}>English</option>
-                            <option value={2}>French</option>
-                            <option value={3}>German</option>
-                            <option value={4}>Chinese</option>
+                            <option value={'English'}>English</option>
+                            <option value={'French'}>French</option>
+                            <option value={'German'}>German</option>
+                            <option value={'Chinese'}>Chinese</option>
                           </select>
                         </div>
                       </>

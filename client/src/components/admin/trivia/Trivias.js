@@ -24,7 +24,6 @@ const Trivias = ({
       loadTriviasList();
     }
   }, [triviasList, triviaListLoading, loadTriviasList]);
-  
   return (
     <Fragment>
       <div className="p-sm-5 p-2 w-100 dashboard-margin">

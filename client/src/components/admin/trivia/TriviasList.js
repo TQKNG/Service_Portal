@@ -17,6 +17,15 @@ const TriviasList = ({ triviasList, triviaListLoading }) => {
 
   const { name } = icons;
 
+  useEffect(() => {
+    if (!triviaListLoading) {
+      // on initial load, sort by TriviaID ASC - default
+      const sortedList = _.sortBy(triviasList, _.property("QuestionID"));
+
+      setListSearch(sortedList);
+    }
+  }, [triviaListLoading, setListSearch, triviasList]);
+
   return (
     <div className="card w-100 p-2 p-sm-3 p-lg-5 shadow-lg border-0 users-list ">
       <ToastContainer />
