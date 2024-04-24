@@ -42,49 +42,10 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
           style={{ paddingTop: "80px" }}
         >
           <IdleTimer logout={logout} />
-          {/* Teacher Role */}
-          {user.roleID === 1 && (
-            <Sidebar
-              users={true}
-              schools={false}
-              dashboard={true}
-              assessments={false}
-              results={true}
-              classrooms={true}
-              receptions={true}
-              songs={true}
-              books={true}
-              jokes={true}
-              trivias={true}
-              setting={true}
-            />
-          )}
-
-          {/* Vice Principal and Principal Role */}
-          {(user.roleID === 3 || user.roleID === 4) && (
-            <Sidebar
-              users={true}
-              schools={false}
-              dashboard={true}
-              assessments={true}
-              results={true}
-              classrooms={true}
-              receptions={true}
-              songs={true}
-              books={true}
-              jokes={true}
-              trivias={true}
-              setting={true}
-            />
-          )}
-
           {user.roleID === 5 && (
             <Sidebar
               users={true}
-              schools={true}
               dashboard={true}
-              assessments={true}
-              results={true}
               classrooms={true}
               receptions={true}
               songs={true}
@@ -94,27 +55,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               setting={true}
             />
           )}
-
-          {user.roleID === 6 && (
-            <Sidebar
-              users={true}
-              schools={true}
-              dashboard={true}
-              assessments={true}
-              results={true}
-              classrooms={true}
-              receptions={true}
-              songs={true}
-              books={true}
-              jokes={true}
-              trivias={true}
-              setting={true}
-            />
-          )}
-
           {location.pathname === "/admin/dashboard" && <Dashboard />}
-         
-
           {location.pathname === "/admin/users" && <Users />}
           {location.pathname === "/admin/user/add" && <UserForm />}
           {location.pathname === "/admin/user/edit" && <UserForm />}

@@ -50,13 +50,13 @@ const Users = ({
       <div className="p-sm-5 p-2 w-100 dashboard-margin">
         <div className="mb-3 ">
           <div className="d-flex align-items-center">
-            <h6 className="txt-primary-light mb-0">{user.UserType} / Users</h6>
+            <h6 className="txt-primary-light mb-0">{`${user.firstName} ${user.lastName}`} / Users</h6>
             <div className="rounded-pill bg-primary px-2 py-1 align-self-center mx-2 my-2 caption ">
               {usersList.length}
             </div>
           </div>
           <div className="d-flex w-100 align-items-center justify-content-end">
-            {parseInt(user.UserTypeID) !== 1 && (
+            {parseInt(user.roleID) === 1 && (
               <div className="d-flex">
                 
                 <div

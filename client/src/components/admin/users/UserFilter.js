@@ -48,7 +48,7 @@ const UserFilter = ({
                 aria-label='Close'
               ></button>
             </div>
-            {schoolsList.length === 0 && schoolListLoading ? (
+            {schoolsList?.length === 0 && schoolListLoading ? (
               <div className='modal-body text-center'>
                 <div class='spinner-border txt-primary mx-1' role='status'>
                   <span class='visually-hidden'>Loading...</span>

@@ -109,11 +109,7 @@ app.use(session({
 
 //Routes
 const user = require('./routes/User');
-const school = require('./routes/School');
 const auth = require('./routes/Auth');
-const assessments = require('./routes/Assessment');
-const assessmentresults = require('./routes/AssessmentResult');
-const classrooms = require('./routes/Classroom');
 const receptions = require('./routes/Reception');
 const songs = require('./routes/Song');
 const books = require('./routes/Book');
@@ -127,11 +123,7 @@ const { OauthProtect } = require('./middleware/auth');
 
 //Mount Routes
 app.use('/api/users', user);
-app.use('/api/schools', school);
-app.use('/api/assessments', assessments);
 app.use('/api/auth', auth);
-app.use('/api/assessmentresults', assessmentresults);
-app.use('/api/classrooms', classrooms);
 app.use('/api/receptions', receptions);
 app.use('/api/songs', songs);
 app.use('/api/books', books);
