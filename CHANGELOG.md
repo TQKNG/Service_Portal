@@ -12,7 +12,7 @@
 
 ## [0.0.3] - 2024-04-24
 - Fix: QR code navigation to Azure Staging
-- 
+- Fix: Update setting and socket trigger
 
 
 
