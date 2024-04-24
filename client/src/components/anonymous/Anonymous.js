@@ -9,45 +9,57 @@ import AnonymousLogout from "./AnonymousLogout";
 import { loadSettingsList } from "../../actions/admin";
 import useWebSocket from "../../services/WebSocketService";
 
-const Anonymous = ({isOutbreak, outbreakMessage1,outbreakMessage2, offices,loadSettingsList}) => {
+const Anonymous = ({
+  isOutbreak,
+  outbreakMessage1,
+  outbreakMessage2,
+  offices,
+  loadSettingsList,
+}) => {
   const location = useLocation();
   const [device, setDetectDevice] = useState("Unknown");
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isSignedOut, setIsSignedOut] = useState(false);
 
-   // WebSocket Config
+  // WebSocket Config
   //  const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
   //   `ws:${window.location.hostname}:5001`
   // );
 
-  const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
-    `wss://trinityvillagedev.azurewebsites.net`
-  );
+  // const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
+  //   `wss://trinityvillagedev.azurewebsites.net`
+  // );
 
-  useEffect(() => {
-    connect();
+  // const wsUrl = process.env.NODE_ENV === 'production' 
+  // ? process.env.WS_URL_PROD 
+  // : process.env.WS_URL_LOCAL;
 
-    disconnect();
-  }, []);
+  // console.log("WS URL", wsUrl);
 
-  useEffect(() => {
-    const handleIncomingMessage = (data) => {
+  // const { connect, disconnect, sendMessage, onMessage } = useWebSocket(wsUrl);
 
-      const convertedData = JSON.parse(data).data;
+  // useEffect(() => {
+  //   connect();
 
-      console.log("Test converted Data", convertedData);
+  //   disconnect();
+  // }, []);
 
-      loadSettingsList();
+  // useEffect(() => {
+  //   const handleIncomingMessage = (data) => {
+  //     const convertedData = JSON.parse(data).data;
 
-    };
+  //     console.log("Test converted Data", convertedData);
 
-    onMessage(handleIncomingMessage);
+  //     loadSettingsList();
+  //   };
 
-    return () => {
-      // Clean up subscription
-      onMessage(null);
-    };
-  }, [onMessage]);
+  //   onMessage(handleIncomingMessage);
+
+  //   return () => {
+  //     // Clean up subscription
+  //     onMessage(null);
+  //   };
+  // }, [onMessage]);
 
   function detectDevice(userAgent) {
     if (userAgent.match(/Android/i)) {
@@ -72,10 +84,10 @@ const Anonymous = ({isOutbreak, outbreakMessage1,outbreakMessage2, offices,loadS
     setDetectDevice(userAgent);
   }, [location]);
 
-  useEffect(()=>{
-    console.log("Load Settings", isOutbreak)
+  useEffect(() => {
+    console.log("Load Settings", isOutbreak);
     loadSettingsList();
-  },[])
+  }, []);
 
   return (
     <div className="w-100 h-100 d-flex flex-column align-items-center justify-content-start">
@@ -89,9 +101,7 @@ const Anonymous = ({isOutbreak, outbreakMessage1,outbreakMessage2, offices,loadS
           >
             {/* Title */}
             <span className="responsive-text text-white text-center">
-              {isOutbreak
-                ? `${outbreakMessage2}`
-                : `${outbreakMessage1}`}
+              {isOutbreak ? `${outbreakMessage2}` : `${outbreakMessage1}`}
             </span>
           </div>
 
@@ -148,24 +158,24 @@ const Anonymous = ({isOutbreak, outbreakMessage1,outbreakMessage2, offices,loadS
           <div className="w-100 d-flex flex-column justify-content-end flex-grow-1 gap-0 align-items-center ">
             {isOutbreak ? (
               <>
-                <div className="w-80 d-flex justify-content-center align-items-center responsive-disclaimer-text my-sm-5 my-4" >
-                    PLEASE READ these instructions:
-                    <br />
-                    <br />
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Nisi quam magni eaque sint officiis unde eius nesciunt
-                    sapiente porro, voluptates perferendis est delectus tempore.
-                    Perferendis voluptatibus natus error impedit facere neque
-                    dolor minima. Porro expedita qui explicabo provident, ipsum
-                    quaerat odio nobis maiores eaque quae excepturi hic, amet
-                    similique aperiam.
+                <div className="w-80 d-flex justify-content-center align-items-center responsive-disclaimer-text my-sm-5 my-4">
+                  PLEASE READ these instructions:
+                  <br />
+                  <br />
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi
+                  quam magni eaque sint officiis unde eius nesciunt sapiente
+                  porro, voluptates perferendis est delectus tempore.
+                  Perferendis voluptatibus natus error impedit facere neque
+                  dolor minima. Porro expedita qui explicabo provident, ipsum
+                  quaerat odio nobis maiores eaque quae excepturi hic, amet
+                  similique aperiam.
                 </div>
               </>
             ) : (
               <img
                 src={process.env.PUBLIC_URL + `images/Welcome-Hero.png`}
                 alt="hero cover"
-                style={{ width: "100%", height:"auto", objectFit: "cover"}}
+                style={{ width: "100%", height: "auto", objectFit: "cover" }}
               />
             )}
           </div>
@@ -218,7 +228,11 @@ const Anonymous = ({isOutbreak, outbreakMessage1,outbreakMessage2, offices,loadS
             </div>
           </div>
           {isSignedIn && (
-            <AnonymousLogin device={device} isSignedIn={isSignedIn} offices={offices} />
+            <AnonymousLogin
+              device={device}
+              isSignedIn={isSignedIn}
+              offices={offices}
+            />
           )}
           {isSignedOut && (
             <AnonymousLogout device={device} isSignedOut={isSignedOut} />
@@ -242,16 +256,15 @@ Anonymous.propTypes = {
   outbreakMessage2: PropTypes.string.isRequired,
   offices: PropTypes.array.isRequired,
   loadSettingsList: PropTypes.func.isRequired,
-
 };
 
 const mapStateToProps = (state) => ({
   isOutbreak: state.admin.settingsList.OutbreakStatus,
   outbreakMessage1: state.admin.settingsList.OutbreakMessage?.outBreakMessage1,
   outbreakMessage2: state.admin.settingsList.OutbreakMessage?.outBreakMessage2,
-  offices: state.admin.settingsList.Roles
+  offices: state.admin.settingsList.Roles,
 });
 
 export default connect(mapStateToProps, {
-  loadSettingsList
+  loadSettingsList,
 })(Anonymous);
