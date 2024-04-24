@@ -30,6 +30,10 @@ const Anonymous = ({
   //   `wss://trinityvillagedev.azurewebsites.net`
   // );
 
+  const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
+    `wss://trinitystg.azurewebsites.net/`
+  );
+
   // const wsUrl = process.env.NODE_ENV === 'production' 
   // ? process.env.WS_URL_PROD 
   // : process.env.WS_URL_LOCAL;
@@ -38,28 +42,28 @@ const Anonymous = ({
 
   // const { connect, disconnect, sendMessage, onMessage } = useWebSocket(wsUrl);
 
-  // useEffect(() => {
-  //   connect();
+  useEffect(() => {
+    connect();
 
-  //   disconnect();
-  // }, []);
+    disconnect();
+  }, []);
 
-  // useEffect(() => {
-  //   const handleIncomingMessage = (data) => {
-  //     const convertedData = JSON.parse(data).data;
+  useEffect(() => {
+    const handleIncomingMessage = (data) => {
+      const convertedData = JSON.parse(data).data;
 
-  //     console.log("Test converted Data", convertedData);
+      console.log("Test converted Data", convertedData);
 
-  //     loadSettingsList();
-  //   };
+      loadSettingsList();
+    };
 
-  //   onMessage(handleIncomingMessage);
+    onMessage(handleIncomingMessage);
 
-  //   return () => {
-  //     // Clean up subscription
-  //     onMessage(null);
-  //   };
-  // }, [onMessage]);
+    return () => {
+      // Clean up subscription
+      onMessage(null);
+    };
+  }, [onMessage]);
 
   function detectDevice(userAgent) {
     if (userAgent.match(/Android/i)) {
