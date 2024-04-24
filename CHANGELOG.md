@@ -20,6 +20,9 @@
 ## [0.0.5] - 2024-04-24
 - Fix: Update setting and socket trigger
 
+## [0.0.6] - 2024-04-24
+- Fix: Update setting and socket trigger
+
 
 
 
