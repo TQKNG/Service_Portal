@@ -207,7 +207,7 @@ app.get('*', (req, res) => {
 });
 
 // Create a websocket server
-initWebSocket(server, {port:443});
+initWebSocket(server);
 
 // Attach WebSocket server to existing HTTP server
 server.listen(process.env.PORT ||5001, () => {
