@@ -32,7 +32,7 @@ const Setting = ({
         : settingsList.Volume !== undefined
         ? settingsList.Volume["5pm-9am"].max
         : 0,
-    language: "",
+    language: settingsList === null ? "" : settingsList.Language,
     roles:
       settingsList === null
         ? []
@@ -96,9 +96,9 @@ const Setting = ({
     setFormData({ ...formData }, adminOffices.splice(index, 1));
   };
 
-  const onAddOffice =()=>{
-    setFormData({ ...formData }, adminOffices.push({title:"", email:""}));
-  }
+  const onAddOffice = () => {
+    setFormData({ ...formData }, adminOffices.push({ title: "", email: "" }));
+  };
 
   const onChangeTime = (time, timeString) => {
     setVolMaxTR(time);
@@ -109,26 +109,26 @@ const Setting = ({
   const onSubmit = (e) => {
     e.preventDefault();
 
-    // let volumeSettings = {
-    //   volumeMax:{
-    //     startTime: moment(volMaxTR[0])?.format(),
-    //     endTime: moment(volMaxTR[1])?.format(),
-    //     value: volumeMax
-    //   },
-    //   volumeMin:{
-    //     startTime: moment(volMinTR[0])?.format(),
-    //     endTime: moment(volMinTR[1])?.format(),
-    //     value: volumeMin
-    //   }
-    // }
+    let volumeSettings = {
+      volumeMax:{
+        startTime: volMaxTR[0],
+        endTime: volMaxTR[1],
+        value: volumeMax
+      },
+      volumeMin:{
+        startTime: volMinTR[0],
+        endTime: volMinTR[1],
+        value: volumeMin
+      }
+    }
 
-    const updatedFormData = { ...formData, outbreakStatus: checked };
+    const updatedFormData = { ...formData, outbreakStatus: checked, volumeSettings: volumeSettings};
     setFormData(updatedFormData);
 
     console.log("Test updated form", updatedFormData);
-    // updateSetting(updatedFormData).then(() => {
-    //   console.log("Settings Updated");
-    // });
+    updateSetting(updatedFormData).then(() => {
+      console.log("Settings Updated");
+    });
   };
 
   useEffect(() => {
@@ -152,7 +152,7 @@ const Setting = ({
           : settingsList.Volume !== undefined
           ? settingsList.Volume["5pm-9am"].max
           : 0,
-      language: "",
+      language: settingsList === null ? "" : settingsList.Language,
       roles:
         settingsList === null
           ? []
@@ -194,7 +194,7 @@ const Setting = ({
   //Set scroll to the last office even when the office is added or removed
   useEffect(() => {
     if (lastOfficeRef.current) {
-      lastOfficeRef.current.scrollIntoView({ behavior: 'smooth' });
+      lastOfficeRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [formData.adminOffices, onAddOffice, onRemoveOffice]);
 
@@ -396,7 +396,10 @@ const Setting = ({
                       style={{ height: "500px" }}
                     >
                       {/* Add icon */}
-                      <div className="w-100 mx-auto text-center position-sticky" style={{top:0, opacity:0.8, background:"#1ba587"}}>
+                      <div
+                        className="w-100 mx-auto text-center position-sticky"
+                        style={{ top: 0, opacity: 0.8, background: "#1ba587" }}
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           enableBackground="new 0 0 24 24"
@@ -404,7 +407,7 @@ const Setting = ({
                           viewBox="0 0 24 24"
                           width="48px"
                           fill="white"
-                          onClick={()=>onAddOffice()}
+                          onClick={() => onAddOffice()}
                         >
                           <g>
                             <rect fill="none" height="50" width="50" />
@@ -420,7 +423,10 @@ const Setting = ({
                       {adminOffices?.map((office, index) => {
                         const isLastItem = index === adminOffices.length - 1;
                         return (
-                          <div className="mb-3" ref={isLastItem?lastOfficeRef:null}>
+                          <div
+                            className="mb-3"
+                            ref={isLastItem ? lastOfficeRef : null}
+                          >
                             <div className="d-flex justify-content-between">
                               <div className="txt-primary">{`Office ${
                                 index + 1

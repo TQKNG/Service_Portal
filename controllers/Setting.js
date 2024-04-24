@@ -53,48 +53,48 @@ exports.updateSetting = async (req, res) => {
   try {
     console.log("Test here body", req.body);
 
-    let formatedSettings = {};
+    // let formatedSettings = {};
 
-    formatedSettings["OutbreakMessage"] = JSON.stringify({
-      outBreakMessage1: req.body.outbreakMessage1,
-      outBreakMessage2: req.body.outbreakMessage2,
-    });
+    // formatedSettings["OutbreakMessage"] = JSON.stringify({
+    //   outBreakMessage1: req.body.outbreakMessage1,
+    //   outBreakMessage2: req.body.outbreakMessage2,
+    // });
 
-    formatedSettings["OutbreakStatus"] = req.body.outbreakStatus;
-    formatedSettings["Language"] = req.body.language;
-    formatedSettings["VolumeSetting"] = req.body.volumeSetting;
+    // formatedSettings["OutbreakStatus"] = req.body.outbreakStatus;
+    // formatedSettings["Language"] = req.body.language;
+    // formatedSettings["VolumeSetting"] = req.body.volumeSetting;
 
 
-    const pool = await poolPromise;
-    await pool
-      .request()
-      .input("keyword", "OutbreakMessage")
-      .input("valueStr", formatedSettings["OutbreakMessage"])
-      .execute("dbo.Settings_Update");
-
-    await pool
-      .request()
-      .input("keyword", "OutbreakStatus")
-      .input("valueStr", formatedSettings["OutbreakStatus"])
-      .execute("dbo.Settings_Update");
-
-    await pool
-      .request()
-      .input("keyword", "Language")
-      .input("valueStr", formatedSettings["Language"])
-      .execute("dbo.Settings_Update");
+    // const pool = await poolPromise;
+    // await pool
+    //   .request()
+    //   .input("keyword", "OutbreakMessage")
+    //   .input("valueStr", formatedSettings["OutbreakMessage"])
+    //   .execute("dbo.Settings_Update");
 
     // await pool
     //   .request()
-    //   .input("keyword", "Volume")
-    //   .input("valueStr", formatedSettings["VolumeSetting"])
+    //   .input("keyword", "OutbreakStatus")
+    //   .input("valueStr", formatedSettings["OutbreakStatus"])
     //   .execute("dbo.Settings_Update");
+
+    // await pool
+    //   .request()
+    //   .input("keyword", "Language")
+    //   .input("valueStr", formatedSettings["Language"])
+    //   .execute("dbo.Settings_Update");
+
+    // // await pool
+    // //   .request()
+    // //   .input("keyword", "Volume")
+    // //   .input("valueStr", formatedSettings["VolumeSetting"])
+    // //   .execute("dbo.Settings_Update");
     
 
-    sendWebSocketMessage({
-      type: "dataReceived",
-      data: "Outbreak Status Change",
-    });
+    // sendWebSocketMessage({
+    //   type: "dataReceived",
+    //   data: "Outbreak Status Change",
+    // });
     
     res.status(200).json({ success: true });
   } catch (error) {
