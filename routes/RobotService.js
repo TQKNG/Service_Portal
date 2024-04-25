@@ -20,7 +20,6 @@ router.post('/map', addMap);
 router.get('/map/:id', getMaps);
 // router.put('/:schoolId', protect, authorize(3, 4, 5,6), updateSchool);
 // router.delete('/:schoolId', protect, authorize(5), deleteSchool);
-router.post('/location', addLocation);
 router.get('/schedules', getSchedules);
 router.post('/statisticLogs', addStatisticLogs);
 router.get('/statisticLogs', getStatisticLogs);

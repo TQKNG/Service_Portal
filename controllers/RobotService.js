@@ -172,22 +172,35 @@ exports.getMaps = async (req, res) => {
 
 exports.addLocation = async (req, res) => {
   try {
-    if (req.body.length) {
-      for (let i = 0; i < req.body.length; i++) {
-        const { roomNumber, description, coordinates } = req.body[i];
+    if (req.body) {
+      const { hardwareID, locations } = req.body;
+      let userID = null;
+      // lookup userID from hardwareID on database
+      if(hardwareID){
+        userID = 2
+      }
+      else{
+        res.status(400).json({ success: false, error: "Please provide hardware ID to proceed"});
+      }
 
-        if (coordinates !== null) {
-          const pool = await poolPromise;
-          await pool
-            .request()
-            .input("roomNumber", roomNumber)
-            .input("description", description)
-            .input("coordinates", JSON.stringify(coordinates))
-            .execute("dbo.Locations_Insert");
+      if(locations.length){
+        for (let i = 0; i < locations.length; i++) {
+          const {  roomNumber, description, coordinates } = locations[i];
+  
+          if (coordinates !== null) {
+            const pool = await poolPromise;
+            await pool
+              .request()
+              .input("userID", userID)
+              .input("roomNumber", roomNumber)
+              .input("description", description)
+              .input("coordinates", JSON.stringify(coordinates))
+              .execute("dbo.Locations_Insert");
+          }
         }
       }
     }
-    res.status(200).json({ success: true });
+    res.status(200).json({ success: true, message: "Successfully added the location"});
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Server Error" });
