@@ -70,7 +70,9 @@ const SongForm = ({
   return (
     <div className="p-sm-5 p-2 w-100  dashboard-margin mx-lg-auto container">
       <div className="mb-3 ">
-        <h6 className="txt-primary-light">{`${authUser.firstName} ${authUser.lastName}`} / Songs / Song</h6>
+        <h6 className="txt-primary-light">
+          {`${authUser.firstName} ${authUser.lastName}`} / Songs / Song
+        </h6>
         <div className="d-sm-flex  w-100 align-items-center justify-content-between">
           <div className="d-flex mb-2 mb-sm-0">
             <div
@@ -134,6 +136,7 @@ const SongForm = ({
           <div className="d-flex align-items-center gap-2">
             <div className="txt-primary">Song File</div>
             {/* Display of the audio --Check for midi player or convert midi to audio format */}
+          {formData.SongData !== "" && (<span> - Song file has been uploaded</span>)}
           </div>
 
           <FileUpload

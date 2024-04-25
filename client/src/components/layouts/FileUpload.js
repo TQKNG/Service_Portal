@@ -134,7 +134,7 @@ const FileUpload = ({
                 <>
                   <div>{fileName}</div>
                 </>
-              ) : (
+              ) :  (
                 <>
                   {isDragActive ? (
                     <div>Drop your file here ...</div>
