@@ -100,7 +100,7 @@ async function retrieveImage(subloc, id) {
   // Local
   // const url = `${process.env.BACKEND_BASE_URL}/assets/${subloc}/${fileName}`;
 
-  let img = fs.readFileSync(imagePath, { encoding: "base64" });
+  // let img = fs.readFileSync(imagePath, { encoding: "base64" });
 
   return url;
 }
@@ -126,7 +126,7 @@ async function retrieveAudio(subloc, id) {
 
   // const url = `${process.env.BACKEND_BASE_URL}/assets/${subloc}/${fileName}`;
 
-  let audio = fs.readFileSync(audioPath, { encoding: "base64" });
+  // let audio = fs.readFileSync(audioPath, { encoding: "base64" });
 
   return url;
 }
