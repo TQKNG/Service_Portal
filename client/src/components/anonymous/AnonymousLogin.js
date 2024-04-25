@@ -459,7 +459,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                     onChange={(e) => onChange(e)}
                   >
                     {offices?.map((office) => (
-                      <option value={office}>{office}</option>
+                      <option value={office.title}>{office.title}</option>
                     ))}
                   </select>
                 </div>
