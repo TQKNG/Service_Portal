@@ -31,16 +31,8 @@ const Anonymous = ({
   // );
 
   const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
-    `wss://trinitystg.azurewebsites.net/`
+    `wss:trinityvillagedev.azurewebsites.net`
   );
-
-  // const wsUrl = process.env.NODE_ENV === 'production' 
-  // ? process.env.WS_URL_PROD 
-  // : process.env.WS_URL_LOCAL;
-
-  // console.log("WS URL", wsUrl);
-
-  // const { connect, disconnect, sendMessage, onMessage } = useWebSocket(wsUrl);
 
   useEffect(() => {
     connect();
