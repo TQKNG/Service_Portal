@@ -17,7 +17,7 @@ const VolumeController = ({ volume, setFormData, type }) => {
         ...prev,
         volumeSetting: {
           ...prev.volumeSetting,
-          volumeMin: { ...prev.volumeSetting.volumeMin, value: newValue},
+          volumeMin: { ...prev.volumeSetting.volumeMin, value: newValue },
         },
       }));
     } else {

@@ -127,13 +127,10 @@ const Setting = ({
   };
 
   const onChangeTime = (time, timeString) => {
-    if(time){
+    if (time) {
+      // Set volMaxTR to the selected time range
       setVolMaxTR(time);
-
-      let minTime = time.slice().reverse();
-      setVolMinTR(minTime);
-    }
-
+    } 
   };
 
   const onSubmit = (e) => {
@@ -225,19 +222,22 @@ const Setting = ({
 
   // Set datetime for volume max and min
   useEffect(() => {
-     if(formData.volumeSetting){
-      setVolMaxTR([
-        moment(formData.volumeSetting.volumeMax?.startTime),
-        moment(formData.volumeSetting.volumeMax?.endTime),
-      ]);
+    if (formData.volumeSetting) {
+      setVolMaxTR(null); // Set initial value to null
+      setVolMinTR(null); // Set initial value to null
+
+      if (formData.volumeSetting.volumeMax) {
+        setVolMaxTR([
+          moment(formData.volumeSetting.volumeMax.startTime),
+          moment(formData.volumeSetting.volumeMax.endTime),
+        ]);
+      }
       setVolMinTR([
         moment(formData.volumeSetting.volumeMin?.startTime),
         moment(formData.volumeSetting.volumeMin?.endTime),
       ]);
-     }  
-    
-  },[formData.volumeSetting]);
-
+    }
+  }, [formData.volumeSetting]);
 
   //Set scroll to the last office even when the office is added or removed
   useEffect(() => {
@@ -300,7 +300,35 @@ const Setting = ({
                             </div>
                             <TimePicker.RangePicker
                               value={volMaxTR}
+                              allowClear={false}
+                              needConfirm={false}
                               format="hh A"
+                              // When close the time picker, update the selected value to form
+                              onOpenChange={(open) => {
+                                if (open) {
+                                  if (volMaxTR[0] && volMaxTR[1]) {
+                                    setFormData((prev) => ({
+                                      ...prev,
+                                      volumeSetting: {
+                                        ...prev.volumeSetting,
+                                        volumeMax: {
+                                          ...prev.volumeSetting.volumeMax,
+                                          startTime: volMaxTR[0],
+                                          endTime: volMaxTR[1],
+                                        },
+                                        volumeMin:{
+                                          ...prev.volumeSetting.volumeMin,
+                                          startTime: volMaxTR[1],
+                                          endTime: volMaxTR[0],
+                                        }
+                                      },
+                                    }));
+
+                                    
+                                  }
+                                
+                                }
+                              }}
                               onChange={onChangeTime}
                             />
                             <div className="d-flex gap-3">
@@ -336,7 +364,27 @@ const Setting = ({
                             </div>
                             <TimePicker.RangePicker
                               disabled
+                              allowClear={false}
+                              needConfirm={false}
                               value={volMinTR}
+                              onOpenChange={(open) => {
+                                if (open) {
+                                  if (volMinTR[0] && volMinTR[1]) {
+                                    setFormData((prev) => ({
+                                      ...prev,
+                                      volumeSetting: {
+                                        ...prev.volumeSetting,
+                                        volumeMin: {
+                                          ...prev.volumeSetting.volumeMin,
+                                          startTime: volMinTR[0],
+                                          endTime: volMinTR[1],
+                                        },
+                                      },
+                                    }));
+                                  }
+                                }
+                              }}
+                              onChange={onChangeTime}
                               format="hh A"
                             />
                             <div className="d-flex gap-3">
