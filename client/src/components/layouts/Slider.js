@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import Stack from "@mui/material/Stack";
 import Slider from "@mui/material/Slider";
-// import VolumeDown from "@mui/icons-material/VolumeDown";
-// import VolumeUp from "@mui/icons-material/VolumeUp";
 
 const VolumeController = ({ volume, setFormData, type }) => {
   const [value, setValue] = React.useState(volume);
@@ -13,10 +11,11 @@ const VolumeController = ({ volume, setFormData, type }) => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+
     if (type === "Min") {
-      setFormData((prev) => ({ ...prev, volumeMin: newValue }));
+      setFormData((prev) => ({ ...prev, volumeSetting:{...prev.volumeSetting, volumeMin:{...prev.volumeMin, value: newValue}} }));
     } else {
-      setFormData((prev) => ({ ...prev, volumeMax: newValue }));
+      setFormData((prev) => ({ ...prev, volumeSetting:{...prev.volumeSetting, volumeMax:{...prev.volumeMax, value: newValue}} }));
     }
   };
 
@@ -26,7 +25,7 @@ const VolumeController = ({ volume, setFormData, type }) => {
         {/* <VolumeDown /> */}
         <Slider
           aria-label="Volume"
-          value={value}
+          value={value? value : 0}
           onChange={handleChange}
           color="success"
           sx={{

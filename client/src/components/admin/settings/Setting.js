@@ -20,25 +20,7 @@ const Setting = ({
   const [volMaxTR, setVolMaxTR] = useState(null);
   const [volMinTR, setVolMinTR] = useState(null);
   const [formData, setFormData] = useState({
-    volumeMin:
-      settingsList === null
-        ? 0
-        : settingsList.Volume !== undefined
-        ? settingsList.Volume["5pm-9am"].min
-        : 0,
-    volumeMax:
-      settingsList === null
-        ? 0
-        : settingsList.Volume !== undefined
-        ? settingsList.Volume["5pm-9am"].max
-        : 0,
     language: settingsList === null ? "" : settingsList.Language,
-    roles:
-      settingsList === null
-        ? []
-        : settingsList.Roles !== undefined
-        ? settingsList.Roles
-        : [],
     adminOffices:
       settingsList === null
         ? []
@@ -54,8 +36,8 @@ const Setting = ({
     volumeSetting:
       settingsList === null
         ? {}
-        : settingsList.Volume !== undefined
-        ? settingsList.Volume
+        : settingsList.VolumeSetting !== undefined
+        ? settingsList.VolumeSetting
         : {},
     outbreakMessage1:
       settingsList === null
@@ -68,6 +50,30 @@ const Setting = ({
         ? ""
         : settingsList.OutbreakMessage !== undefined
         ? settingsList.OutbreakMessage.outBreakMessage2
+        : "",
+    otherMessage1:
+      settingsList === null
+        ? ""
+        : settingsList.OtherMessage !== undefined
+        ? settingsList.OtherMessage.otherMessage1
+        : "",
+    otherMessage2:
+      settingsList === null
+        ? ""
+        : settingsList.OtherMessage !== undefined
+        ? settingsList.OtherMessage.otherMessage2
+        : "",
+    otherMessage3:
+      settingsList === null
+        ? ""
+        : settingsList.OtherMessage !== undefined
+        ? settingsList.OtherMessage.otherMessage3
+        : "",
+    otherMessage4:
+      settingsList === null
+        ? ""
+        : settingsList.OtherMessage !== undefined
+        ? settingsList.OtherMessage.otherMessage4
         : "",
   });
 
@@ -89,7 +95,17 @@ const Setting = ({
       office.email = e.target.value;
       setFormData({ ...formData, adminOffices: [...adminOffices] });
     }
+
+    if(e.target.id === "volumeMax") {
+      setFormData((prev) => ({ ...prev, volumeSetting:{...prev.volumeSetting, volumeMax:{...prev.volumeSetting.volumeMax, value: e.target.value}} }));
+    }
+  
+    if(e.target.id === "volumeMin") {
+      setFormData((prev) => ({ ...prev, volumeSetting:{...prev.volumeSetting, volumeMin:{...prev.volumeSetting.volumeMin, value: e.target.value}} }));
+    }
   };
+
+  
 
   const onRemoveOffice = (index) => {
     console.log("Test index", index);
@@ -110,19 +126,23 @@ const Setting = ({
     e.preventDefault();
 
     let volumeSettings = {
-      volumeMax:{
+      volumeMax: {
         startTime: volMaxTR[0],
         endTime: volMaxTR[1],
-        value: volumeMax
+        value: volumeSetting.volumeMax.value,
       },
-      volumeMin:{
+      volumeMin: {
         startTime: volMinTR[0],
         endTime: volMinTR[1],
-        value: volumeMin
-      }
-    }
+        value: volumeSetting.volumeMin.value,
+      },
+    };
 
-    const updatedFormData = { ...formData, outbreakStatus: checked, volumeSettings: volumeSettings};
+    const updatedFormData = {
+      ...formData,
+      outbreakStatus: checked,
+      volumeSettings: volumeSettings,
+    };
     setFormData(updatedFormData);
 
     console.log("Test updated form", updatedFormData);
@@ -140,31 +160,19 @@ const Setting = ({
   // Set the form whenever the list available
   useEffect(() => {
     setFormData({
-      volumeMin:
-        settingsList === null
-          ? 0
-          : settingsList.Volume !== undefined
-          ? settingsList.Volume["5pm-9am"].min
-          : 0,
-      volumeMax:
-        settingsList === null
-          ? 0
-          : settingsList.Volume !== undefined
-          ? settingsList.Volume["5pm-9am"].max
-          : 0,
       language: settingsList === null ? "" : settingsList.Language,
-      roles:
-        settingsList === null
-          ? []
-          : settingsList.Roles !== undefined
-          ? settingsList.Roles
-          : [],
       adminOffices:
         settingsList === null
           ? []
           : settingsList.AdminOffices !== undefined
           ? settingsList.AdminOffices
           : [],
+      volumeSetting:
+        settingsList === null
+          ? {}
+          : settingsList.VolumeSetting !== undefined
+          ? settingsList.VolumeSetting
+          : {},
       outbreakStatus:
         settingsList === null
           ? 0
@@ -183,6 +191,30 @@ const Setting = ({
           : settingsList.OutbreakMessage !== undefined
           ? settingsList.OutbreakMessage.outBreakMessage2
           : "",
+      otherMessage1:
+        settingsList === null
+          ? ""
+          : settingsList.OtherMessage !== undefined
+          ? settingsList.OtherMessage.otherMessage1
+          : "",
+      otherMessage2:
+        settingsList === null
+          ? ""
+          : settingsList.OtherMessage !== undefined
+          ? settingsList.OtherMessage.otherMessage2
+          : "",
+      otherMessage3:
+        settingsList === null
+          ? ""
+          : settingsList.OtherMessage !== undefined
+          ? settingsList.OtherMessage.otherMessage3
+          : "",
+      otherMessage4:
+        settingsList === null
+          ? ""
+          : settingsList.OtherMessage !== undefined
+          ? settingsList.OtherMessage.otherMessage4
+          : "",
     });
   }, [settingsList]);
 
@@ -199,12 +231,15 @@ const Setting = ({
   }, [formData.adminOffices, onAddOffice, onRemoveOffice]);
 
   const {
-    volumeMax,
-    volumeMin,
+    volumeSetting,
     language,
     outbreakStatus,
     outbreakMessage1,
     outbreakMessage2,
+    otherMessage1,
+    otherMessage2,
+    otherMessage3,
+    otherMessage4,
     roles,
     adminOffices,
   } = formData;
@@ -256,7 +291,7 @@ const Setting = ({
                             <div className="d-flex gap-3">
                               <div className="col-9">
                                 <VolumeController
-                                  volume={volumeMax}
+                                  volume={volumeSetting?.volumeMax?.value}
                                   setFormData={setFormData}
                                   type={"Max"}
                                 />
@@ -265,7 +300,7 @@ const Setting = ({
                                 <input
                                   id="volumeMax"
                                   className="w-100 form-control rounded "
-                                  value={volumeMax}
+                                  value={volumeSetting.volumeMax?.value}
                                   min={0}
                                   max={100}
                                   type="number"
@@ -292,7 +327,7 @@ const Setting = ({
                             <div className="d-flex gap-3">
                               <div className="col-9">
                                 <VolumeController
-                                  volume={volumeMin}
+                                  volume={volumeSetting.volumeMin?.value}
                                   setFormData={setFormData}
                                   type={"Min"}
                                 />
@@ -301,7 +336,7 @@ const Setting = ({
                                 <input
                                   id="volumeMin"
                                   className="w-100 form-control rounded "
-                                  value={volumeMin}
+                                  value={volumeSetting.volumeMin?.value}
                                   min={0}
                                   max={100}
                                   type="number"
@@ -383,11 +418,59 @@ const Setting = ({
                             onChange={(e) => onChange(e)}
                           />
                         </div>
+                        <div className="mb-3">
+                          <div className="txt-primary">Other Message 1</div>
+                          <textarea
+                            type="text"
+                            className="form-control rounded "
+                            id="otherMessage1"
+                            value={otherMessage1}
+                            placeholder="Enter outbreak message 2"
+                            required
+                            onChange={(e) => onChange(e)}
+                          />
+                        </div>
+                        <div className="mb-3">
+                          <div className="txt-primary">Other Message 2</div>
+                          <textarea
+                            type="text"
+                            className="form-control rounded "
+                            id="otherMessage2"
+                            value={otherMessage2}
+                            placeholder="Enter outbreak message 2"
+                            required
+                            onChange={(e) => onChange(e)}
+                          />
+                        </div>
+                        <div className="mb-3">
+                          <div className="txt-primary">Other Message 3</div>
+                          <textarea
+                            type="text"
+                            className="form-control rounded "
+                            id="otherMessage3"
+                            value={otherMessage3}
+                            placeholder="Enter outbreak message 2"
+                            required
+                            onChange={(e) => onChange(e)}
+                          />
+                        </div>
+                        <div className="mb-3">
+                          <div className="txt-primary">Other Message 4</div>
+                          <textarea
+                            type="text"
+                            className="form-control rounded "
+                            id="otherMessage4"
+                            value={otherMessage4}
+                            placeholder="Enter outbreak message 2"
+                            required
+                            onChange={(e) => onChange(e)}
+                          />
+                        </div>
                       </>
                     </div>
                   </div>
 
-                  {/* Roles Settings */}
+                  {/* Admin Office Settings */}
                   <div className="col-12 col-md-3 d-flex flex-column">
                     <h6>Admin Office Settings</h6>
                     {/* Form Content */}
