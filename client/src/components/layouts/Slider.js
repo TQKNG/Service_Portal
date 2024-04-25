@@ -13,9 +13,21 @@ const VolumeController = ({ volume, setFormData, type }) => {
     setValue(newValue);
 
     if (type === "Min") {
-      setFormData((prev) => ({ ...prev, volumeSetting:{...prev.volumeSetting, volumeMin:{...prev.volumeMin, value: newValue}} }));
+      setFormData((prev) => ({
+        ...prev,
+        volumeSetting: {
+          ...prev.volumeSetting,
+          volumeMin: { ...prev.volumeSetting.volumeMin, value: newValue},
+        },
+      }));
     } else {
-      setFormData((prev) => ({ ...prev, volumeSetting:{...prev.volumeSetting, volumeMax:{...prev.volumeMax, value: newValue}} }));
+      setFormData((prev) => ({
+        ...prev,
+        volumeSetting: {
+          ...prev.volumeSetting,
+          volumeMax: { ...prev.volumeSetting.volumeMax, value: newValue },
+        },
+      }));
     }
   };
 
@@ -25,7 +37,7 @@ const VolumeController = ({ volume, setFormData, type }) => {
         {/* <VolumeDown /> */}
         <Slider
           aria-label="Volume"
-          value={value? value : 0}
+          value={value ? value : 0}
           onChange={handleChange}
           color="success"
           sx={{

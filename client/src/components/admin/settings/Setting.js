@@ -127,11 +127,13 @@ const Setting = ({
   };
 
   const onChangeTime = (time, timeString) => {
-    console.log("Test time", time);
-    setVolMaxTR(time);
+    if(time){
+      setVolMaxTR(time);
 
-    let minTime = time.slice().reverse();
-    setVolMinTR(minTime);
+      let minTime = time.slice().reverse();
+      setVolMinTR(minTime);
+    }
+
   };
 
   const onSubmit = (e) => {
@@ -221,6 +223,21 @@ const Setting = ({
     setChecked(formData.outbreakStatus);
   }, [formData.outbreakStatus]);
 
+  // Set datetime for volume max and min
+  useEffect(() => {
+     if(formData.volumeSetting){
+      setVolMaxTR([
+        moment(formData.volumeSetting.volumeMax?.startTime),
+        moment(formData.volumeSetting.volumeMax?.endTime),
+      ]);
+      setVolMinTR([
+        moment(formData.volumeSetting.volumeMin?.startTime),
+        moment(formData.volumeSetting.volumeMin?.endTime),
+      ]);
+     }  
+    
+  },[formData.volumeSetting]);
+
 
   //Set scroll to the last office even when the office is added or removed
   useEffect(() => {
@@ -282,7 +299,7 @@ const Setting = ({
                               Select Time and Volume Max
                             </div>
                             <TimePicker.RangePicker
-                              value={volMaxTR? volMaxTR : [moment(), moment()]}
+                              value={volMaxTR}
                               format="hh A"
                               onChange={onChangeTime}
                             />
@@ -319,7 +336,7 @@ const Setting = ({
                             </div>
                             <TimePicker.RangePicker
                               disabled
-                              defaultValue={volMinTR? volMinTR : [moment(), moment()]}
+                              value={volMinTR}
                               format="hh A"
                             />
                             <div className="d-flex gap-3">
