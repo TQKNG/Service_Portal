@@ -96,16 +96,26 @@ const Setting = ({
       setFormData({ ...formData, adminOffices: [...adminOffices] });
     }
 
-    if(e.target.id === "volumeMax") {
-      setFormData((prev) => ({ ...prev, volumeSetting:{...prev.volumeSetting, volumeMax:{...prev.volumeSetting.volumeMax, value: e.target.value}} }));
+    if (e.target.id === "volumeMax") {
+      setFormData((prev) => ({
+        ...prev,
+        volumeSetting: {
+          ...prev.volumeSetting,
+          volumeMax: { ...prev.volumeSetting.volumeMax, value: e.target.value },
+        },
+      }));
     }
-  
-    if(e.target.id === "volumeMin") {
-      setFormData((prev) => ({ ...prev, volumeSetting:{...prev.volumeSetting, volumeMin:{...prev.volumeSetting.volumeMin, value: e.target.value}} }));
+
+    if (e.target.id === "volumeMin") {
+      setFormData((prev) => ({
+        ...prev,
+        volumeSetting: {
+          ...prev.volumeSetting,
+          volumeMin: { ...prev.volumeSetting.volumeMin, value: e.target.value },
+        },
+      }));
     }
   };
-
-  
 
   const onRemoveOffice = (index) => {
     console.log("Test index", index);
@@ -117,7 +127,9 @@ const Setting = ({
   };
 
   const onChangeTime = (time, timeString) => {
+    console.log("Test time", time);
     setVolMaxTR(time);
+
     let minTime = time.slice().reverse();
     setVolMinTR(minTime);
   };
@@ -125,23 +137,9 @@ const Setting = ({
   const onSubmit = (e) => {
     e.preventDefault();
 
-    let volumeSettings = {
-      volumeMax: {
-        startTime: volMaxTR[0],
-        endTime: volMaxTR[1],
-        value: volumeSetting.volumeMax.value,
-      },
-      volumeMin: {
-        startTime: volMinTR[0],
-        endTime: volMinTR[1],
-        value: volumeSetting.volumeMin.value,
-      },
-    };
-
     const updatedFormData = {
       ...formData,
       outbreakStatus: checked,
-      volumeSettings: volumeSettings,
     };
     setFormData(updatedFormData);
 
@@ -223,6 +221,7 @@ const Setting = ({
     setChecked(formData.outbreakStatus);
   }, [formData.outbreakStatus]);
 
+
   //Set scroll to the last office even when the office is added or removed
   useEffect(() => {
     if (lastOfficeRef.current) {
@@ -240,7 +239,6 @@ const Setting = ({
     otherMessage2,
     otherMessage3,
     otherMessage4,
-    roles,
     adminOffices,
   } = formData;
 
@@ -284,7 +282,7 @@ const Setting = ({
                               Select Time and Volume Max
                             </div>
                             <TimePicker.RangePicker
-                              value={volMaxTR}
+                              value={volMaxTR? volMaxTR : [moment(), moment()]}
                               format="hh A"
                               onChange={onChangeTime}
                             />
@@ -321,7 +319,7 @@ const Setting = ({
                             </div>
                             <TimePicker.RangePicker
                               disabled
-                              value={volMinTR}
+                              defaultValue={volMinTR? volMinTR : [moment(), moment()]}
                               format="hh A"
                             />
                             <div className="d-flex gap-3">
