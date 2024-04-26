@@ -95,11 +95,11 @@ async function retrieveImage(subloc, id) {
 
 
   // Tunnel-Office
-  // const url = `https://trinityvillagedev.azurewebsites.net/assets/${subloc}/${fileName}`;
+  const url = `https://trinityvillagedev.azurewebsites.net/assets/${subloc}/${fileName}`;
 
   // Local
   // const url = `${process.env.BACKEND_BASE_URL}/assets/${subloc}/${fileName}`;
-  const url = `https://b9dk2wds-5001.use.devtunnels.ms/assets/${subloc}/${fileName}`;
+  // const url = `https://b9dk2wds-5001.use.devtunnels.ms/assets/${subloc}/${fileName}`;
 
   // let img = fs.readFileSync(imagePath, { encoding: "base64" });
 
@@ -123,10 +123,10 @@ async function retrieveAudio(subloc, id) {
   const audioPath = path.join(uploadDir, fileName);
 
   // Tunnel-Office
-  // const url = `https://trinityvillagedev.azurewebsites.net/assets/${subloc}/${fileName}`;
+  const url = `https://trinityvillagedev.azurewebsites.net/assets/${subloc}/${fileName}`;
 
   // const url = `${process.env.BACKEND_BASE_URL}/assets/${subloc}/${fileName}`;
-  const url = `https://b9dk2wds-5001.use.devtunnels.ms/assets/${subloc}/${fileName}`;
+  // const url = `https://b9dk2wds-5001.use.devtunnels.ms/assets/${subloc}/${fileName}`;
 
   // let audio = fs.readFileSync(audioPath, { encoding: "base64" });
 
