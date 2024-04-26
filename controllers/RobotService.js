@@ -172,22 +172,56 @@ exports.getMaps = async (req, res) => {
 
 exports.addLocation = async (req, res) => {
   try {
-    if (req.body.length) {
-      for (let i = 0; i < req.body.length; i++) {
-        const { roomNumber, description, coordinates } = req.body[i];
+    if (req.body) {
+      console.log("Test req body", req.body)
+      const { hardwareID, locations } = req.body;
+      const pool = await poolPromise;
+      let userID = null;
+      // lookup userID from hardwareID on database
+      if (hardwareID) {
+        let results = await pool
+          .request()
+          .input("hardwareID", hardwareID)
+          .execute("dbo.Users_Load");
 
-        if (coordinates !== null) {
-          const pool = await poolPromise;
-          await pool
-            .request()
-            .input("roomNumber", roomNumber)
-            .input("description", description)
-            .input("coordinates", JSON.stringify(coordinates))
-            .execute("dbo.Locations_Insert");
+        if (results.recordset.length) {
+          userID = results.recordset[0].userID;
+        } else {
+          res.status(400).json({
+            success: false,
+            error: "Hardware ID not found in the database",
+          });
         }
+      } else {
+        res.status(400).json({
+          success: false,
+          error: "Please provide hardware ID to proceed",
+        });
       }
+
+      if (userID) {
+        let convertedLocations = JSON.parse(locations);
+        for (let i = 0; i < convertedLocations.length; i++) {
+          const { roomNumber, description, coordinates } = convertedLocations[i];
+
+          console.log("Test coordinates", roomNumber, description, coordinates)
+
+          if (coordinates !== null) {
+            await pool
+              .request()
+              .input("userID", userID)
+              .input("roomNumber", roomNumber)
+              .input("description", description)
+              .input("coordinates", JSON.stringify(coordinates))
+              .execute("dbo.Locations_Insert");
+          }
+        }
+        res
+          .status(200)
+          .json({ success: true, message: "Successfully added the location" });
+      }
+      res.status(400).json({ success: false, error: "Bad Request" });
     }
-    res.status(200).json({ success: true });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Server Error" });
@@ -248,7 +282,6 @@ exports.addLocation = async (req, res) => {
  */
 exports.getSchedules = async (req, res) => {
   try {
-   
     res.status(200).json({
       success: true,
       data: [
@@ -328,7 +361,7 @@ exports.addStatisticLogs = async (req, res) => {
       }
       res.status(200).json({ success: true });
     }
-    res.status(400).json({ success: false, error: "Bad Request" })
+    res.status(400).json({ success: false, error: "Bad Request" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Server Error" });
@@ -341,7 +374,7 @@ exports.getStatisticLogs = async (req, res) => {
     let results;
     results = await pool.request().execute("dbo.StatisticLogs_Load");
 
-    res.status(200).json({ success: true, data: results.recordset});
+    res.status(200).json({ success: true, data: results.recordset });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Server Error" });

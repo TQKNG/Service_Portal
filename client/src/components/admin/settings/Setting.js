@@ -20,25 +20,7 @@ const Setting = ({
   const [volMaxTR, setVolMaxTR] = useState(null);
   const [volMinTR, setVolMinTR] = useState(null);
   const [formData, setFormData] = useState({
-    volumeMin:
-      settingsList === null
-        ? 0
-        : settingsList.Volume !== undefined
-        ? settingsList.Volume["5pm-9am"].min
-        : 0,
-    volumeMax:
-      settingsList === null
-        ? 0
-        : settingsList.Volume !== undefined
-        ? settingsList.Volume["5pm-9am"].max
-        : 0,
     language: settingsList === null ? "" : settingsList.Language,
-    roles:
-      settingsList === null
-        ? []
-        : settingsList.Roles !== undefined
-        ? settingsList.Roles
-        : [],
     adminOffices:
       settingsList === null
         ? []
@@ -54,8 +36,8 @@ const Setting = ({
     volumeSetting:
       settingsList === null
         ? {}
-        : settingsList.Volume !== undefined
-        ? settingsList.Volume
+        : settingsList.VolumeSetting !== undefined
+        ? settingsList.VolumeSetting
         : {},
     outbreakMessage1:
       settingsList === null
@@ -68,6 +50,30 @@ const Setting = ({
         ? ""
         : settingsList.OutbreakMessage !== undefined
         ? settingsList.OutbreakMessage.outBreakMessage2
+        : "",
+    otherMessage1:
+      settingsList === null
+        ? ""
+        : settingsList.OtherMessage !== undefined
+        ? settingsList.OtherMessage.otherMessage1
+        : "",
+    otherMessage2:
+      settingsList === null
+        ? ""
+        : settingsList.OtherMessage !== undefined
+        ? settingsList.OtherMessage.otherMessage2
+        : "",
+    otherMessage3:
+      settingsList === null
+        ? ""
+        : settingsList.OtherMessage !== undefined
+        ? settingsList.OtherMessage.otherMessage3
+        : "",
+    otherMessage4:
+      settingsList === null
+        ? ""
+        : settingsList.OtherMessage !== undefined
+        ? settingsList.OtherMessage.otherMessage4
         : "",
   });
 
@@ -89,6 +95,26 @@ const Setting = ({
       office.email = e.target.value;
       setFormData({ ...formData, adminOffices: [...adminOffices] });
     }
+
+    if (e.target.id === "volumeMax") {
+      setFormData((prev) => ({
+        ...prev,
+        volumeSetting: {
+          ...prev.volumeSetting,
+          volumeMax: { ...prev.volumeSetting.volumeMax, value: e.target.value },
+        },
+      }));
+    }
+
+    if (e.target.id === "volumeMin") {
+      setFormData((prev) => ({
+        ...prev,
+        volumeSetting: {
+          ...prev.volumeSetting,
+          volumeMin: { ...prev.volumeSetting.volumeMin, value: e.target.value },
+        },
+      }));
+    }
   };
 
   const onRemoveOffice = (index) => {
@@ -101,28 +127,19 @@ const Setting = ({
   };
 
   const onChangeTime = (time, timeString) => {
-    setVolMaxTR(time);
-    let minTime = time.slice().reverse();
-    setVolMinTR(minTime);
+    if (time) {
+      // Set volMaxTR to the selected time range
+      setVolMaxTR(time);
+    } 
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    let volumeSettings = {
-      volumeMax:{
-        startTime: volMaxTR[0],
-        endTime: volMaxTR[1],
-        value: volumeMax
-      },
-      volumeMin:{
-        startTime: volMinTR[0],
-        endTime: volMinTR[1],
-        value: volumeMin
-      }
-    }
-
-    const updatedFormData = { ...formData, outbreakStatus: checked, volumeSettings: volumeSettings};
+    const updatedFormData = {
+      ...formData,
+      outbreakStatus: checked,
+    };
     setFormData(updatedFormData);
 
     console.log("Test updated form", updatedFormData);
@@ -140,31 +157,19 @@ const Setting = ({
   // Set the form whenever the list available
   useEffect(() => {
     setFormData({
-      volumeMin:
-        settingsList === null
-          ? 0
-          : settingsList.Volume !== undefined
-          ? settingsList.Volume["5pm-9am"].min
-          : 0,
-      volumeMax:
-        settingsList === null
-          ? 0
-          : settingsList.Volume !== undefined
-          ? settingsList.Volume["5pm-9am"].max
-          : 0,
       language: settingsList === null ? "" : settingsList.Language,
-      roles:
-        settingsList === null
-          ? []
-          : settingsList.Roles !== undefined
-          ? settingsList.Roles
-          : [],
       adminOffices:
         settingsList === null
           ? []
           : settingsList.AdminOffices !== undefined
           ? settingsList.AdminOffices
           : [],
+      volumeSetting:
+        settingsList === null
+          ? {}
+          : settingsList.VolumeSetting !== undefined
+          ? settingsList.VolumeSetting
+          : {},
       outbreakStatus:
         settingsList === null
           ? 0
@@ -183,6 +188,30 @@ const Setting = ({
           : settingsList.OutbreakMessage !== undefined
           ? settingsList.OutbreakMessage.outBreakMessage2
           : "",
+      otherMessage1:
+        settingsList === null
+          ? ""
+          : settingsList.OtherMessage !== undefined
+          ? settingsList.OtherMessage.otherMessage1
+          : "",
+      otherMessage2:
+        settingsList === null
+          ? ""
+          : settingsList.OtherMessage !== undefined
+          ? settingsList.OtherMessage.otherMessage2
+          : "",
+      otherMessage3:
+        settingsList === null
+          ? ""
+          : settingsList.OtherMessage !== undefined
+          ? settingsList.OtherMessage.otherMessage3
+          : "",
+      otherMessage4:
+        settingsList === null
+          ? ""
+          : settingsList.OtherMessage !== undefined
+          ? settingsList.OtherMessage.otherMessage4
+          : "",
     });
   }, [settingsList]);
 
@@ -190,6 +219,25 @@ const Setting = ({
   useEffect(() => {
     setChecked(formData.outbreakStatus);
   }, [formData.outbreakStatus]);
+
+  // Set datetime for volume max and min
+  useEffect(() => {
+    if (formData.volumeSetting) {
+      setVolMaxTR(null); // Set initial value to null
+      setVolMinTR(null); // Set initial value to null
+
+      if (formData.volumeSetting.volumeMax) {
+        setVolMaxTR([
+          moment(formData.volumeSetting.volumeMax.startTime),
+          moment(formData.volumeSetting.volumeMax.endTime),
+        ]);
+      }
+      setVolMinTR([
+        moment(formData.volumeSetting.volumeMin?.startTime),
+        moment(formData.volumeSetting.volumeMin?.endTime),
+      ]);
+    }
+  }, [formData.volumeSetting]);
 
   //Set scroll to the last office even when the office is added or removed
   useEffect(() => {
@@ -199,13 +247,15 @@ const Setting = ({
   }, [formData.adminOffices, onAddOffice, onRemoveOffice]);
 
   const {
-    volumeMax,
-    volumeMin,
+    volumeSetting,
     language,
     outbreakStatus,
     outbreakMessage1,
     outbreakMessage2,
-    roles,
+    otherMessage1,
+    otherMessage2,
+    otherMessage3,
+    otherMessage4,
     adminOffices,
   } = formData;
 
@@ -250,13 +300,41 @@ const Setting = ({
                             </div>
                             <TimePicker.RangePicker
                               value={volMaxTR}
+                              allowClear={false}
+                              needConfirm={false}
                               format="hh A"
+                              // When close the time picker, update the selected value to form
+                              onOpenChange={(open) => {
+                                if (open) {
+                                  if (volMaxTR[0] && volMaxTR[1]) {
+                                    setFormData((prev) => ({
+                                      ...prev,
+                                      volumeSetting: {
+                                        ...prev.volumeSetting,
+                                        volumeMax: {
+                                          ...prev.volumeSetting.volumeMax,
+                                          startTime: volMaxTR[0],
+                                          endTime: volMaxTR[1],
+                                        },
+                                        volumeMin:{
+                                          ...prev.volumeSetting.volumeMin,
+                                          startTime: volMaxTR[1],
+                                          endTime: volMaxTR[0],
+                                        }
+                                      },
+                                    }));
+
+                                    
+                                  }
+                                
+                                }
+                              }}
                               onChange={onChangeTime}
                             />
                             <div className="d-flex gap-3">
                               <div className="col-9">
                                 <VolumeController
-                                  volume={volumeMax}
+                                  volume={volumeSetting?.volumeMax?.value}
                                   setFormData={setFormData}
                                   type={"Max"}
                                 />
@@ -265,7 +343,7 @@ const Setting = ({
                                 <input
                                   id="volumeMax"
                                   className="w-100 form-control rounded "
-                                  value={volumeMax}
+                                  value={volumeSetting.volumeMax?.value}
                                   min={0}
                                   max={100}
                                   type="number"
@@ -286,13 +364,33 @@ const Setting = ({
                             </div>
                             <TimePicker.RangePicker
                               disabled
+                              allowClear={false}
+                              needConfirm={false}
                               value={volMinTR}
+                              onOpenChange={(open) => {
+                                if (open) {
+                                  if (volMinTR[0] && volMinTR[1]) {
+                                    setFormData((prev) => ({
+                                      ...prev,
+                                      volumeSetting: {
+                                        ...prev.volumeSetting,
+                                        volumeMin: {
+                                          ...prev.volumeSetting.volumeMin,
+                                          startTime: volMinTR[0],
+                                          endTime: volMinTR[1],
+                                        },
+                                      },
+                                    }));
+                                  }
+                                }
+                              }}
+                              onChange={onChangeTime}
                               format="hh A"
                             />
                             <div className="d-flex gap-3">
                               <div className="col-9">
                                 <VolumeController
-                                  volume={volumeMin}
+                                  volume={volumeSetting.volumeMin?.value}
                                   setFormData={setFormData}
                                   type={"Min"}
                                 />
@@ -301,7 +399,7 @@ const Setting = ({
                                 <input
                                   id="volumeMin"
                                   className="w-100 form-control rounded "
-                                  value={volumeMin}
+                                  value={volumeSetting.volumeMin?.value}
                                   min={0}
                                   max={100}
                                   type="number"
@@ -383,11 +481,59 @@ const Setting = ({
                             onChange={(e) => onChange(e)}
                           />
                         </div>
+                        <div className="mb-3">
+                          <div className="txt-primary">Other Message 1</div>
+                          <textarea
+                            type="text"
+                            className="form-control rounded "
+                            id="otherMessage1"
+                            value={otherMessage1}
+                            placeholder="Enter outbreak message 2"
+                            required
+                            onChange={(e) => onChange(e)}
+                          />
+                        </div>
+                        <div className="mb-3">
+                          <div className="txt-primary">Other Message 2</div>
+                          <textarea
+                            type="text"
+                            className="form-control rounded "
+                            id="otherMessage2"
+                            value={otherMessage2}
+                            placeholder="Enter outbreak message 2"
+                            required
+                            onChange={(e) => onChange(e)}
+                          />
+                        </div>
+                        <div className="mb-3">
+                          <div className="txt-primary">Other Message 3</div>
+                          <textarea
+                            type="text"
+                            className="form-control rounded "
+                            id="otherMessage3"
+                            value={otherMessage3}
+                            placeholder="Enter outbreak message 2"
+                            required
+                            onChange={(e) => onChange(e)}
+                          />
+                        </div>
+                        <div className="mb-3">
+                          <div className="txt-primary">Other Message 4</div>
+                          <textarea
+                            type="text"
+                            className="form-control rounded "
+                            id="otherMessage4"
+                            value={otherMessage4}
+                            placeholder="Enter outbreak message 2"
+                            required
+                            onChange={(e) => onChange(e)}
+                          />
+                        </div>
                       </>
                     </div>
                   </div>
 
-                  {/* Roles Settings */}
+                  {/* Admin Office Settings */}
                   <div className="col-12 col-md-3 d-flex flex-column">
                     <h6>Admin Office Settings</h6>
                     {/* Form Content */}

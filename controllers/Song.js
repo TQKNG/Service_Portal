@@ -221,11 +221,11 @@ exports.updateSong = async (req, res) => {
 
       const pool = await poolPromise;
 
-      if(SongData !== ""){
+      if(SongData !== "" && SongData.includes("data:application/octet-stream")){
         var songPath = await storeAudio("SongAudio", SongData, SongID);
       }
 
-      if(SongLogo !== ""){
+      if(SongLogo !== ""&& SongLogo.includes("data:image/png") ){
         var imgPath = await storeImage("SongLogo", SongLogo, SongID);
       }
 

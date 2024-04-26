@@ -201,11 +201,11 @@ exports.updateBook = async (req, res) => {
       // Create new song on Database
       const pool = await poolPromise;
 
-      if(BookCover !== ""){
+      if(BookCover !== ""&& BookCover.includes("data:image/png")){
         var imgPath = await storeImage("BookCover", BookCover, BookID);
       }
 
-      if(BookLastPage !== ""){
+      if(BookLastPage !== ""&& BookLastPage.includes("data:image/png")){
         var lastImgPath = await storeImage("BookLastPage", BookLastPage, BookID);
       }
 

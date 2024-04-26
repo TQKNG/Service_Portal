@@ -131,12 +131,14 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn, offices, addReception })
 
       addReception(updatedFormData)
         .then((data) => {
-          const {error} = data;
-          if (error) {
+          const { success, error } = data;
+          if (success === false) {
             setError(error);
+            setIsSubmitted(false);
           }
-          
-          setIsSubmitted(true);
+          else{
+            setIsSubmitted(true);
+          }
           setFormData({
             FirstName: "",
             LastName: "",
@@ -459,7 +461,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                     onChange={(e) => onChange(e)}
                   >
                     {offices?.map((office) => (
-                      <option value={office}>{office}</option>
+                      <option value={office.title}>{office.title}</option>
                     ))}
                   </select>
                 </div>

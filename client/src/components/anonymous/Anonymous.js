@@ -258,7 +258,7 @@ const mapStateToProps = (state) => ({
   isOutbreak: state.admin.settingsList.OutbreakStatus,
   outbreakMessage1: state.admin.settingsList.OutbreakMessage?.outBreakMessage1,
   outbreakMessage2: state.admin.settingsList.OutbreakMessage?.outBreakMessage2,
-  offices: state.admin.settingsList.Roles,
+  offices: state.admin.settingsList.AdminOffices,
 });
 
 export default connect(mapStateToProps, {

@@ -21,8 +21,16 @@
 - Fix: Update setting and socket trigger
 
 ## [0.0.6] - 2024-04-24
-- Fix: Update setting and socket trigger
+- Fix: Update setting and socket trigger'
 
+## [0.0.7] - 2024-04-26
+- Fix: Json structure for the admin office setting
+- Fix: QR code
+- Fix: volume setting slide bar
+- Fix: volume date range selector
+- Add: Location API
+- Fix: Compress and Update Image and audio file
+- Add: Indication the audio is uploaded
 
 
 
