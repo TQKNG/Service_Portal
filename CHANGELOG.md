@@ -33,5 +33,16 @@
 - Add: Indication the audio is uploaded
 
 
+## [0.0.8] - 2024-04-26
+- Fix: Sign In Sign Out navigation logic on AnonynousLogin.js and AnonymouseLogout.js
+- Fix: Add adminOffices field to database and visit record
+- Fix: Update settings with new field
+- Test: Websocket on azure
+
+
+
+
+
+
 
 
