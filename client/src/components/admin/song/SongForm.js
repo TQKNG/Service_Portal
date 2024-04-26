@@ -54,7 +54,7 @@ const SongForm = ({
         });
       });
     } else if (location.pathname.includes("edit")) {
-      console.log("edit");
+      console.log("edit", formData.SongData, formData.SongLogo);
       updateSong(SongID, formData);
     }
     hist.push("/admin/song");
