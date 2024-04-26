@@ -6,8 +6,12 @@ import PropTypes from "prop-types";
 import AnonymousConfirm from "./AnonymousConfirm";
 import { updateReception } from "../../actions/admin";
 
-
-const AnonymousLogout = ({ setAlert, device, isSignedOut, updateReception }) => {
+const AnonymousLogout = ({
+  setAlert,
+  device,
+  isSignedOut,
+  updateReception,
+}) => {
   const [formData, setFormData] = useState({
     FirstName: "",
     LastName: "",
@@ -50,31 +54,34 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut, updateReception }) => 
       return;
     }
 
-
-
     if (validationError === null) {
       setError(null);
 
-      const updatedFormData = { ...formData, isRobot, isSignedOut, InOut: false };
+      const updatedFormData = {
+        ...formData,
+        isRobot,
+        isSignedOut,
+        InOut: false,
+      };
 
-      updateReception(null,updatedFormData)
-        .then((error) => {
-          if (error) {
+      updateReception(null, updatedFormData)
+        .then((data) => {
+          const { success, error } = data;
+          console.log("Test file", success)
+          if (success === false) {
             setError(error);
-            setFormData({
-              FirstName: "",
-              LastName: "",
-              PhoneNumber: "",
-            });
             setIsSubmitted(false);
-          }
-          else{
+          } else {
             setIsSubmitted(true);
           }
+          setFormData({
+            FirstName: "",
+            LastName: "",
+            PhoneNumber: "",
+          });
           setTimeout(() => {
             window.location.reload();
           }, 5000);
-        
         })
         .catch((error) => {
           console.error("There was an error!", error);
@@ -245,5 +252,5 @@ const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, {
   setAlert,
-  updateReception
+  updateReception,
 })(AnonymousLogout);

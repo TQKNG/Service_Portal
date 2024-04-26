@@ -131,12 +131,14 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn, offices, addReception })
 
       addReception(updatedFormData)
         .then((data) => {
-          const {error} = data;
-          if (error) {
+          const { success, error } = data;
+          if (success === false) {
             setError(error);
+            setIsSubmitted(false);
           }
-          
-          setIsSubmitted(true);
+          else{
+            setIsSubmitted(true);
+          }
           setFormData({
             FirstName: "",
             LastName: "",
