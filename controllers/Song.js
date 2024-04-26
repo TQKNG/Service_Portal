@@ -58,7 +58,7 @@ exports.addSong = async (req, res) => {
   try {
     if (req.body) {
       const { Name, Lyrics, SongData, SongLogo } = req.body;
-      
+
       // Create new song on Database
       const pool = await poolPromise;
 
@@ -82,7 +82,6 @@ exports.addSong = async (req, res) => {
         .input("imagePath", "")
         .input("lyrics", Lyrics)
         .execute("dbo.Songs_Insert");
-
 
       let newlyCreatedID = record.recordset[0].singSongID;
 
@@ -201,7 +200,6 @@ exports.getSongs = async (req, res) => {
     // Wait for all promises to resolve
     await Promise.all(promises);
 
-
     // Once all asynchronous operations are complete, send the response
     res.status(200).json({
       success: true,
@@ -213,7 +211,6 @@ exports.getSongs = async (req, res) => {
   }
 };
 
-
 exports.updateSong = async (req, res) => {
   try {
     if (req.body) {
@@ -221,11 +218,15 @@ exports.updateSong = async (req, res) => {
 
       const pool = await poolPromise;
 
-      if(SongData !== "" && SongData.includes("data:application/octet-stream")){
+      if (
+        SongData !== "" &&
+        (SongData.includes("data:application/octet-stream") ||
+          SongData.includes("data:audio/mpeg"))
+      ) {
         var songPath = await storeAudio("SongAudio", SongData, SongID);
       }
 
-      if(SongLogo !== ""&& SongLogo.includes("data:image/png") ){
+      if (SongLogo !== "" && SongLogo.includes("data:image/png")) {
         var imgPath = await storeImage("SongLogo", SongLogo, SongID);
       }
 
@@ -245,7 +246,6 @@ exports.updateSong = async (req, res) => {
     res.status(500).json({ success: false, error: "Server Error" });
   }
 };
-
 
 exports.deleteSong = async (req, res) => {
   try {

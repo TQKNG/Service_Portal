@@ -521,42 +521,40 @@ export const loadReceptionsList =
     }
   };
 
-export const updateReception = (receptionID = null, formData) => async (dispatch) => {
-  try {
-    const result = await api.put(`/receptions/${receptionID}`, formData);
-    if(result.data.success){
-      dispatch(loadReceptionsList());
-      // dispatch(setAlert("A Visit Updated Successfully", "success"));
-    }
-    else{
-      return result.data
-    }
- 
-  } catch (err) {
-    console.log(err);
-    const errors = err.response.data.errors;
+export const updateReception =
+  (receptionID = null, formData) =>
+  async (dispatch) => {
+    try {
+      const result = await api.put(`/receptions/${receptionID}`, formData);
+      if (result.data.success) {
+        dispatch(loadReceptionsList());
+        // dispatch(setAlert("A Visit Updated Successfully", "success"));
+      }
+      return result.data;
+    } catch (err) {
+      console.log(err);
+      const errors = err.response.data.errors;
 
-    if (errors) {
-      if (errors[0].msg === "Session Expired") {
-        dispatch({ type: LOGOUT });
-        dispatch(clearAll());
-      } else
-        errors.forEach((error) => dispatch(setAlert(error.message, "danger")));
+      if (errors) {
+        if (errors[0].msg === "Session Expired") {
+          dispatch({ type: LOGOUT });
+          dispatch(clearAll());
+        } else
+          errors.forEach((error) =>
+            dispatch(setAlert(error.message, "danger"))
+          );
+      }
     }
-  }
-};
+  };
 
 export const addReception = (formData) => async (dispatch) => {
   try {
     const result = await api.post("/receptions", formData);
-    if(result.data.success){
+    if (result.data.success) {
       dispatch(loadReceptionsList());
       // dispatch(setAlert("A Visit Added Successfully", "success"));
     }
-    else{
-      return result.data
-    }
-   
+    return result.data;
   } catch (err) {
     console.log(err);
     const errors = err.response.data.errors;
@@ -805,7 +803,6 @@ export const updateSetting = (formData) => async (dispatch) => {
   }
 };
 
-
 // Joke
 export const setJoke = (book) => (dispatch) => {
   dispatch({ type: GET_JOKE, payload: book });
@@ -921,7 +918,6 @@ export const loadTriviasList =
     try {
       const res = await api.get("/trivias");
       dispatch({ type: GET_TRIVIASLIST, payload: res.data.data });
-      
     } catch (error) {
       console.log(error);
       const errors = error.response.data.errors;
@@ -933,7 +929,6 @@ export const loadTriviasList =
     }
   };
 
-  
 export const updateTrivia = (questionID, formData) => async (dispatch) => {
   try {
     await api.put(`/trivias/${questionID}`, formData);
@@ -955,7 +950,7 @@ export const updateTrivia = (questionID, formData) => async (dispatch) => {
 
 export const addTrivia = (formData) => async (dispatch) => {
   try {
-    await api.post("/trivias", formData).then(()=>{
+    await api.post("/trivias", formData).then(() => {
       dispatch(loadTriviasList());
       dispatch(setAlert("Trivia Added Successfully", "success"));
     });

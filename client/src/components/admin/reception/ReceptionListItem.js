@@ -25,6 +25,7 @@ const ReceptionsListItem = ({ reception, setReception }) => {
     firstVisit,
     sicknessSymptom,
     acknowledgement,
+    adminOffices,
   } = reception;
 
   const hist = useHistory();
@@ -87,6 +88,9 @@ const ReceptionsListItem = ({ reception, setReception }) => {
 
       {/* Sickness Symptom */}
       <div className="admin-schools-field text-truncate  mx-auto">{sicknessSymptom?"Yes" : "No"}</div>
+
+      {/* Admin Offices */}
+      <div className="admin-schools-field text-truncate  mx-auto">{adminOffices}</div>
 
       {/* Acknowledgement */}
       <div className="admin-schools-field text-truncate  mx-auto">{acknowledgement?"Yes" : "No"}</div>
