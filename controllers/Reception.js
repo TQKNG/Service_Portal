@@ -68,7 +68,7 @@ exports.addReception = async (req, res) => {
         .input("firstVisit", FirstVisit)
         .input("sicknessSymptom", SicknessSymptom)
         .input("acknowledgement", Acknowledgement)
-        .input("departmentVisit", DepartmentVisit)
+        .input("adminOffices", DepartmentVisit)
         .execute("dbo.Visits_Insert");
       } else {
         if (
