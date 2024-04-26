@@ -43,11 +43,20 @@ async function storeAudio(subloc, data, fileName) {
   fs.mkdirSync(uploadDir, { recursive: true });
 
   // Define the path for the new image
-  // const dataPath = path.join(uploadDir, `${formattedFileName}.mid`);
-  const dataPath = path.join(uploadDir, `${fileName}.mid`);
+
+  // Get data content from base64 string
+  let base64Data = data.split(";base64,").pop();
+  let dataPath = "";
+
+
+  if(data.includes("data:application/octet-stream")){
+    dataPath = path.join(uploadDir, `${fileName}.mid`);
+  }
+  else if(data.includes("data:audio/mpeg")){
+    dataPath = path.join(uploadDir, `${fileName}.mp3`);
+  }
 
   //Convert to base 64
-  let base64Data = data.split(";base64,").pop();
   fs.writeFile(dataPath, base64Data, { encoding: "base64" }, function (err) {
     if (err) {
       console.error("Error creating audio file:", err);
@@ -113,12 +122,11 @@ async function retrieveAudio(subloc, id) {
   // Format filename with delimiter
   // let formattedFileName = removeDelimiter(id, "_");
 
-
   // Ensure the directory exists
   fs.mkdirSync(uploadDir, { recursive: true });
 
   // const fileName = formattedFileName + ".mid";
-  const fileName = id + ".mid";
+  const fileName = id + ".mp3";
 
   const audioPath = path.join(uploadDir, fileName);
 
