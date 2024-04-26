@@ -117,10 +117,6 @@ exports.updateReception = async (req, res) => {
   try {
     console.log("test my request body", req.body, req.params.receptionID);
 
-    // Update from the portal
-    // if(req.params.receptionID){
-    //   return
-    // }
     // Update from form data
     if (req.body) {
       const { FirstName, LastName, PhoneNumber, InOut } = req.body;
@@ -151,11 +147,11 @@ exports.updateReception = async (req, res) => {
               "Your name was not found! Please check the spelling of your name.",
           });
       } else {
-        await pool
-          .request()
-          .input("visitID", latestVisitRecord.recordset[0].visitID)
-          .input("signOutDate", SignInOutTime)
-          .execute("dbo.Visits_Update");
+        // await pool
+        //   .request()
+        //   .input("visitID", latestVisitRecord.recordset[0].visitID)
+        //   .input("signOutDate", SignInOutTime)
+        //   .execute("dbo.Visits_Update");
       }
     }
 

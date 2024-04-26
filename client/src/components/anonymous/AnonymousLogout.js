@@ -58,8 +58,7 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut, updateReception }) => 
       const updatedFormData = { ...formData, isRobot, isSignedOut, InOut: false };
 
       updateReception(null,updatedFormData)
-        .then((data) => {
-          const {error} = data;
+        .then((error) => {
           if (error) {
             setError(error);
             setFormData({
@@ -68,7 +67,6 @@ const AnonymousLogout = ({ setAlert, device, isSignedOut, updateReception }) => 
               PhoneNumber: "",
             });
             setIsSubmitted(false);
-
           }
           else{
             setIsSubmitted(true);
