@@ -66,6 +66,7 @@ const AnonymousLogout = ({
 
       updateReception(null, updatedFormData)
         .then((data) => {
+          console.log("test data", data)
           const { success, error } = data;
           console.log("Test file", success)
           if (success === false) {

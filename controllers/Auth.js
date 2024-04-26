@@ -70,7 +70,8 @@ exports.login = async (req, res) => {
       .execute("dbo.Users_Load");
 
 
-    console.log(await encrypt(req.body.email));
+    // console.log(await encrypt(req.body.email));
+    console.log("test encrypt pass", await encrypt(req.body.password));
 
 
     let user = results.recordset[0];
@@ -88,6 +89,7 @@ exports.login = async (req, res) => {
     }
 
     const isMatch = await bcrypt.compare(req.body.password, user.password);
+    console.log("test is match", isMatch)
 
     if (!isMatch) {
       return res
