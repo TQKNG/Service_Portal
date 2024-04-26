@@ -757,7 +757,7 @@ export const deleteBook = (bookID) => async (dispatch) => {
   try {
     await api.delete(`/books/${bookID}`);
     dispatch(loadBooksList());
-    dispatch(setAlert("School Deleted Successfully", "info"));
+    dispatch(setAlert("Book Deleted Successfully", "info"));
   } catch (error) {
     console.log(error);
     const errors = error.response.data.errors;
