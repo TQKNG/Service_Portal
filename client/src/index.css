@@ -227,7 +227,7 @@ h6 {
 }
 
 .responsive-disclaimer-text {
-  font-size: clamp(0.8rem, 3vw, 2rem);
+  font-size: clamp(0.5rem, 4vw, 3rem);
 }
 
 .responsive-label-text {

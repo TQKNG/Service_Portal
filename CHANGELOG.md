@@ -39,6 +39,14 @@
 - Fix: Update settings with new field
 - Test: Websocket on azure
 
+## [0.0.9] - 2024-04-29
+- Quick Fix: Change the layout of reception form and integrated the outbreak message shown at the bottom of Reception form
+- Fix: Increase the font size for disclaimer text and Move it closer to Sign in Sign out button
+- Fix: The outline of Sign in button.
+
+
+
+
 
 
 

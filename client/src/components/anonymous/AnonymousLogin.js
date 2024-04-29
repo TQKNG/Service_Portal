@@ -41,10 +41,10 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn, offices, addReception })
   const [isRobot, setIsRobot] = useState(false);
   const [isAdminOfficeClick, setIsAdminOfficeClick] = useState(false);
   const [homeAreasOptions, setHomeAreasOptions] = useState([
-    "Oak Ridge Orchard",
-    "Maple Ridge",
+    "Oak Ridge",
+    "Maple Bush",
     "Pine Woods",
-    "Walnut Groves",
+    "Walnut Grove",
     "Cherry Orchard",
     "Admin Offices",
   ]);
