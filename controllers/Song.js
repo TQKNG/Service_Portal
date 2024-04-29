@@ -160,7 +160,16 @@ exports.getSongs = async (req, res) => {
     const pool = await poolPromise;
     let results;
 
-    results = await pool.request().execute("dbo.Songs_Load");
+    // Get a specify song
+    console.log("req.params.songID", req.params.songID);
+    if (req.params.songID) {
+      results = await pool
+        .request()
+        .input("singSongID", req.params.songID)
+        .execute("dbo.Songs_Load");
+    } else {
+      results = await pool.request().execute("dbo.Songs_Load");
+    }
 
     if (results.recordset.length === 0) {
       return res.status(200).json({ success: true, data: [] });
@@ -184,7 +193,13 @@ exports.getSongs = async (req, res) => {
       // Format json format for robot
       item.SongID = item.singSongID;
       item.Name = item.songName;
+      
+      // Only add lyrics if requesting the song by song ID is provided
+      // if(req.params.songID){
+      //   item.Lyrics = item.lyrics;
+      // }
       item.Lyrics = item.lyrics;
+
       item.SongLogo = logo;
       item.SongData = audio;
 
