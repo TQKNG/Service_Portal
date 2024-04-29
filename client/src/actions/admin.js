@@ -592,8 +592,8 @@ export const setSong = (song) => (dispatch) => {
 
 export const getSong = (id) => async (dispatch) => {
   try {
-    // const res = await api.post("/schools/get", { SchoolID: parseInt(id) });
-    // dispatch({ type: GET_SCHOOL, payload: res.data.data[0] });
+    const res = await api.get(`/songs/${id}`);
+    dispatch({ type: GET_SONG, payload: res.data.data[0] });
   } catch (error) {
     console.log(error);
     const errors = error.response.data.errors;

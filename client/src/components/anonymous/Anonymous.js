@@ -11,8 +11,13 @@ import useWebSocket from "../../services/WebSocketService";
 
 const Anonymous = ({
   isOutbreak,
+  selectedMessage,
   outbreakMessage1,
   outbreakMessage2,
+  otherMessage1,
+  otherMessage2,
+  otherMessage3,
+  otherMessage4,
   offices,
   loadSettingsList,
 }) => {
@@ -141,30 +146,24 @@ const Anonymous = ({
             </button>
           </div>
 
-          {/* QR */}
-          <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4">
-            <img
-              src={process.env.PUBLIC_URL + `/qrForm.png`}
-              alt="QR Code"
-              style={{ maxWidth: "30%", height: "auto" }}
-            />
-          </div>
-
           {/* Hero cover */}
-          <div className="w-100 d-flex flex-column justify-content-end flex-grow-1 gap-0 align-items-center ">
+          <div className="w-100 d-flex flex-column justify-content-end flex-grow-1 gap-0 align-items-center">
             {isOutbreak ? (
               <>
-                <div className="w-80 d-flex justify-content-center align-items-center responsive-disclaimer-text my-sm-5 my-4">
+                <div
+                  className="w-80 d-flex justify-content-center align-items-center responsive-disclaimer-text my-sm-5 my-4"
+                  style={{ border: "3px solid red", padding: "10px" }}
+                >
                   PLEASE READ these instructions:
                   <br />
                   <br />
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi
-                  quam magni eaque sint officiis unde eius nesciunt sapiente
-                  porro, voluptates perferendis est delectus tempore.
-                  Perferendis voluptatibus natus error impedit facere neque
-                  dolor minima. Porro expedita qui explicabo provident, ipsum
-                  quaerat odio nobis maiores eaque quae excepturi hic, amet
-                  similique aperiam.
+                  {selectedMessage === 1
+                    ? otherMessage1
+                    : selectedMessage === 2
+                    ? otherMessage2
+                    : selectedMessage === 3
+                    ? otherMessage3
+                    : otherMessage4}
                 </div>
               </>
             ) : (
@@ -174,6 +173,15 @@ const Anonymous = ({
                 style={{ width: "100%", height: "auto", objectFit: "cover" }}
               />
             )}
+          </div>
+          
+          {/* QR */}
+          <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4">
+            <img
+              src={process.env.PUBLIC_URL + `/qrForm.png`}
+              alt="QR Code"
+              style={{ maxWidth: "30%", height: "auto" }}
+            />
           </div>
         </>
       ) : (
@@ -250,6 +258,11 @@ Anonymous.propTypes = {
   isOutbreak: PropTypes.bool.isRequired,
   outbreakMessage1: PropTypes.string.isRequired,
   outbreakMessage2: PropTypes.string.isRequired,
+  selectedMessage: PropTypes.number.isRequired,
+  otherMessage1: PropTypes.string.isRequired,
+  otherMessage2: PropTypes.string.isRequired,
+  otherMessage3: PropTypes.string.isRequired,
+  otherMessage4: PropTypes.string.isRequired,
   offices: PropTypes.array.isRequired,
   loadSettingsList: PropTypes.func.isRequired,
 };
@@ -258,6 +271,11 @@ const mapStateToProps = (state) => ({
   isOutbreak: state.admin.settingsList.OutbreakStatus,
   outbreakMessage1: state.admin.settingsList.OutbreakMessage?.outBreakMessage1,
   outbreakMessage2: state.admin.settingsList.OutbreakMessage?.outBreakMessage2,
+  selectedMessage: state.admin.settingsList.SelectedMessage,
+  otherMessage1: state.admin.settingsList.OtherMessage?.otherMessage1,
+  otherMessage2: state.admin.settingsList.OtherMessage?.otherMessage2,
+  otherMessage3: state.admin.settingsList.OtherMessage?.otherMessage3,
+  otherMessage4: state.admin.settingsList.OtherMessage?.otherMessage4,
   offices: state.admin.settingsList.AdminOffices,
 });
 
