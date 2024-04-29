@@ -127,7 +127,7 @@ const Anonymous = ({
           </div>
 
           {/* Sign In Sign Out Buttons */}
-          <div className="w-100 d-flex gap-0 justify-content-around m-3 mb-sm-3">
+          <div className="w-100 d-flex gap-0 justify-content-around m-3 mb-sm-3 mb-md-5">
             {/* In */}
             <button
               className="w-30 bg-dark-green text-white btn-block btn custom-btn p-4 p-md-5 d-flex align-items-center justify-content-center"
@@ -146,13 +146,13 @@ const Anonymous = ({
             </button>
           </div>
 
-          {/* Hero cover */}
-          {isOutbreak && (
-            <div className="w-100 d-flex flex-column justify-content-end flex-grow-1 gap-0 align-items-center">
+          {/* Outbreak message footer*/}
+          <div className={`w-100 d-flex flex-column ${isOutbreak?"my-1":"justify-content-end flex-grow-1"} align-items-center`}>
+            {isOutbreak && (
               <>
                 <div
-                  className="w-80 d-flex justify-content-center align-items-center responsive-disclaimer-text my-sm-5 my-4"
-                  style={{ border: "3px solid red", padding: "10px" }}
+                  className="w-80 d-flex justify-content-center align-items-center responsive-disclaimer-text"
+                  style={{ border: "3px solid red", padding: "10px"}}
                 >
                   PLEASE READ these instructions:
                   <br />
@@ -166,24 +166,24 @@ const Anonymous = ({
                     : otherMessage4}
                 </div>
               </>
-            </div>
-          )}
-
+            )}
+          </div>
           {/* QR */}
-          <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4">
+          <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4 mt-sm-1 mt-md-5">
             <img
               src={process.env.PUBLIC_URL + `/qrForm.png`}
               alt="QR Code"
               style={{ maxWidth: "30%", height: "auto" }}
             />
           </div>
-          {!isOutbreak && (
-            <img
-              src={process.env.PUBLIC_URL + `images/Welcome-Hero.png`}
-              alt="hero cover"
-              style={{ width: "100%", height: "auto", objectFit: "cover" }}
-            />
-          )}
+
+          {/* Hero cover */}
+          {!isOutbreak && ( <img
+            src={process.env.PUBLIC_URL + `images/Welcome-Hero.png`}
+            alt="hero cover"
+            style={{ width: "100%", height: "auto", objectFit: "cover" }}
+          />)}
+         
         </>
       ) : (
         <>
