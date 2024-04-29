@@ -147,8 +147,8 @@ const Anonymous = ({
           </div>
 
           {/* Hero cover */}
-          <div className="w-100 d-flex flex-column justify-content-end flex-grow-1 gap-0 align-items-center">
-            {isOutbreak ? (
+          {isOutbreak && (
+            <div className="w-100 d-flex flex-column justify-content-end flex-grow-1 gap-0 align-items-center">
               <>
                 <div
                   className="w-80 d-flex justify-content-center align-items-center responsive-disclaimer-text my-sm-5 my-4"
@@ -166,15 +166,9 @@ const Anonymous = ({
                     : otherMessage4}
                 </div>
               </>
-            ) : (
-              <img
-                src={process.env.PUBLIC_URL + `images/Welcome-Hero.png`}
-                alt="hero cover"
-                style={{ width: "100%", height: "auto", objectFit: "cover" }}
-              />
-            )}
-          </div>
-          
+            </div>
+          )}
+
           {/* QR */}
           <div className="w-100 d-flex flex-column gap-0 align-items-center justify-content-center p-2 p-sm-3 p-lg-4">
             <img
@@ -183,6 +177,13 @@ const Anonymous = ({
               style={{ maxWidth: "30%", height: "auto" }}
             />
           </div>
+          {!isOutbreak && (
+            <img
+              src={process.env.PUBLIC_URL + `images/Welcome-Hero.png`}
+              alt="hero cover"
+              style={{ width: "100%", height: "auto", objectFit: "cover" }}
+            />
+          )}
         </>
       ) : (
         <>
@@ -268,7 +269,7 @@ Anonymous.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  isOutbreak: state.admin.settingsList.OutbreakStatus,
+  isOutbreak: !!state.admin.settingsList.OutbreakStatus,
   outbreakMessage1: state.admin.settingsList.OutbreakMessage?.outBreakMessage1,
   outbreakMessage2: state.admin.settingsList.OutbreakMessage?.outBreakMessage2,
   selectedMessage: state.admin.settingsList.SelectedMessage,
