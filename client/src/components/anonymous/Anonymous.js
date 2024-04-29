@@ -183,7 +183,6 @@ const Anonymous = ({
             alt="hero cover"
             style={{ width: "100%", height: "auto", objectFit: "cover" }}
           />)}
-         
         </>
       ) : (
         <>
