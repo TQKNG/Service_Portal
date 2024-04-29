@@ -50,7 +50,7 @@ exports.addReception = async (req, res) => {
           .input("firstVisit", FirstVisit)
           .input("sicknessSymptom", SicknessSymptom)
           .input("acknowledgement", Acknowledgement)
-          .input("departmentVisit", DepartmentVisit)
+          .input("adminOffices", DepartmentVisit)
           .execute("dbo.Visits_Insert");
       }
       // If there is a record, check if the user has signed in or out
