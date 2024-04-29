@@ -39,6 +39,11 @@
 - Fix: Update settings with new field
 - Test: Websocket on azure
 
+## [0.0.8] - 2024-04-29
+- Quick Fix: Change the layout of reception form and integrated the outbreak message shown at the bottom of Reception form
+
+
+
 
 
 
