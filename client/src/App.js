@@ -81,6 +81,16 @@ const App = () => {
             {/* Setting */}
             <Route exact path="/admin/setting" component={Admin} />
 
+
+             {/* Schedule */}
+             <Route exact path="/admin/schedule" component={Admin} />
+            <Route
+              exact
+              path="/admin/schedule/edit"
+              component={Admin}
+            />
+             <Route exact path="/admin/schedule/add" component={Admin} />
+
             {/* Public Form */}
             <Route exact path="/anonymousform" component={Anonymous} />
           </Switch>

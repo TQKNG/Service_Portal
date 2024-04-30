@@ -25,6 +25,9 @@ import {
   GET_STATISTICLOG,
   GET_STATISTICLOGSLIST,
   CLEAR_STATISTICLOG,
+  GET_SCHEDULE,
+  GET_SCHEDULESLIST,
+  CLEAR_SCHEDULE,
 } from "../actions/types";
 
 const initialState = {
@@ -68,6 +71,11 @@ const initialState = {
   triviaListLoading: true,
   triviaLoading: true,
 
+  schedulesList: [],
+  schedule: null,
+  scheduleListLoading: true,
+  scheduleLoading: true,
+
   settingsList: [],
   setting: null,
   settingListLoading: true,
@@ -93,7 +101,11 @@ export default function (state = initialState, action) {
       return { ...state, reception: null, receptionLoading: true };
 
     case GET_STATISTICLOGSLIST:
-      return { ...state, statisticlogsList: payload, statisticlogListLoading: false };
+      return {
+        ...state,
+        statisticlogsList: payload,
+        statisticlogListLoading: false,
+      };
     case GET_STATISTICLOG:
       return { ...state, statisticlog: payload, statisticlogLoading: false };
     case CLEAR_STATISTICLOG:
@@ -126,6 +138,13 @@ export default function (state = initialState, action) {
       return { ...state, trivia: payload, triviaLoading: false };
     case CLEAR_TRIVIA:
       return { ...state, trivia: null, triviaLoading: true };
+
+    case GET_SCHEDULESLIST:
+      return { ...state, schedulesList: payload, scheduleListLoading: false };
+    case GET_SCHEDULE:
+      return { ...state, schedule: payload, scheduleLoading: false };
+    case CLEAR_SCHEDULE:
+      return { ...state, schedule: null, scheduleLoading: true };
 
     case GET_SETTINGSLIST:
       return { ...state, settingsList: payload, settingListLoading: false };
@@ -171,6 +190,11 @@ export default function (state = initialState, action) {
         triviaListLoading: true,
         triviaLoading: true,
 
+        schedulesList: [],
+        schedule: null,
+        scheduleListLoading: true,
+        scheduleLoading: true,
+
         settingsList: [],
         setting: null,
         settingListLoading: true,
@@ -200,9 +224,11 @@ export default function (state = initialState, action) {
         trivia: null,
         triviaLoading: true,
 
+        schedule: null,
+        scheduleLoading: true,
+
         setting: null,
         settingLoading: true,
-
       };
     default:
       return state;

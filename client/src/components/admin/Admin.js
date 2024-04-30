@@ -46,13 +46,13 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
             <Sidebar
               users={true}
               dashboard={true}
-              classrooms={true}
               receptions={true}
               songs={true}
               books={true}
               jokes={true}
               trivias={true}
               setting={true}
+              schedules={true}
             />
           )}
           {location.pathname === "/admin/dashboard" && <Dashboard />}
@@ -82,13 +82,18 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
 
           {/* Joke */}
           {location.pathname === "/admin/joke" && <Jokes />}
-          {location.pathname === "/admin/joke/edit" && <JokeForm/>}
+          {location.pathname === "/admin/joke/edit" && <JokeForm />}
           {location.pathname === "/admin/joke/add" && <JokeForm />}
 
           {/* Trivia */}
           {location.pathname === "/admin/trivia" && <Trivias />}
-          {location.pathname === "/admin/trivia/edit" && <TriviaForm/>}
+          {location.pathname === "/admin/trivia/edit" && <TriviaForm />}
           {location.pathname === "/admin/trivia/add" && <TriviaForm />}
+
+          {/* Schedule */}
+          {location.pathname === "/admin/schedule" && <Schedules />}
+          {/* {location.pathname === "/admin/schedule/edit" && <ScheduleForm />}
+          {location.pathname === "/admin/schedule/add" && <ScheduleForm />} */}
         </div>
       ) : (
         <div className="d-flex align-items-center h-100 justify-content-center">

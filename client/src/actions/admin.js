@@ -984,6 +984,97 @@ export const deleteTrivia = (triviaID) => async (dispatch) => {
   }
 };
 
+
+// Schedule
+export const setSchedule = (schedule) => (dispatch) => {
+  dispatch({ type: GET_BOOK, payload: schedule });
+};
+
+export const getSchedule = (id) => async (dispatch) => {
+  try {
+    // const res = await api.post("/schools/get", { SchoolID: parseInt(id) });
+    // dispatch({ type: GET_SCHOOL, payload: res.data.data[0] });
+  } catch (error) {
+    console.log(error);
+    const errors = error.response.data.errors;
+    if (errors)
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      }
+  }
+};
+export const loadSchedulesList =
+  (value = {}) =>
+  async (dispatch) => {
+    try {
+      const res = await api.get("/schedules");
+      dispatch({ type: GET_BOOKSLIST, payload: res.data.data });
+    } catch (error) {
+      console.log(error);
+      const errors = error.response.data.errors;
+      if (errors)
+        if (errors[0].msg === "Session Expired") {
+          dispatch({ type: LOGOUT });
+          dispatch(clearAll());
+        }
+    }
+  };
+
+export const updateSchedule = (scheduleID, formData) => async (dispatch) => {
+  try {
+    const result = await api.put(`/schedules/${scheduleID}`, formData);
+    dispatch(loadSchedulesList());
+    dispatch(setAlert("Schedule updated Successfully", "success"));
+  } catch (err) {
+    console.log(err);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      } else
+        errors.forEach((error) => dispatch(setAlert(error.message, "danger")));
+    }
+  }
+};
+
+export const addSchedule = (formData) => async (dispatch) => {
+  try {
+    await api.post("/schedules", formData);
+    dispatch(loadSchedulesList());
+    dispatch(setAlert("Schedule Added Successfully", "success"));
+  } catch (err) {
+    console.log(err);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      } else
+        errors.forEach((error) => dispatch(setAlert(error.message, "danger")));
+    }
+  }
+};
+
+export const deleteSchedule = (scheduleID) => async (dispatch) => {
+  try {
+    await api.delete(`/schedules/${scheduleID}`);
+    dispatch(loadSchedulesList());
+    dispatch(setAlert("Schedule Deleted Successfully", "info"));
+  } catch (error) {
+    console.log(error);
+    const errors = error.response.data.errors;
+    if (errors)
+      if (errors[0].msg === "Session Expired") {
+        dispatch({ type: LOGOUT });
+        dispatch(clearAll());
+      }
+  }
+};
+
 export const generateReport =
   (
     year,
