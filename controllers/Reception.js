@@ -1,4 +1,5 @@
 const { poolPromise } = require("../config/db");
+const { sendEmailToDept } = require("../utils/sendEmail");
 const moment = require("moment");
 
 exports.addReception = async (req, res) => {
@@ -21,65 +22,97 @@ exports.addReception = async (req, res) => {
         DepartmentVisit,
       } = req.body;
 
-      if (InOut) {
-        var SignInOutTime = moment.utc().format();
-      }
+      // // Check whether sign in or sign out
+      // if (InOut) {
+      //   var SignInOutTime = moment.utc().format();
+      // }
 
+      // // Look for latest visit record
       const pool = await poolPromise;
-      let latestVisitRecord = await pool
-        .request()
-        .input("firstName", FirstName)
-        .input("lastName", LastName)
-        .input("phoneNumber", PhoneNumber)
-        .input("latestVisit", 1)
-        .execute("dbo.Visits_Load");
+      // let latestVisitRecord = await pool
+      //   .request()
+      //   .input("firstName", FirstName)
+      //   .input("lastName", LastName)
+      //   .input("phoneNumber", PhoneNumber)
+      //   .input("latestVisit", 1)
+      //   .execute("dbo.Visits_Load");
 
-      console.log("test field", latestVisitRecord.recordset);
-      // First time visit then insert new record
-      if (latestVisitRecord.recordset.length === 0) {
-        await pool
-          .request()
-          .input("firstName", FirstName)
-          .input("lastName", LastName)
-          .input("phoneNumber", PhoneNumber)
-          .input("signInDate", SignInOutTime)
-          .input("homeAreas", JSON.stringify(HomeAreas))
-          .input("scheduledVisit", ScheduledVisit)
-          .input("purpose", Purpose)
-          .input("residentName", ResidentName)
-          .input("firstVisit", FirstVisit)
-          .input("sicknessSymptom", SicknessSymptom)
-          .input("acknowledgement", Acknowledgement)
-          .input("adminOffices", DepartmentVisit)
-          .execute("dbo.Visits_Insert");
-      }
-      // If there is a record, check if the user has signed in or out
-      else if(latestVisitRecord.recordset[0].signInDate && latestVisitRecord.recordset[0].signOutDate ){
-        await pool
+      // console.log("test field", latestVisitRecord.recordset);
+      // // First time visit then insert new record
+      // if (latestVisitRecord.recordset.length === 0) {
+      //   await pool
+      //     .request()
+      //     .input("firstName", FirstName)
+      //     .input("lastName", LastName)
+      //     .input("phoneNumber", PhoneNumber)
+      //     .input("signInDate", SignInOutTime)
+      //     .input("homeAreas", JSON.stringify(HomeAreas))
+      //     .input("scheduledVisit", ScheduledVisit)
+      //     .input("purpose", Purpose)
+      //     .input("residentName", ResidentName)
+      //     .input("firstVisit", FirstVisit)
+      //     .input("sicknessSymptom", SicknessSymptom)
+      //     .input("acknowledgement", Acknowledgement)
+      //     .input("adminOffices", DepartmentVisit)
+      //     .execute("dbo.Visits_Insert");
+      // }
+      // // If there is a record, check if the user has signed in or out
+      // else if (
+      //   latestVisitRecord.recordset[0].signInDate &&
+      //   latestVisitRecord.recordset[0].signOutDate
+      // ) {
+      //   await pool
+      //     .request()
+      //     .input("firstName", FirstName)
+      //     .input("lastName", LastName)
+      //     .input("phoneNumber", PhoneNumber)
+      //     .input("signInDate", SignInOutTime)
+      //     .input("homeAreas", JSON.stringify(HomeAreas))
+      //     .input("scheduledVisit", ScheduledVisit)
+      //     .input("purpose", Purpose)
+      //     .input("residentName", ResidentName)
+      //     .input("firstVisit", FirstVisit)
+      //     .input("sicknessSymptom", SicknessSymptom)
+      //     .input("acknowledgement", Acknowledgement)
+      //     .input("adminOffices", DepartmentVisit)
+      //     .execute("dbo.Visits_Insert");
+      // } else {
+      //   if (
+      //     latestVisitRecord.recordset[0].signInDate &&
+      //     !latestVisitRecord.recordset[0].signOutDate
+      //   ) {
+      //     return res.status(200).json({
+      //       success: false,
+      //       error:
+      //         "You have not signed out yet. Please sign out before continue",
+      //     });
+      //   }
+      // }
+
+      // Send email to department
+      const settings = await pool
         .request()
-        .input("firstName", FirstName)
-        .input("lastName", LastName)
-        .input("phoneNumber", PhoneNumber)
-        .input("signInDate", SignInOutTime)
-        .input("homeAreas", JSON.stringify(HomeAreas))
-        .input("scheduledVisit", ScheduledVisit)
-        .input("purpose", Purpose)
-        .input("residentName", ResidentName)
-        .input("firstVisit", FirstVisit)
-        .input("sicknessSymptom", SicknessSymptom)
-        .input("acknowledgement", Acknowledgement)
-        .input("adminOffices", DepartmentVisit)
-        .execute("dbo.Visits_Insert");
-      } else {
-        if (
-          latestVisitRecord.recordset[0].signInDate &&
-          !latestVisitRecord.recordset[0].signOutDate
-        ) {
-          return res.status(200).json({
-            success: false,
-            error:
-              "You have not signed out yet. Please sign out before continue",
-          });
+        .input("keyword", "AdminOffices")
+        .execute("dbo.Settings_Load");
+
+      if (settings.recordset.length > 0) {
+        console.log("test settings", settings.recordset[0]);
+        const adminOffices = JSON.parse(settings.recordset[0].valueStr);
+        let ccEmail = "";
+        let options = {};
+
+        // if department visit is not empty, get the email of the department
+        if (DepartmentVisit !== "") {
+          office = adminOffices.find(
+            (office) => office.title === DepartmentVisit
+          );
+          ccEmail = office.email;
+          options.emailType = 1;
+          options.deptName = DepartmentVisit;
+          options.cc = ccEmail;
+          options.visitorName = `${FirstName} ${LastName}`;
+          options.phoneNumber = PhoneNumber;
+          await sendEmailToDept(options);
         }
       }
     }
