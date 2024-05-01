@@ -25,6 +25,8 @@ import Setting from "./settings/Setting";
 import SongForm from "./song/SongForm";
 import BookForm from "./book/BookForm";
 import TriviaForm from "./trivia/TriviaForm";
+import Schedules from "./schedule/Schedules";
+import ScheduleForm from "./schedule/ScheduleForm";
 
 const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
   const location = useLocation();
@@ -92,8 +94,8 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
 
           {/* Schedule */}
           {location.pathname === "/admin/schedule" && <Schedules />}
-          {/* {location.pathname === "/admin/schedule/edit" && <ScheduleForm />}
-          {location.pathname === "/admin/schedule/add" && <ScheduleForm />} */}
+          {location.pathname === "/admin/schedule/edit" && <ScheduleForm />}
+          {location.pathname === "/admin/schedule/add" && <ScheduleForm />}
         </div>
       ) : (
         <div className="d-flex align-items-center h-100 justify-content-center">

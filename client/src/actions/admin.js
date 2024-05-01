@@ -45,6 +45,9 @@ import {
   GET_SETTING,
   GET_SETTINGSLIST,
   CLEAR_SETTING,
+  CLEAR_SCHEDULE,
+  GET_SCHEDULESLIST,
+  GET_LOCATIONSLIST,
 } from "../actions/types";
 import { setAlert } from "./alerts";
 import { clearAssessmentResult } from "./assessment";
@@ -74,37 +77,9 @@ export const loadUsersList =
   (formData = {}) =>
   async (dispatch) => {
     try {
-      // const res = await api.post("/users/get", formData);
-      // console.log("test resdatata",res.data.data);
-      // dispatch({ type: GET_USERSLIST, payload: res.data.data });
-
-      dispatch({
-        type: GET_USERSLIST,
-        payload: [
-          {
-            UserID: 1,
-            FirstName: "Ziad",
-            LastName: "Diab",
-            Email: "ziad.diab@globaldws.com",
-            UserName: "ziad.diab",
-            Role: 1,
-            DeviceID: "",
-            HarewareID: null,
-            ConnectionString: null,
-          },
-          {
-            UserID: 2,
-            FirstName: "Robot",
-            LastName: "1",
-            Email: null,
-            UserName: null,
-            Role: 2,
-            DeviceID: "KAZY45672",
-            HardwareID: "NBK4436788",
-            ConnectionString: "xyahskelwjqkla",
-          },
-        ],
-      });
+      const res = await api.post("/users/get", formData);
+      console.log("test resdatata", res.data.data);
+      dispatch({ type: GET_USERSLIST, payload: res.data.data });
     } catch (error) {
       console.log(error);
       const errors = error.response.data.errors;
@@ -984,7 +959,6 @@ export const deleteTrivia = (triviaID) => async (dispatch) => {
   }
 };
 
-
 // Schedule
 export const setSchedule = (schedule) => (dispatch) => {
   dispatch({ type: GET_BOOK, payload: schedule });
@@ -1009,7 +983,7 @@ export const loadSchedulesList =
   async (dispatch) => {
     try {
       const res = await api.get("/schedules");
-      dispatch({ type: GET_BOOKSLIST, payload: res.data.data });
+      dispatch({ type: GET_SCHEDULESLIST, payload: res.data.data });
     } catch (error) {
       console.log(error);
       const errors = error.response.data.errors;
@@ -1417,6 +1391,25 @@ export const loadStatisticLogsList =
     }
   };
 
+export const loadLocationsList =
+  (formData = {}) =>
+  async (dispatch) => {
+    try {
+      console.log("test formData", formData);
+      const res = await api.post("/robotservices/get/locations", formData);
+      console.log("test resdatata", res.data.data);
+      dispatch({ type: GET_LOCATIONSLIST, payload: res.data.data });
+    } catch (error) {
+      console.log(error);
+      const errors = error.response.data.errors;
+      if (errors)
+        if (errors[0].msg === "Session Expired") {
+          dispatch({ type: LOGOUT });
+          dispatch(clearAll());
+        }
+    }
+  };
+
 export const clearUser = () => (dispatch) => {
   dispatch({ type: CLEAR_USER });
 };
@@ -1451,6 +1444,10 @@ export const clearJoke = () => (dispatch) => {
 
 export const clearTrivia = () => (dispatch) => {
   dispatch({ type: CLEAR_TRIVIA });
+};
+
+export const clearSchedule = () => (dispatch) => {
+  dispatch({ type: CLEAR_SCHEDULE });
 };
 
 export const clearAssessment = () => (dispatch) => {

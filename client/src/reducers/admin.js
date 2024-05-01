@@ -22,6 +22,9 @@ import {
   GET_SETTING,
   GET_SETTINGSLIST,
   CLEAR_SETTING,
+  GET_LOCATION,
+  GET_LOCATIONSLIST,
+  CLEAR_LOCATION,
   GET_STATISTICLOG,
   GET_STATISTICLOGSLIST,
   CLEAR_STATISTICLOG,
@@ -50,6 +53,11 @@ const initialState = {
   statisticlog: null,
   statisticlogListLoading: true,
   statisticlogLoading: true,
+
+  locationsList: [],
+  location: null,
+  locationListLoading: true,
+  locationLoading: true,
 
   songsList: [],
   song: null,
@@ -153,6 +161,13 @@ export default function (state = initialState, action) {
     case CLEAR_SETTING:
       return { ...state, setting: null, settingLoading: true };
 
+    case GET_LOCATIONSLIST:
+      return { ...state, locationsList: payload, locationListLoading: false };
+    case GET_LOCATION:
+      return { ...state, location: payload, locationLoading: false };
+    case CLEAR_LOCATION:
+      return { ...state, location: null, locationLoading: true };
+
     case CLEAR_ADMIN:
       return {
         usersList: [],
@@ -199,6 +214,11 @@ export default function (state = initialState, action) {
         setting: null,
         settingListLoading: true,
         settingLoading: true,
+
+        locationsList: [],
+        location: null,
+        locationListLoading: true,
+        locationLoading: true,
       };
     case CLEAR_ITEMS:
       return {
@@ -229,6 +249,9 @@ export default function (state = initialState, action) {
 
         setting: null,
         settingLoading: true,
+
+        location: null,
+        locationLoading: true,
       };
     default:
       return state;

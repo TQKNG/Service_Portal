@@ -71,12 +71,12 @@ const Schedules = ({
           </div>
         </div>
       
-        {/* <SchedulesList
+         <SchedulesList
           schedulesList={
              schedulesList
           }
           scheduleListLoading={scheduleListLoading}
-        /> */}
+        /> 
       </div>
     </Fragment>
   );

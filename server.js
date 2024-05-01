@@ -116,6 +116,7 @@ const books = require('./routes/Book');
 const jokes = require('./routes/Joke');
 const trivias = require('./routes/Trivia');
 const settings = require('./routes/Setting');
+const schedules = require('./routes/Schedule');
 
 //Routes for other robot services
 const robotservice = require('./routes/RobotService');
@@ -130,6 +131,7 @@ app.use('/api/books', books);
 app.use('/api/jokes', jokes);
 app.use('/api/trivias', trivias);
 app.use('/api/settings', settings);
+app.use('/api/schedules', schedules);
 app.use('/api/robotservices',robotservice);
 
 

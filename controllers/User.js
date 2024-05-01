@@ -153,59 +153,16 @@ exports.addMultipleUsers = async (req, res) => {
 exports.getUsers = async (req, res) => {
   try {
     const pool = await poolPromise;
+
+    // Check if load robot list
+    console.log("Test request body", req.body);
+
     let results = await pool
       .request()
-      .input(
-        "UserID",
-        sql.Int,
-        req.body.UserID !== undefined ? req.body.UserID : -1
-      )
-      .input(
-        "SchoolID",
-        sql.Int,
-        req.user.UserTypeID !== 5 && req.user.UserTypeID !== 6
-          ? req.user.SchoolID
-          : -1
-      )
-      .input(
-        "UserTypeID",
-        sql.Int,
-        req.body.UserTypeID !== undefined ? req.body.UserTypeID : -1
-      )
-      .input(
-        "Email",
-        sql.VarChar(250),
-        req.body.Email !== undefined ? req.body.Email : -1
-      )
-      .input(
-        "schoolIds",
-        sql.VarChar(sql.Max),
-        req.body.schoolIds !== undefined ? req.body.Schools : -1
-      )
-      .execute("Main.Users_Load");
+      .input("roleID",req.body.roleID)
+      .execute("dbo.Users_Load");
 
-    let result = results.recordset;
-
-    if (req.user.UserTypeID < 3) {
-      result.forEach((user) => {
-        delete user.Password;
-      });
-    } else if (req.user.UserTypeID === 6) {
-      if (req.body.schoolIds === undefined) {
-       console.log(result)
-      }
-      else{
-        let schools = JSON.parse("[" + req.body.schoolIds + "]");
-
-        result = result.filter((user) => {
-          return schools.includes(user.SchoolID);
-        });
-      }
-      
-     
-    }
-
-    res.status(200).json({ success: true, data: result });
+    res.status(200).json({ success: true, data: results.recordset });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Server Error" });

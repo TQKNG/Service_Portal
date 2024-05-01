@@ -245,6 +245,40 @@ exports.addLocation = async (req, res) => {
   }
 };
 
+
+exports.getLocations = async (req, res) => {
+  try {
+    const pool = await poolPromise;
+    let results;
+    console.log("tesdsgfdsfgsfs", req.body.userID)
+
+    
+    // Get a specify song
+    if (req.body.userID && req.body.userID !== "") {
+      results = await pool
+        .request()
+        .input("userID", req.body.userID)
+        .execute("dbo.Locations_Load");
+    } else {
+      console.log("tesdsgfdsfgsfs")
+      results = await pool.request().execute("dbo.Locations_Load");
+    }
+
+    if (results.recordset.length === 0) {
+      return res.status(200).json({ success: true, data: [] });
+    }
+
+    // Once all asynchronous operations are complete, send the response
+    res.status(200).json({
+      success: true,
+      data: results.recordset,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: "Server Error" });
+  }
+};
+
 /**
  * @openapi
  * /api/robotservices/location:

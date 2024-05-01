@@ -3,6 +3,7 @@ const {
   addMap,
   getMaps,
   addLocation,
+  getLocations,
   getSchedules,
   addStatisticLogs,
   getStatisticLogs
@@ -24,5 +25,6 @@ router.get('/schedules', getSchedules);
 router.post('/statisticLogs', addStatisticLogs);
 router.get('/statisticLogs', getStatisticLogs);
 router.post('/locations', addLocation);
+router.post('/get/locations', getLocations)
 
 module.exports = router;
