@@ -29,65 +29,65 @@ exports.addReception = async (req, res) => {
 
       // // Look for latest visit record
       const pool = await poolPromise;
-      // let latestVisitRecord = await pool
-      //   .request()
-      //   .input("firstName", FirstName)
-      //   .input("lastName", LastName)
-      //   .input("phoneNumber", PhoneNumber)
-      //   .input("latestVisit", 1)
-      //   .execute("dbo.Visits_Load");
+      let latestVisitRecord = await pool
+        .request()
+        .input("firstName", FirstName)
+        .input("lastName", LastName)
+        .input("phoneNumber", PhoneNumber)
+        .input("latestVisit", 1)
+        .execute("dbo.Visits_Load");
 
-      // console.log("test field", latestVisitRecord.recordset);
-      // // First time visit then insert new record
-      // if (latestVisitRecord.recordset.length === 0) {
-      //   await pool
-      //     .request()
-      //     .input("firstName", FirstName)
-      //     .input("lastName", LastName)
-      //     .input("phoneNumber", PhoneNumber)
-      //     .input("signInDate", SignInOutTime)
-      //     .input("homeAreas", JSON.stringify(HomeAreas))
-      //     .input("scheduledVisit", ScheduledVisit)
-      //     .input("purpose", Purpose)
-      //     .input("residentName", ResidentName)
-      //     .input("firstVisit", FirstVisit)
-      //     .input("sicknessSymptom", SicknessSymptom)
-      //     .input("acknowledgement", Acknowledgement)
-      //     .input("adminOffices", DepartmentVisit)
-      //     .execute("dbo.Visits_Insert");
-      // }
-      // // If there is a record, check if the user has signed in or out
-      // else if (
-      //   latestVisitRecord.recordset[0].signInDate &&
-      //   latestVisitRecord.recordset[0].signOutDate
-      // ) {
-      //   await pool
-      //     .request()
-      //     .input("firstName", FirstName)
-      //     .input("lastName", LastName)
-      //     .input("phoneNumber", PhoneNumber)
-      //     .input("signInDate", SignInOutTime)
-      //     .input("homeAreas", JSON.stringify(HomeAreas))
-      //     .input("scheduledVisit", ScheduledVisit)
-      //     .input("purpose", Purpose)
-      //     .input("residentName", ResidentName)
-      //     .input("firstVisit", FirstVisit)
-      //     .input("sicknessSymptom", SicknessSymptom)
-      //     .input("acknowledgement", Acknowledgement)
-      //     .input("adminOffices", DepartmentVisit)
-      //     .execute("dbo.Visits_Insert");
-      // } else {
-      //   if (
-      //     latestVisitRecord.recordset[0].signInDate &&
-      //     !latestVisitRecord.recordset[0].signOutDate
-      //   ) {
-      //     return res.status(200).json({
-      //       success: false,
-      //       error:
-      //         "You have not signed out yet. Please sign out before continue",
-      //     });
-      //   }
-      // }
+      console.log("test field", latestVisitRecord.recordset);
+      // First time visit then insert new record
+      if (latestVisitRecord.recordset.length === 0) {
+        await pool
+          .request()
+          .input("firstName", FirstName)
+          .input("lastName", LastName)
+          .input("phoneNumber", PhoneNumber)
+          .input("signInDate", SignInOutTime)
+          .input("homeAreas", JSON.stringify(HomeAreas))
+          .input("scheduledVisit", ScheduledVisit)
+          .input("purpose", Purpose)
+          .input("residentName", ResidentName)
+          .input("firstVisit", FirstVisit)
+          .input("sicknessSymptom", SicknessSymptom)
+          .input("acknowledgement", Acknowledgement)
+          .input("adminOffices", DepartmentVisit)
+          .execute("dbo.Visits_Insert");
+      }
+      // If there is a record, check if the user has signed in or out
+      else if (
+        latestVisitRecord.recordset[0].signInDate &&
+        latestVisitRecord.recordset[0].signOutDate
+      ) {
+        await pool
+          .request()
+          .input("firstName", FirstName)
+          .input("lastName", LastName)
+          .input("phoneNumber", PhoneNumber)
+          .input("signInDate", SignInOutTime)
+          .input("homeAreas", JSON.stringify(HomeAreas))
+          .input("scheduledVisit", ScheduledVisit)
+          .input("purpose", Purpose)
+          .input("residentName", ResidentName)
+          .input("firstVisit", FirstVisit)
+          .input("sicknessSymptom", SicknessSymptom)
+          .input("acknowledgement", Acknowledgement)
+          .input("adminOffices", DepartmentVisit)
+          .execute("dbo.Visits_Insert");
+      } else {
+        if (
+          latestVisitRecord.recordset[0].signInDate &&
+          !latestVisitRecord.recordset[0].signOutDate
+        ) {
+          return res.status(200).json({
+            success: false,
+            error:
+              "You have not signed out yet. Please sign out before continue",
+          });
+        }
+      }
 
       // Send email to department
       const settings = await pool
