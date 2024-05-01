@@ -40,6 +40,12 @@ const Setting = ({
         : settingsList.OutbreakStatus !== undefined
         ? settingsList.OutbreakStatus
         : 0,
+    timeOut:
+      settingsList === null
+        ? 0
+        : settingsList.TimeOut !== undefined
+        ? settingsList.TimeOut
+        : 0,
     volumeSetting:
       settingsList === null
         ? {}
@@ -196,6 +202,12 @@ const Setting = ({
           : settingsList.OutbreakStatus !== undefined
           ? settingsList.OutbreakStatus
           : 0,
+      timeOut:
+        settingsList === null
+          ? 0
+          : settingsList.TimeOut !== undefined
+          ? settingsList.TimeOut
+          : 0,
       outbreakMessage1:
         settingsList === null
           ? ""
@@ -277,6 +289,7 @@ const Setting = ({
     language,
     selectedMessage,
     outbreakStatus,
+    timeOut,
     outbreakMessage1,
     outbreakMessage2,
     otherMessage1,
@@ -318,7 +331,7 @@ const Setting = ({
                     >
                       {/* Fields */}
                       <>
-                        {/* Volume */}
+                        {/* Volume Max*/}
                         <div className="mb-3">
                           {/* Volume Max */}
                           <div className="">
@@ -436,6 +449,7 @@ const Setting = ({
                           </div>
                         </div>
 
+                        {/* Language */}
                         <div className="mb-3">
                           <div className="txt-primary">Language</div>
                           <select
@@ -450,6 +464,20 @@ const Setting = ({
                             <option value={"German"}>German</option>
                             <option value={"Chinese"}>Chinese</option>
                           </select>
+                        </div>
+
+                        {/* TimeOut */}
+                        <div className="mb-3">
+                          <div className="txt-primary">Time Out </div>
+                          <input
+                            type="number"
+                            className="form-control rounded "
+                            id="timeOut"
+                            value={timeOut}
+                            placeholder="Time Out in minutes"
+                            required
+                            onChange={(e) => onChange(e)}
+                          />
                         </div>
                       </>
                     </div>

@@ -59,7 +59,8 @@ exports.updateSetting = async (req, res) => {
     });
 
     formatedSettings["OutbreakStatus"] = req.body.outbreakStatus;
-    formatedSettings["SelectedMessage"] = req.body.selectedMessage; 
+    formatedSettings["TimeOut"] = req.body.timeOut;
+    formatedSettings["SelectedMessage"] = req.body.selectedMessage;
     formatedSettings["Language"] = req.body.language;
     formatedSettings["VolumeSetting"] = JSON.stringify(req.body.volumeSetting);
     formatedSettings["AdminOffices"] = JSON.stringify(req.body.adminOffices);
@@ -80,6 +81,12 @@ exports.updateSetting = async (req, res) => {
       .request()
       .input("keyword", "OutbreakStatus")
       .input("valueStr", formatedSettings["OutbreakStatus"])
+      .execute("dbo.Settings_Update");
+
+    await pool
+      .request()
+      .input("keyword", "TimeOut")
+      .input("valueStr", formatedSettings["TimeOut"])
       .execute("dbo.Settings_Update");
 
     await pool
