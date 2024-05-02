@@ -3,7 +3,14 @@ import { Badge } from "react-bootstrap";
 import { DatePicker } from "antd";
 import moment from "moment";
 
-const CalendarPicker = () => {
+const CalendarPicker = ({ startTime, setStartTime, setFormData }) => {
+  const onChangeTime = (time, timeString) => {
+    if (time) {
+      // Set volMaxTR to the selected time range
+      setStartTime(time);
+      setFormData((prev) => ({ ...prev, StartTime: time }));
+    }
+  };
   return (
     <>
       <DatePicker
@@ -20,10 +27,10 @@ const CalendarPicker = () => {
             {/* Time slots */}
             <div className="w-100 d-flex justify-content-center gap-3">
               <Badge pill className="w-15" bg={`danger`}>
-                12:00 AM
+                12:00 PM
               </Badge>
               <Badge pill className="w-15" bg={`danger`}>
-                12:00 AM
+                03:00 PM
               </Badge>
               <Badge pill className="w-15" bg={`success`}>
                 5:00 PM
@@ -34,6 +41,7 @@ const CalendarPicker = () => {
         showTime={{
           format: "hh:mm A",
         }}
+        onChange={onChangeTime}
         // dateRender={(current) => {
         //   const style = {};
 

@@ -27,7 +27,7 @@ const ScheduleForm = ({
 }) => {
   const hist = useHistory();
   const location = useLocation();
-
+  const[startTime, setStartTime] = useState(null);
   const [formData, setFormData] = useState({
     ScheduleID:
       schedule === null
@@ -59,6 +59,12 @@ const ScheduleForm = ({
         : schedule.Announcement !== undefined
         ? schedule.Announcement
         : "",
+    StartTime:
+      schedule === null
+        ? ""
+        : schedule.StartTime !== undefined
+        ? schedule.StartTime
+        : "",
   });
 
   const onChange = (e) => {
@@ -73,13 +79,16 @@ const ScheduleForm = ({
 
       console.log("Test formData", formData);
 
-      // addSchedule(formData).then(() => {
-      //   setFormData({
-      //     ScheduleID: "",
-      //     Robot: {},
-      //     Announcement: "",
-      //   });
-      // });
+      addSchedule(formData).then(() => {
+        setFormData({
+          ScheduleID: "",
+          Robot: {},
+          Location: {},
+          Duration: 0,
+          Announcement: "",
+          StartTime:""
+        });
+      });
     } else if (location.pathname.includes("edit")) {
       updateSchedule(ScheduleID, formData);
     }
@@ -240,7 +249,11 @@ const ScheduleForm = ({
         {/* Select date time */}
         <div className="mb-3">
           <div className="txt-primary">Select start time</div>
-         <DatePicker/>
+         <DatePicker
+          startTime={startTime}
+          setStartTime={setStartTime}
+          setFormData={setFormData}
+         />
         </div>
 
         {/* Select duration*/}
