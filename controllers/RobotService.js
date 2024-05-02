@@ -220,9 +220,6 @@ exports.addLocation = async (req, res) => {
         for (let i = 0; i < convertedLocations.length; i++) {
           const { roomNumber, description, coordinates } =
             convertedLocations[i];
-
-          console.log("Test coordinates", roomNumber, description, coordinates);
-
           if (coordinates !== null) {
             await pool
               .request()

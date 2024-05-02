@@ -59,7 +59,18 @@ exports.addSchedule = async (req, res) => {
 
       // Schedule 3: start time: 9:20 + 30 + 10 buffer = 10:00, duration: 20 min, ETE: 10:20, ActualETE: null, Status: Not Started
 
-      
+      // Looking for mapID from userID
+    
+      // Add schedule to database
+      await pool
+      .request()
+      .input("userID", parseInt(Robot))
+      .input("mapID", 7) // Hardcoded for now
+      .input("locationID", parseInt(Location))
+      .input("startTime", StartTime)
+      .input("announcement", Announcement)
+      .input("duration", parseInt(Duration))
+      .execute("dbo.Schedules_Insert");
 
       // Check if songs with the same name already exist
       //  const results = await pool
@@ -103,19 +114,20 @@ exports.getSchedules = async (req, res) => {
     }
 
     // Map over data and return an array of promises
-    const promises = results.recordset.map(async (item) => {
-      // Format json format for robot
-      item.ScheduleID = item.laughScheduleID;
-      item.Name = item.scheduleName;
-      item.ScheduleData = "";
-      item.ScheduleText = item.scheduleText;
+    const promises = results.recordset?.map(async (item) => {
+      console.log('Test item', item)
+      let convertCordinates = JSON.parse(JSON.parse(item.coordinates)); // when add location shoud not stringtify
+      let location = {
+        roomNumber: item.roomNumber,
+        description: item.description,
+        coordinates: convertCordinates
+      }
 
-      delete item.laughScheduleID;
-      delete item.scheduleName;
-      delete item.schedulePath;
-      delete item.isDeleted;
-      delete item.mediaType;
-      delete item.scheduleText;
+      item.location = location;
+
+      delete item.roomNumber;
+      delete item.description;
+      delete item.coordinates;
     });
 
     // Wait for all promises to resolve

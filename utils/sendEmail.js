@@ -1,5 +1,7 @@
 const { text } = require("express");
 const nodemailer = require("nodemailer");
+const { generateEmail } = require("./generateEmail");
+require('dotenv').config();
 
 const sendEmail = async (options) => {
   const transporter = nodemailer.createTransport({
@@ -24,12 +26,14 @@ const sendEmail = async (options) => {
 
 const sendEmailToDept = async (options) => {
   const transporter = nodemailer.createTransport({
-    service: "Gmail",
+    service: `${process.env.HOST_SERVICE}`,
     auth: {
-      user: process.env.EMAIL_USER,
+      user: process.env.EMAIL_HOST,
       pass: process.env.EMAIL_PASS,
     },
   });
+
+  let config = {};
 
   // Verify connection configuration
   await new Promise((resolve, reject) => {
@@ -44,24 +48,37 @@ const sendEmailToDept = async (options) => {
     });
   });
 
-  let message = {};
-  let receptionistEmail = "khanhnguyen.trq@gmail.com";
-  let subject = "Your guest is at the front door";
-  let text = `Dear ${options.deptName},\n\n Please confirm you will come to receive your visitor. ${options.visitorName} ${options.phoneNumber}. \n\n Thank you. \n\n Buzzer greeter robot`;
-
   // Type 1: Send email to department on their visitor's sign-in
+  const { subject, content } = generateEmail(options.emailType, options);
+
   if (options.emailType === 1) {
-    message = {
-      from: `Buzzer greeter robot <${process.env.GMAIL_USER}>`,
-      to: receptionistEmail,
+    config = {
+      from: `Buzz <${process.env.EMAIL_HOST}>`,
+      to: `${process.env.EMAIL_SCREENING_COORDINATOR}`,
       subject: subject,
-      text: text,
-      cc: [options.cc],
+      text: content,
+      cc: [ process.env.EMAIL_RECEPTION,options.cc],
+    };
+  } else if (options.emailType === 2) {
+    config = {
+      from: `Buzz <${process.env.EMAIL_HOST}>`,
+      to: `${process.env.EMAIL_RECEPTION}`,
+      subject: subject,
+      text: content,
+      cc: [process.env.EMAIL_SCREENING_COORDINATOR],
+    };
+  } else if (options.emailType === 3) {
+    config = {
+      from: `Buzz <${process.env.EMAIL_HOST}>`,
+      to: `${process.env.EMAIL_RECEPTION}`,
+      subject: subject,
+      text: content,
+      cc: [process.env.EMAIL_SCREENING_COORDINATOR],
     };
   }
 
   await new Promise((resolve, reject) => {
-    transporter.sendMail(message, (error, info) => {
+    transporter.sendMail(config, (error, info) => {
       if (error) {
         console.log(error);
         reject(error);
