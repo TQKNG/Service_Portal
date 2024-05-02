@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { loadSettingsList, updateSetting } from "../../../actions/admin";
 import Loading from "../../layouts/Loading";
+import Alert from "../../layouts/Alert";
 import { TimePicker } from "antd";
 import moment from "moment";
 
@@ -325,6 +326,7 @@ const Setting = ({
                 className="w-100 d-flex flex-column gap-5"
                 onSubmit={(e) => onSubmit(e)}
               >
+                <Alert />
                 <div className="row">
                   {/* General Settings */}
                   <div className="col-12 col-md-3 d-flex flex-column">
