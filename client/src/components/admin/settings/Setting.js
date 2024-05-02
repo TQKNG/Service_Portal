@@ -137,6 +137,7 @@ const Setting = ({
 
     if (e.target.id === "selectedMessage") {
       setSelectedOutbreakMessage(parseInt(e.target.value));
+      setFormData({ ...formData, selectedMessage: parseInt(e.target.value) });
     }
   };
 
@@ -181,7 +182,6 @@ const Setting = ({
   useEffect(() => {
     if (settingsList === null) return;
 
-    setSelectedOutbreakMessage(formData.selectedMessage);
     setFormData({
       language: settingsList === null ? "" : settingsList.Language,
       adminOffices:
@@ -257,6 +257,11 @@ const Setting = ({
   useEffect(() => {
     setChecked(formData.outbreakStatus);
   }, [formData.outbreakStatus]);
+
+  // Set initial selected outbreak message
+  useEffect(() => {
+    setSelectedOutbreakMessage(formData.selectedMessage);
+  }, [ formData.selectedMessage]);
 
   // Set datetime for volume max and min
   useEffect(() => {
@@ -468,7 +473,7 @@ const Setting = ({
 
                         {/* TimeOut */}
                         <div className="mb-3">
-                          <div className="txt-primary">Time Out </div>
+                          <div className="txt-primary">Time Out {`(mins)`}</div>
                           <input
                             type="number"
                             className="form-control rounded "
@@ -535,7 +540,7 @@ const Setting = ({
                         </div>
 
                         {/* Select Outbreak Message Options */}
-                        {checked && (
+                        {checked ? (
                           <>
                             <div className="mb-3">
                               <div className="txt-primary">
@@ -635,7 +640,7 @@ const Setting = ({
                               </div>
                             )}
                           </>
-                        )}
+                        ) : null}
                       </>
                     </div>
                   </div>
