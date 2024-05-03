@@ -29,6 +29,7 @@ const ScheduleForm = ({
   const hist = useHistory();
   const location = useLocation();
   const [startTime, setStartTime] = useState(null);
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     ScheduleID:
       schedule === null
@@ -74,6 +75,30 @@ const ScheduleForm = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
+    let errorMessage="";
+
+    // Validation
+    if(Object.keys(formData.Robot).length === 0) {
+      errorMessage = "Please select a robot";
+    }
+    if(Object.keys(formData.Location).length === 0) {
+      errorMessage = "Please select a location";
+    }
+    
+    if(formData.Duration === 0) {
+      errorMessage = "Please select a duration";
+    }
+    if(formData.StartTime === "") {
+      errorMessage = "Please select a start time";
+    }
+
+    if(errorMessage !== "") {
+      setError(errorMessage);
+      return;
+    }
+
+
+
     window.scrollTo(0, 0);
     if (location.pathname.includes("add")) {
       console.log("add");
@@ -205,11 +230,11 @@ const ScheduleForm = ({
         onSubmit={(e) => onSubmit(e)}
       >
         <Alert />
-
         {/* Select Robot */}
         <div className="mb-3">
           <div className="txt-primary">Selected Robot</div>
           <select
+            required
             disabled={location.pathname.includes("/edit") ? true : false}
             className="form-select form-control rounded "
             aria-label="Default select example"
@@ -230,6 +255,7 @@ const ScheduleForm = ({
         <div className="mb-3">
           <div className="txt-primary">Selected Location</div>
           <select
+            required
             disabled={location.pathname.includes("/edit") ? true : false}
             className="form-select form-control rounded "
             aria-label="Default select example"
@@ -237,7 +263,11 @@ const ScheduleForm = ({
             value={Location}
             onChange={(e) => onChange(e)}
           >
-            <option value={null}>{location.pathname.includes("/edit") ? Location : "Select your location"}</option>
+            <option value={null}>
+              {location.pathname.includes("/edit")
+                ? Location
+                : "Select your location"}
+            </option>
             {locationsList?.map((location) => (
               <option key={location.locationID} value={location.locationID}>
                 {location.description}
@@ -269,6 +299,7 @@ const ScheduleForm = ({
             disabled={location.pathname.includes("/edit") ? true : false}
             className="w-20 form-select form-control rounded"
             aria-label="Default select example"
+            required
             id="Duration"
             value={Duration}
             onChange={(e) => onChange(e)}
@@ -299,6 +330,13 @@ const ScheduleForm = ({
             setStartTime={setStartTime}
             setFormData={setFormData}
           />
+        </div>
+
+        {/* Validation error message */}
+        <div className="mb-3 mb-md-5 d-flex align-items-center justify-content-center gap-3">
+          {error && (
+            <span className="responsive-error-text text-danger">{error}</span>
+          )}
         </div>
 
         <div className="d-flex align-items-center justify-content-center">

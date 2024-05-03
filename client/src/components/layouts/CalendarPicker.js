@@ -21,6 +21,7 @@ const CalendarPicker = ({
     <>
       {editMode ? (
         <DatePicker
+          required
           disabled
           value={moment(defaultValue)}
           allowClear={false}
