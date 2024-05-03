@@ -188,7 +188,7 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
         <div className="admin-schools-field text-truncate mx-auto">Status</div>
 
         {/* Edit */}
-        <div className="admin-schools-field text-truncate mx-auto">Actions</div>
+        {/* <div className="admin-schools-field text-truncate mx-auto">Actions</div> */}
       </div>
 
       <div className="users-list-body ">
