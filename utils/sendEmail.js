@@ -1,7 +1,7 @@
 const { text } = require("express");
 const nodemailer = require("nodemailer");
 const { generateEmail } = require("./generateEmail");
-require('dotenv').config();
+require("dotenv").config();
 
 const sendEmail = async (options) => {
   const transporter = nodemailer.createTransport({
@@ -26,7 +26,10 @@ const sendEmail = async (options) => {
 
 const sendEmailToDept = async (options) => {
   const transporter = nodemailer.createTransport({
-    service: `${process.env.HOST_SERVICE}`,
+    host: process.env.HOST_SERVICE, // Outlook 365 SMTP server
+    port: 587, // Port for TLS/STARTTLS
+    secure: false,
+    // service: `${process.env.HOST_SERVICE}`,
     auth: {
       user: process.env.EMAIL_HOST,
       pass: process.env.EMAIL_PASS,
@@ -57,7 +60,7 @@ const sendEmailToDept = async (options) => {
       to: `${process.env.EMAIL_SCREENING_COORDINATOR}`,
       subject: subject,
       text: content,
-      cc: [ process.env.EMAIL_RECEPTION,options.cc],
+      cc: [process.env.EMAIL_RECEPTION, options.cc],
     };
   } else if (options.emailType === 2) {
     config = {
