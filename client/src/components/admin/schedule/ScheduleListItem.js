@@ -3,57 +3,92 @@ import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { setSchedule } from "../../../actions/admin";
+import Badge from "react-bootstrap/Badge";
 import ToolTipComp from "../../layouts/ToolTip";
+import moment from "moment";
 
 const SchedulesListItem = ({ schedule, setSchedule }) => {
   const [edit, setEdit] = useState(false);
   const [show, setShow] = useState(false);
-  const { ScheduleID, RobotName,Location, Announcement, StartTime,ActualEndTime, Duration, Status } = schedule;
+  const {
+    scheduleID,
+    userID,
+    location,
+    announcement,
+    startTime,
+    actualEndTime,
+    duration,
+    statusID,
+  } = schedule;
   const hist = useHistory();
   return (
     <div className="admin-users-fields  d-flex align-items-center justify-content-around   p-2 border-bottom">
       {/* Schedule ID */}
-      <div className="admin-schools-field text-truncate mx-auto">{ScheduleID}</div>
+      <div className="admin-schools-field text-truncate mx-auto">
+        {scheduleID}
+      </div>
 
       {/* Robot Name */}
       <div
         className="admin-schools-field  text-truncate mx-auto"
         onClick={() => {}}
-        title={RobotName}
+        title={userID}
       >
-        {RobotName ? RobotName : "N/A"}
+        {userID ? userID : "N/A"}
       </div>
 
       {/* Location */}
       <div className="admin-large-field text-truncate mx-auto">
-        {Location}
+        {`Room ${location.roomNumber}`}
       </div>
 
       {/* Announcement */}
       <div className="admin-large-field text-truncate mx-auto">
-        {Announcement}
+        {announcement}
       </div>
 
       {/* Start Time */}
       <div className="admin-large-field text-truncate mx-auto">
-        {StartTime}
+        {moment(startTime).format("MMM Do YY, h:mm a")}
       </div>
 
       {/* Actual End Time */}
       <div className="admin-large-field text-truncate mx-auto">
-        {ActualEndTime}
+        {actualEndTime}
       </div>
 
       {/* Duration */}
       <div className="admin-large-field text-truncate mx-auto">
-        {Duration}
+        {`${duration} mins`}
       </div>
 
       {/* Status */}
       <div className="admin-large-field text-truncate mx-auto">
-        {Status}
+        {/* 1: New, 2: Deleted, 3: Cancelled, 4: Completed */}
+        <Badge
+          pill
+          className="w-30"
+          bg={`${statusID === 1
+            ? "warning"
+            : statusID === 2
+            ? "danger"
+            : statusID === 2
+            ? "info"
+            : statusID === 4
+            ? "success"
+            : "N/A"}`}
+        >
+          {statusID === 1
+            ? "New"
+            : statusID === 2
+            ? "Deleted"
+            : statusID === 2
+            ? "Cancelled"
+            : statusID === 4
+            ? "Completed"
+            : "N/A"}
+        </Badge>
       </div>
-
 
       {/* Action */}
       <div className="admin-schools-field  text-truncate mx-auto">
