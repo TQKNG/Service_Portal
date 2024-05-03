@@ -354,7 +354,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
         </div>
 
         {/* Device ID Header*/}
-        <div
+        {/* <div
           className="admin-users-field text-truncate d-md-block d-none"
           onClick={() => {
             listSearch.forEach((item, id) => {
@@ -398,10 +398,10 @@ const UsersList = ({ usersList, usersListLoading }) => {
         >
           Device ID
           <SortIcon icon={school} isShowIcon={isShowIcon === "school"} />
-        </div>
+        </div> */}
 
         {/* Hardware ID Header*/}
-        <div
+        {/* <div
           className="admin-users-field text-truncate d-md-block d-none"
           onClick={() => {
             listSearch.forEach((item, id) => {
@@ -445,7 +445,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
         >
           Hardware ID
           <SortIcon icon={school} isShowIcon={isShowIcon === "school"} />
-        </div>
+        </div> */}
 
         {/* Connection String Header */}
         {/* <div
@@ -487,7 +487,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
           <SortIcon icon={role} isShowIcon={isShowIcon === "role"} />
         </div> */}
 
-        <div className="admin-users-field text-truncate ml-1">Actions</div>
+        {/* <div className="admin-users-field text-truncate ml-1">Actions</div> */}
       </div>
       <div className="users-list-body">
         {usersListLoading ? (

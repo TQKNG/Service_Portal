@@ -55,7 +55,7 @@ const Users = ({
               {usersList.length}
             </div>
           </div>
-          <div className="d-flex w-100 align-items-center justify-content-end">
+          {/* <div className="d-flex w-100 align-items-center justify-content-end">
             {parseInt(user.roleID) === 1 && (
               <div className="d-flex">
                 
@@ -88,7 +88,7 @@ const Users = ({
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
         </div>
 
         <UsersList

@@ -9,14 +9,14 @@ const UsersListItem = ({ user, setUser, clearReport, authUser }) => {
   const [edit, setEdit] = useState(false);
   const [show, setShow] = useState(false);
   const {
-    FirstName,
-    LastName,
-    Email,
-    Role,
+    firstName,
+    lastName,
+    email,
+    roleID,
     DeviceID,
     HardwareID,
     ConnectionString,
-    UserName,
+    userName,
     SchoolName,
     UserType,
     UserTypeID,
@@ -32,48 +32,45 @@ const UsersListItem = ({ user, setUser, clearReport, authUser }) => {
           setUser(user);
           hist.push(`/admin/user/userId=${user.UserID}`);
         }}
-        title={FirstName + " " + LastName}
+        title={firstName + " " + lastName}
       >
-        {FirstName} {LastName}
+        {firstName} {lastName}
       </div>
 
-      {/* Email Field */}
-      <div
-        className="admin-users-field text-truncate"
-        title={Email}
-      >
-        {parseInt(UserTypeID) === 2 ? "" : Email}
-      </div> 
+      {/* email Field */}
+      <div className="admin-users-field text-truncate" title={email}>
+        {parseInt(UserTypeID) === 2 ? "" : email}
+      </div>
 
       {/* Username Field */}
       <div
         className="admin-users-field text-truncate"
-        title={FirstName + " " + LastName}
+        title={firstName + " " + lastName}
       >
-        {UserName}
+        {userName}
       </div>
 
-      {/* Role Field */}
+      {/* roleID Field */}
       <div className="admin-users-field text-truncate" title={UserType}>
-        {Role === 1 ? "Administrator" : "Receptionist"}
+        {roleID === 5 ? "Administrator" : "Receptionist"}
       </div>
 
       {/* Device ID Field*/}
-      <div className="admin-users-field text-truncate" title={UserType}>
+      {/* <div className="admin-users-field text-truncate" title={UserType}>
         {DeviceID}
-      </div>
+      </div> */}
 
       {/* Hardware ID Field*/}
-      <div className="admin-users-field text-truncate" title={UserType}>
+      {/* <div className="admin-users-field text-truncate" title={UserType}>
         {HardwareID}
-      </div>
+      </div> */}
 
       {/* Connection String Field*/}
       {/* <div className="admin-users-field text-truncate" title={UserType}>
         {ConnectionString}
       </div> */}
 
-      <div className="admin-users-field  text-truncate  mx-1 d-flex">
+      {/* <div className="admin-users-field  text-truncate  mx-1 d-flex">
         {authUser.UserTypeID >= 5 && (
           <ToolTipComp
             myButton={
@@ -104,8 +101,7 @@ const UsersListItem = ({ user, setUser, clearReport, authUser }) => {
           />
         )}
 
-        {/* Button with tooltip */}
-        {/* <ToolTipComp
+        <ToolTipComp
           myButton={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -139,8 +135,8 @@ const UsersListItem = ({ user, setUser, clearReport, authUser }) => {
           }
           type="View"
           module="User"
-        /> */}
-      </div>
+        />
+      </div> */}
     </div>
   );
 };
