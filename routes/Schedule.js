@@ -2,8 +2,8 @@ const express = require('express');
 const {
   addSchedule,
   getSchedules,
-  // updateSchedule,
-  // deleteSchedule,
+  updateSchedule,
+  deleteSchedule,
 } = require('../controllers/Schedule');
 
 
@@ -12,7 +12,7 @@ const router = express.Router();
 router.post('/', addSchedule);
 router.get('/', getSchedules);
 // router.get('/:songID', getSchedules);
-// router.put('/:songID', updateSchedule);
-// router.delete('/:songID', deleteSchedule);
+router.put('/:scheduleID', updateSchedule);
+router.delete('/:scheduleID', deleteSchedule);
 
 module.exports = router;

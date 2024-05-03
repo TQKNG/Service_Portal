@@ -48,6 +48,7 @@ import {
   CLEAR_SCHEDULE,
   GET_SCHEDULESLIST,
   GET_LOCATIONSLIST,
+  GET_SCHEDULE,
 } from "../actions/types";
 import { setAlert } from "./alerts";
 import { clearAssessmentResult } from "./assessment";
@@ -961,7 +962,7 @@ export const deleteTrivia = (triviaID) => async (dispatch) => {
 
 // Schedule
 export const setSchedule = (schedule) => (dispatch) => {
-  dispatch({ type: GET_BOOK, payload: schedule });
+  dispatch({ type: GET_SCHEDULE, payload: schedule });
 };
 
 export const getSchedule = (id) => async (dispatch) => {

@@ -12,6 +12,7 @@ import {
 import Alert from "../../layouts/Alert";
 import PropTypes from "prop-types";
 import DatePicker from "../../layouts/CalendarPicker";
+import moment from "moment";
 
 const ScheduleForm = ({
   schedule,
@@ -27,7 +28,7 @@ const ScheduleForm = ({
 }) => {
   const hist = useHistory();
   const location = useLocation();
-  const[startTime, setStartTime] = useState(null);
+  const [startTime, setStartTime] = useState(null);
   const [formData, setFormData] = useState({
     ScheduleID:
       schedule === null
@@ -38,32 +39,32 @@ const ScheduleForm = ({
     Robot:
       schedule === null
         ? {}
-        : schedule.Robot !== undefined
-        ? schedule.Robot
+        : schedule.userID !== undefined
+        ? schedule.userID
         : {},
     Location:
       schedule === null
         ? {}
-        : schedule.Location !== undefined
-        ? schedule.Location
+        : schedule.location?.description !== undefined
+        ? schedule.location?.description
         : {},
     Duration:
       schedule === null
         ? 0
-        : schedule.Duration !== undefined
-        ? schedule.Duration
+        : schedule.duration !== undefined
+        ? schedule.duration
         : 0,
     Announcement:
       schedule === null
         ? ""
-        : schedule.Announcement !== undefined
-        ? schedule.Announcement
+        : schedule.announcement !== undefined
+        ? schedule.announcement
         : "",
     StartTime:
       schedule === null
         ? ""
-        : schedule.StartTime !== undefined
-        ? schedule.StartTime
+        : schedule.startTime !== undefined
+        ? schedule.startTime
         : "",
   });
 
@@ -86,7 +87,7 @@ const ScheduleForm = ({
           Location: {},
           Duration: 0,
           Announcement: "",
-          StartTime:""
+          StartTime: "",
         });
       });
     } else if (location.pathname.includes("edit")) {
@@ -102,32 +103,38 @@ const ScheduleForm = ({
       ScheduleID:
         schedule === null
           ? ""
-          : schedule.ScheduleID !== undefined
-          ? schedule.ScheduleID
+          : schedule.scheduleID !== undefined
+          ? schedule.scheduleID
           : "",
       Robot:
         schedule === null
           ? {}
-          : schedule.Robot !== undefined
-          ? schedule.Robot
+          : schedule.userID !== undefined
+          ? schedule.userID
           : {},
       Location:
         schedule === null
           ? {}
-          : schedule.Location !== undefined
-          ? schedule.Location
+          : schedule.location?.description !== undefined
+          ? schedule.location?.description
           : {},
       Duration:
         schedule === null
           ? 0
-          : schedule.Duration !== undefined
-          ? schedule.Duration
+          : schedule.duration !== undefined
+          ? schedule.duration
           : 0,
       Announcement:
         schedule === null
           ? ""
-          : schedule.Announcement !== undefined
-          ? schedule.Announcement
+          : schedule.announcement !== undefined
+          ? schedule.announcement
+          : "",
+      StartTime:
+        schedule === null
+          ? ""
+          : schedule.startTime !== undefined
+          ? schedule.startTime
           : "",
     });
   }, [schedule]);
@@ -146,8 +153,15 @@ const ScheduleForm = ({
     }
   }, [formData.Robot]);
 
+  // Set the start time
+  useEffect(() => {
+    if (formData.StartTime !== "") {
+      setStartTime(moment(formData.StartTime));
+    }
+  }, [formData.StartTime]);
+
   if (schedule == null && location.pathname.includes("edit")) {
-    hist.push("/admin/schedules");
+    hist.push("/admin/schedule");
   }
 
   const { ScheduleID, Robot, Announcement, Location, Duration } = formData;
@@ -196,6 +210,7 @@ const ScheduleForm = ({
         <div className="mb-3">
           <div className="txt-primary">Selected Robot</div>
           <select
+            disabled={location.pathname.includes("/edit") ? true : false}
             className="form-select form-control rounded "
             aria-label="Default select example"
             id="Robot"
@@ -215,13 +230,14 @@ const ScheduleForm = ({
         <div className="mb-3">
           <div className="txt-primary">Selected Location</div>
           <select
+            disabled={location.pathname.includes("/edit") ? true : false}
             className="form-select form-control rounded "
             aria-label="Default select example"
             id="Location"
             value={Location}
             onChange={(e) => onChange(e)}
           >
-            <option value={null}>Select a location</option>
+            <option value={null}>{location.pathname.includes("/edit") ? Location : "Select your location"}</option>
             {locationsList?.map((location) => (
               <option key={location.locationID} value={location.locationID}>
                 {location.description}
@@ -246,20 +262,11 @@ const ScheduleForm = ({
           />
         </div>
 
-        {/* Select date time */}
-        <div className="mb-3">
-          <div className="txt-primary">Select start time</div>
-         <DatePicker
-          startTime={startTime}
-          setStartTime={setStartTime}
-          setFormData={setFormData}
-         />
-        </div>
-
         {/* Select duration*/}
         <div className="mb-3">
           <div className="txt-primary">Select duration</div>
           <select
+            disabled={location.pathname.includes("/edit") ? true : false}
             className="w-20 form-select form-control rounded"
             aria-label="Default select example"
             id="Duration"
@@ -280,6 +287,18 @@ const ScheduleForm = ({
             <option value={55}>55 minutes</option>
             <option value={60}>60 minutes</option>
           </select>
+        </div>
+
+        {/* Select date time */}
+        <div className="mb-3">
+          <div className="txt-primary">Select start time</div>
+          <DatePicker
+            defaultValue={formData.StartTime}
+            editMode={location.pathname.includes("/edit") ? true : false}
+            startTime={startTime}
+            setStartTime={setStartTime}
+            setFormData={setFormData}
+          />
         </div>
 
         <div className="d-flex align-items-center justify-content-center">
@@ -314,7 +333,7 @@ const ScheduleForm = ({
                   <br />
                   <b>
                     <span className="text-danger text-center">
-                      Warning Deleting aschedule will result in deleting
+                      Warning Deleting a schedule will result in deleting
                       everything related to it
                     </span>
                   </b>
@@ -332,7 +351,7 @@ const ScheduleForm = ({
                     className="btn button-primary"
                     onClick={() => {
                       deleteSchedule(ScheduleID);
-                      hist.push("/admin/schedules");
+                      hist.push("/admin/schedule");
                       clearSchedule();
                     }}
                     data-bs-dismiss="modal"

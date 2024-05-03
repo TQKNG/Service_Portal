@@ -1,4 +1,6 @@
 const { poolPromise } = require("../config/db");
+const moment = require("moment");
+const { sendWebSocketMessage } = require("../utils/webSocketUtils");
 
 /**
  * @openapi
@@ -53,49 +55,70 @@ exports.addSchedule = async (req, res) => {
       console.log("TESST", req.body);
       const pool = await poolPromise;
 
+
+      // Get all the schedule start time for that date
+      const schedules = await pool
+        .request()
+        .input("startTime", StartTime)
+        .execute("dbo.Schedules_Load");
+
+      console.log("test my schedules", schedules.recordset);
+
+      /*
+       Buffer time: 10 min
+       start time: 2:00 pm
+      duration: 30 min
+      free from: 2:30pm -10 min = 2:20pm 
+      free to: 2:30pm + 30 min + 10 min = 3:10pm
+      
+      */
       // Schedule 1: start time: 8:00 , duration: 30 min, ETE: 8:30, ActualETE: 8:35, Status: Completed
 
       // Schedule 2: start time: 9:05 , duration: 15 min, ETE: 9:20, ActualETE: null, Status: In Progress
 
       // Schedule 3: start time: 9:20 + 30 + 10 buffer = 10:00, duration: 20 min, ETE: 10:20, ActualETE: null, Status: Not Started
 
-      // Looking for mapID from userID
+      // // Retrieve user data
+      // const robotData = 
+      //   await pool
+      //   .request()
+      //   .input("userID", parseInt(Robot))
+      //   .execute("dbo.Users_Load");
+
+      // // Retrieve hardwareID
+      // const hardwareID = robotData.recordset[0].hardwareID;
+
+      // // Retrieve map data
+      // const map = 
+      //   await pool
+      //   .request()
+      //   .input("mapName", hardwareID)
+      //   .execute("dbo.Maps_Load");
+
+      // // Retrieve mapID 
+      // const mapID = map.recordset[0].mapID;
     
-      // Add schedule to database
-      await pool
-      .request()
-      .input("userID", parseInt(Robot))
-      .input("mapID", 7) // Hardcoded for now
-      .input("locationID", parseInt(Location))
-      .input("startTime", StartTime)
-      .input("announcement", Announcement)
-      .input("duration", parseInt(Duration))
-      .execute("dbo.Schedules_Insert");
+      // // Add schedule to database
+      // await pool
+      // .request()
+      // .input("userID", parseInt(Robot))
+      // .input("mapID", mapID) // Hardcoded for now
+      // .input("locationID", parseInt(Location))
+      // .input("startTime", StartTime)
+      // .input("announcement", Announcement)
+      // .input("duration", parseInt(Duration))
+      // .execute("dbo.Schedules_Insert");
 
-      // Check if songs with the same name already exist
-      //  const results = await pool
-      //    .request()
-      //    .input("scheduleName", Name)
-      //    .execute("dbo.Schedules_Load");
-
-      //  if (results.recordset.length > 0) {
-      //    return res
-      //      .status(400)
-      //      .json({ success: false, error: "Schedule already exists" });
-      //  }
-
-      //   // Insert new song into database
-      //   let record = await pool
-      //     .request()
-      //     .input("scheduleName", Name)
-      //     .input("schedulePath", "")
-      //     .input("scheduleText", ScheduleText)
-      //     .execute("dbo.Schedules_Insert");
-
-      //
+  
     }
 
     res.status(200).json({ success: true });
+
+    sendWebSocketMessage({
+      type: "schedule",
+      data: "schedule",
+    });
+
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Server Error" });
@@ -147,15 +170,18 @@ exports.getSchedules = async (req, res) => {
 exports.updateSchedule = async (req, res) => {
   try {
     if (req.body) {
-      const { ScheduleID, Name, ScheduleText, ScheduleData } = req.body;
+      const { ScheduleID, Announcement, ActualEndTime, statusID } = req.body;
+
+      console.log("TEST body", req.body);
 
       const pool = await poolPromise;
 
       await pool
         .request()
-        .input("laughScheduleID", ScheduleID)
-        .input("scheduleName", Name)
-        .input("scheduleText", ScheduleText)
+        .input("scheduleID", ScheduleID)
+        .input("actualEndtime", ActualEndTime)
+        .input("announcement", Announcement)
+        .input("statusID", statusID)
         .execute("dbo.Schedules_Update");
     }
 
@@ -171,7 +197,7 @@ exports.deleteSchedule = async (req, res) => {
     const pool = await poolPromise;
     const results = await pool
       .request()
-      .input("laughScheduleID", req.params.scheduleID)
+      .input("scheduleID", req.params.scheduleID)
       .execute("dbo.Schedules_Delete");
 
     res.status(200).json({ success: true });

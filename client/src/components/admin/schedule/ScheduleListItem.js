@@ -85,7 +85,7 @@ const SchedulesListItem = ({ schedule, setSchedule }) => {
             : statusID === 2
             ? "Cancelled"
             : statusID === 4
-            ? "Completed"
+            ? "Done"
             : "N/A"}
         </Badge>
       </div>
