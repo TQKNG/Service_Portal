@@ -60,9 +60,15 @@ exports.addSchedule = async (req, res) => {
       const schedules = await pool
         .request()
         .input("startTime", StartTime)
+        .input("userID", parseInt(Robot))
         .execute("dbo.Schedules_Load");
 
-      console.log("test my schedules", schedules.recordset);
+      let timeSlots = schedules.recordset.map((schedule) => {
+        return schedule.startTime;
+      });
+
+      console.log("timeSlots", timeSlots);
+      
 
       /*
        Buffer time: 10 min
@@ -132,13 +138,20 @@ exports.getSchedules = async (req, res) => {
 
     results = await pool.request().execute("dbo.Schedules_Load");
 
+    // Get schedules for a certain robot
+    if(req.query.hardwareID){
+      const user = await pool.request().input("hardwareID", req.query.hardwareID).execute("dbo.Users_Load");
+      
+      const userID = user.recordset[0].userID;
+      results = await pool.request().input("userID", userID).execute("dbo.Schedules_Load");
+    }
+
     if (results.recordset.length === 0) {
       return res.status(200).json({ success: true, data: [] });
     }
 
     // Map over data and return an array of promises
     const promises = results.recordset?.map(async (item) => {
-      console.log('Test item', item)
       let convertCordinates = JSON.parse(JSON.parse(item.coordinates)); // when add location shoud not stringtify
       let location = {
         roomNumber: item.roomNumber,
