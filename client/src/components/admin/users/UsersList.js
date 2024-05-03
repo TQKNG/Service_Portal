@@ -182,7 +182,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
               );
             }}
           />
-          <UserFilter
+          {/* <UserFilter
             searchInput={searchInput}
             search={search}
             setFilter={setFilter}
@@ -190,7 +190,7 @@ const UsersList = ({ usersList, usersListLoading }) => {
             formData={formData}
             setFormData={setFormData}
             setListSearch={setListSearch}
-          />
+          /> */}
         </div>
       </div>
       <div className="admin-users-fields  d-flex align-items-center justify-space-between rounded  bg-body txt-primary">
