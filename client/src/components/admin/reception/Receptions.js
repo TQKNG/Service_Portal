@@ -33,7 +33,7 @@ const Receptions = ({
           </div>
           {/* Template */}
           <div className="d-flex w-100 align-items-center justify-content-end">
-            {authUser.roleID === 5 && (
+            {/* {authUser.roleID === 5 && (
               <>
                 <div className="d-flex">
                   <div
@@ -65,7 +65,7 @@ const Receptions = ({
                   </div>
                 </div>
               </>
-            )}
+            )} */}
           </div>
         </div>
         <ReceptionsList
