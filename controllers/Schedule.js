@@ -51,10 +51,10 @@ exports.addSchedule = async (req, res) => {
   try {
     if (req.body) {
       const { Robot, Location, Duration, Announcement, StartTime } = req.body;
-
-      console.log("TESST", req.body);
+      let startTimeCheck = false;
+      let endTimeCheck = false;
+      let errorMessages = "";
       const pool = await poolPromise;
-
 
       // Get all the schedule start time for that date
       const schedules = await pool
@@ -62,13 +62,6 @@ exports.addSchedule = async (req, res) => {
         .input("startTime", StartTime)
         .input("userID", parseInt(Robot))
         .execute("dbo.Schedules_Load");
-
-      let timeSlots = schedules.recordset.map((schedule) => {
-        return schedule.startTime;
-      });
-
-      console.log("timeSlots", timeSlots);
-      
 
       /*
        Buffer time: 10 min
@@ -78,14 +71,120 @@ exports.addSchedule = async (req, res) => {
       free to: 2:30pm + 30 min + 10 min = 3:10pm
       
       */
-      // Schedule 1: start time: 8:00 , duration: 30 min, ETE: 8:30, ActualETE: 8:35, Status: Completed
+      
+      let selectedDaySchedule = schedules.recordset.map((schedule) => {
+        return schedule;
+      });
 
-      // Schedule 2: start time: 9:05 , duration: 15 min, ETE: 9:20, ActualETE: null, Status: In Progress
+      // Check if this is the first schedule of the day, allow to add
+      if(selectedDaySchedule.length === 0){
+        startTimeCheck = true;
+        endTimeCheck = true;
+        // Add schedule to database
+        sendWebSocketMessage({
+          type: "schedule",
+          data: "schedule",
+        });
+        return res.status(200).json({ success: true, error: null});
+      }
 
-      // Schedule 3: start time: 9:20 + 30 + 10 buffer = 10:00, duration: 20 min, ETE: 10:20, ActualETE: null, Status: Not Started
 
-      // // Retrieve user data
-      // const robotData = 
+      // Otherwise, go through each start time, add buffer and check againt the new schedule
+      selectedDaySchedule = selectedDaySchedule.map((schedule) => {
+        let bufferTime = 10; // buffer for delay
+        let coolDownTime = 30; // time break between schedules
+        let duration = Duration; // buffer for time taken to complete a schedule
+
+        /*
+        scheduleStartTime logic:
+          - Regardless of the actual start time, we will use the start time - buffer time
+        */
+        let scheduleStartTime = moment(schedule.startTime).subtract(
+          bufferTime,
+          "minutes"
+        );
+
+        /*
+        scheduleEndTime logic:
+          - If schedule is not completed, start time  + duration + buffer time + cool down time
+          - If schedule is completed, actual end time + buffer time + cool down time
+        */
+
+        let scheduleEndTime =
+          schedule.statusID < 4
+            ? moment(schedule.startTime)
+                .add(schedule.duration, "minutes")
+                .add(coolDownTime + bufferTime, "minutes")
+            : moment(schedule.actualEndTime).add(
+                coolDownTime + bufferTime,
+                "minutes"
+              );
+
+
+
+        /*
+        newScheduleStartTime logic:
+          - Regardless of the actual start time since it will be managed under previous end buffer
+        */  
+        let newScheduleStartTime = moment(StartTime);
+
+        /*
+        newScheduleEndTime logic:
+          - Start time + duration + buffer time + cool down time
+        */
+        let newScheduleEndTime = moment(StartTime)
+          .add(duration, "minutes")
+          .add(coolDownTime + bufferTime, "minutes");
+
+        console.log(
+          "Test Schedule",
+          scheduleStartTime,
+          scheduleEndTime,
+          newScheduleStartTime,
+          newScheduleEndTime
+        );
+
+        // Check if the new schedule start time is between the existing schedule
+        if (
+          newScheduleStartTime.isBetween(scheduleStartTime, scheduleEndTime)
+        ) {
+          startTimeCheck = false;
+          errorMessages = "Schedule start time conflict with existing schedules";
+        } else {
+          startTimeCheck = true;
+        }
+
+        // Check if the new schedule end time is between the existing schedule
+        if (newScheduleEndTime.isBetween(scheduleStartTime, scheduleEndTime)) {
+          endTimeCheck = false;
+          errorMessages = "Schedule end time conflict with existing schedules";
+        } else {
+          endTimeCheck = true;
+        }
+
+        if (startTimeCheck && endTimeCheck) {
+          return;
+        }
+      });
+
+      console.log("Test Schedule", startTimeCheck, endTimeCheck, errorMessages);
+      // Check if the schedule is valid
+      if (!startTimeCheck || !endTimeCheck) {
+        return res.status(200).json({ success: false, error: errorMessages });
+      }
+      else{
+        // Add schedule to database
+        sendWebSocketMessage({
+          type: "schedule",
+          data: "schedule",
+        });
+        return res.status(200).json({ success: true, error: null});
+
+     
+      }
+
+      // Retrieve user data
+      // const robotData =
       //   await pool
       //   .request()
       //   .input("userID", parseInt(Robot))
@@ -95,15 +194,15 @@ exports.addSchedule = async (req, res) => {
       // const hardwareID = robotData.recordset[0].hardwareID;
 
       // // Retrieve map data
-      // const map = 
+      // const map =
       //   await pool
       //   .request()
       //   .input("mapName", hardwareID)
       //   .execute("dbo.Maps_Load");
 
-      // // Retrieve mapID 
+      // // Retrieve mapID
       // const mapID = map.recordset[0].mapID;
-    
+
       // // Add schedule to database
       // await pool
       // .request()
@@ -114,20 +213,13 @@ exports.addSchedule = async (req, res) => {
       // .input("announcement", Announcement)
       // .input("duration", parseInt(Duration))
       // .execute("dbo.Schedules_Insert");
-
-  
+      // console.log("Final Status check", scheduleCheck, errorMessages);
     }
 
-    res.status(200).json({ success: true });
-
-    sendWebSocketMessage({
-      type: "schedule",
-      data: "schedule",
-    });
 
   } catch (error) {
     console.log(error);
-    res.status(500).json({ success: false, error: "Server Error" });
+    return res.status(500).json({ success: false, error: "Server Error" });
   }
 };
 
@@ -139,11 +231,17 @@ exports.getSchedules = async (req, res) => {
     results = await pool.request().execute("dbo.Schedules_Load");
 
     // Get schedules for a certain robot
-    if(req.query.hardwareID){
-      const user = await pool.request().input("hardwareID", req.query.hardwareID).execute("dbo.Users_Load");
-      
+    if (req.query.hardwareID) {
+      const user = await pool
+        .request()
+        .input("hardwareID", req.query.hardwareID)
+        .execute("dbo.Users_Load");
+
       const userID = user.recordset[0].userID;
-      results = await pool.request().input("userID", userID).execute("dbo.Schedules_Load");
+      results = await pool
+        .request()
+        .input("userID", userID)
+        .execute("dbo.Schedules_Load");
     }
 
     if (results.recordset.length === 0) {
@@ -156,8 +254,8 @@ exports.getSchedules = async (req, res) => {
       let location = {
         roomNumber: item.roomNumber,
         description: item.description,
-        coordinates: convertCordinates
-      }
+        coordinates: convertCordinates,
+      };
 
       item.location = location;
 
@@ -183,19 +281,21 @@ exports.getSchedules = async (req, res) => {
 exports.updateSchedule = async (req, res) => {
   try {
     if (req.body) {
-      const { ScheduleID, Announcement, ActualEndTime, statusID } = req.body;
-
-      console.log("TEST body", req.body);
-
+      console.log("Test res bobbb", req.body);
+      const { robotUpdate, scheduleID, announcement, actualEndTime, statusID } =
+        req.body;
       const pool = await poolPromise;
 
-      await pool
-        .request()
-        .input("scheduleID", ScheduleID)
-        .input("actualEndtime", ActualEndTime)
-        .input("announcement", Announcement)
-        .input("statusID", statusID)
-        .execute("dbo.Schedules_Update");
+      // Update the schedule from the robot
+      if (robotUpdate) {
+        await pool
+          .request()
+          .input("scheduleID", scheduleID)
+          .input("actualEndtime", actualEndTime)
+          .input("statusID", statusID)
+          .execute("dbo.Schedules_Update");
+      }
+      // Update the announcement/status from the portal
     }
 
     res.status(200).json({ success: true });

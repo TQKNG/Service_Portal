@@ -1017,9 +1017,19 @@ export const updateSchedule = (scheduleID, formData) => async (dispatch) => {
 
 export const addSchedule = (formData) => async (dispatch) => {
   try {
-    await api.post("/schedules", formData);
-    dispatch(loadSchedulesList());
-    dispatch(setAlert("Schedule Added Successfully", "success"));
+    const result =  await api.post("/schedules", formData);
+
+    console.log("my eeee result", result);
+
+    if(result.data.success){
+      dispatch(loadSchedulesList());
+      dispatch(setAlert("Schedule Added Successfully", "success"));
+      return result.data;
+    }
+    else{
+      return result.data;
+    }
+   
   } catch (err) {
     console.log(err);
     const errors = err.response.data.errors;

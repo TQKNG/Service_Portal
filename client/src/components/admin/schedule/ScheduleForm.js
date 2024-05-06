@@ -75,51 +75,52 @@ const ScheduleForm = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    let errorMessage="";
+    let errorMessage = "";
 
     // Validation
-    if(Object.keys(formData.Robot).length === 0) {
+    if (Object.keys(formData.Robot).length === 0) {
       errorMessage = "Please select a robot";
     }
-    if(Object.keys(formData.Location).length === 0) {
+    if (Object.keys(formData.Location).length === 0) {
       errorMessage = "Please select a location";
     }
-    
-    if(formData.Duration === 0) {
+
+    if (formData.Duration === 0) {
       errorMessage = "Please select a duration";
     }
-    if(formData.StartTime === "") {
+    if (formData.StartTime === "") {
       errorMessage = "Please select a start time";
     }
 
-    if(errorMessage !== "") {
+    if (errorMessage !== "") {
       setError(errorMessage);
       return;
     }
-
-
 
     window.scrollTo(0, 0);
     if (location.pathname.includes("add")) {
       console.log("add");
 
-      console.log("Test formData", formData);
-
-      addSchedule(formData).then(() => {
-        setFormData({
-          ScheduleID: "",
-          Robot: {},
-          Location: {},
-          Duration: 0,
-          Announcement: "",
-          StartTime: "",
-        });
+      addSchedule(formData).then((data) => {
+        if (data.success) {
+          setFormData({
+            ScheduleID: "",
+            Robot: {},
+            Location: {},
+            Duration: 0,
+            Announcement: "",
+            StartTime: "",
+          });
+          hist.push("/admin/schedule");
+        } else {
+          setError(data.error);
+        }
       });
     } else if (location.pathname.includes("edit")) {
       updateSchedule(ScheduleID, formData);
+      clearSchedule();
+      hist.push("/admin/schedule");
     }
-    hist.push("/admin/schedule");
-    clearSchedule();
   };
 
   useEffect(() => {
