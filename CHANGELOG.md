@@ -44,6 +44,17 @@
 - Fix: Increase the font size for disclaimer text and Move it closer to Sign in Sign out button
 - Fix: The outline of Sign in button.
 
+## [0.0.10] - 2024-05-06
+- Feature: Configure email routes for Trinity Village mailbox
+- Feature: Add socket heartbeat
+- Fix: Only show outbreak message footer when outbreak status is true
+- Feature: Add schedule settings
+- Enhance: Map API in robot service
+- Enhance: Outbreak message and other message
+- Fix: Disable filter and sort functionality for UserLists and VisitLists
+- Enhance: Update git ignore to ignore local assets folder
+
+
 
 
 
