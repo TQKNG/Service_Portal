@@ -407,12 +407,12 @@ exports.addStatisticLogs = async (req, res) => {
           .input("endTime", endDateTime)
           .execute("dbo.StatisticLogs_Insert");
       }
-      res.status(200).json({ success: true });
+      return res.status(200).json({ success: true });
     }
-    res.status(400).json({ success: false, error: "Bad Request" });
+    return  res.status(400).json({ success: false, error: "Bad Request" });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ success: false, error: "Server Error" });
+    return res.status(500).json({ success: false, error: "Server Error" });
   }
 };
 
