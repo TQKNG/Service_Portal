@@ -47,9 +47,22 @@ exports.addMap = async (req, res) => {
     // Save the map to file server
     // if there is new instruction image, add to the server filesystem
     if (req.body.mapData !== null) {
-      // Where/sublocation to store the file
-      let subloc = "Map";
-      await storeJson(subloc, newMap, req.body.mapName);
+      const pool = await poolPromise;
+
+      // Check if robot is already registered
+      let results = await pool
+        .request()
+        .input("hardwareID", req.body.mapName)
+        .execute("dbo.Users_Load");
+
+      if (results.recordset.length) {
+        // Where/sublocation to store the file
+        let subloc = "Map";
+        await storeJson(subloc, newMap, req.body.mapName);
+      }
+      else{
+        res.status(400).json({ success: false, error: "Hardware ID not found in the database" });
+      }
     }
 
     res.status(200).json({ success: true });
@@ -100,6 +113,9 @@ exports.addMap = async (req, res) => {
 exports.getMaps = async (req, res) => {
   try {
     let retrieveData = await retrieveJson("Map", req.params.id);
+    if(retrieveData === null){
+      res.status(400).json({ success: false, error: "Map not found" });
+    }
 
     res.status(200).json({ success: true, data: retrieveData });
   } catch (error) {
@@ -173,7 +189,7 @@ exports.getMaps = async (req, res) => {
 exports.addLocation = async (req, res) => {
   try {
     if (req.body) {
-      console.log("Test req body", req.body)
+      console.log("Test req body", req.body);
       const { hardwareID, locations } = req.body;
       const pool = await poolPromise;
       let userID = null;
@@ -202,10 +218,8 @@ exports.addLocation = async (req, res) => {
       if (userID) {
         let convertedLocations = JSON.parse(locations);
         for (let i = 0; i < convertedLocations.length; i++) {
-          const { roomNumber, description, coordinates } = convertedLocations[i];
-
-          console.log("Test coordinates", roomNumber, description, coordinates)
-
+          const { roomNumber, description, coordinates } =
+            convertedLocations[i];
           if (coordinates !== null) {
             await pool
               .request()
@@ -222,6 +236,40 @@ exports.addLocation = async (req, res) => {
       }
       res.status(400).json({ success: false, error: "Bad Request" });
     }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: "Server Error" });
+  }
+};
+
+
+exports.getLocations = async (req, res) => {
+  try {
+    const pool = await poolPromise;
+    let results;
+    console.log("tesdsgfdsfgsfs", req.body.userID)
+
+    
+    // Get a specify song
+    if (req.body.userID && req.body.userID !== "") {
+      results = await pool
+        .request()
+        .input("userID", req.body.userID)
+        .execute("dbo.Locations_Load");
+    } else {
+      console.log("tesdsgfdsfgsfs")
+      results = await pool.request().execute("dbo.Locations_Load");
+    }
+
+    if (results.recordset.length === 0) {
+      return res.status(200).json({ success: true, data: [] });
+    }
+
+    // Once all asynchronous operations are complete, send the response
+    res.status(200).json({
+      success: true,
+      data: results.recordset,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Server Error" });
@@ -359,12 +407,12 @@ exports.addStatisticLogs = async (req, res) => {
           .input("endTime", endDateTime)
           .execute("dbo.StatisticLogs_Insert");
       }
-      res.status(200).json({ success: true });
+      return res.status(200).json({ success: true });
     }
-    res.status(400).json({ success: false, error: "Bad Request" });
+    return  res.status(400).json({ success: false, error: "Bad Request" });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ success: false, error: "Server Error" });
+    return res.status(500).json({ success: false, error: "Server Error" });
   }
 };
 

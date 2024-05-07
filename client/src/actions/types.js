@@ -78,6 +78,17 @@ export const GET_SETTINGSLIST = 'GET_SETTINGSLIST';
 export const GET_SETTING = 'GET_SETTING';
 export const CLEAR_SETTING = 'CLEAR_SETTING';
 
+// Locations actions
+export const GET_LOCATIONSLIST = 'GET_LOCATIONSLIST';
+export const GET_LOCATION = 'GET_LOCATION';
+export const CLEAR_LOCATION = 'CLEAR_LOCATION';
+
+
+// Schedule actions
+export const GET_SCHEDULESLIST = 'GET_SCHEDULESLIST';
+export const GET_SCHEDULE = 'GET_SCHEDULE';
+export const CLEAR_SCHEDULE = 'CLEAR_SCHEDULE';
+
 // Chart actions
 export const GET_OVERALL_RESULTS_CHART = 'GET_OVERALL_RESULTS_CHART';
 export const CLEAR_OVERALL_RESULTS_CHART = 'CLEAR_OVERALL_RESULTS_CHART';

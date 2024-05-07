@@ -15,12 +15,12 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn, offices, addReception })
     InOut: null,
     HomeAreas: [],
     ScheduledVisit: null,
-    Purpose: "",
+    Purpose: "Caregiver", // Default value
     ResidentName: "",
     FirstVisit: null,
     SicknessSymptom: null,
     Acknowledgement: null,
-    DepartmentVisit: "",
+    DepartmentVisit: offices[0]?.title || "",// Default value
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -109,12 +109,12 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn, offices, addReception })
     }
 
     // Sickness Symptom validation
-    if (SicknessSymptom === null || SicknessSymptom === "true") {
-      validationError =
-        "Please do not enter the building until your symptoms have resolved.";
-      setError(validationError);
-      return;
-    }
+    // if (SicknessSymptom === null || SicknessSymptom === "true") {
+    //   validationError =
+    //     "Please do not enter the building until your symptoms have resolved.";
+    //   setError(validationError);
+    //   return;
+    // }
 
     // Acknowledgement validation
     if (Acknowledgement === null || Acknowledgement === "false") {
@@ -530,7 +530,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                   <option value={"General Visitor"}>General Visitor </option>
                   <option value={"Student"}>Student </option>
                   <option value={"Transportation"}>Transportation </option>
-                  <option value={"Volunteer "}>Volunteer </option>
+                  <option value={"Volunteer"}>Volunteer </option>
                 </select>
               </div>
 

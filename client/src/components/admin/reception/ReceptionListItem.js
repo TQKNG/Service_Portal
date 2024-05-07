@@ -117,7 +117,7 @@ const ReceptionsListItem = ({ reception, setReception }) => {
       </div>
 
       {/* Edit */}
-      <div className="admin-schools-field  text-truncate mx-auto">
+      {/* <div className="admin-schools-field  text-truncate mx-auto">
         <ToolTipComp
           myButton={
             <svg
@@ -146,7 +146,7 @@ const ReceptionsListItem = ({ reception, setReception }) => {
           module="Reception"
         />
 
-        {/* <ToolTipComp
+        <ToolTipComp
           myButton={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -179,8 +179,8 @@ const ReceptionsListItem = ({ reception, setReception }) => {
           }
           type="Show"
           module="Reception"
-        /> */}
-      </div>
+        />
+      </div> */}
     </div>
   );
 };

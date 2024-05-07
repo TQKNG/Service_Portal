@@ -35,9 +35,11 @@ const Anonymous = ({
   //   `wss://trinityvillagedev.azurewebsites.net`
   // );
 
+  // Socket implementation without heartbeat
   const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
     `wss:trinityvillagedev.azurewebsites.net`
   );
+
 
   useEffect(() => {
     connect();
@@ -61,6 +63,35 @@ const Anonymous = ({
       onMessage(null);
     };
   }, [onMessage]);
+
+  // Socket implementation with heartbeat
+  // const HEARTBEAT_INTERVAL = 30000;
+  // useEffect(() => {
+  //   const handleIncomingMessage = (data) => {
+  //     const convertedData = JSON.parse(data).data;
+
+  //     console.log("Test converted Data", convertedData);
+
+  //     loadSettingsList(); // Assuming loadSettingsList is defined somewhere in your code
+  //   };
+
+  //   const sendHeartbeat = () => {
+  //     sendMessage('heartbeat');
+  //   };
+
+  //   const heartbeatInterval = setInterval(sendHeartbeat, HEARTBEAT_INTERVAL);
+
+  //   connect();
+
+  //   onMessage(handleIncomingMessage);
+
+  //   return () => {
+  //     // Clean up subscription and interval
+  //     disconnect();
+  //     onMessage(null);
+  //     clearInterval(heartbeatInterval);
+  //   };
+  // }, []);
 
   function detectDevice(userAgent) {
     if (userAgent.match(/Android/i)) {

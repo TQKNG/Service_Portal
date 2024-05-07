@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { loadSettingsList, updateSetting } from "../../../actions/admin";
 import Loading from "../../layouts/Loading";
+import Alert from "../../layouts/Alert";
 import { TimePicker } from "antd";
 import moment from "moment";
 
@@ -39,6 +40,12 @@ const Setting = ({
         ? 0
         : settingsList.OutbreakStatus !== undefined
         ? settingsList.OutbreakStatus
+        : 0,
+    timeOut:
+      settingsList === null
+        ? 0
+        : settingsList.TimeOut !== undefined
+        ? settingsList.TimeOut
         : 0,
     volumeSetting:
       settingsList === null
@@ -131,6 +138,7 @@ const Setting = ({
 
     if (e.target.id === "selectedMessage") {
       setSelectedOutbreakMessage(parseInt(e.target.value));
+      setFormData({ ...formData, selectedMessage: parseInt(e.target.value) });
     }
   };
 
@@ -173,9 +181,8 @@ const Setting = ({
 
   // Set the form whenever the list available
   useEffect(() => {
-    if(settingsList === null) return;
-    
-    setSelectedOutbreakMessage(formData.selectedMessage)
+    if (settingsList === null) return;
+
     setFormData({
       language: settingsList === null ? "" : settingsList.Language,
       adminOffices:
@@ -195,6 +202,12 @@ const Setting = ({
           ? 0
           : settingsList.OutbreakStatus !== undefined
           ? settingsList.OutbreakStatus
+          : 0,
+      timeOut:
+        settingsList === null
+          ? 0
+          : settingsList.TimeOut !== undefined
+          ? settingsList.TimeOut
           : 0,
       outbreakMessage1:
         settingsList === null
@@ -239,8 +252,6 @@ const Setting = ({
           ? settingsList.SelectedMessage
           : 0,
     });
-
-    
   }, [settingsList]);
 
   // Set initial outbreak status
@@ -248,6 +259,10 @@ const Setting = ({
     setChecked(formData.outbreakStatus);
   }, [formData.outbreakStatus]);
 
+  // Set initial selected outbreak message
+  useEffect(() => {
+    setSelectedOutbreakMessage(formData.selectedMessage);
+  }, [ formData.selectedMessage]);
 
   // Set datetime for volume max and min
   useEffect(() => {
@@ -280,6 +295,7 @@ const Setting = ({
     language,
     selectedMessage,
     outbreakStatus,
+    timeOut,
     outbreakMessage1,
     outbreakMessage2,
     otherMessage1,
@@ -310,6 +326,7 @@ const Setting = ({
                 className="w-100 d-flex flex-column gap-5"
                 onSubmit={(e) => onSubmit(e)}
               >
+                <Alert />
                 <div className="row">
                   {/* General Settings */}
                   <div className="col-12 col-md-3 d-flex flex-column">
@@ -321,7 +338,7 @@ const Setting = ({
                     >
                       {/* Fields */}
                       <>
-                        {/* Volume */}
+                        {/* Volume Max*/}
                         <div className="mb-3">
                           {/* Volume Max */}
                           <div className="">
@@ -439,6 +456,7 @@ const Setting = ({
                           </div>
                         </div>
 
+                        {/* Language */}
                         <div className="mb-3">
                           <div className="txt-primary">Language</div>
                           <select
@@ -453,6 +471,20 @@ const Setting = ({
                             <option value={"German"}>German</option>
                             <option value={"Chinese"}>Chinese</option>
                           </select>
+                        </div>
+
+                        {/* TimeOut */}
+                        <div className="mb-3">
+                          <div className="txt-primary">Time Out {`(mins)`}</div>
+                          <input
+                            type="number"
+                            className="form-control rounded "
+                            id="timeOut"
+                            value={timeOut}
+                            placeholder="Time Out in minutes"
+                            required
+                            onChange={(e) => onChange(e)}
+                          />
                         </div>
                       </>
                     </div>
@@ -510,95 +542,107 @@ const Setting = ({
                         </div>
 
                         {/* Select Outbreak Message Options */}
-                        <div className="mb-3">
-                          <div className="txt-primary">
-                            Select Other Outbreak Message
-                          </div>
-                          <select
-                            className="form-select form-control bg-white text-main m-0"
-                            aria-label="Default select example"
-                            id="selectedMessage"
-                            value={selectedMessage}
-                            onChange={(e) => onChange(e)}
-                          >
-                            <option value={1}>
-                              Other Message 1 - Suspect Covid-19 Outbreak{" "}
-                            </option>
-                            <option value={2}>
-                              Other Message 2 - ARI Outbreak{" "}
-                            </option>
-                            <option value={3}>
-                              Other Message 3 - Influenza A/B Outbreak{" "}
-                            </option>
-                            <option value={4}>
-                              Other Message 4 - Enteric Outbreak{" "}
-                            </option>
-                          </select>
-                        </div>
+                        {checked ? (
+                          <>
+                            <div className="mb-3">
+                              <div className="txt-primary">
+                                Select Other Outbreak Message
+                              </div>
+                              <select
+                                className="form-select form-control bg-white text-main m-0"
+                                aria-label="Default select example"
+                                id="selectedMessage"
+                                value={selectedMessage}
+                                onChange={(e) => onChange(e)}
+                              >
+                                <option value={1}>
+                                  Other Message 1 - Suspect Covid-19 Outbreak{" "}
+                                </option>
+                                <option value={2}>
+                                  Other Message 2 - ARI Outbreak{" "}
+                                </option>
+                                <option value={3}>
+                                  Other Message 3 - Influenza A/B Outbreak{" "}
+                                </option>
+                                <option value={4}>
+                                  Other Message 4 - Enteric Outbreak{" "}
+                                </option>
+                              </select>
+                            </div>
 
-                        {/* Other Message 1 */}
-                        {selectedOutbreakMessage === 1 && (
-                          <div className="mb-3">
-                            <div className="txt-primary">Other Message 1</div>
-                            <textarea
-                              type="text"
-                              className="form-control rounded "
-                              id="otherMessage1"
-                              value={otherMessage1}
-                              placeholder="Enter outbreak message 2"
-                              required
-                              onChange={(e) => onChange(e)}
-                            />
-                          </div>
-                        )}
+                            {/* Other Message 1 */}
+                            {selectedOutbreakMessage === 1 && (
+                              <div className="mb-3">
+                                <div className="txt-primary">
+                                  Other Message 1
+                                </div>
+                                <textarea
+                                  type="text"
+                                  className="form-control rounded "
+                                  id="otherMessage1"
+                                  value={otherMessage1}
+                                  placeholder="Enter outbreak message 2"
+                                  required
+                                  onChange={(e) => onChange(e)}
+                                />
+                              </div>
+                            )}
 
-                        {/* Other Message 2 */}
-                        {selectedOutbreakMessage === 2 && (
-                          <div className="mb-3">
-                            <div className="txt-primary">Other Message 2</div>
-                            <textarea
-                              type="text"
-                              className="form-control rounded "
-                              id="otherMessage2"
-                              value={otherMessage2}
-                              placeholder="Enter outbreak message 2"
-                              required
-                              onChange={(e) => onChange(e)}
-                            />
-                          </div>
-                        )}
+                            {/* Other Message 2 */}
+                            {selectedOutbreakMessage === 2 && (
+                              <div className="mb-3">
+                                <div className="txt-primary">
+                                  Other Message 2
+                                </div>
+                                <textarea
+                                  type="text"
+                                  className="form-control rounded "
+                                  id="otherMessage2"
+                                  value={otherMessage2}
+                                  placeholder="Enter outbreak message 2"
+                                  required
+                                  onChange={(e) => onChange(e)}
+                                />
+                              </div>
+                            )}
 
-                        {/* Other Message 3 */}
-                        {selectedOutbreakMessage === 3 && (
-                          <div className="mb-3">
-                            <div className="txt-primary">Other Message 3</div>
-                            <textarea
-                              type="text"
-                              className="form-control rounded "
-                              id="otherMessage3"
-                              value={otherMessage3}
-                              placeholder="Enter outbreak message 2"
-                              required
-                              onChange={(e) => onChange(e)}
-                            />
-                          </div>
-                        )}
+                            {/* Other Message 3 */}
+                            {selectedOutbreakMessage === 3 && (
+                              <div className="mb-3">
+                                <div className="txt-primary">
+                                  Other Message 3
+                                </div>
+                                <textarea
+                                  type="text"
+                                  className="form-control rounded "
+                                  id="otherMessage3"
+                                  value={otherMessage3}
+                                  placeholder="Enter outbreak message 2"
+                                  required
+                                  onChange={(e) => onChange(e)}
+                                />
+                              </div>
+                            )}
 
-                        {/* Other Message 4 */}
-                        {selectedOutbreakMessage === 4 && (
-                          <div className="mb-3">
-                            <div className="txt-primary">Other Message 4</div>
-                            <textarea
-                              type="text"
-                              className="form-control rounded "
-                              id="otherMessage4"
-                              value={otherMessage4}
-                              placeholder="Enter outbreak message 2"
-                              required
-                              onChange={(e) => onChange(e)}
-                            />
-                          </div>
-                        )}
+                            {/* Other Message 4 */}
+                            {selectedOutbreakMessage === 4 && (
+                              <div className="mb-3">
+                                <div className="txt-primary">
+                                  Other Message 4
+                                </div>
+                                <textarea
+                                  type="text"
+                                  className="form-control rounded "
+                                  id="otherMessage4"
+                                  value={otherMessage4}
+                                  placeholder="Enter outbreak message 2"
+                                  required
+                                  onChange={(e) => onChange(e)}
+                                />
+                              </div>
+                            )}
+                          </>
+                        ) : null}
                       </>
                     </div>
                   </div>

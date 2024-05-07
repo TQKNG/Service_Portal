@@ -6,50 +6,41 @@ import PropTypes from "prop-types";
 
 const Sidebar = ({
   users,
-  schools,
-  assessments,
   dashboard,
-  results,
   receptions,
   songs,
   setting,
   clearItems,
-  classrooms,
   books,
   jokes,
   trivias,
+  schedules
 }) => {
   const history = useHistory();
   const location = useLocation();
   useEffect(() => {
     setSelected({
       users: location.pathname.includes("/admin/user"),
-      schools: location.pathname.includes("/admin/school"),
-      assessments: location.pathname.includes("/admin/assessment"),
       dashboard: location.pathname.includes("/admin/dashboard"),
-      results: location.pathname.includes("/admin/result"),
-      classrooms: location.pathname.includes("/admin/classroom"),
       receptions: location.pathname.includes("/admin/reception"),
       songs: location.pathname.includes("/admin/song"),
       books: location.pathname.includes("/admin/book"),
       jokes: location.pathname.includes("/admin/joke"),
       trivias: location.pathname.includes("/admin/trivia"),
+      schedules: location.pathname.includes("/admin/schedule"),
       setting: location.pathname.includes("/admin/setting"),
     });
   }, [location.pathname]);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState({
     users: location.pathname.includes("/admin/user"),
-    schools: location.pathname.includes("/admin/school"),
-    assessments: location.pathname.includes("/admin/assessment"),
     dashboard: location.pathname.includes("/admin/dashboard"),
-    results: location.pathname.includes("/admin/result"),
-    classrooms: location.pathname.includes("/admin/classroom"),
     receptions: location.pathname.includes("/admin/reception"),
     songs: location.pathname.includes("/admin/song"),
     books: location.pathname.includes("/admin/book"),
     jokes: location.pathname.includes("/admin/joke"),
     trivias: location.pathname.includes("/admin/trivia"),
+    schedules: location.pathname.includes("/admin/schedule"),
     setting: location.pathname.includes("/admin/setting"),
   });
   return (
@@ -97,12 +88,15 @@ const Sidebar = ({
           } sidebar-row`}
           onClick={() => {
             setSelected({
-              users: false,
-              schools: false,
-              assessments: false,
               dashboard: true,
-              results: false,
-              classrooms: false,
+              users: false,
+              songs: false,
+              books: false,
+              jokes: false,
+              trivias: false,
+              receptions: false,
+              schedules: false,
+              setting: false,
             });
             history.push("/admin/dashboard");
             clearItems();
@@ -139,12 +133,15 @@ const Sidebar = ({
           } sidebar-row`}
           onClick={() => {
             setSelected({
-              users: true,
-              schools: false,
-              assessments: false,
               dashboard: false,
-              results: false,
-              classrooms: false,
+              users: true,
+              songs: false,
+              books: false,
+              jokes: false,
+              trivias: false,
+              receptions: false,
+              schedules: false,
+              setting: false,
             });
             history.push("/admin/users");
             clearItems();
@@ -175,12 +172,15 @@ const Sidebar = ({
           } sidebar-row`}
           onClick={() => {
             setSelected({
-              users: false,
-              schools: false,
-              assessments: false,
               dashboard: false,
-              results: false,
+              users: false,
               songs: true,
+              books: false,
+              jokes: false,
+              trivias: false,
+              receptions: false,
+              schedules: false,
+              setting: false,
             });
             history.push("/admin/song");
             clearItems();
@@ -217,13 +217,15 @@ const Sidebar = ({
           } sidebar-row`}
           onClick={() => {
             setSelected({
-              users: false,
-              schools: false,
-              assessments: false,
               dashboard: false,
-              results: false,
-              classrooms: false,
+              users: false,
+              songs: false,
               books: true,
+              jokes: false,
+              trivias: false,
+              receptions: false,
+              schedules: false,
+              setting: false,
             });
             history.push("/admin/book");
             clearItems();
@@ -261,13 +263,15 @@ const Sidebar = ({
             } sidebar-row`}
             onClick={() => {
               setSelected({
-                users: false,
-                schools: false,
-                assessments: false,
                 dashboard: false,
-                results: false,
-                classrooms: false,
+                users: false,
+                songs: false,
+                books: false,
                 jokes: true,
+                trivias: false,
+                receptions: false,
+                schedules: false,
+                setting: false,
               });
               history.push("/admin/joke");
               clearItems();
@@ -305,13 +309,15 @@ const Sidebar = ({
           } sidebar-row`}
           onClick={() => {
             setSelected({
-              users: false,
-              schools: false,
-              assessments: false,
               dashboard: false,
-              results: false,
-              classrooms: false,
-              trivias:true
+              users: false,
+              songs: false,
+              books: false,
+              jokes: false,
+              trivias: true,
+              receptions: false,
+              schedules: false,
+              setting: false,
             });
             history.push("/admin/trivia");
             clearItems();
@@ -348,13 +354,15 @@ const Sidebar = ({
           } sidebar-row`}
           onClick={() => {
             setSelected({
-              users: false,
-              schools: false,
-              assessments: false,
               dashboard: false,
-              results: false,
-              classrooms: false,
+              users: false,
+              songs: false,
+              books: false,
+              jokes: false,
+              trivias: false,
               receptions: true,
+              schedules: false,
+              setting: false,
             });
             history.push("/admin/reception");
             clearItems();
@@ -385,6 +393,51 @@ const Sidebar = ({
         </div>
       )}
 
+      {/* Scheduling */}
+      {schedules && (
+        <div
+          className={`d-flex ${
+            selected.schedules ? "sidebar-item-selected" : ""
+          } sidebar-row`}
+          onClick={() => {
+            setSelected({
+              dashboard: false,
+              users: false,
+              songs: false,
+              books: false,
+              jokes: false,
+              trivias: false,
+              receptions: false,
+              schedules: true,
+              setting: false,
+            });
+            history.push("/admin/schedule");
+            clearItems();
+          }}
+        >
+          <div className="sidebar-icon text-center  py-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="26"
+              viewBox="0 -960 960 960"
+              width="26"
+              fillColor="currentColor"
+            >
+              <path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z" />
+            </svg>
+          </div>
+          <div
+            className={`sidebar-description  ${!open ? "d-none" : " py-2"}`}
+            onClick={() => {
+              // history.push("/admin/result");
+              // clearItems();
+            }}
+          >
+            Scheduling
+          </div>
+        </div>
+      )}
+
       {/* Setting */}
       {setting && (
         <div
@@ -393,13 +446,15 @@ const Sidebar = ({
           } sidebar-row`}
           onClick={() => {
             setSelected({
-              users: false,
-              schools: false,
-              assessments: false,
               dashboard: false,
-              results: false,
-              classrooms: false,
-              setting: true,
+              users: false,
+              songs: false,
+              books: false,
+              jokes: false,
+              trivias: false,
+              receptions: false,
+              schedules: false,
+              setting: true
             });
             history.push("/admin/setting");
             clearItems();

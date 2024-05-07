@@ -25,6 +25,8 @@ import Setting from "./settings/Setting";
 import SongForm from "./song/SongForm";
 import BookForm from "./book/BookForm";
 import TriviaForm from "./trivia/TriviaForm";
+import Schedules from "./schedule/Schedules";
+import ScheduleForm from "./schedule/ScheduleForm";
 
 const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
   const location = useLocation();
@@ -42,19 +44,28 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
           style={{ paddingTop: "80px" }}
         >
           <IdleTimer logout={logout} />
-          {user.roleID === 5 && (
+          {user.roleID ===5 && user.email === "ziad.diab@globaldws.com"?(
             <Sidebar
               users={true}
               dashboard={true}
-              classrooms={true}
               receptions={true}
               songs={true}
               books={true}
               jokes={true}
               trivias={true}
               setting={true}
+              schedules={true}
             />
-          )}
+          ):(<Sidebar
+            users={true}
+            dashboard={true}
+            receptions={true}
+            songs={true}
+            books={true}
+            jokes={true}
+            trivias={true}
+            setting={true}
+          />)}
           {location.pathname === "/admin/dashboard" && <Dashboard />}
           {location.pathname === "/admin/users" && <Users />}
           {location.pathname === "/admin/user/add" && <UserForm />}
@@ -82,13 +93,18 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
 
           {/* Joke */}
           {location.pathname === "/admin/joke" && <Jokes />}
-          {location.pathname === "/admin/joke/edit" && <JokeForm/>}
+          {location.pathname === "/admin/joke/edit" && <JokeForm />}
           {location.pathname === "/admin/joke/add" && <JokeForm />}
 
           {/* Trivia */}
           {location.pathname === "/admin/trivia" && <Trivias />}
-          {location.pathname === "/admin/trivia/edit" && <TriviaForm/>}
+          {location.pathname === "/admin/trivia/edit" && <TriviaForm />}
           {location.pathname === "/admin/trivia/add" && <TriviaForm />}
+
+          {/* Schedule */}
+          {location.pathname === "/admin/schedule" && <Schedules />}
+          {location.pathname === "/admin/schedule/edit" && <ScheduleForm />}
+          {location.pathname === "/admin/schedule/add" && <ScheduleForm />}
         </div>
       ) : (
         <div className="d-flex align-items-center h-100 justify-content-center">

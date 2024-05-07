@@ -697,5 +697,19 @@ h6 {
   width: 100px;
 }
 
+/* Customize ant design calendar picker input*/
+/* Change the font size of the selected date */
+.ant-picker-input > ::placeholder {
+  font-size: 1rem; /* Change this to your desired font size */
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--bs-body-color);
+}
+
+/* Change the size of the calendar icon */
+.ant-picker-suffix {
+  color: black;
+  font-size: 1rem; /* Change this to your desired icon size */
+}
 
 
