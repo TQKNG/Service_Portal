@@ -71,23 +71,55 @@ exports.addSchedule = async (req, res) => {
       free to: 2:30pm + 30 min + 10 min = 3:10pm
       
       */
-      
+
       let selectedDaySchedule = schedules.recordset.map((schedule) => {
         return schedule;
       });
 
       // Check if this is the first schedule of the day, allow to add
-      if(selectedDaySchedule.length === 0){
+      if (selectedDaySchedule.length === 0) {
         startTimeCheck = true;
         endTimeCheck = true;
+
+        // Retrieve user data
+        const robotData =
+          await pool
+          .request()
+          .input("userID", parseInt(Robot))
+          .execute("dbo.Users_Load");
+
+        // Retrieve hardwareID
+        const hardwareID = robotData.recordset[0].hardwareID;
+
+        // Retrieve map data
+        const map =
+          await pool
+          .request()
+          .input("mapName", hardwareID)
+          .execute("dbo.Maps_Load");
+
+        // Retrieve mapID
+        const mapID = map.recordset[0].mapID;
+
+        // Add schedule to database
+        await pool
+        .request()
+        .input("userID", parseInt(Robot))
+        .input("mapID", mapID) // Hardcoded for now
+        .input("locationID", parseInt(Location))
+        .input("startTime", StartTime)
+        .input("announcement", Announcement)
+        .input("duration", parseInt(Duration))
+        .execute("dbo.Schedules_Insert");
+        console.log("Final Status check", scheduleCheck, errorMessages);
+
         // Add schedule to database
         sendWebSocketMessage({
           type: "schedule",
           data: "schedule",
         });
-        return res.status(200).json({ success: true, error: null});
+        return res.status(200).json({ success: true, error: null });
       }
-
 
       // Otherwise, go through each start time, add buffer and check againt the new schedule
       selectedDaySchedule = selectedDaySchedule.map((schedule) => {
@@ -120,12 +152,10 @@ exports.addSchedule = async (req, res) => {
                 "minutes"
               );
 
-
-
         /*
         newScheduleStartTime logic:
           - Regardless of the actual start time since it will be managed under previous end buffer
-        */  
+        */
         let newScheduleStartTime = moment(StartTime);
 
         /*
@@ -136,20 +166,13 @@ exports.addSchedule = async (req, res) => {
           .add(duration, "minutes")
           .add(coolDownTime + bufferTime, "minutes");
 
-        console.log(
-          "Test Schedule",
-          scheduleStartTime,
-          scheduleEndTime,
-          newScheduleStartTime,
-          newScheduleEndTime
-        );
-
         // Check if the new schedule start time is between the existing schedule
         if (
           newScheduleStartTime.isBetween(scheduleStartTime, scheduleEndTime)
         ) {
           startTimeCheck = false;
-          errorMessages = "Schedule start time conflict with existing schedules";
+          errorMessages =
+            "Schedule start time conflict with existing schedules";
         } else {
           startTimeCheck = true;
         }
@@ -168,55 +191,49 @@ exports.addSchedule = async (req, res) => {
       });
 
       console.log("Test Schedule", startTimeCheck, endTimeCheck, errorMessages);
-      // Check if the schedule is valid
+      // Check if the schedule is valid or not
       if (!startTimeCheck || !endTimeCheck) {
         return res.status(200).json({ success: false, error: errorMessages });
-      }
-      else{
+      } else {
         // Add schedule to database
+
+        // Retrieve user data
+        const robotData = await pool
+          .request()
+          .input("userID", parseInt(Robot))
+          .execute("dbo.Users_Load");
+
+        // Retrieve hardwareID
+        const hardwareID = robotData.recordset[0].hardwareID;
+
+        // Retrieve map data
+        const map = await pool
+          .request()
+          .input("mapName", hardwareID)
+          .execute("dbo.Maps_Load");
+
+        // Retrieve mapID
+        const mapID = map.recordset[0].mapID;
+
+        // Add schedule to database
+        await pool
+          .request()
+          .input("userID", parseInt(Robot))
+          .input("mapID", mapID) // Hardcoded for now
+          .input("locationID", parseInt(Location))
+          .input("startTime", StartTime)
+          .input("announcement", Announcement)
+          .input("duration", parseInt(Duration))
+          .execute("dbo.Schedules_Insert");
+        console.log("Final Status check", scheduleCheck, errorMessages);
+
         sendWebSocketMessage({
           type: "schedule",
           data: "schedule",
         });
-        return res.status(200).json({ success: true, error: null});
-
-     
+        return res.status(200).json({ success: true, error: null });
       }
-
-      // Retrieve user data
-      // const robotData =
-      //   await pool
-      //   .request()
-      //   .input("userID", parseInt(Robot))
-      //   .execute("dbo.Users_Load");
-
-      // // Retrieve hardwareID
-      // const hardwareID = robotData.recordset[0].hardwareID;
-
-      // // Retrieve map data
-      // const map =
-      //   await pool
-      //   .request()
-      //   .input("mapName", hardwareID)
-      //   .execute("dbo.Maps_Load");
-
-      // // Retrieve mapID
-      // const mapID = map.recordset[0].mapID;
-
-      // // Add schedule to database
-      // await pool
-      // .request()
-      // .input("userID", parseInt(Robot))
-      // .input("mapID", mapID) // Hardcoded for now
-      // .input("locationID", parseInt(Location))
-      // .input("startTime", StartTime)
-      // .input("announcement", Announcement)
-      // .input("duration", parseInt(Duration))
-      // .execute("dbo.Schedules_Insert");
-      // console.log("Final Status check", scheduleCheck, errorMessages);
     }
-
-
   } catch (error) {
     console.log(error);
     return res.status(500).json({ success: false, error: "Server Error" });

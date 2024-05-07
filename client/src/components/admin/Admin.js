@@ -44,7 +44,7 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
           style={{ paddingTop: "80px" }}
         >
           <IdleTimer logout={logout} />
-          {user.roleID === 5 && (
+          {user.roleID ===5 && user.email === "ziad.diab@globaldws.com"?(
             <Sidebar
               users={true}
               dashboard={true}
@@ -56,7 +56,16 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
               setting={true}
               schedules={true}
             />
-          )}
+          ):(<Sidebar
+            users={true}
+            dashboard={true}
+            receptions={true}
+            songs={true}
+            books={true}
+            jokes={true}
+            trivias={true}
+            setting={true}
+          />)}
           {location.pathname === "/admin/dashboard" && <Dashboard />}
           {location.pathname === "/admin/users" && <Users />}
           {location.pathname === "/admin/user/add" && <UserForm />}

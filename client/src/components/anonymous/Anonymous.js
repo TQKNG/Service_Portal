@@ -65,33 +65,33 @@ const Anonymous = ({
   }, [onMessage]);
 
   // Socket implementation with heartbeat
-  const HEARTBEAT_INTERVAL = 30000;
-  useEffect(() => {
-    const handleIncomingMessage = (data) => {
-      const convertedData = JSON.parse(data).data;
+  // const HEARTBEAT_INTERVAL = 30000;
+  // useEffect(() => {
+  //   const handleIncomingMessage = (data) => {
+  //     const convertedData = JSON.parse(data).data;
 
-      console.log("Test converted Data", convertedData);
+  //     console.log("Test converted Data", convertedData);
 
-      loadSettingsList(); // Assuming loadSettingsList is defined somewhere in your code
-    };
+  //     loadSettingsList(); // Assuming loadSettingsList is defined somewhere in your code
+  //   };
 
-    const sendHeartbeat = () => {
-      sendMessage('heartbeat');
-    };
+  //   const sendHeartbeat = () => {
+  //     sendMessage('heartbeat');
+  //   };
 
-    const heartbeatInterval = setInterval(sendHeartbeat, HEARTBEAT_INTERVAL);
+  //   const heartbeatInterval = setInterval(sendHeartbeat, HEARTBEAT_INTERVAL);
 
-    connect();
+  //   connect();
 
-    onMessage(handleIncomingMessage);
+  //   onMessage(handleIncomingMessage);
 
-    return () => {
-      // Clean up subscription and interval
-      disconnect();
-      onMessage(null);
-      clearInterval(heartbeatInterval);
-    };
-  }, []);
+  //   return () => {
+  //     // Clean up subscription and interval
+  //     disconnect();
+  //     onMessage(null);
+  //     clearInterval(heartbeatInterval);
+  //   };
+  // }, []);
 
   function detectDevice(userAgent) {
     if (userAgent.match(/Android/i)) {
