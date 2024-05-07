@@ -53,7 +53,7 @@
 - Enhance: Outbreak message and other message
 - Fix: Disable filter and sort functionality for UserLists and VisitLists
 - Enhance: Update git ignore to ignore local assets folder
-
+- Enhance: Deactivate the scheduling functionality for other users
 
 
 
