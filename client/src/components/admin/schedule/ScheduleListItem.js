@@ -72,7 +72,7 @@ const SchedulesListItem = ({ schedule, setSchedule }) => {
             ? "warning"
             : statusID === 2
             ? "danger"
-            : statusID === 2
+            : statusID === 3
             ? "info"
             : statusID === 4
             ? "success"
@@ -81,9 +81,9 @@ const SchedulesListItem = ({ schedule, setSchedule }) => {
           {statusID === 1
             ? "New"
             : statusID === 2
-            ? "Deleted"
-            : statusID === 2
             ? "Cancelled"
+            : statusID === 3
+            ? "Progress"
             : statusID === 4
             ? "Done"
             : "N/A"}
