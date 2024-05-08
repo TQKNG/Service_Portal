@@ -54,7 +54,7 @@ const SchedulesListItem = ({ schedule, setSchedule }) => {
 
       {/* Actual End Time */}
       <div className="admin-large-field text-truncate mx-auto">
-        {actualEndTime}
+        {actualEndTime?moment(actualEndTime).format("MMM Do YY, h:mm a"):""}
       </div>
 
       {/* Duration */}
@@ -85,7 +85,7 @@ const SchedulesListItem = ({ schedule, setSchedule }) => {
             : statusID === 3
             ? "Incompleted"
             : statusID === 4
-            ? "Done"
+            ? "Completed"
             : "N/A"}
         </Badge>
       </div>
