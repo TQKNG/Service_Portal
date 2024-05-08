@@ -39,7 +39,7 @@ const SchedulesListItem = ({ schedule, setSchedule }) => {
 
       {/* Location */}
       <div className="admin-large-field text-truncate mx-auto">
-        {`Room ${location.roomNumber}`}
+        {`Room ${location.description}`}
       </div>
 
       {/* Announcement */}
