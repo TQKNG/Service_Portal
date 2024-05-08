@@ -64,12 +64,13 @@ exports.addSchedule = async (req, res) => {
         .execute("dbo.Schedules_Load");
 
       /*
-       Buffer time: 10 min
-       start time: 2:00 pm
-      duration: 30 min
-      free from: 2:30pm -10 min = 2:20pm 
-      free to: 2:30pm + 30 min + 10 min = 3:10pm
-      
+        First schedule of the day:
+        => If no schedule for the day(12am - 11.59pm), allow to add
+
+        Existing schedule:
+        => fetch the schedule of the selected day where:
+          1. status of the schedule is active - schedule is set to the robot
+          2. Loop through that list(ascending order) check if the new schedule start time + duration + buffer 20min is between the n schedule and n + 1 schedule. if yes, validation is passed else, loop to the last schedule and set message to set schedule after this schedule till 12am.
       */
 
       let selectedDaySchedule = schedules.recordset.map((schedule) => {
