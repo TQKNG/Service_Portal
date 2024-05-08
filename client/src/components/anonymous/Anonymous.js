@@ -26,21 +26,14 @@ const Anonymous = ({
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isSignedOut, setIsSignedOut] = useState(false);
 
-  // WebSocket Config
-  //  const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
-  //   `ws:${window.location.hostname}:5001`
-  // );
-
-  // const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
-  //   `wss://trinityvillagedev.azurewebsites.net`
-  // );
+  // WebSocket client Config
 
   // Socket implementation without heartbeat
   const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
-    // `wss:trinityvillagedev.azurewebsites.net`
-    `ws:${window.location.hostname}:5001`
+    `wss:trinityvillagedev.azurewebsites.net`
+    // `wss:${window.location.hostname}:5001`
+    // `ws://192.168.50.96:5001`
   );
-
 
   useEffect(() => {
     connect();
@@ -49,20 +42,29 @@ const Anonymous = ({
   }, []);
 
   useEffect(() => {
+    const HEARTBEAT_INTERVAL = 30000;
     const handleIncomingMessage = (data) => {
       const formatedMessage = JSON.parse(data);
 
-      if(formatedMessage.type === "settingsUpdated"){
+      if (formatedMessage.type === "settingsUpdated") {
         loadSettingsList();
-      }
-      else if(formatedMessage.type === "voiceCommand" && formatedMessage.data?.commandID === 1 ){
+      } else if (
+        formatedMessage.type === "voiceCommand" &&
+        formatedMessage.data?.commandID === 1
+      ) {
         console.log("Sign In", formatedMessage.data.commandID);
         setIsSignedIn(true);
-      }
-      else if(formatedMessage.type === "voiceCommand" && formatedMessage.data?.commandID === 2 ){
+        setIsSignedOut(false);
+      } else if (
+        formatedMessage.type === "voiceCommand" &&
+        formatedMessage.data?.commandID === 2
+      ) {
+        setIsSignedIn(false);
         setIsSignedOut(true);
-      }
-      else if(formatedMessage.type === "voiceCommand" && formatedMessage.data?.commandID === 3 ){
+      } else if (
+        formatedMessage.type === "voiceCommand" &&
+        formatedMessage.data?.commandID === 3
+      ) {
         setIsSignedIn(false);
         setIsSignedOut(false);
       }
@@ -70,9 +72,17 @@ const Anonymous = ({
 
     onMessage(handleIncomingMessage);
 
+    // Hearbeat implementation
+    const sendHeartbeat = () => {
+      sendMessage("heartbeat");
+    };
+
+    const heartbeatInterval = setInterval(sendHeartbeat, HEARTBEAT_INTERVAL);
+
     return () => {
       // Clean up subscription
       onMessage(null);
+      clearInterval(heartbeatInterval);
     };
   }, [onMessage]);
 
@@ -80,11 +90,24 @@ const Anonymous = ({
   // const HEARTBEAT_INTERVAL = 30000;
   // useEffect(() => {
   //   const handleIncomingMessage = (data) => {
-  //     const convertedData = JSON.parse(data).data;
+  //     const formatedMessage = JSON.parse(data);
 
-  //     console.log("Test converted Data", convertedData);
-
-  //     loadSettingsList(); // Assuming loadSettingsList is defined somewhere in your code
+  //     if(formatedMessage.type === "settingsUpdated"){
+  //       loadSettingsList();
+  //     }
+  //     else if(formatedMessage.type === "voiceCommand" && formatedMessage.data?.commandID === 1 ){
+  //       console.log("Sign In", formatedMessage.data.commandID);
+  //       setIsSignedIn(true);
+  //       setIsSignedOut(false);
+  //     }
+  //     else if(formatedMessage.type === "voiceCommand" && formatedMessage.data?.commandID === 2 ){
+  //       setIsSignedIn(false);
+  //       setIsSignedOut(true);
+  //     }
+  //     else if(formatedMessage.type === "voiceCommand" && formatedMessage.data?.commandID === 3 ){
+  //       setIsSignedIn(false);
+  //       setIsSignedOut(false);
+  //     }
   //   };
 
   //   const sendHeartbeat = () => {
@@ -103,7 +126,7 @@ const Anonymous = ({
   //     onMessage(null);
   //     clearInterval(heartbeatInterval);
   //   };
-  // }, []);
+  // }, [onMessage]);
 
   function detectDevice(userAgent) {
     if (userAgent.match(/Android/i)) {
@@ -190,12 +213,16 @@ const Anonymous = ({
           </div>
 
           {/* Outbreak message footer*/}
-          <div className={`w-100 d-flex flex-column ${isOutbreak?"my-1":"justify-content-end flex-grow-1"} align-items-center`}>
+          <div
+            className={`w-100 d-flex flex-column ${
+              isOutbreak ? "my-1" : "justify-content-end flex-grow-1"
+            } align-items-center`}
+          >
             {isOutbreak && (
               <>
                 <div
                   className="w-80 d-flex justify-content-center align-items-center responsive-disclaimer-text"
-                  style={{ border: "3px solid red", padding: "10px"}}
+                  style={{ border: "3px solid red", padding: "10px" }}
                 >
                   PLEASE READ these instructions:
                   <br />
@@ -221,11 +248,13 @@ const Anonymous = ({
           </div>
 
           {/* Hero cover */}
-          {!isOutbreak && ( <img
-            src={process.env.PUBLIC_URL + `images/Welcome-Hero.png`}
-            alt="hero cover"
-            style={{ width: "100%", height: "auto", objectFit: "cover" }}
-          />)}
+          {!isOutbreak && (
+            <img
+              src={process.env.PUBLIC_URL + `images/Welcome-Hero.png`}
+              alt="hero cover"
+              style={{ width: "100%", height: "auto", objectFit: "cover" }}
+            />
+          )}
         </>
       ) : (
         <>
