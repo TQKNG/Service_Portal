@@ -67,7 +67,7 @@ const SchedulesListItem = ({ schedule, setSchedule }) => {
         {/* 1: New, 2: Deleted, 3: Cancelled, 4: Completed */}
         <Badge
           pill
-          className="w-30"
+          className="d-flex w-50 justify-content-center"
           bg={`${statusID === 1
             ? "warning"
             : statusID === 2
@@ -83,7 +83,7 @@ const SchedulesListItem = ({ schedule, setSchedule }) => {
             : statusID === 2
             ? "Cancelled"
             : statusID === 3
-            ? "Progress"
+            ? "Incompleted"
             : statusID === 4
             ? "Done"
             : "N/A"}

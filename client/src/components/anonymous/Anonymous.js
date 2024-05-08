@@ -54,6 +54,7 @@ const Anonymous = ({
       console.log("Test converted Data", convertedData);
 
       loadSettingsList();
+      setIsSignedIn(true)
     };
 
     onMessage(handleIncomingMessage);
