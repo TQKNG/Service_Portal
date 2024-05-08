@@ -55,6 +55,12 @@
 - Enhance: Update git ignore to ignore local assets folder
 - Enhance: Deactivate the scheduling functionality for other users
 
+## [0.0.11] - 2024-05-08
+- Fix: Websocket heartbeat
+- Fix: Schedule navigation bug and design
+- Feature: Add voice command routes and configuration
+- Fix: status badge on schedule
+
 
 
 

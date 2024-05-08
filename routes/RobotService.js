@@ -6,7 +6,8 @@ const {
   getLocations,
   getSchedules,
   addStatisticLogs,
-  getStatisticLogs
+  getStatisticLogs,
+  addVoiceCommand,
 //   updateSchool,
 //   deleteSchool,
 //   addMultipleSchools,
@@ -25,6 +26,7 @@ router.get('/schedules', getSchedules);
 router.post('/statisticLogs', addStatisticLogs);
 router.get('/statisticLogs', getStatisticLogs);
 router.post('/locations', addLocation);
-router.post('/get/locations', getLocations)
+router.post('/get/locations', getLocations);
+router.post('/voicecommand', addVoiceCommand);
 
 module.exports = router;

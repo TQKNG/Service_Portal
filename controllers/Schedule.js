@@ -82,8 +82,7 @@ exports.addSchedule = async (req, res) => {
         endTimeCheck = true;
 
         // Retrieve user data
-        const robotData =
-          await pool
+        const robotData = await pool
           .request()
           .input("userID", parseInt(Robot))
           .execute("dbo.Users_Load");
@@ -92,8 +91,7 @@ exports.addSchedule = async (req, res) => {
         const hardwareID = robotData.recordset[0].hardwareID;
 
         // Retrieve map data
-        const map =
-          await pool
+        const map = await pool
           .request()
           .input("mapName", hardwareID)
           .execute("dbo.Maps_Load");
@@ -103,15 +101,14 @@ exports.addSchedule = async (req, res) => {
 
         // Add schedule to database
         await pool
-        .request()
-        .input("userID", parseInt(Robot))
-        .input("mapID", mapID) // Hardcoded for now
-        .input("locationID", parseInt(Location))
-        .input("startTime", StartTime)
-        .input("announcement", Announcement)
-        .input("duration", parseInt(Duration))
-        .execute("dbo.Schedules_Insert");
-        console.log("Final Status check", scheduleCheck, errorMessages);
+          .request()
+          .input("userID", parseInt(Robot))
+          .input("mapID", mapID) // Hardcoded for now
+          .input("locationID", parseInt(Location))
+          .input("startTime", StartTime)
+          .input("announcement", Announcement)
+          .input("duration", parseInt(Duration))
+          .execute("dbo.Schedules_Insert");
 
         // Add schedule to database
         sendWebSocketMessage({
@@ -225,7 +222,6 @@ exports.addSchedule = async (req, res) => {
           .input("announcement", Announcement)
           .input("duration", parseInt(Duration))
           .execute("dbo.Schedules_Insert");
-        console.log("Final Status check", scheduleCheck, errorMessages);
 
         sendWebSocketMessage({
           type: "schedule",
@@ -313,6 +309,13 @@ exports.updateSchedule = async (req, res) => {
           .execute("dbo.Schedules_Update");
       }
       // Update the announcement/status from the portal
+      else {
+        await pool
+          .request()
+          .input("scheduleID", scheduleID)
+          .input("announcement", announcement)
+          .execute("dbo.Schedules_Update");
+      }
     }
 
     res.status(200).json({ success: true });
@@ -329,6 +332,11 @@ exports.deleteSchedule = async (req, res) => {
       .request()
       .input("scheduleID", req.params.scheduleID)
       .execute("dbo.Schedules_Delete");
+
+    sendWebSocketMessage({
+      type: "schedule",
+      data: "schedule",
+    });
 
     res.status(200).json({ success: true });
   } catch (error) {

@@ -39,7 +39,7 @@ const SchedulesListItem = ({ schedule, setSchedule }) => {
 
       {/* Location */}
       <div className="admin-large-field text-truncate mx-auto">
-        {`Room ${location.roomNumber}`}
+        {`Room ${location.description}`}
       </div>
 
       {/* Announcement */}
@@ -54,7 +54,7 @@ const SchedulesListItem = ({ schedule, setSchedule }) => {
 
       {/* Actual End Time */}
       <div className="admin-large-field text-truncate mx-auto">
-        {actualEndTime}
+        {actualEndTime?moment(actualEndTime).format("MMM Do YY, h:mm a"):""}
       </div>
 
       {/* Duration */}
@@ -67,12 +67,12 @@ const SchedulesListItem = ({ schedule, setSchedule }) => {
         {/* 1: New, 2: Deleted, 3: Cancelled, 4: Completed */}
         <Badge
           pill
-          className="w-30"
+          className="d-flex w-50 justify-content-center"
           bg={`${statusID === 1
             ? "warning"
             : statusID === 2
             ? "danger"
-            : statusID === 2
+            : statusID === 3
             ? "info"
             : statusID === 4
             ? "success"
@@ -81,11 +81,11 @@ const SchedulesListItem = ({ schedule, setSchedule }) => {
           {statusID === 1
             ? "New"
             : statusID === 2
-            ? "Deleted"
-            : statusID === 2
             ? "Cancelled"
+            : statusID === 3
+            ? "Incompleted"
             : statusID === 4
-            ? "Done"
+            ? "Completed"
             : "N/A"}
         </Badge>
       </div>

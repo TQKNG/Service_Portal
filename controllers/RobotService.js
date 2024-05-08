@@ -1,5 +1,5 @@
 const { storeJson, retrieveJson } = require("../utils/storage");
-
+const { sendWebSocketMessage } = require("../utils/webSocketUtils");
 const { poolPromise } = require("../config/db");
 const moment = require("moment");
 /**
@@ -426,5 +426,47 @@ exports.getStatisticLogs = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Server Error" });
+  }
+};
+
+
+exports.addVoiceCommand = async (req, res) => {
+  try {
+    if (req.body) {
+      const { commandID } = req.body;
+      // commandID: 1: Navigate to Sign In Form, 2: Navigate to Sign Out Form, 3: Navigate Back to Home
+      
+      if (commandID === 1) {
+        sendWebSocketMessage({
+          type: "voiceCommand",
+          data: {
+            commandID: 1,
+            message: "Navigate to Sign In Form",
+          },
+        });
+      } else if (commandID === 2) {
+        sendWebSocketMessage({
+          type: "voiceCommand",
+          data: {
+            commandID: 2,
+            message: "Navigate to Sign Out Form",
+          },
+        });
+      } else if (commandID === 3) {
+        sendWebSocketMessage({
+          type: "voiceCommand",
+          data: {
+            commandID: 3,
+            message: "Navigate Back to Home",
+          },
+        });
+      }
+
+      return res.status(200).json({ success: true });
+    }
+    return res.status(400).json({ success: false, error: "Bad Request" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ success: false, error: "Server Error" });
   }
 };

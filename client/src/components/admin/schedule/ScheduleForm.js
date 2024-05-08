@@ -77,24 +77,26 @@ const ScheduleForm = ({
     e.preventDefault();
     let errorMessage = "";
 
-    // Validation
-    if (Object.keys(formData.Robot).length === 0) {
-      errorMessage = "Please select a robot";
-    }
-    if (Object.keys(formData.Location).length === 0) {
-      errorMessage = "Please select a location";
-    }
+    // Validation when adding new schedule before submission
+    if (location.pathname.includes("add")) {
+      if (Object.keys(formData.Robot).length === 0) {
+        errorMessage = "Please select a robot";
+      }
+      if (Object.keys(formData.Location).length === 0) {
+        errorMessage = "Please select a location";
+      }
 
-    if (formData.Duration === 0) {
-      errorMessage = "Please select a duration";
-    }
-    if (formData.StartTime === "") {
-      errorMessage = "Please select a start time";
-    }
+      if (formData.Duration === 0) {
+        errorMessage = "Please select a duration";
+      }
+      if (formData.StartTime === "") {
+        errorMessage = "Please select a start time";
+      }
 
-    if (errorMessage !== "") {
-      setError(errorMessage);
-      return;
+      if (errorMessage !== "") {
+        setError(errorMessage);
+        return;
+      }
     }
 
     window.scrollTo(0, 0);
@@ -357,7 +359,7 @@ const ScheduleForm = ({
               <div className="modal-content">
                 <div className="modal-header">
                   <h5 className="modal-title" id="deleteScheduleLabel">
-                    Delete Schedule
+                   Cancel Schedule
                   </h5>
                   <button
                     type="button"
@@ -367,13 +369,13 @@ const ScheduleForm = ({
                   ></button>
                 </div>
                 <div className="modal-body">
-                  Are you sure you want to delete schedule?
+                  Are you sure you want to cancel schedule?
                   <br />
                   <br />
                   <b>
                     <span className="text-danger text-center">
-                      Warning Deleting a schedule will result in deleting
-                      everything related to it
+                      Warning cancelling a schedule will result in impacts on
+                      other schedules
                     </span>
                   </b>
                 </div>
@@ -417,7 +419,7 @@ const ScheduleForm = ({
               >
                 <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
               </svg>
-              Delete
+              Cancel
             </div>
           )}
         </div>

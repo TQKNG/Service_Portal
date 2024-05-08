@@ -120,7 +120,7 @@ exports.updateSetting = async (req, res) => {
       .execute("dbo.Settings_Update");
 
     sendWebSocketMessage({
-      type: "dataReceived",
+      type: "settingsUpdated",
       data: "Settings Updated",
     });
 
