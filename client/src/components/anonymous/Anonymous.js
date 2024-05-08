@@ -37,7 +37,8 @@ const Anonymous = ({
 
   // Socket implementation without heartbeat
   const { connect, disconnect, sendMessage, onMessage } = useWebSocket(
-    `wss:trinityvillagedev.azurewebsites.net`
+    // `wss:trinityvillagedev.azurewebsites.net`
+    `ws:${window.location.hostname}:5001`
   );
 
 
@@ -49,12 +50,22 @@ const Anonymous = ({
 
   useEffect(() => {
     const handleIncomingMessage = (data) => {
-      const convertedData = JSON.parse(data).data;
+      const formatedMessage = JSON.parse(data);
 
-      console.log("Test converted Data", convertedData);
-
-      loadSettingsList();
-      setIsSignedIn(true)
+      if(formatedMessage.type === "settingsUpdated"){
+        loadSettingsList();
+      }
+      else if(formatedMessage.type === "voiceCommand" && formatedMessage.data?.commandID === 1 ){
+        console.log("Sign In", formatedMessage.data.commandID);
+        setIsSignedIn(true);
+      }
+      else if(formatedMessage.type === "voiceCommand" && formatedMessage.data?.commandID === 2 ){
+        setIsSignedOut(true);
+      }
+      else if(formatedMessage.type === "voiceCommand" && formatedMessage.data?.commandID === 3 ){
+        setIsSignedIn(false);
+        setIsSignedOut(false);
+      }
     };
 
     onMessage(handleIncomingMessage);
