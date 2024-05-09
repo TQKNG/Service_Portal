@@ -51,10 +51,43 @@ exports.addSchedule = async (req, res) => {
   try {
     if (req.body) {
       const { Robot, Location, Duration, Announcement, StartTime } = req.body;
-      let startTimeCheck = false;
-      let endTimeCheck = false;
+      let isStartTimeValid = true;
+      let isEndTimeValid =true;
       let errorMessages = "";
       const pool = await poolPromise;
+
+      /*
+       Step 1: Validation the input field
+      1.1 Check if the selected time has already passed the current time
+      1.2 Check if the robot is already registed in the database
+    */
+
+      // Step 1.1
+      if (moment(StartTime).isBefore(moment())) {
+        return res.status(200).json({
+          success: false,
+          error: "Schedule start time has already passed",
+        });
+      }
+
+      // Step 1.2
+      const robotData = await pool
+        .request()
+        .input("userID", parseInt(Robot))
+        .execute("dbo.Users_Load");
+
+      if (robotData.recordset.length === 0) {
+        return res.status(200).json({
+          success: false,
+          error: "Robot is not registered in the database",
+        });
+      }
+
+      /*
+        Step 2: Check if the schedule is valid or not
+        2.1 Check if this is the first schedule of the day, allow to add
+        2.2 Check if the new schedule start time is between the existing schedules
+      */
 
       // Get all the schedule start time for that date
       const schedules = await pool
@@ -63,32 +96,17 @@ exports.addSchedule = async (req, res) => {
         .input("userID", parseInt(Robot))
         .execute("dbo.Schedules_Load");
 
-      /*
-        First schedule of the day:
-        => If no schedule for the day(12am - 11.59pm), allow to add
-
-        Existing schedule:
-        => fetch the schedule of the selected day where:
-          1. status of the schedule is active - schedule is set to the robot
-          2. Loop through that list(ascending order) check if the new schedule start time + duration + buffer 20min is between the n schedule and n + 1 schedule. if yes, validation is passed else, loop to the last schedule and set message to set schedule after this schedule till 12am.
-      */
-
-      let selectedDaySchedule = schedules.recordset.map((schedule) => {
-        return schedule;
+      // Filter for the schedule with status 1 or status 5: Only consider new status or schedule set schedules
+      let selectedDaySchedule = schedules.recordset.filter((schedule) => {
+        if (schedule.statusID === 1 || schedule.statusID === 5) return schedule;
       });
 
-      // Check if this is the first schedule of the day, allow to add
+      // Step 2.1
       if (selectedDaySchedule.length === 0) {
-        startTimeCheck = true;
-        endTimeCheck = true;
-
-        // Retrieve user data
-        const robotData = await pool
-          .request()
-          .input("userID", parseInt(Robot))
-          .execute("dbo.Users_Load");
-
-        // Retrieve hardwareID
+        isStartTimeValid = true;
+        isEndTimeValid  = true;
+        
+        // // Retrieve hardwareID
         const hardwareID = robotData.recordset[0].hardwareID;
 
         // Retrieve map data
@@ -119,82 +137,59 @@ exports.addSchedule = async (req, res) => {
         return res.status(200).json({ success: true, error: null });
       }
 
-      // Otherwise, go through each start time, add buffer and check againt the new schedule
-      selectedDaySchedule = selectedDaySchedule.map((schedule) => {
-        let bufferTime = 10; // buffer for delay
-        let coolDownTime = 30; // time break between schedules
-        let duration = Duration; // buffer for time taken to complete a schedule
-
-        /*
-        scheduleStartTime logic:
-          - Regardless of the actual start time, we will use the start time - buffer time
-        */
-        let scheduleStartTime = moment(schedule.startTime).subtract(
-          bufferTime,
+      console.log("Test selectedDaySchedule", selectedDaySchedule);
+      // Step 2.2
+      selectedDaySchedule.forEach((schedule) => {
+        const NEW_SCHEDULE_START_TIME = StartTime;
+        const BUFFER_TO_LOCATION = 10; // 10 minutes to go to location
+        const BUFFER_TO_BASE = 10; // 10 minutes to go back to base
+        const NEW_SCHEDULE_DURATION = parseInt(Duration); // duration of the visit
+        const VISIT_DURATION =
+          NEW_SCHEDULE_DURATION + BUFFER_TO_LOCATION + BUFFER_TO_BASE;
+        let newScheduleStartTime = moment(NEW_SCHEDULE_START_TIME);
+        let newScheduleEndTime = moment(NEW_SCHEDULE_START_TIME).add(
+          VISIT_DURATION,
           "minutes"
         );
+        let nextScheduleStartTime = moment(schedule.startTime);
+        let nextScheduleEndTime = schedule.actualEndTime
+          ? moment(schedule.actualEndTime)
+          : moment(schedule.startTime)
+              .add(schedule.duration, "minutes")
+              .add(BUFFER_TO_LOCATION + BUFFER_TO_BASE, "minutes");
 
-        /*
-        scheduleEndTime logic:
-          - If schedule is not completed, start time  + duration + buffer time + cool down time
-          - If schedule is completed, actual end time + buffer time + cool down time
-        */
-
-        let scheduleEndTime =
-          schedule.statusID < 4
-            ? moment(schedule.startTime)
-                .add(schedule.duration, "minutes")
-                .add(coolDownTime + bufferTime, "minutes")
-            : moment(schedule.actualEndTime).add(
-                coolDownTime + bufferTime,
-                "minutes"
-              );
-
-        /*
-        newScheduleStartTime logic:
-          - Regardless of the actual start time since it will be managed under previous end buffer
-        */
-        let newScheduleStartTime = moment(StartTime);
-
-        /*
-        newScheduleEndTime logic:
-          - Start time + duration + buffer time + cool down time
-        */
-        let newScheduleEndTime = moment(StartTime)
-          .add(duration, "minutes")
-          .add(coolDownTime + bufferTime, "minutes");
-
-        // Check if the new schedule start time is between the existing schedule
-        if (
-          newScheduleStartTime.isBetween(scheduleStartTime, scheduleEndTime)
-        ) {
-          startTimeCheck = false;
-          errorMessages =
-            "Schedule start time conflict with existing schedules";
-        } else {
-          startTimeCheck = true;
+        console.log("test newScheduleStartTime", newScheduleStartTime);
+        console.log("Test newScheduleEndTime", newScheduleEndTime);
+        console.log("Test nextScheduleStartTime", nextScheduleStartTime);
+        console.log("Test nextScheduleEndTime", nextScheduleEndTime);
+        // Check if the new schedule start time and end time is between the existing schedule
+        if(newScheduleStartTime.isBetween(nextScheduleStartTime,nextScheduleEndTime)){
+          isStartTimeValid = false;
         }
 
-        // Check if the new schedule end time is between the existing schedule
-        if (newScheduleEndTime.isBetween(scheduleStartTime, scheduleEndTime)) {
-          endTimeCheck = false;
-          errorMessages = "Schedule end time conflict with existing schedules";
-        } else {
-          endTimeCheck = true;
+        if(newScheduleEndTime.isBetween(nextScheduleStartTime,nextScheduleEndTime)){
+          isEndTimeValid = false;
         }
 
-        if (startTimeCheck && endTimeCheck) {
-          return;
+        if(nextScheduleStartTime.isBetween(newScheduleStartTime,newScheduleEndTime)){
+          isStartTimeValid = false;
+        }
+
+        if(nextScheduleEndTime.isBetween(newScheduleStartTime,newScheduleEndTime)){
+          isEndTimeValid = false;
         }
       });
 
-      console.log("Test Schedule", startTimeCheck, endTimeCheck, errorMessages);
+
+      //ready status
+      console.log("Test isScheduleValid", isStartTimeValid, isEndTimeValid, "errorMessages", errorMessages);
+
       // Check if the schedule is valid or not
-      if (!startTimeCheck || !endTimeCheck) {
+      if (!isStartTimeValid || !isEndTimeValid) {
+        errorMessages= `Schedule start time is overlapping with existing schedules`
         return res.status(200).json({ success: false, error: errorMessages });
       } else {
         // Add schedule to database
-
         // Retrieve user data
         const robotData = await pool
           .request()
@@ -295,20 +290,35 @@ exports.getSchedules = async (req, res) => {
 exports.updateSchedule = async (req, res) => {
   try {
     if (req.body) {
-      console.log("Test res bobbb", req.body);
       const { robotUpdate, scheduleID, announcement, actualEndTime, statusID } =
         req.body;
       const pool = await poolPromise;
 
+      console.log("Test actualEndTime",actualEndTime);
+
       // Update the schedule from the robot
+      {
+        /* 1: New, 2: Deleted, 3: Cancelled, 4: Completed, 5: Schedule Set */
+      }
       if (robotUpdate) {
-        await pool
+        if(statusID === 4){
+          await pool
           .request()
           .input("scheduleID", scheduleID)
           .input("actualEndtime", actualEndTime)
           .input("statusID", statusID)
           .execute("dbo.Schedules_Update");
+        }
+        else{
+          await pool
+          .request()
+          .input("scheduleID", scheduleID)
+          .input("statusID", statusID)
+          .execute("dbo.Schedules_Update");
+        }
+       
       }
+
       // Update the announcement/status from the portal
       else {
         await pool

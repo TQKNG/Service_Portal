@@ -64,7 +64,7 @@ const SchedulesListItem = ({ schedule, setSchedule }) => {
 
       {/* Status */}
       <div className="admin-large-field text-truncate mx-auto">
-        {/* 1: New, 2: Deleted, 3: Cancelled, 4: Completed */}
+        {/* 1: New, 2: Deleted, 3: Cancelled, 4: Completed, 5: Schedule Set */}
         <Badge
           pill
           className="d-flex w-50 justify-content-center"
@@ -76,6 +76,8 @@ const SchedulesListItem = ({ schedule, setSchedule }) => {
             ? "info"
             : statusID === 4
             ? "success"
+            :statusID === 5?
+            "secondary"
             : "N/A"}`}
         >
           {statusID === 1
@@ -86,6 +88,8 @@ const SchedulesListItem = ({ schedule, setSchedule }) => {
             ? "Incompleted"
             : statusID === 4
             ? "Completed"
+            :statusID === 5?
+            "Ready"
             : "N/A"}
         </Badge>
       </div>

@@ -77,7 +77,7 @@ const SchedulesList = ({ schedulesList, scheduleListLoading }) => {
           )}
         </div>
         <div className="d-flex">
-          <Search
+          {/* <Search
             setListSearch={setListSearch}
             filter={(e) => {
               const list = schedulesList.filter((item) =>
@@ -85,7 +85,7 @@ const SchedulesList = ({ schedulesList, scheduleListLoading }) => {
               );
               return list;
             }}
-          />
+          /> */}
         </div>
       </div>
       <div className="admin-users-fields  d-flex align-items-center justify-content-around  rounded  bg-body txt-primary">
@@ -96,44 +96,44 @@ const SchedulesList = ({ schedulesList, scheduleListLoading }) => {
 
         <div
           className="admin-schools-field  text-truncate mx-auto"
-          onMouseEnter={() => setIsShowIcon("name")}
-          onMouseLeave={() => setIsShowIcon(null)}
-          onClick={() => {
-            if (name === 0 && schedulesList.length) {
-              const sortedList = _.sortBy(schedulesList, (schedule) => {
-                const name = schedule.Name;
-                if (/^\d/.test(name)) {
-                  return 0; // Numbers should come first
-                } else {
-                  return name.toLowerCase(); // Convert to lowercase to ensure case-insensitive sorting
-                }
-              });
-              setListSearch(sortedList);
-              setIcons({
-                name: 1,
-              });
-            } else if (name === 1) {
-              const sortedList = _.sortBy(listSearch, [
-                (schedule) => schedule.Name.toLowerCase(),
-              ]).reverse();
-              setListSearch(sortedList);
-              setIcons({
-                name: -1,
-              });
-            } else {
-              const sortedList = _.sortBy(
-                schedulesList,
-                _.property("ScheduleID")
-              );
-              setListSearch(sortedList);
-              setIcons({
-                name: 0,
-              });
-            }
-          }}
+          // onMouseEnter={() => setIsShowIcon("name")}
+          // onMouseLeave={() => setIsShowIcon(null)}
+          // onClick={() => {
+          //   if (name === 0 && schedulesList.length) {
+          //     const sortedList = _.sortBy(schedulesList, (schedule) => {
+          //       const name = schedule.description;
+          //       if (/^\d/.test(name)) {
+          //         return 0; // Numbers should come first
+          //       } else {
+          //         return name.toLowerCase(); // Convert to lowercase to ensure case-insensitive sorting
+          //       }
+          //     });
+          //     setListSearch(sortedList);
+          //     setIcons({
+          //       name: 1,
+          //     });
+          //   } else if (name === 1) {
+          //     const sortedList = _.sortBy(listSearch, [
+          //       (schedule) => schedule.description.toLowerCase(),
+          //     ]).reverse();
+          //     setListSearch(sortedList);
+          //     setIcons({
+          //       name: -1,
+          //     });
+          //   } else {
+          //     const sortedList = _.sortBy(
+          //       schedulesList,
+          //       _.property("ScheduleID")
+          //     );
+          //     setListSearch(sortedList);
+          //     setIcons({
+          //       name: 0,
+          //     });
+          //   }
+          // }}
         >
           Robot Name
-          <SortIcon icon={name} isShowIcon={isShowIcon === "name"} />
+          {/* <SortIcon icon={name} isShowIcon={isShowIcon === "name"} /> */}
         </div>
 
         {/*Location */}
