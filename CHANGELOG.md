@@ -61,6 +61,10 @@
 - Feature: Add voice command routes and configuration
 - Fix: status badge on schedule
 
+## [0.0.12] - 2024-05-09
+- Fix: Schedule validation logic
+
+
 
 
 
