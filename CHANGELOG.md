@@ -64,6 +64,11 @@
 ## [0.0.12] - 2024-05-09
 - Fix: Schedule validation logic
 
+## [0.0.13] - 2024-05-13
+- Fix: Return only active schedule for robot
+- Partial data cleanup
+- Activate visit persist to db
+
 
 
 
