@@ -251,6 +251,9 @@ exports.getSchedules = async (req, res) => {
         .request()
         .input("userID", userID)
         .execute("dbo.Schedules_Load");
+      results.recordset.map((schedule) => {
+        if(schedule.statusID === 1)return schedule;
+      });
     }
 
     if (results.recordset.length === 0) {
