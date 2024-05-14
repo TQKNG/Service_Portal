@@ -7,6 +7,7 @@ import {
   clearReception,
 } from "../../../actions/admin";
 import ReceptionsList from "./ReceptionsList";
+import DashboardExport from "../dashboard/DashboardExport";
 
 const Receptions = ({
   authUser,
@@ -66,6 +67,7 @@ const Receptions = ({
                 </div>
               </>
             )} */}
+            <DashboardExport reports={receptionsList} />
           </div>
         </div>
         <ReceptionsList
