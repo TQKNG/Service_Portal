@@ -78,14 +78,6 @@ app.use(
   }),
 );
 
-// Enable CORS
-// app.use(
-//   cors({
-//     origin: 'https://ra2.azurewebsites.net',
-//     // origin: 'https://radev.azurewebsites.net', // Old one
-//     credentials: true,
-//   }),
-// );
 app.use(cors());
 
 // no cache
@@ -175,10 +167,8 @@ const authenticateRobot = async (req, res, next) => {
 
   try {
     const client = await auth.getClient();
-    console.log("trest client",client);
     const token = await client.getAccessToken(); // get a JWT
 
-    console.log("trest token",token);
     req.authToken = token.token; // attach the JWT to the request
     next(); // proceed to the next middleware function or route handler
   } catch (err) {

@@ -49,17 +49,6 @@ const {
 
 exports.login = async (req, res) => {
   try {
-    // console.log(req.body.email);
-    // // Robot Service Authentication Tempo
-    // if (req.body.email === "test1@globaldws.com") {
-    //   let user ={
-    //     UserID: 1,
-    //     FirstName: "Test",
-    //     LastName: "User",
-    //     Email: "robot1@globaldws.com"
-    //   }
-    //   sendTokenResponse(user, 200, res);
-    // }
     console.log("Test body", req.body)
 
     // Normal User Authentication
@@ -69,10 +58,8 @@ exports.login = async (req, res) => {
       .input("email", sql.VarChar(256), req.body.email)
       .execute("dbo.Users_Load");
 
-
     // console.log(await encrypt(req.body.email));
     console.log("test encrypt pass", await encrypt(req.body.password));
-
 
     let user = results.recordset[0];
 

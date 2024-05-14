@@ -1,11 +1,11 @@
 import React from 'react';
 import { CSVLink } from 'react-csv';
 
-const DashboardExport = ({ reports }) => {
+const DashboardExport = ({reportName, reports }) => {
   return (
     <CSVLink
       data={reports}
-      filename={'report.csv'}
+      filename={`${reportName}.csv`}
       className='btn button-parent button-primary text-center'
       id="export-report-button"
     >
