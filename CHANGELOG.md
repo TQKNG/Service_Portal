@@ -68,7 +68,9 @@
 - Fix: Return only active schedule for robot
 - Partial data cleanup
 - Activate visit persist to db
-
+- Feature: Download visit report
+- Fix: Report format with datetime stamp
+- Fix: Change the json structure for getAllSchedule api
 
 
 
