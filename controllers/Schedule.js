@@ -262,7 +262,7 @@ exports.getSchedules = async (req, res) => {
 
     // Map over data and return an array of promises
     const promises = results.recordset?.map(async (item) => {
-      let convertCordinates = JSON.parse(JSON.parse(item.coordinates)); // when add location shoud not stringtify
+      let convertCordinates = JSON.parse(item.coordinates); // when add location shoud not stringtify
       let location = {
         roomNumber: item.roomNumber,
         description: item.description,
