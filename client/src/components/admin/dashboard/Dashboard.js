@@ -32,6 +32,16 @@ const Dashboard = ({
   const [year, setYear] = useState(-1);
   const [grade, setGrade] = useState(-1);
 
+  const formatReport = (report) => {
+    return report.map((item) => {
+      return {
+       ...item,
+        startTime: new Date(item.startTime),
+        endTime: new Date(item.endTime),
+      };
+    });
+  }
+
   useEffect(()=>{
     loadStatisticLogsList();
   },[user])
@@ -124,7 +134,7 @@ const Dashboard = ({
 
               {/* Report */}
               <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
-                <DashboardExport reports={statisticlogsList} />
+                <DashboardExport reportName={`Statistics-${new Date().toLocaleString()}`}  reports={formatReport(statisticlogsList)} />
               </div>
             </div>
           </div>

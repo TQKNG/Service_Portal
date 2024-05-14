@@ -17,6 +17,16 @@ const Receptions = ({
   clearReception,
 }) => {
   const hist = useHistory();
+
+  const formatReport = (report) => {
+    return report.map((item) => {
+      return {
+       ...item,
+        signInDate: new Date(item.signInDate),
+        signOutDate: new Date(item.signOutDate),
+      };
+    });
+  }
   useEffect(() => {
     if (receptionsList.length === 0 && receptionListLoading) {
       loadReceptionsList();
@@ -67,7 +77,7 @@ const Receptions = ({
                 </div>
               </>
             )} */}
-            <DashboardExport reports={receptionsList} />
+            <DashboardExport reportName={`Visits-${new Date().toLocaleString()}`} reports={formatReport(receptionsList)} />
           </div>
         </div>
         <ReceptionsList
