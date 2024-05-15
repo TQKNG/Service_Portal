@@ -72,6 +72,10 @@
 - Fix: Report format with datetime stamp
 - Fix: Change the json structure for getAllSchedule api
 
+## [0.0.14] - 2024-05-15
+- Fix: Remove the visitID and isDeleted from Visits report
+
+
 
 
 
