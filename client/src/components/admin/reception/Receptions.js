@@ -20,6 +20,8 @@ const Receptions = ({
 
   const formatReport = (report) => {
     return report.map((item) => {
+      delete item.visitID
+      delete item.isDeleted
       return {
        ...item,
         signInDate: new Date(item.signInDate),

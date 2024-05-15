@@ -34,6 +34,7 @@ const Dashboard = ({
 
   const formatReport = (report) => {
     return report.map((item) => {
+ 
       return {
        ...item,
         startTime: new Date(item.startTime),
