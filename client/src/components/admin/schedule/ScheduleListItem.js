@@ -13,6 +13,7 @@ const SchedulesListItem = ({ schedule, setSchedule }) => {
   const {
     scheduleID,
     userID,
+    userName,
     location,
     announcement,
     startTime,
@@ -32,9 +33,9 @@ const SchedulesListItem = ({ schedule, setSchedule }) => {
       <div
         className="admin-schools-field  text-truncate mx-auto"
         onClick={() => {}}
-        title={userID}
+        title={userName}
       >
-        {userID ? userID : "N/A"}
+        {userName ? userName : "N/A"}
       </div>
 
       {/* Location */}

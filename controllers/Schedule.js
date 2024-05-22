@@ -279,6 +279,8 @@ exports.getSchedules = async (req, res) => {
     // Wait for all promises to resolve
     await Promise.all(promises);
 
+    console.log("Testst results", results.recordset); 
+
     // Once all asynchronous operations are complete, send the response
     res.status(200).json({
       success: true,

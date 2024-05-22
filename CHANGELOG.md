@@ -75,6 +75,9 @@
 ## [0.0.14] - 2024-05-15
 - Fix: Remove the visitID and isDeleted from Visits report
 
+## [0.0.15] - 2024-05-22
+- Feature: Add robot name to schedule view
+
 
 
 
