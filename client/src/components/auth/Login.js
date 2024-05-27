@@ -99,9 +99,9 @@ const Login = ({ login }) => {
             </div>
             <div className="d-flex align-items-center mb-4 justify-content-end">
               <div className="">
-                <Link className="txt-primary" to="/account/forgot">
+                {/* <Link className="txt-primary" to="/account/forgot">
                   Forgot/Change Password?
-                </Link>
+                </Link> */}
               </div>
             </div>
             <div className="d-flex align-items-center mb-4">
