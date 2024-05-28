@@ -138,12 +138,12 @@ const AnonymousLogin = ({
     }
 
     // Sickness Symptom validation
-    // if (SicknessSymptom === null || SicknessSymptom === "true") {
-    //   validationError =
-    //     "Please do not enter the building until your symptoms have resolved.";
-    //   setError(validationError);
-    //   return;
-    // }
+    if (SicknessSymptom === null) {
+      validationError =
+        "Please select if you have any new or worsening respiratory or gastrointestinal symptoms.";
+      setError(validationError);
+      return;
+    }
 
     // Acknowledgement validation
     if (Acknowledgement === null || Acknowledgement === "false") {
@@ -167,20 +167,20 @@ const AnonymousLogin = ({
           } else {
             setIsSubmitted(true);
           }
-          setFormData({
-            FirstName: "",
-            LastName: "",
-            PhoneNumber: "",
-            InOut: null,
-            HomeAreas: [],
-            ScheduledVisit: null,
-            Purpose: "",
-            ResidentName: "",
-            FirstVisit: null,
-            SicknessSymptom: null,
-            Acknowledgement: null,
-            DepartmentVisit: "",
-          });
+          // setFormData({
+          //   FirstName: "",
+          //   LastName: "",
+          //   PhoneNumber: "",
+          //   InOut: null,
+          //   HomeAreas: [],
+          //   ScheduledVisit: null,
+          //   Purpose: "",
+          //   ResidentName: "",
+          //   FirstVisit: null,
+          //   SicknessSymptom: null,
+          //   Acknowledgement: null,
+          //   DepartmentVisit: "",
+          // });
           setTimeout(() => {
             window.location.reload();
           }, 5000);
@@ -649,7 +649,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
           {/* Confirmation screen */}
           {isSubmitted && (
             <>
-              <AnonymousConfirm isSignedIn={isSignedIn} />
+              <AnonymousConfirm isSignedIn={isSignedIn} formData={formData} />
             </>
           )}
 
