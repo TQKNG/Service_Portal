@@ -78,8 +78,15 @@
 ## [0.0.15] - 2024-05-22
 - Feature: Add robot name to schedule view
 
-## [0.0.15] - 2024-05-27
+## [0.0.15-ext] - 2024-05-27
 - Fix: Change QR code 
+- Change: Disable forgot password functionality
+- Fix/Feature: Add default selection for department visit and purpose of visit
+- Change: Remove footer image on reception form
+- Change: Add border to checkbox and radio button on reception form
+
+## [0.0.16] - 2024-05-27
+- Fix: Bug navigation between sign in and signout
 
 
 

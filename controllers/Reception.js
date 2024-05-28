@@ -37,7 +37,7 @@ exports.addReception = async (req, res) => {
         .input("latestVisit", 1)
         .execute("dbo.Visits_Load");
 
-      // First time visit then insert new record
+      // // First time visit then insert new record
       if (latestVisitRecord.recordset.length === 0) {
         await pool
           .request()
@@ -88,7 +88,7 @@ exports.addReception = async (req, res) => {
         }
       }
 
-      // Configure email to be sent
+      // // Configure email to be sent
       const settings = await pool
         .request()
         .input("keyword", "AdminOffices")
@@ -129,10 +129,12 @@ exports.addReception = async (req, res) => {
             options.phoneNumber = PhoneNumber;
           }
         }
+
+        console.log("test email options", options, ccEmail);
         res.status(200).json({ success: true });
 
-        //Send email to department'
-        if(options.emailType !== 0){
+        // Send email to department'
+        if(options.email!== null && options.emailType !== 0){
           await sendEmailToDept(options);
         }
       }
