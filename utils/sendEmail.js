@@ -1,6 +1,5 @@
-const { text } = require("express");
 const nodemailer = require("nodemailer");
-const { generateEmail } = require("./generateEmail");
+const {generateEmail} = require("./generateEmail")
 require("dotenv").config();
 
 const sendEmail = async (options) => {
@@ -53,6 +52,8 @@ const sendEmailToDept = async (options) => {
 
   // Type 1: Send email to department on their visitor's sign-in
   const { subject, content } = generateEmail(options.emailType, options);
+
+  console.log("subjectt", subject);
 
   if (options.emailType === 1) {
     config = {
