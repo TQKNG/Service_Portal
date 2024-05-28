@@ -131,7 +131,7 @@ exports.addReception = async (req, res) => {
         }
         res.status(200).json({ success: true });
 
-        // Send email to department'
+        //Send email to department'
         if(options.emailType !== 0){
           await sendEmailToDept(options);
         }

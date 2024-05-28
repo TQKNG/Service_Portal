@@ -78,6 +78,9 @@
 ## [0.0.15] - 2024-05-22
 - Feature: Add robot name to schedule view
 
+## [0.0.15] - 2024-05-27
+- Fix: Change QR code 
+
 
 
 

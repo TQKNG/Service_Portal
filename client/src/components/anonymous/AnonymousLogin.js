@@ -7,7 +7,13 @@ import { useHistory } from "react-router-dom";
 import AnonymousConfirm from "./AnonymousConfirm";
 import { addReception } from "../../actions/admin";
 
-const AnonymousLogin = ({ setAlert, device, isSignedIn, offices, addReception }) => {
+const AnonymousLogin = ({
+  setAlert,
+  device,
+  isSignedIn,
+  offices,
+  addReception,
+}) => {
   const [formData, setFormData] = useState({
     FirstName: "",
     LastName: "",
@@ -15,12 +21,14 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn, offices, addReception })
     InOut: null,
     HomeAreas: [],
     ScheduledVisit: null,
-    Purpose: "Caregiver", // Default value
+    // Purpose: "Caregiver", // Default value
+    Purpose: "",
     ResidentName: "",
     FirstVisit: null,
     SicknessSymptom: null,
     Acknowledgement: null,
-    DepartmentVisit: offices[0]?.title || "",// Default value
+    // DepartmentVisit: offices[0]?.title || "", // Default value
+    DepartmentVisit: "",
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -66,8 +74,17 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn, offices, addReception })
       }
     }
 
+    // Check if the user is visiting Admin Offices
     if (e.target.value === "Admin Offices") {
       setIsAdminOfficeClick((prevState) => !prevState);
+    }
+
+    // Clear the department visit field if Admin Offices is unchecked
+    if(!isAdminOfficeClick) {
+      setFormData((prevState) => ({
+        ...prevState,
+        DepartmentVisit: "",
+      }));
     }
   };
 
@@ -108,13 +125,25 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn, offices, addReception })
       return;
     }
 
+    // Department Visits validation
+    if (HomeAreas.includes("Admin Offices") && DepartmentVisit === "") {
+      validationError = "Please select the department you are visiting.";
+      setError(validationError);
+    }
+
+    // Purpose Visits validation
+    if(Purpose === "") {
+      validationError = "Please select the purpose of your visit.";
+      setError(validationError);
+    }
+
     // Sickness Symptom validation
-    // if (SicknessSymptom === null || SicknessSymptom === "true") {
-    //   validationError =
-    //     "Please do not enter the building until your symptoms have resolved.";
-    //   setError(validationError);
-    //   return;
-    // }
+    if (SicknessSymptom === null) {
+      validationError =
+        "Please select if you have any new or worsening respiratory or gastrointestinal symptoms.";
+      setError(validationError);
+      return;
+    }
 
     // Acknowledgement validation
     if (Acknowledgement === null || Acknowledgement === "false") {
@@ -135,24 +164,23 @@ const AnonymousLogin = ({ setAlert, device, isSignedIn, offices, addReception })
           if (success === false) {
             setError(error);
             setIsSubmitted(false);
-          }
-          else{
+          } else {
             setIsSubmitted(true);
           }
-          setFormData({
-            FirstName: "",
-            LastName: "",
-            PhoneNumber: "",
-            InOut: null,
-            HomeAreas: [],
-            ScheduledVisit: null,
-            Purpose: "",
-            ResidentName: "",
-            FirstVisit: null,
-            SicknessSymptom: null,
-            Acknowledgement: null,
-            DepartmentVisit: "",
-          });
+          // setFormData({
+          //   FirstName: "",
+          //   LastName: "",
+          //   PhoneNumber: "",
+          //   InOut: null,
+          //   HomeAreas: [],
+          //   ScheduledVisit: null,
+          //   Purpose: "",
+          //   ResidentName: "",
+          //   FirstVisit: null,
+          //   SicknessSymptom: null,
+          //   Acknowledgement: null,
+          //   DepartmentVisit: "",
+          // });
           setTimeout(() => {
             window.location.reload();
           }, 5000);
@@ -366,6 +394,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                   type="tel"
                   className="form-control rounded responsive-input-text w-50"
                   id="PhoneNumber"
+                  required
                   placeholder=""
                   value={PhoneNumber}
                   onChange={(e) => onChange(e)}
@@ -460,6 +489,10 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                     value={DepartmentVisit}
                     onChange={(e) => onChange(e)}
                   >
+                    <option value={""}>
+                      Please select the department you are visiting
+                    </option>
+
                     {offices?.map((office) => (
                       <option value={office.title}>{office.title}</option>
                     ))}
@@ -520,6 +553,9 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                   value={Purpose}
                   onChange={(e) => onChange(e)}
                 >
+                  <option value={""}>
+                    Please select the purpose of your visit
+                  </option>
                   <option value={"Caregiver"}>Caregiver </option>
                   <option value={"Contractor/Supplier"}>
                     Contractor/Supplier{" "}
@@ -613,7 +649,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
           {/* Confirmation screen */}
           {isSubmitted && (
             <>
-              <AnonymousConfirm isSignedIn={isSignedIn} />
+              <AnonymousConfirm isSignedIn={isSignedIn} formData={formData} />
             </>
           )}
 
@@ -648,9 +684,7 @@ AnonymousLogin.propTypes = {
   setAlert: PropTypes.func.isRequired,
   addReception: PropTypes.func.isRequired,
 };
-const mapStateToProps = (state) => ({
-
-});
+const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, {
   addReception,
