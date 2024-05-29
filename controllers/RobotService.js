@@ -59,9 +59,13 @@ exports.addMap = async (req, res) => {
         // Where/sublocation to store the file
         let subloc = "Map";
         await storeJson(subloc, newMap, req.body.mapName);
-      }
-      else{
-        res.status(400).json({ success: false, error: "Hardware ID not found in the database" });
+      } else {
+        res
+          .status(400)
+          .json({
+            success: false,
+            error: "Hardware ID not found in the database",
+          });
       }
     }
 
@@ -113,7 +117,7 @@ exports.addMap = async (req, res) => {
 exports.getMaps = async (req, res) => {
   try {
     let retrieveData = await retrieveJson("Map", req.params.id);
-    if(retrieveData === null){
+    if (retrieveData === null) {
       res.status(400).json({ success: false, error: "Map not found" });
     }
 
@@ -242,14 +246,12 @@ exports.addLocation = async (req, res) => {
   }
 };
 
-
 exports.getLocations = async (req, res) => {
   try {
     const pool = await poolPromise;
     let results;
-    console.log("tesdsgfdsfgsfs", req.body.userID)
+    console.log("tesdsgfdsfgsfs", req.body.userID);
 
-    
     // Get a specify song
     if (req.body.userID && req.body.userID !== "") {
       results = await pool
@@ -257,7 +259,7 @@ exports.getLocations = async (req, res) => {
         .input("userID", req.body.userID)
         .execute("dbo.Locations_Load");
     } else {
-      console.log("tesdsgfdsfgsfs")
+      console.log("tesdsgfdsfgsfs");
       results = await pool.request().execute("dbo.Locations_Load");
     }
 
@@ -389,7 +391,7 @@ exports.addStatisticLogs = async (req, res) => {
   try {
     if (req.body.length) {
       for (let i = 0; i < req.body.length; i++) {
-        const { userID, actionID, actionType, startTime, endTime } =
+        const { hardwareID, actionID, actionType, startTime, endTime } =
           req.body[i];
 
         // Convert Datetime to UTC ISO 8601 format
@@ -397,10 +399,17 @@ exports.addStatisticLogs = async (req, res) => {
         const endDateTime = moment.utc(endTime).format();
 
         // look up for user ID from Hardware ID
+        const user = await pool
+          .request()
+          .input("hardwareID", hardwareID)
+          .execute("dbo.Users_Load");
+
+        const userID = user.recordset[0].userID;
 
         const pool = await poolPromise;
         await pool
           .request()
+          .input("userID", userID)
           .input("actionID", actionID)
           .input("actionType", actionType)
           .input("startTime", startDateTime)
@@ -409,7 +418,7 @@ exports.addStatisticLogs = async (req, res) => {
       }
       return res.status(200).json({ success: true });
     }
-    return  res.status(400).json({ success: false, error: "Bad Request" });
+    return res.status(400).json({ success: false, error: "Bad Request" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ success: false, error: "Server Error" });
@@ -429,13 +438,12 @@ exports.getStatisticLogs = async (req, res) => {
   }
 };
 
-
 exports.addVoiceCommand = async (req, res) => {
   try {
     if (req.body) {
       const { commandID } = req.body;
       // commandID: 1: Navigate to Sign In Form, 2: Navigate to Sign Out Form, 3: Navigate Back to Home
-      
+
       if (commandID === 1) {
         sendWebSocketMessage({
           type: "voiceCommand",
