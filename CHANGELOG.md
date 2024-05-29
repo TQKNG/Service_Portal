@@ -88,6 +88,9 @@
 ## [0.0.16] - 2024-05-27
 - Fix: Bug navigation between sign in and signout
 
+## [0.0.17] - 2024-05-29
+- Fix: Remove the Reception point for Buzz on the schedule
+
 
 
 

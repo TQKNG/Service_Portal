@@ -150,17 +150,22 @@ exports.getReceptions = async (req, res) => {
     const pool = await poolPromise;
     let results;
 
+
     results = await pool.request().execute("dbo.Visits_Load");
 
-    if (results.recordset.length === 0) {
+    if (results.recordsets.length === 0) {
       return res.status(200).json({ success: true, data: [] });
     }
 
+    console.log("test my results", results.recordset)
+
     // Once all asynchronous operations are complete, send the response
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
+      // data: results.recordset[1],
       data: results.recordset,
     });
+
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Server Error" });

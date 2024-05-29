@@ -41,6 +41,7 @@ const App = () => {
 
             {/* Reception */}
             <Route exact path="/admin/reception" component={Admin} />
+            <Route exact path="/admin/reception/edit" component={Admin} />
 
             {/* Song */}
             <Route exact path="/admin/song" component={Admin} />
