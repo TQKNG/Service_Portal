@@ -62,8 +62,9 @@ const Dashboard = ({
             </h6>
 
             <div className="d-flex w-100 align-items-center justify-content-end ">
+            
               {/* Year Filter */}
-              <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
+              {/* <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
                 <select
                   className="form-select form-control bg-primary text-white m-0"
                   aria-label="Default select example"
@@ -78,10 +79,10 @@ const Dashboard = ({
                   <option value={2023}>2022-2023</option>
                   <option value={2024}>2023-2024</option>
                 </select>
-              </div>
+              </div> */}
 
               {/* Grade Filter */}
-              <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
+              {/* <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
                 <select
                   className="form-select form-control bg-primary text-white m-0"
                   aria-label="Default select example"
@@ -97,10 +98,10 @@ const Dashboard = ({
                   <option value={5}>Room 505</option>
                   <option value={6}>Room 506</option>
                 </select>
-              </div>
+              </div> */}
 
               {/* Benchmark Filter */}
-              <div className="p-0" style={{ maxWidth: "200px" }}>
+              {/* <div className="p-0" style={{ maxWidth: "200px" }}>
                 <select
                   className="form-select form-control bg-primary text-white m-0"
                   aria-label="Default select example"
@@ -114,10 +115,10 @@ const Dashboard = ({
                   <option value={3}>Trivias</option>
                   <option value={4}>Jokes</option>
                 </select>
-              </div>
+              </div> */}
 
               {/* Benchmark Filter */}
-              <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
+              {/* <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
                 <select
                   className="form-select form-control bg-primary text-white m-0"
                   aria-label="Default select example"
@@ -131,7 +132,7 @@ const Dashboard = ({
                   <option value={3}>Aden 4</option>
                   <option value={4}>Joshua 1</option>
                 </select>
-              </div>
+              </div> */}
 
               {/* Report */}
               <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
