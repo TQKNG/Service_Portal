@@ -144,7 +144,7 @@ const Dashboard = ({
             <div className="d-flex justify-content-between align-items-center flex-column flex-lg-row row">
               <div className="col-12">
                 <div className="row">
-                  <div className="col-2">
+                  <div className="col-12 col-lg-2">
                     <ChartPlaceHolder title={"Statistics Log Report"} reportName={`Statistics-${new Date().toLocaleString()}`}  reports={formatReport(statisticlogsList)} />
                   </div>
 
