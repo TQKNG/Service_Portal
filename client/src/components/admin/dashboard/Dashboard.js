@@ -135,26 +135,26 @@ const Dashboard = ({
               </div> */}
 
               {/* Report */}
-              <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
+              {/* <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
                 <DashboardExport reportName={`Statistics-${new Date().toLocaleString()}`}  reports={formatReport(statisticlogsList)} />
-              </div>
+              </div> */}
             </div>
           </div>
-          {reports !== undefined && (
+          {statisticlogsList !== undefined && (
             <div className="d-flex justify-content-between align-items-center flex-column flex-lg-row row">
               <div className="col-12">
                 <div className="row">
-                  <div className="col-4">
-                    <ChartPlaceHolder title={"Top Played Songs"} />
+                  <div className="col-2">
+                    <ChartPlaceHolder title={"Statistics Log Report"} reportName={`Statistics-${new Date().toLocaleString()}`}  reports={formatReport(statisticlogsList)} />
                   </div>
 
-                  <div className="col-8">
+                  {/* <div className="col-8">
                     <ChartPlaceHolder title={"Top Read Books"} />
-                  </div>
+                  </div> */}
                 </div>
-                <div className="col-12">
+                {/* <div className="col-12">
                   <ChartPlaceHolder title={"Average Time Spending per Activity"} />
-                </div>
+                </div> */}
               </div>
             </div>
           )}
