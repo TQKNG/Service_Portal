@@ -484,7 +484,7 @@ export const loadReceptionsList =
   (value = {}) =>
   async (dispatch) => {
     try {
-      const res = await api.get("/receptions");
+      let res = await api.get("/receptions");
       dispatch({ type: GET_RECEPTIONSLIST, payload: res.data.data });
     } catch (error) {
       console.log(error);

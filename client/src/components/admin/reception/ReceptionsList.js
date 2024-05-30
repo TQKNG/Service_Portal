@@ -19,7 +19,7 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
   useEffect(() => {
     if (!receptionListLoading) {
       // on initial load, sort by InOutID ASC - default
-      const sortedList = _.sortBy(receptionsList, _.property("visitID"));
+      const sortedList = _.sortBy(receptionsList, _.property("id"));
 
       setListSearch(sortedList);
     }
@@ -91,7 +91,7 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
       <div className="admin-users-fields  d-flex align-items-center justify-content-around rounded  bg-body txt-primary">
         {/* Full Name */}
         <div
-          className="admin-large-field  text-truncate mx-auto"
+          className="admin-visitor-field text-truncate "
           // onMouseEnter={() => setIsShowIcon("name")}
           // onMouseLeave={() => setIsShowIcon(null)}
           // onClick={() => {
@@ -132,63 +132,63 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
           <SortIcon icon={name} isShowIcon={isShowIcon === "name"} />
         </div>
         {/* Phone Number */}
-        <div className="admin-large-field text-truncate mx-auto">
+        <div className="admin-visitor-field  text-truncate ">
           Phone Number
         </div>
 
         {/* Sign In Time */}
-        <div className="admin-schools-field text-truncate mx-auto">
-          Sign In Time
+        <div className="admin-visitor-field text-truncate ">
+          Sign In
         </div>
 
         {/* Sign Out Time */}
-        <div className="admin-schools-field text-truncate mx-auto">
-          Sign Out Time
+        <div className="admin-visitor-field text-truncate ">
+          Sign Out
         </div>
 
         {/* Home Areas */}
-        <div className="admin-schools-field text-truncate mx-auto">
+        <div className="admin-visitor-field text-truncate ">
           Home Areas
         </div>
 
         {/* Scheduled Visit */}
-        <div className="admin-schools-field text-truncate mx-auto">
+        <div className="admin-visitor-field text-truncate ">
           Scheduled Visit
         </div>
 
         {/* Purpose */}
-        <div className="admin-schools-field text-truncate mx-auto">Purpose</div>
+        <div className="admin-visitor-field text-truncate ">Purpose</div>
 
         {/* Resident Name */}
-        <div className="admin-schools-field text-truncate mx-auto">
+        <div className="admin-visitor-field text-truncate ">
           Resident Name
         </div>
 
         {/* First Visit */}
-        <div className="admin-schools-field text-truncate mx-auto">
+        <div className="admin-visitor-field text-truncate ">
           First Visit
         </div>
 
         {/* Sickness Symptom */}
-        <div className="admin-schools-field text-truncate mx-auto">
+        <div className="admin-visitor-field text-truncate ">
           Sickness Symptom
         </div>
 
         {/* Admin Office */}
-        <div className="admin-schools-field text-truncate mx-auto">
+        <div className="admin-visitor-field text-truncate ">
           Admin Office
         </div>
 
         {/* Acknowledgement */}
-        <div className="admin-schools-field text-truncate mx-auto">
+        <div className="admin-visitor-field text-truncate ">
           Acknowledgement
         </div>
 
         {/* Status */}
-        <div className="admin-schools-field text-truncate mx-auto">Status</div>
+        <div className="admin-visitor-field text-truncate text-center">Status</div>
 
         {/* Edit */}
-        {/* <div className="admin-schools-field text-truncate mx-auto">Actions</div> */}
+        <div className="admin-visitor-field text-truncate text-center">Actions</div>
       </div>
 
       <div className="users-list-body ">

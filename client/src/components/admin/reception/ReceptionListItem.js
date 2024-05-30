@@ -10,6 +10,7 @@ import moment from "moment";
 const ReceptionsListItem = ({ reception, setReception }) => {
   const [edit, setEdit] = useState(false);
   const [show, setShow] = useState(false);
+  const {isSwitchStatus, setIsSwitchStatus} = useState(null);
   const {
     visitID,
     firstName,
@@ -44,7 +45,7 @@ const ReceptionsListItem = ({ reception, setReception }) => {
     <div className="admin-users-fields  d-flex align-items-center justify-content-around  p-2 border-bottom">
       {/* Full Name */}
       <div
-        className="admin-large-field  text-truncate  mx-auto"
+        className="admin-visitor-field text-truncate"
         onClick={() => {
           setReception(reception);
           //   hist.push(`/admin/school/schoolId=${SchoolID}`);
@@ -55,51 +56,53 @@ const ReceptionsListItem = ({ reception, setReception }) => {
       </div>
 
       {/* Phone Number */}
-      <div className="admin-large-field text-truncate  mx-auto">
+      <div className="admin-visitor-field  text-truncate ">
         {phoneNumber}
       </div>
 
       {/* Sign in Time */}
-      <div className="admin-schools-field text-truncate  mx-auto">
+      <div className="admin-visitor-field text-truncate ">
         {signInDate && moment(signInDate).format("MMMM Do, YYYY h:mm A")}
       </div>
 
       {/* Sign out Time */}
-      <div className="admin-schools-field text-truncate  mx-auto">
+      <div className="admin-visitor-field text-truncate ">
         {signOutDate && moment(signOutDate).format("MMMM Do, YYYY h:mm A")}
       </div>
 
       {/* Home Area */}
-      <div className="admin-schools-field text-truncate ">{homeAreas}</div>
+      <div className="admin-visitor-field text-truncate">{homeAreas}</div>
 
       {/* Scheduled Visit */}
-      <div className="admin-schools-field text-truncate ">
+      <div className="admin-visitor-field text-truncate text-center">
         {scheduledVisit ? "Yes" : "No"}
       </div>
 
       {/* Purpose */}
-      <div className="admin-schools-field text-truncate  mx-auto">{purpose}</div>
+      <div className="admin-visitor-field text-truncate ">{purpose}</div>
 
       {/* Resident Name */}
-      <div className="admin-schools-field text-truncate  mx-auto">{residentName}</div>
+      <div className="admin-visitor-field text-truncate text-center">{residentName}</div>
 
       {/* First Visit */}
-      <div className="admin-schools-field text-truncate  mx-auto">{firstVisit?"Yes" : "No"}</div>
+      <div className="admin-visitor-field text-truncate text-center">{firstVisit?"Yes" : "No"}</div>
 
       {/* Sickness Symptom */}
-      <div className="admin-schools-field text-truncate  mx-auto">{sicknessSymptom?"Yes" : "No"}</div>
+      <div className="admin-visitor-field text-truncate text-center">{sicknessSymptom?"Yes" : "No"}</div>
 
       {/* Admin Offices */}
-      <div className="admin-schools-field text-truncate  mx-auto">{adminOffices}</div>
+      <div className="admin-visitor-field text-truncate ">{adminOffices}</div>
 
       {/* Acknowledgement */}
-      <div className="admin-schools-field text-truncate  mx-auto">{acknowledgement?"Yes" : "No"}</div>
+      <div className="admin-visitor-field text-truncate text-center">{acknowledgement?"Yes" : "No"}</div>
 
       {/* Status */}
-      <div className="admin-schools-field text-truncate  mx-auto">
+      <div
+       className="admin-visitor-field text-truncate text-center"
+       >
         <Badge
           pill
-          className="w-30"
+          className="d-flex justify-content-center align-items-center"
           bg={`${
             visitStatus === 1
               ? "warning"
@@ -109,15 +112,15 @@ const ReceptionsListItem = ({ reception, setReception }) => {
           }`}
         >
           {visitStatus === 1
-            ? "In"
+            ? "Sign In"
             : visitStatus === 2
-            ? "Out"
+            ? "Sign Out"
             : ""}
         </Badge>
       </div>
 
       {/* Edit */}
-      {/* <div className="admin-schools-field  text-truncate mx-auto">
+      <div className="admin-visitor-field  text-truncate text-center">
         <ToolTipComp
           myButton={
             <svg
@@ -134,8 +137,8 @@ const ReceptionsListItem = ({ reception, setReception }) => {
               }}
               className="cursor-pointer"
               onClick={() => {
-                //   setSchool(school);
-                //   hist.push('/admin/school/edit');
+                  setReception(reception, visitStatus);
+                  hist.push('/admin/reception/edit');
               }}
             >
               <path d="M0 0h24v24H0V0z" fill="none" />
@@ -146,7 +149,7 @@ const ReceptionsListItem = ({ reception, setReception }) => {
           module="Reception"
         />
 
-        <ToolTipComp
+        {/* <ToolTipComp
           myButton={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -179,8 +182,8 @@ const ReceptionsListItem = ({ reception, setReception }) => {
           }
           type="Show"
           module="Reception"
-        />
-      </div> */}
+        /> */}
+      </div>
     </div>
   );
 };

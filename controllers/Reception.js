@@ -121,7 +121,7 @@ exports.addReception = async (req, res) => {
 
           // Scenarios 2: First visit  and Caregiver/general visitor
           if (
-            FirstVisit==='true' &&
+            FirstVisit === "true" &&
             (Purpose === "Caregiver" || Purpose === "General Visitor")
           ) {
             options.emailType = 2;
@@ -134,7 +134,7 @@ exports.addReception = async (req, res) => {
         res.status(200).json({ success: true });
 
         // Send email to department'
-        if(options.email!== null && options.emailType !== 0){
+        if (options.email !== null && options.emailType !== 0) {
           await sendEmailToDept(options);
         }
       }
@@ -152,14 +152,20 @@ exports.getReceptions = async (req, res) => {
 
     results = await pool.request().execute("dbo.Visits_Load");
 
-    if (results.recordset.length === 0) {
+    if (results.recordsets.length === 0) {
       return res.status(200).json({ success: true, data: [] });
     }
 
+    let resultsArray = results.recordsets[0].map((result) => {
+      const id = result.visitID; // visitID conflict keywords
+      delete result.visitID;
+      return {...result, id: id };
+    });
+
     // Once all asynchronous operations are complete, send the response
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      data: results.recordset,
+      data: resultsArray,
     });
   } catch (error) {
     console.log(error);
@@ -171,7 +177,20 @@ exports.updateReception = async (req, res) => {
   try {
     console.log("test my request body", req.body, req.params.receptionID);
 
-    // Update from form data
+    // Update from portal-visit module
+    if(req.body && req.body.portalUpdate){
+      let SignOutTime = moment.utc().format();
+      const pool = await poolPromise;
+      await pool
+        .request()
+        .input("visitID", req.body.visitID)
+        .input("signOutDate", SignOutTime)
+        .execute("dbo.Visits_Update");
+
+      return res.status(200).json({ success: true, error: null });
+    }
+
+    // Update from reception form module
     if (req.body) {
       const { FirstName, LastName, PhoneNumber, InOut } = req.body;
 

@@ -9,6 +9,7 @@ import Loading from "../layouts/Loading";
 import Users from "./users/Users";
 import User from "./users/User";
 import UserForm from "./users/UserForm";
+import ReceptionForm from "./reception/ReceptionForm";
 import UserReport from "./users/UserReport";
 
 import Dashboard from "./dashboard/Dashboard";
@@ -77,6 +78,8 @@ const Admin = ({ match, user, isAuthenticated, loading, logout }) => {
 
           {/* Reception */}
           {location.pathname === "/admin/reception" && <Receptions />}
+          {location.pathname === "/admin/reception/edit" && <ReceptionForm/>}
+
 
           {/* Setting */}
           {location.pathname === "/admin/setting" && <Setting />}

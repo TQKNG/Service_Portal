@@ -102,6 +102,7 @@ export default function (state = initialState, action) {
       return { ...state, user: null, userLoading: true };
 
     case GET_RECEPTIONSLIST:
+      console.log("test payload", payload)
       return { ...state, receptionsList: payload, receptionListLoading: false };
     case GET_RECEPTION:
       return { ...state, reception: payload, receptionLoading: false };

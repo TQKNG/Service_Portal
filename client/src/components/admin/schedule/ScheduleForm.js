@@ -273,7 +273,7 @@ const ScheduleForm = ({
             </option>
             {locationsList?.map((location) => (
               <option key={location.locationID} value={location.locationID}>
-                {location.description}
+                {`${location.roomNumber} - ${location.description}`}
               </option>
             ))}
           </select>
