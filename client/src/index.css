@@ -446,6 +446,10 @@ h6 {
 .admin-large-field {
   width: 40%;
 }
+
+.admin-visitor-field{
+  width:30%;
+}
 .dashboard-margin {
   margin-left: 65px;
 }

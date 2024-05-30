@@ -45,7 +45,7 @@ const ReceptionsListItem = ({ reception, setReception }) => {
     <div className="admin-users-fields  d-flex align-items-center justify-content-around  p-2 border-bottom">
       {/* Full Name */}
       <div
-        className="admin-large-field  text-truncate  mx-auto"
+        className="admin-visitor-field text-truncate"
         onClick={() => {
           setReception(reception);
           //   hist.push(`/admin/school/schoolId=${SchoolID}`);
@@ -56,49 +56,49 @@ const ReceptionsListItem = ({ reception, setReception }) => {
       </div>
 
       {/* Phone Number */}
-      <div className="admin-large-field text-truncate  mx-auto">
+      <div className="admin-visitor-field  text-truncate ">
         {phoneNumber}
       </div>
 
       {/* Sign in Time */}
-      <div className="admin-schools-field text-truncate  mx-auto">
+      <div className="admin-visitor-field text-truncate ">
         {signInDate && moment(signInDate).format("MMMM Do, YYYY h:mm A")}
       </div>
 
       {/* Sign out Time */}
-      <div className="admin-schools-field text-truncate  mx-auto">
+      <div className="admin-visitor-field text-truncate ">
         {signOutDate && moment(signOutDate).format("MMMM Do, YYYY h:mm A")}
       </div>
 
       {/* Home Area */}
-      <div className="admin-schools-field text-truncate ">{homeAreas}</div>
+      <div className="admin-visitor-field text-truncate">{homeAreas}</div>
 
       {/* Scheduled Visit */}
-      <div className="admin-schools-field text-truncate ">
+      <div className="admin-visitor-field text-truncate text-center">
         {scheduledVisit ? "Yes" : "No"}
       </div>
 
       {/* Purpose */}
-      <div className="admin-schools-field text-truncate  mx-auto">{purpose}</div>
+      <div className="admin-visitor-field text-truncate ">{purpose}</div>
 
       {/* Resident Name */}
-      <div className="admin-schools-field text-truncate  mx-auto">{residentName}</div>
+      <div className="admin-visitor-field text-truncate text-center">{residentName}</div>
 
       {/* First Visit */}
-      <div className="admin-schools-field text-truncate  mx-auto">{firstVisit?"Yes" : "No"}</div>
+      <div className="admin-visitor-field text-truncate text-center">{firstVisit?"Yes" : "No"}</div>
 
       {/* Sickness Symptom */}
-      <div className="admin-schools-field text-truncate  mx-auto">{sicknessSymptom?"Yes" : "No"}</div>
+      <div className="admin-visitor-field text-truncate text-center">{sicknessSymptom?"Yes" : "No"}</div>
 
       {/* Admin Offices */}
-      <div className="admin-schools-field text-truncate  mx-auto">{adminOffices}</div>
+      <div className="admin-visitor-field text-truncate ">{adminOffices}</div>
 
       {/* Acknowledgement */}
-      <div className="admin-schools-field text-truncate  mx-auto">{acknowledgement?"Yes" : "No"}</div>
+      <div className="admin-visitor-field text-truncate text-center">{acknowledgement?"Yes" : "No"}</div>
 
       {/* Status */}
       <div
-       className="admin-schools-field text-truncate  mx-auto"
+       className="admin-visitor-field text-truncate text-center"
        >
         <Badge
           pill
@@ -120,7 +120,7 @@ const ReceptionsListItem = ({ reception, setReception }) => {
       </div>
 
       {/* Edit */}
-      <div className="admin-schools-field  text-truncate mx-auto">
+      <div className="admin-visitor-field  text-truncate text-center">
         <ToolTipComp
           myButton={
             <svg
