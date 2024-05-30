@@ -102,7 +102,7 @@ const ReceptionsListItem = ({ reception, setReception }) => {
        >
         <Badge
           pill
-          className="w-30"
+          className="d-flex justify-content-center align-items-center"
           bg={`${
             visitStatus === 1
               ? "warning"
@@ -112,9 +112,9 @@ const ReceptionsListItem = ({ reception, setReception }) => {
           }`}
         >
           {visitStatus === 1
-            ? "In"
+            ? "Sign In"
             : visitStatus === 2
-            ? "Out"
+            ? "Sign Out"
             : ""}
         </Badge>
       </div>
