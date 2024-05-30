@@ -137,7 +137,7 @@ const ReceptionsListItem = ({ reception, setReception }) => {
               }}
               className="cursor-pointer"
               onClick={() => {
-                  setReception(reception);
+                  setReception(reception, visitStatus);
                   hist.push('/admin/reception/edit');
               }}
             >

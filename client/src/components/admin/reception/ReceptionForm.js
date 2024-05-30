@@ -10,6 +10,7 @@ import {
 import Alert from "../../layouts/Alert";
 import PropTypes from "prop-types";
 import FileUpload from "../../layouts/FileUpload";
+import moment from "moment";
 
 const ReceptionForm = ({
   reception,
@@ -23,13 +24,10 @@ const ReceptionForm = ({
   const location = useLocation();
 
   const [formData, setFormData] = useState({
-    ReceptionID: reception === null ? "" : reception.visitID !== undefined ? reception.visitID : "",
-    // Name: reception === null ? "" : reception.Name !== undefined ? reception.Name : "",
-    // Lyrics: reception === null ? "" : reception.Lyrics !== undefined ? reception.Lyrics : "",
-    // ReceptionData:
-    //   reception === null ? "" : reception.ReceptionData !== undefined ? reception.ReceptionData : "",
-    // ReceptionLogo:
-    //   reception === null ? "" : reception.ReceptionLogo !== undefined ? reception.ReceptionLogo : "",
+    visitID: reception === null ? "" : reception.id !== undefined ? reception.id : "",
+    signInDate: reception === null ? "" : reception.signInDate !== undefined ? reception.signInDate : "",
+    signOutDate: reception === null ? "" : reception.signOutDate !== undefined ? reception.signOutDate : "",
+    portalUpdate:true
   });
 
   const onChange = (e) => {
@@ -46,21 +44,19 @@ const ReceptionForm = ({
 
       addReception(formData).then(() => {
         setFormData({
-        //   ReceptionID: "",
-        //   Name: "",
-        //   Lyrics: "",
-        //   ReceptionData: "",
-        //   ReceptionLogo: "",
+          visitID: "",
+          signInDate: "",
+          signOutDate: "",
         });
       });
     } else if (location.pathname.includes("edit")) {
-    //   updateReception(ReceptionID, formData);
+      updateReception(visitID, formData);
     }
     hist.push("/admin/reception");
     clearReception();
   };
 
-  const { Name, Lyrics, ReceptionID } = formData;
+  const { visitID, signInDate, signOutDate } = formData;
 
   if (reception == null && location.pathname.includes("edit")) {
     hist.push("/admin/receptions");
@@ -70,7 +66,7 @@ const ReceptionForm = ({
     <div className="p-sm-5 p-2 w-100  dashboard-margin mx-lg-auto container">
       <div className="mb-3 ">
         <h6 className="txt-primary-light">
-          {`${authUser.firstName} ${authUser.lastName}`} / Receptions / Reception
+          {`${authUser.firstName} ${authUser.lastName}`} / Visitors / Visitor
         </h6>
         <div className="d-sm-flex  w-100 align-items-center justify-content-between">
           <div className="d-flex mb-2 mb-sm-0">
@@ -106,23 +102,55 @@ const ReceptionForm = ({
       >
         <Alert />
         <div className="mb-3">
-          <div className="txt-primary">Reception ID</div>
+          <div className="txt-primary">Visit ID</div>
           <input
             type="text"
             className="form-control rounded "
-            id="ReceptionID"
+            id="visitID"
             required
-            value={ReceptionID}
-            // onChange={(e) => onChange(e)}
+            value={visitID}
+            onChange={(e) => onChange(e)}
+            disabled
+          />
+        </div>
+
+        <div className="mb-3">
+          <div className="txt-primary">Sign In Time</div>
+          <input
+            type="text"
+            className="form-control rounded "
+            id="signInDate"
+            required
+            value={moment(signInDate).format("MMMM Do, YYYY h:mm A")}
+            onChange={(e) => onChange(e)}
+            disabled
+          />
+        </div>
+
+        <div className="mb-3">
+          <div className="txt-primary">Sign Out Time</div>
+          <input
+            type="text"
+            className="form-control rounded "
+            id="signInDate"
+            required
+            value={signOutDate ? moment(signOutDate).format("MMMM Do, YYYY h:mm A") : "Not Signed Out Yet"}
+            onChange={(e) => onChange(e)}
             disabled
           />
         </div>
     
 
         <div className="d-flex align-items-center justify-content-center">
-          <button type="submit" className="button-primary btn-block btn px-5">
+          {/* <button type="submit" className="button-primary btn-block btn px-5">
             Save
-          </button>
+          </button> */}
+          {
+            !signOutDate?<button type="submit" className="button-primary btn-block btn px-5">
+            Sign Out
+          </button>:null
+          }
+          
 
           {/* Delete Button */}
           {/* Delete Module */}
@@ -168,7 +196,7 @@ const ReceptionForm = ({
                     type="button"
                     className="btn button-primary"
                     onClick={() => {
-                      deleteReception(ReceptionID);
+                      deleteReception(visitID);
                       hist.push("/admin/receptions");
                       clearReception();
                     }}
@@ -180,7 +208,7 @@ const ReceptionForm = ({
               </div>
             </div>
           </div>
-          {authUser.roleID === 5 && ReceptionID !== "" && (
+          {/* {authUser.roleID === 5 && visitID !== "" && (
             <div
               className="btn btn-danger d-flex align-items-center px-4 mx-3"
               data-bs-toggle="modal"
@@ -198,7 +226,7 @@ const ReceptionForm = ({
               </svg>
               Delete
             </div>
-          )}
+          )} */}
         </div>
       </form>
     </div>
