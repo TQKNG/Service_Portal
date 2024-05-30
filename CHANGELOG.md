@@ -91,6 +91,12 @@
 ## [0.0.17] - 2024-05-29
 - Fix: Remove the Reception point for Buzz on the schedule
 
+## [0.0.18] - 2024-05-30
+- Change: Hide filters on the dashboard
+- Feature: Add sign out functionality on visitor module
+- Fix: Fix layout of the table grid on visitor module
+- Change: Report layout design
+
 
 
 
