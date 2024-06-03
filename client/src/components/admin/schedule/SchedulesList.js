@@ -77,15 +77,15 @@ const SchedulesList = ({ schedulesList, scheduleListLoading }) => {
           )}
         </div>
         <div className="d-flex">
-          {/* <Search
+          <Search
             setListSearch={setListSearch}
             filter={(e) => {
               const list = schedulesList.filter((item) =>
-                item.Name.toUpperCase().includes(e.target.value.toUpperCase())
+                item.userName.toUpperCase().includes(e.target.value.toUpperCase())
               );
               return list;
             }}
-          /> */}
+          />
         </div>
       </div>
       <div className="admin-users-fields  d-flex align-items-center justify-content-around  rounded  bg-body txt-primary">
