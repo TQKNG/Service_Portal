@@ -80,7 +80,7 @@ const AnonymousLogin = ({
     }
 
     // Clear the department visit field if Admin Offices is unchecked
-    if(!isAdminOfficeClick) {
+    if (!isAdminOfficeClick) {
       setFormData((prevState) => ({
         ...prevState,
         DepartmentVisit: "",
@@ -132,7 +132,7 @@ const AnonymousLogin = ({
     }
 
     // Purpose Visits validation
-    if(Purpose === "") {
+    if (Purpose === "") {
       validationError = "Please select the purpose of your visit.";
       setError(validationError);
     }
@@ -348,10 +348,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               {/* Full Name */}
               <div className="w-100 d-flex mb-3 mb-md-5 gap-4 flex-column flex-sm-row justify-content-between">
                 {/* First Name */}
-                <div
-                  className="w-100 d-flex justify-content-between gap-3"
-                  style={{ whiteSpace: "nowrap" }}
-                >
+                <div className="w-100 d-flex justify-content-between gap-3 text-nowrap">
                   <div className="txt-primary responsive-label-text">
                     First Name:
                   </div>
@@ -367,10 +364,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
 
                 {/* Last Name */}
                 <div className="w-100 d-flex justify-content-between gap-3">
-                  <div
-                    className="txt-primary responsive-label-text"
-                    style={{ whiteSpace: "nowrap" }}
-                  >
+                  <div className="txt-primary responsive-label-text text-nowrap">
                     Last Name:
                   </div>
                   <input
@@ -403,7 +397,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
 
               {/* Q5: Do you have any new or worsening respiratory or gastrointestinal symptoms */}
               <div className="mb-3 mb-md-5  d-flex flex-column gap-2">
-                <div className="txt-primary w-100 responsive-label-text">
+                <div className="txt-primary w-100 responsive-label-text custom-text-wrap">
                   Do you have any new or worsening respiratory or
                   gastrointestinal symptoms?
                 </div>
@@ -446,11 +440,11 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                 </div>
                 {/* Multi-Select Component */}
                 <div className="">
-                  <div class="row">
+                  <div class="row ">
                     {homeAreasOptions?.map((area, index) => {
                       return (
                         <>
-                          <div class="col-sm-4 d-flex gap-3 align-items-center">
+                          <div class="col-sm-4 d-flex gap-3 align-items-center col-spacing">
                             <input
                               type="checkbox"
                               id={`option-${index}`}
@@ -460,8 +454,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                               onChange={(e) => onChange(e)}
                             />
                             <label
-                              className="responsive-input-text"
-                              style={{ whiteSpace: "nowrap" }}
+                              className="responsive-input-text text-nowrap"
                             >
                               {area}
                             </label>
@@ -477,8 +470,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               {isAdminOfficeClick && (
                 <div className="mb-3 mb-md-5 d-flex flex-column flex-sm-row justify-content-between  gap-2">
                   <div
-                    className="txt-primary responsive-label-text"
-                    style={{ whiteSpace: "nowrap" }}
+                    className="txt-primary responsive-label-text text-nowrap"
                   >
                     Which department are you visiting?
                   </div>
@@ -503,13 +495,12 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               {/* Q2: Is your visit Scheduled or Unscheduled? */}
               <div className="mb-3 mb-md-5 d-flex flex-column flex-sm-row gap-2">
                 <div
-                  className="txt-primary w-20 responsive-label-text"
-                  style={{ whiteSpace: "nowrap" }}
+                  className="txt-primary w-20 responsive-label-text text-nowrap"
                 >
                   Is your visit?
                 </div>
                 <div class="w-100">
-                  <div class="w-70 row">
+                  <div class="w-80 row">
                     <div class="col-sm-4 d-flex gap-3 align-items-center">
                       <input
                         id="ScheduledVisit"
@@ -539,10 +530,9 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               </div>
 
               {/* Q3: What is the purpose of your visit? */}
-              <div className="mb-3 mb-md-5 d-flex flex-column flex-sm-row  gap-2">
+              <div className="mb-3 mb-md-5 d-flex flex-column flex-sm-row  gap-2 ">
                 <div
-                  className="txt-primary w-50 responsive-label-text"
-                  style={{ whiteSpace: "nowrap" }}
+                  className="txt-primary w-50 responsive-label-text text-nowrap"
                 >
                   What is the purpose of your visit?
                 </div>
@@ -573,8 +563,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               {/* Q3: What is the name of the resident you are visiting? */}
               <div className="mb-3 mb-md-5 d-flex flex-column flex-sm-row  gap-2">
                 <div
-                  className="txt-primary w-60 responsive-label-text"
-                  style={{ whiteSpace: "nowrap" }}
+                  className="txt-primary w-60 responsive-label-text text-nowrap"
                 >
                   What is the name of the resident you are visiting?
                 </div>
@@ -589,17 +578,16 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               </div>
 
               {/* Q4: Is this your first visit to Trinity Village Care Center */}
-              <div className="mb-3 mb-md-5 d-flex flex-column flex-sm-row  gap-2">
+              <div className="mb-3 mb-md-5 d-flex flex-column flex-sm-row gap-2">
                 <div
-                  className="txt-primary responsive-label-text"
-                  style={{ whiteSpace: "nowrap" }}
+                  className="txt-primary responsive-label-text text-nowrap"
                 >
                   Is this your first visit to Trinity Village Care Center?
                 </div>
                 <div class="w-100">
-                  <div class="w-50 row">
+                  <div class="w-60 row gap-2">
                     <div
-                      class="col-sm-6 d-flex gap-3 align-items-center"
+                      class="col-sm-5 d-flex gap-3 align-items-center"
                       data-bs-toggle="modal"
                       data-bs-target="#popupFirstVisit"
                     >
@@ -613,7 +601,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                       />
                       <label className="responsive-input-text ">Yes</label>
                     </div>
-                    <div class="col-sm-6 d-flex gap-3 align-items-center">
+                    <div class="col-sm-5 d-flex gap-3 align-items-center">
                       <input
                         id="FirstVisit"
                         type="radio"
