@@ -75,7 +75,7 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
           )}
         </div>
         <div className="d-flex">
-          {/* <Search
+          <Search
             setListSearch={setListSearch}
             filter={(e) => {
               const list = receptionsList.filter((item) =>
@@ -85,7 +85,7 @@ const ReceptionsList = ({ receptionsList, receptionListLoading }) => {
               );
               return list;
             }}
-          /> */}
+          />
         </div>
       </div>
       <div className="admin-users-fields  d-flex align-items-center justify-content-around rounded  bg-body txt-primary">
