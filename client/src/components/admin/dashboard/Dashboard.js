@@ -15,13 +15,15 @@ import {
   loadClassroomsList,
   getUser,
   loadStatisticLogsList,
+  loadReceptionsList,
 } from "../../../actions/admin";
 import Loading from "../../layouts/Loading";
 import ChartPlaceHolder from "./ChartPlaceHolder";
 
-
 const Dashboard = ({
   statisticlogsList,
+  receptionsList,
+  loadReceptionsList,
   loadStatisticLogsList,
   reports,
   user,
@@ -34,19 +36,32 @@ const Dashboard = ({
 
   const formatReport = (report) => {
     return report.map((item) => {
- 
       return {
-       ...item,
-        startTime: new Date(item.startTime),
-        endTime: new Date(item.endTime),
+        ...item,
+        "Start Time": new Date(item["Start Time"]),
+        "End Time": new Date(item["End Time"]),
       };
     });
-  }
+  };
 
-  useEffect(()=>{
+  const formatReport2 = (report) => {
+    return report.map((item) => {
+      delete item.id;
+      delete item.isDeleted;
+      return {
+        ...item,
+        signInDate: new Date(item.signInDate),
+        signOutDate: new Date(item.signOutDate),
+        homeAreas: JSON.parse(item.homeAreas).map((item)=>String(item)), // Stringify the array
+      };
+    });
+  };
+  
+
+  useEffect(() => {
     loadStatisticLogsList();
-  },[user])
-
+    loadReceptionsList();
+  }, [user]);
 
   return (
     <Fragment>
@@ -62,7 +77,6 @@ const Dashboard = ({
             </h6>
 
             <div className="d-flex w-100 align-items-center justify-content-end ">
-            
               {/* Year Filter */}
               {/* <div className="p-0 mx-2" style={{ maxWidth: "200px" }}>
                 <select
@@ -144,9 +158,49 @@ const Dashboard = ({
             <div className="d-flex justify-content-between align-items-center flex-column flex-lg-row row">
               <div className="col-12">
                 <div className="row">
+                  {/* Report 1 */}
                   <div className="col-12 col-lg-2">
-                    <ChartPlaceHolder title={"Statistics Log Report"} reportName={`Statistics-${new Date().toLocaleString()}`}  reports={formatReport(statisticlogsList)} />
+                    <ChartPlaceHolder
+                      title={"Statistics Log Report"}
+                      reportName={`Statistics-${new Date().toLocaleString()}`}
+                      reports={formatReport(
+                        statisticlogsList.length ? statisticlogsList[0] : []
+                      )}
+                    />
                   </div>
+
+                  {/* Report 2 */}
+                  <div className="col-12 col-lg-2">
+                    <ChartPlaceHolder
+                      title={"Visits Report"}
+                      reportName={`Visits-${new Date().toLocaleString()}`}
+                      reports={
+                       formatReport2(receptionsList)
+                      }
+                    />
+                  </div>
+
+                  {/* Report 2 */}
+                  {/* <div className="col-12 col-lg-2">
+                    <ChartPlaceHolder
+                      title={"Top 5 Songs Report"}
+                      reportName={`Top 5 Songs-${new Date().toLocaleString()}`}
+                      reports={
+                        statisticlogsList.length ? statisticlogsList[1] : []
+                      }
+                    />
+                  </div> */}
+
+                  {/* Report 3 */}
+                  {/* <div className="col-12 col-lg-2">
+                    <ChartPlaceHolder
+                      title={"Top 5 Books Report"}
+                      reportName={`Top 5 Books-${new Date().toLocaleString()}`}
+                      reports={
+                        statisticlogsList.length ? statisticlogsList[2] : []
+                      }
+                    />
+                  </div> */}
 
                   {/* <div className="col-8">
                     <ChartPlaceHolder title={"Top Read Books"} />
@@ -181,7 +235,8 @@ Dashboard.propTypes = {
 };
 const mapStateToProps = (state) => ({
   reports: state.admin.reports,
-  statisticlogsList:state.admin.statisticlogsList,
+  statisticlogsList: state.admin.statisticlogsList,
+  receptionsList: state.admin.receptionsList,
   reportsLoading: state.admin.reportsLoading,
   overallResultsChart: state.admin.overallResultsChart,
   overallResultsChartLoading: state.admin.overallResultsChartLoading,
@@ -208,6 +263,7 @@ export default connect(mapStateToProps, {
   clearReport,
   loadSchoolsList,
   loadStatisticLogsList,
+  loadReceptionsList,
   loadClassroomsList,
   setSchool,
 })(Dashboard);
