@@ -563,7 +563,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               {/* Q3: What is the name of the resident you are visiting? */}
               <div className="mb-3 mb-md-5 d-flex flex-column flex-sm-row  gap-2">
                 <div
-                  className="txt-primary w-60 responsive-label-text text-nowrap"
+                  className="txt-primary w-60 responsive-label-text custom-text-wrap"
                 >
                   What is the name of the resident you are visiting?
                 </div>
@@ -580,7 +580,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
               {/* Q4: Is this your first visit to Trinity Village Care Center */}
               <div className="mb-3 mb-md-5 d-flex flex-column flex-sm-row gap-2">
                 <div
-                  className="txt-primary responsive-label-text text-nowrap"
+                  className="txt-primary responsive-label-text custom-text-wrap"
                 >
                   Is this your first visit to Trinity Village Care Center?
                 </div>
