@@ -431,7 +431,7 @@ exports.getStatisticLogs = async (req, res) => {
     let results;
     results = await pool.request().execute("dbo.StatisticLogs_Load");
 
-    res.status(200).json({ success: true, data: results.recordset });
+    res.status(200).json({ success: true, data: results.recordsets });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Server Error" });

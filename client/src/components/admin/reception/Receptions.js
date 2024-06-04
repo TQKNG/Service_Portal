@@ -26,6 +26,8 @@ const Receptions = ({
        ...item,
         signInDate: new Date(item.signInDate),
         signOutDate: new Date(item.signOutDate),
+        homeAreas: JSON.parse(item.homeAreas).map((item)=>String(item)), // Stringify the array
+
       };
     });
   }

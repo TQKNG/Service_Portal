@@ -97,6 +97,13 @@
 - Fix: Fix layout of the table grid on visitor module
 - Change: Report layout design
 
+## [0.0.19] - 2024-06-03
+- Change: Enable search functionality on visitor module
+- Change: Enable search functionality on schedule module
+- Change: Increase size of label, input text, checkbox, radio button on reception form 
+- Fix: format visit report functionality for dashboard and visit module
+
+
 
 
 
