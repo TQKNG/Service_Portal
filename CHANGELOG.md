@@ -103,6 +103,9 @@
 - Change: Increase size of label, input text, checkbox, radio button on reception form 
 - Fix: format visit report functionality for dashboard and visit module
 
+## [0.0.20] - 2024-06-04
+- Fix: Reception form responsive view on mobile
+
 
 
 
