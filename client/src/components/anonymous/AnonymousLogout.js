@@ -165,7 +165,7 @@ const AnonymousLogout = ({
                   </div>
                   <input
                     type="text"
-                    className="form-control rounded responsive-input-text"
+                    className="form-control form-input rounded responsive-input-text"
                     id="FirstName"
                     placeholder=""
                     value={FirstName}
@@ -184,7 +184,7 @@ const AnonymousLogout = ({
                   </div>
                   <input
                     type="text"
-                    className="form-control rounded responsive-input-text "
+                    className="form-control form-input rounded responsive-input-text "
                     id="LastName"
                     placeholder=""
                     required
@@ -201,7 +201,7 @@ const AnonymousLogout = ({
                 </div>
                 <input
                   type="tel"
-                  className="form-control rounded responsive-input-text w-50"
+                  className="form-control form-input rounded responsive-input-text w-50"
                   id="PhoneNumber"
                   placeholder=""
                   value={PhoneNumber}

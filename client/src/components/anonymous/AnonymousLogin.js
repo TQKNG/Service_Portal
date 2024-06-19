@@ -354,7 +354,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                   </div>
                   <input
                     type="text"
-                    className="form-control rounded responsive-input-text"
+                    className="form-control form-input rounded responsive-input-text"
                     id="FirstName"
                     required
                     value={FirstName}
@@ -369,7 +369,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                   </div>
                   <input
                     type="text"
-                    className="form-control rounded responsive-input-text "
+                    className="form-control form-input rounded responsive-input-text "
                     id="LastName"
                     required
                     placeholder=""
@@ -386,7 +386,7 @@ There is some mandatory training that you must undertake (~10 minutes)`}
                 </div>
                 <input
                   type="tel"
-                  className="form-control rounded responsive-input-text w-50"
+                  className="form-control form-input rounded responsive-input-text w-50"
                   id="PhoneNumber"
                   required
                   placeholder=""

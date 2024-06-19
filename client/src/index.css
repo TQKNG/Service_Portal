@@ -547,6 +547,10 @@ input[type=checkbox], input[type=radio] {
   border-color: var(--primary);
 }
 
+.form-input{
+  border: 1px solid var(--primary);
+}
+
 .form-check-input:focus {
   border-color: #d9f2ed;
   outline: 0;
