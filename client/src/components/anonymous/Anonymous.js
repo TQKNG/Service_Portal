@@ -248,13 +248,13 @@ const Anonymous = ({
           </div>
 
           {/* Hero cover */}
-          {/* {!isOutbreak && (
+          {!isOutbreak && (
             <img
               src={process.env.PUBLIC_URL + `images/Welcome-Hero.png`}
               alt="hero cover"
               style={{ width: "100%", height: "auto", objectFit: "cover" }}
             />
-          )} */}
+          )}
         </>
       ) : (
         <>
@@ -314,11 +314,11 @@ const Anonymous = ({
             <AnonymousLogout device={device} isSignedOut={isSignedOut} />
           )}
           <div className="d-flex flex-column gap-0 align-items-center w-100 justify-content-end flex-grow-1">
-            {/* <img
+            <img
               src={process.env.PUBLIC_URL + `images/Welcome-Hero.png`}
               alt="hero cover"
               style={{ width: "100%", height: "auto", objectFit: "cover" }}
-            /> */}
+            />
           </div>
         </>
       )}
