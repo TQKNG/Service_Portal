@@ -61,6 +61,11 @@ jobs:
           slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A8C3EB368D234E689C95ABEE28734A39 }}
-
+    
+      - name: Verify deployment
+        id: verify
+        run: |
+          curl -I https://demoserviceportal.azurewebsites.net  | grep "200 OK"; then
+        continue-on-error: true
      
         
