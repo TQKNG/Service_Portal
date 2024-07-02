@@ -65,7 +65,7 @@ jobs:
       - name: Verify deployment
         id: verify
         run: |
-          curl -I https://demoserviceportal.azurewebsites.net
+          curl -I https://demoserviceportal.azurewebsites.net  | grep "200 OK"; then
         continue-on-error: true
 
       - name: Check deployment status
