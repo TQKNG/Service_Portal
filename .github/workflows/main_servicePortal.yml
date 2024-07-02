@@ -61,3 +61,34 @@ jobs:
           slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A8C3EB368D234E689C95ABEE28734A39 }}
+
+      - name: Verify deployment
+        id: verify
+        run: |
+          curl -I https://demoserviceportal.azurewebsites.net
+        continue-on-error: true
+
+      - name: Check deployment status
+      - id: check-deployment
+        run: |
+          if curl -I https://demoserviceportal.azurewebsites.net
+            echo "Deployment successful"
+          else
+            echo "Deployment failed"
+            exit 1
+          fi
+
+      - name: Get latest successful deployment
+        if: failure()
+        id: get-latest-successful
+        run: |
+          DEPLOYMENTS = $(az webapp deployment list --resource-group service_portal --name demoserviceportal --query "[?status=='success'].{id:id,createdTime:createdTime}" --output tsv | sort -k2 -r) 
+          LATEST_SUCCESSFUL_DEPLOYMENT_ID =  $(echo "$DEPLOYMENTS" | head -n 1 | awk '{print $1}')
+          echo "LATEST_SUCCESSFUL_DEPLOYMENT_ID = $LATEST_SUCCESSFUL_DEPLOYMENT_ID" >> $GITHUB_ENV
+
+      - name: Rollback to latest successful deployment
+        if: failure()
+        run: |
+          echo "Rolling back to the latest successful deployment..."
+          az webapp deployment slot auto-swap --name demoserviceportal --resource-group service_portal --deployment-id ${{env.LATEST_SUCCESSFULL_DEPLOYMENT_ID }}
+        
