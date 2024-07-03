@@ -1,7 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy Node.js app to Azure Web App - trinityvillagedev
+name: Build and deploy Node.js app to Azure Web App - Service_Portal
 
 on:
   push:
@@ -26,7 +23,6 @@ jobs:
           npm install --legacy-peer-deps
           npm run build --if-present
           npm run test --if-present
-
       - name: Zip artifact for deployment
         run: |
           Compress-Archive -Path .\* -DestinationPath .\release.zip
@@ -57,17 +53,20 @@ jobs:
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
-          app-name: 'trinityvillagedev'
+          app-name: 'demoserviceportal'
           slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B7B08A9ECE104A01A18E0140A914620A }}
-          
-    
-      - name: Verify deployment
-        id: verify
+
+      - name: Check deployment status
+        id: check-deployment
         run: |
-          curl -I https://demoserviceportal.azurewebsites.net  | grep "200 OK"; then
-        continue-on-error: true
+          if curl -I https://trinityvillagedev.azurewebsites.net | grep "200 OK"; then
+            echo "Deployment successful"
+          else
+            echo "Deployment failed"
+            exit 1
+          fi
 
       - name: Get latest successful deployment
         if: failure()
@@ -76,5 +75,11 @@ jobs:
           DEPLOYMENTS=$(az webapp deployment list --resource-group service_portal --name trinityvillagedev --query "[?status=='success'].{id:id,createdTime:createdTime}" --output tsv | sort -k2 -r)
           LATEST_SUCCESSFUL_DEPLOYMENT_ID=$(echo "$DEPLOYMENTS" | head -n 1 | awk '{print $1}')
           echo "LATEST_SUCCESSFUL_DEPLOYMENT_ID=$LATEST_SUCCESSFUL_DEPLOYMENT_ID" >> $GITHUB_ENV
-     
-        
+
+      - name: Rollback to latest successful deployment
+        if: failure()
+        run: |
+          echo "Rolling back to the latest successful deployment..."
+          az webapp deployment source config-zip --resource-group service_portal --name trinityvillagedev --src-path ${{ env.LATEST_SUCCESSFUL_DEPLOYMENT_ID }}
+
+      
