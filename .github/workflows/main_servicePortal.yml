@@ -61,7 +61,7 @@ jobs:
       - name: Check deployment status
         id: check-deployment
         run: |
-          if curl -I https://trinityvillagedev.azurewebsites.net | grep "200 OK"; then
+          if curl -I https://demoserviceportal.azurewebsites.net/ | grep "200 OK"; then
             echo "Deployment successful"
           else
             echo "Deployment failed"
@@ -72,7 +72,7 @@ jobs:
         if: failure()
         id: get-latest-successful
         run: |
-          DEPLOYMENTS=$(az webapp deployment list --resource-group service_portal --name trinityvillagedev --query "[?status=='success'].{id:id,createdTime:createdTime}" --output tsv | sort -k2 -r)
+          DEPLOYMENTS=$(az webapp deployment list --resource-group service_portal --name demoserviceportal --query "[?status=='success'].{id:id,createdTime:createdTime}" --output tsv | sort -k2 -r)
           LATEST_SUCCESSFUL_DEPLOYMENT_ID=$(echo "$DEPLOYMENTS" | head -n 1 | awk '{print $1}')
           echo "LATEST_SUCCESSFUL_DEPLOYMENT_ID=$LATEST_SUCCESSFUL_DEPLOYMENT_ID" >> $GITHUB_ENV
 
@@ -80,6 +80,6 @@ jobs:
         if: failure()
         run: |
           echo "Rolling back to the latest successful deployment..."
-          az webapp deployment source config-zip --resource-group service_portal --name trinityvillagedev --src-path ${{ env.LATEST_SUCCESSFUL_DEPLOYMENT_ID }}
+          az webapp deployment source config-zip --resource-group service_portal --name demoserviceportal --src-path ${{ env.LATEST_SUCCESSFUL_DEPLOYMENT_ID }}
 
       
