@@ -60,12 +60,21 @@ jobs:
           app-name: 'trinityvillagedev'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A8C3EB368D234E689C95ABEE28734A39 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B7B08A9ECE104A01A18E0140A914620A }}
+          
     
       - name: Verify deployment
         id: verify
         run: |
           curl -I https://demoserviceportal.azurewebsites.net  | grep "200 OK"; then
         continue-on-error: true
+
+      - name: Get latest successful deployment
+        if: failure()
+        id: get-latest-successful
+        run: |
+          DEPLOYMENTS=$(az webapp deployment list --resource-group service_portal --name trinityvillagedev --query "[?status=='success'].{id:id,createdTime:createdTime}" --output tsv | sort -k2 -r)
+          LATEST_SUCCESSFUL_DEPLOYMENT_ID=$(echo "$DEPLOYMENTS" | head -n 1 | awk '{print $1}')
+          echo "LATEST_SUCCESSFUL_DEPLOYMENT_ID=$LATEST_SUCCESSFUL_DEPLOYMENT_ID" >> $GITHUB_ENV
      
         
